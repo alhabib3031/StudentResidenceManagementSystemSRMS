@@ -1,5 +1,5 @@
 using MudBlazor.Services;
-using SMRS.WebUI.Server.Components;
+using SRMS.WebUI.Server.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
