@@ -1,0 +1,32 @@
+﻿@page "/StudentInfo"
+@inject IStudentService StudentService
+
+
+<PageTitle>Student Title</PageTitle>
+
+<h3>StudentIfo</h3>
+
+<ul>
+    @foreach (var student in students)
+    {
+        <li>@student.Id</li>
+        <li>@student.FirstName</li>
+        <li>@student.LastName</li>
+        <li>@student.Email</li>
+        <li>@student.PhoneNumber</li>
+        <li>@student.Address</li>
+        <hr/>
+    }
+</ul>
+
+@code {
+    private List<Student> students = new List<Student>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await StudentService.GetAllAsync();
+        if (result is not null)
+            students = result.ToList();
+    }
+
+}

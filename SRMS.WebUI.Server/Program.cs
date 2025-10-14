@@ -1,4 +1,5 @@
 using MudBlazor.Services;
+using SRMS.Application;
 using SRMS.WebUI.Server.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddMudServices();
 
 // Add services to the container.
 builder.Services.AddRazorComponents();
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
