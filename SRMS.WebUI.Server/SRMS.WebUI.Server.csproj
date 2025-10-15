@@ -8,11 +8,15 @@
 
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="MudBlazor" Version="8.*"/>
     </ItemGroup>
 
 
     <ItemGroup>
-      <ProjectReference Include="..\SRMS.Application\SRMS.Application.csproj" />
+      <ProjectReference Include="..\SRMS.Infrastructure\SRMS.Infrastructure.csproj" />
     </ItemGroup>
 </Project>

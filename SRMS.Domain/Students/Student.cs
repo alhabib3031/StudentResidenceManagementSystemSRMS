@@ -1,12 +1,12 @@
-﻿namespace SRMS.Domain.Students;
+﻿using SRMS.Domain.Abstractions;
 
-public class Student
+namespace SRMS.Domain.Students;
+
+public class Student : Entity
 {
-    public Guid Id { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Email { get; set; }
     public string? PhoneNumber { get; set; }
     public string? Address { get; set; }
-    public byte[]? Image { get; set; }
 }

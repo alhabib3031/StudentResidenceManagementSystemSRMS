@@ -5,32 +5,15 @@ namespace SRMS.Application.Students;
 
 public class StudentService : IStudentService
 {
-    public Task<IEnumerable<Student>> GetAllAsync()
+    private readonly IStudentRepository _studentRepository;
+    public StudentService(IStudentRepository studentRepository)
     {
-        var students = new List<Student>
-        {
-            new Student
-            {
-                Id = Guid.NewGuid(),
-                FirstName = "Alhab1",
-                LastName = "Haque1",
-                Email = "<EMAIL>",
-                PhoneNumber = "01712345678",
-                Address = "Dhaka",
-                Image = null
-            },
-            new Student
-            {
-                Id = Guid.NewGuid(),
-                FirstName = "Alhab2",
-                LastName = "Haque2",
-                Email = "<EMAIL>",
-                PhoneNumber = "01712345678",
-                Address = "Dhaka",
-            }
-        };
-
-        return Task.FromResult<IEnumerable<Student>>(students);
+        _studentRepository = studentRepository;
+    }
+    
+    public async Task<IEnumerable<Student>> GetAllAsync()
+    {
+        return await _studentRepository.GetAllAsync();
     }
     
     public Task<Student?> GetByIdAsync(int id)

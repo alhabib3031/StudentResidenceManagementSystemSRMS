@@ -5,23 +5,27 @@
     <projectFile profileName="https">MudBlazorWebApp1/MudBlazorWebApp1.csproj</projectFile>
     <projectFile profileName="http">SMRS.WebUI.Server/SMRS.WebUI.Server.csproj</projectFile>
     <projectFile profileName="https">SMRS.WebUI.Server/SMRS.WebUI.Server.csproj</projectFile>
+    <projectFile profileName="http">SRMS.WebUI.Server/SRMS.WebUI.Server.csproj</projectFile>
+    <projectFile profileName="https">SRMS.WebUI.Server/SRMS.WebUI.Server.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/SharedServices/IDataServices.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/IStudentService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/StudentService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Abstractions/Entity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/StudentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/StudentService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StudentResidenceManagementSystemSRMS.sln" beforeDir="false" afterPath="$PROJECT_DIR$/StudentResidenceManagementSystemSRMS.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +56,8 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Weather.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -65,12 +70,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.SMRS.WebUI.Server: http.executor": "Debug",
-    ".NET Project.src\\MudBlazorWebApp1.executor": "Run",
+    ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/clean-architechture",
+    "git-widget-placeholder": "feature/Infrastructure-layer",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -79,8 +83,8 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.SMRS.WebUI.Server: http">
-    <configuration name="SMRS.WebUI.Server: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+  <component name="RunManager" selected=".NET Launch Settings Profile.SRMS.WebUI.Server: http">
+    <configuration name="SRMS.WebUI.Server: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
       <option name="LAUNCH_PROFILE_NAME" value="http" />
@@ -91,11 +95,12 @@
       <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
       <option name="SEND_DEBUG_REQUEST" value="1" />
       <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="SMRS.WebUI.Server: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+    <configuration name="SRMS.WebUI.Server: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />
       <option name="LAUNCH_PROFILE_NAME" value="https" />
@@ -106,6 +111,7 @@
       <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
       <option name="SEND_DEBUG_REQUEST" value="1" />
       <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -119,26 +125,12 @@
       <option name="presentableId" value="Default" />
       <updated>1760422315198</updated>
       <workItem from="1760422318624" duration="206000" />
-      <workItem from="1760422563761" duration="6801000" />
-      <workItem from="1760431779413" duration="7507000" />
+      <workItem from="1760456940698" duration="1772000" />
+      <workItem from="1760461596620" duration="302000" />
+      <workItem from="1760461989091" duration="2080000" />
+      <workItem from="1760511754966" duration="6422000" />
+      <workItem from="1760524975535" duration="1414000" />
     </task>
-    <task id="LOCAL-00001" summary="Create a sln with web ui server layer in src folder">
-      <option name="closed" value="true" />
-      <created>1760422789271</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1760422789271</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Rename and fix the name or projects SRMS &amp; Create the Domain and Application Layers And give references To each other">
-      <option name="closed" value="true" />
-      <created>1760426768240</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1760426768240</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,11 +138,19 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Create a sln with web ui server layer in src folder" />
-    <MESSAGE value="Rename and fix the name or projects SRMS &amp; Create the Domain and Application Layers And give references To each other" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename and fix the name or projects SRMS &amp; Create the Domain and Application Layers And give references To each other" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

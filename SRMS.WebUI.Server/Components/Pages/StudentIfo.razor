@@ -7,7 +7,7 @@
 <h3>StudentIfo</h3>
 
 <ul>
-    @foreach (var student in students)
+    @foreach (var student in _students)
     {
         <li>@student.Id</li>
         <li>@student.FirstName</li>
@@ -20,13 +20,13 @@
 </ul>
 
 @code {
-    private List<Student> students = new List<Student>();
+    private List<Student> _students = new List<Student>();
 
     protected override async Task OnInitializedAsync()
     {
+        // await Task.Delay(1000);
         var result = await StudentService.GetAllAsync();
-        if (result is not null)
-            students = result.ToList();
+        _students = result.ToList();
     }
 
 }

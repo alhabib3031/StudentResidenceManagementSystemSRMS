@@ -1,5 +1,8 @@
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using SRMS.Application;
+using SRMS.Infrastructure;
 using SRMS.WebUI.Server.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +12,25 @@ builder.Services.AddMudServices();
 
 // Add services to the container.
 builder.Services.AddRazorComponents();
+//================my code====================//
 builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+//================this code to test db connection and query time====================//
+var sw = new Stopwatch();
+sw.Start();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await context.Students.FirstOrDefaultAsync();
+}
+
+sw.Stop();
+Console.WriteLine($"⏱️ Startup DB Query took: {sw.ElapsedMilliseconds} ms");
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
