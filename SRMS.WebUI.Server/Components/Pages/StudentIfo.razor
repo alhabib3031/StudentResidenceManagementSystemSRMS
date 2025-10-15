@@ -1,5 +1,5 @@
 ﻿@page "/StudentInfo"
-@inject IStudentService StudentService
+@inject ISender Sender
 
 
 <PageTitle>Student Title</PageTitle>
@@ -25,7 +25,7 @@
     protected override async Task OnInitializedAsync()
     {
         // await Task.Delay(1000);
-        var result = await StudentService.GetAllAsync();
+        var result = await Sender.Send(new GetStudentQuery());
         _students = result.ToList();
     }
 

@@ -13,19 +13,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Abstractions/Entity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/StudentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/StudentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/IStudentService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/StudentService.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StudentResidenceManagementSystemSRMS.sln" beforeDir="false" afterPath="$PROJECT_DIR$/StudentResidenceManagementSystemSRMS.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +51,11 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Weather.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -73,8 +71,9 @@
     ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/Infrastructure-layer",
+    "git-widget-placeholder": "feature/cqrs",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
