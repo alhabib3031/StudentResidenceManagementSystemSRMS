@@ -13,14 +13,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/DependencyInjection.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/CreateStudentDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/UpdateStudentDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/IStudentService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/StudentService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="feature/cqrs" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,8 +55,16 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/CreateStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/UpdateStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdQuery.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Weather.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
@@ -62,26 +74,29 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="342r3trCI901Co72S1Y7bhcGCZ3" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/cqrs",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.SRMS.WebUI.Server: http.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.SRMS.WebUI.Server: http">
     <configuration name="SRMS.WebUI.Server: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" />
@@ -129,7 +144,17 @@
       <workItem from="1760461989091" duration="2080000" />
       <workItem from="1760511754966" duration="6422000" />
       <workItem from="1760524975535" duration="1414000" />
+      <workItem from="1760687062400" duration="1095000" />
     </task>
+    <task id="LOCAL-00001" summary="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency.">
+      <option name="closed" value="true" />
+      <created>1760536011278</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760536011278</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,6 +175,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
