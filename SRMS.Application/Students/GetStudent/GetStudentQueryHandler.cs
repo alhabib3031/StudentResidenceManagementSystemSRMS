@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using Mapster;
+using MediatR;
+using SRMS.Application.Students.DTOs;
 using SRMS.Domain.Students;
 
 namespace SRMS.Application.Students.GetStudent;
 
-public class GetStudentQueryHandler : IRequestHandler<GetStudentQuery, IEnumerable<Student>>
+public class GetStudentQueryHandler : IRequestHandler<GetStudentQuery, IEnumerable<StudentDto>>
 {
     private readonly IStudentRepository _studentRepository;
     
@@ -12,9 +14,11 @@ public class GetStudentQueryHandler : IRequestHandler<GetStudentQuery, IEnumerab
         _studentRepository = studentRepository;
     }
     
-    public async Task<IEnumerable<Student>> Handle(GetStudentQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<StudentDto>> Handle(GetStudentQuery request, CancellationToken cancellationToken)
     {
         var students = await _studentRepository.GetAllAsync();
-        return students;
+        
+        // Map من Entity إلى DTO
+        return students.Adapt<IEnumerable<StudentDto>>();
     }
 }

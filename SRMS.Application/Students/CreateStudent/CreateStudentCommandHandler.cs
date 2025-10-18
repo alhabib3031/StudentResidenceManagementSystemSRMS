@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using Mapster;
+using MediatR;
+using SRMS.Application.Students.DTOs;
 using SRMS.Domain.Students;
 
 namespace SRMS.Application.Students.CreateStudent;
 
-public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, Student>
+public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, StudentDto>
 {
     private readonly IStudentRepository _studentRepository;
     
@@ -12,22 +14,19 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         _studentRepository = studentRepository;
     }
     
-    public async Task<Student> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
+    public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
     {
-        var student = new Student
-        {
-            Id = Guid.NewGuid(),
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Email = request.Email,
-            PhoneNumber = request.PhoneNumber,
-            Address = request.Address,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow,
-            IsActive = true,
-            IsDeleted = false
-        };
+        // Map من DTO إلى Entity
+        var student = request.Student.Adapt<Student>();
+        student.Id = Guid.NewGuid();
+        student.CreatedAt = DateTime.UtcNow;
+        student.UpdatedAt = DateTime.UtcNow;
+        student.IsActive = true;
+        student.IsDeleted = false;
         
-        return await _studentRepository.CreateAsync(student);
+        var createdStudent = await _studentRepository.CreateAsync(student);
+        
+        // Map من Entity إلى DTO للإرجاع
+        return createdStudent.Adapt<StudentDto>();
     }
 }

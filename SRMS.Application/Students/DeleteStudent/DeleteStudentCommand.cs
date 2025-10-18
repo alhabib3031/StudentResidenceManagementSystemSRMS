@@ -1,6 +1,8 @@
-﻿namespace SRMS.Application.Students.DeleteStudent;
+﻿using MediatR;
 
-public class DeleteStudentCommand
+namespace SRMS.Application.Students.DeleteStudent;
+
+public class DeleteStudentCommand : IRequest<bool>
 {
-    
+    public Guid Id { get; set; }
 }

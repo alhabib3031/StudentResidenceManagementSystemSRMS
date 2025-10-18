@@ -1,0 +1,155 @@
+﻿@page "/students/{Id:guid}"
+@using SRMS.Application.Students.GetStudentById
+@using SRMS.Application.Students.DTOs
+@inject ISender Sender
+@inject NavigationManager Navigation
+
+<PageTitle>Student Details</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
+    <MudPaper Elevation="3" Class="pa-6">
+        @if (_isLoading)
+        {
+        <div class="d-flex justify-center pa-8">
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+        </div>
+        }
+        else if (_student == null)
+        {
+        <MudAlert Severity="Severity.Error">Student not found!</MudAlert>
+        }
+        else
+        {
+        <div class="d-flex justify-space-between align-center mb-6">
+            <MudText Typo="Typo.h4">Student Details</MudText>
+            <MudButtonGroup Variant="Variant.Outlined">
+                <MudButton
+                    StartIcon="@Icons.Material.Filled.Edit"
+                    Color="Color.Primary"
+                    Href="@($"/students/edit/{_student.Id}")">
+                    Edit
+                </MudButton>
+                <MudButton
+                    StartIcon="@Icons.Material.Filled.ArrowBack"
+                    Color="Color.Default"
+                    Href="/students">
+                    Back to List
+                </MudButton>
+            </MudButtonGroup>
+        </div>
+
+        <MudGrid>
+            <MudItem xs="12">
+                <MudCard>
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6" Color="Color.Primary" GutterBottom="true">
+                            Personal Information
+                        </MudText>
+
+                        <MudDivider Class="mb-4" />
+
+                        <MudGrid>
+                            <MudItem xs="12" sm="6">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Full Name</MudText>
+                                <MudText Typo="Typo.body1" Class="mb-3">@_student.FullName</MudText>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Status</MudText>
+                                <div class="mb-3">
+                                    @*<MudChip
+                                        Size="Size.Small"
+                                        Color="@(_student.IsActive ? Color.Success : Color.Default)">*@
+                                        @(_student.IsActive ? "Active" : "Inactive")
+                                    @*</MudChip>*@
+                                </div>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Email</MudText>
+                                <MudText Typo="Typo.body1" Class="mb-3">@_student.Email</MudText>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Phone Number</MudText>
+                                <MudText Typo="Typo.body1" Class="mb-3">
+                                    @(_student.PhoneNumber ?? "N/A")
+                                </MudText>
+                            </MudItem>
+
+                            <MudItem xs="12">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Address</MudText>
+                                <MudText Typo="Typo.body1" Class="mb-3">
+                                    @(_student.Address ?? "N/A")
+                                </MudText>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCard>
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6" Color="Color.Primary" GutterBottom="true">
+                            System Information
+                        </MudText>
+
+                        <MudDivider Class="mb-4" />
+
+                        <MudGrid>
+                            <MudItem xs="12" sm="4">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Student ID</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-3">
+                                    @_student.Id.ToString().Substring(0, 13)...
+                                </MudText>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="4">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Created At</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-3">
+                                    @_student.CreatedAt.ToString("MMM dd, yyyy HH:mm")
+                                </MudText>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="4">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Last Updated</MudText>
+                                <MudText Typo="Typo.body2" Class="mb-3">
+                                    @_student.UpdatedAt.ToString("MMM dd, yyyy HH:mm")
+                                </MudText>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+[Parameter]
+public Guid Id { get; set; }
+
+private StudentDto? _student;
+private bool _isLoading = true;
+
+protected override async Task OnInitializedAsync()
+{
+await LoadStudent();
+}
+
+private async Task LoadStudent()
+{
+_isLoading = true;
+try
+{
+var query = new GetStudentByIdQuery { Id = Id };
+_student = await Sender.Send(query);
+}
+finally
+{
+_isLoading = false;
+}
+}
+}

@@ -1,0 +1,129 @@
+﻿@page "/students"
+@using SRMS.Application.Students.GetStudent
+@using SRMS.Application.Students.DeleteStudent
+@using SRMS.Application.Students.DTOs
+@inject ISender Sender
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+<PageTitle>Students</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-8">
+    <MudPaper Elevation="3" Class="pa-4">
+        <div class="d-flex justify-space-between align-center mb-4">
+            <MudText Typo="Typo.h4">Student Management</MudText>
+            <MudButton 
+                Variant="Variant.Filled" 
+                Color="Color.Primary"
+                Href="/students/create"
+                StartIcon="@Icons.Material.Filled.Add">
+                Add New Student
+            </MudButton>
+        </div>
+
+        @if (_isLoading)
+        {
+            <div class="d-flex justify-center pa-8">
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+            </div>
+        }
+        else if (_students == null || !_students.Any())
+        {
+            <MudAlert Severity="Severity.Info">No students found. Create your first student!</MudAlert>
+        }
+        else
+        {
+            <MudTable 
+                Items="_students" 
+                Hover="true" 
+                Striped="true"
+                Dense="true"
+                Elevation="0">
+                <HeaderContent>
+                    <MudTh>ID</MudTh>
+                    <MudTh>Full Name</MudTh>
+                    <MudTh>Email</MudTh>
+                    <MudTh>Phone</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Created At</MudTh>
+                    <MudTh Style="text-align: center">Actions</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="ID">
+                        <MudText Typo="Typo.caption">@context.Id.ToString().Substring(0, 8)...</MudText>
+                    </MudTd>
+                    <MudTd DataLabel="Full Name">
+                        <MudText Typo="Typo.body2">@context.FullName</MudText>
+                    </MudTd>
+                    <MudTd DataLabel="Email">@context.Email</MudTd>
+                    <MudTd DataLabel="Phone">@context.PhoneNumber</MudTd>
+                    <MudTd DataLabel="Status">
+                        @*<MudChip 
+                            Size="Size.Small" 
+                            Color="@(context.IsActive ? Color.Success : Color.Default)">
+                            @(context.IsActive ? "Active" : "Inactive")
+                        </MudChip>*@
+                    </MudTd>
+                    <MudTd DataLabel="Created At">
+                        <MudText Typo="Typo.caption">
+                            @context.CreatedAt.ToString("MMM dd, yyyy")
+                        </MudText>
+                    </MudTd>
+                    <MudTd DataLabel="Actions" Style="text-align: center">
+                        <MudButtonGroup Variant="Variant.Outlined" Size="Size.Small">
+                            <MudIconButton 
+                                Icon="@Icons.Material.Filled.Visibility"
+                                Color="Color.Info"
+                                Size="Size.Small"
+                                Href="@($"/students/{context.Id}")" />
+                            <MudIconButton 
+                                Icon="@Icons.Material.Filled.Edit"
+                                Color="Color.Warning"
+                                Size="Size.Small"
+                                Href="@($"/students/edit/{context.Id}")" />
+                            <MudIconButton 
+                                Icon="@Icons.Material.Filled.Delete"
+                                Color="Color.Error"
+                                Size="Size.Small"
+                                OnClick="@(() => DeleteStudent(context.Id))" />
+                        </MudButtonGroup>
+                    </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                </PagerContent>
+            </MudTable>
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private List<StudentDto> _students = new();
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStudents();
+    }
+
+    private async Task LoadStudents()
+    {
+        _isLoading = true;
+        try
+        {
+            var query = new GetStudentQuery();
+            var result = await Sender.Send(query);
+            _students = result.ToList();
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void DeleteStudent(Guid id)
+    {
+        // سنضيف هذا لاحقاً
+        Console.WriteLine($"Delete student: {id}");
+    }
+}

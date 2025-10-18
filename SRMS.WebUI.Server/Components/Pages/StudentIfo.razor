@@ -1,4 +1,5 @@
 ﻿@page "/StudentInfo"
+@using SRMS.Application.Students.DTOs
 @inject ISender Sender
 
 
@@ -20,7 +21,7 @@
 </ul>
 
 @code {
-    private List<Student> _students = new List<Student>();
+    private List<StudentDto> _students = new List<StudentDto>();
 
     protected override async Task OnInitializedAsync()
     {

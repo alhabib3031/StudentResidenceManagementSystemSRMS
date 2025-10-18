@@ -1,6 +1,9 @@
-﻿namespace SRMS.Application.Students.GetStudentById;
+﻿using MediatR;
+using SRMS.Application.Students.DTOs;
 
-public class GetStudentByIdQuery
+namespace SRMS.Application.Students.GetStudentById;
+
+public class GetStudentByIdQuery : IRequest<StudentDto>
 {
-    
+    public Guid Id { get; set; }
 }

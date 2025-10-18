@@ -1,13 +1,10 @@
 ﻿using MediatR;
+using SRMS.Application.Students.DTOs;
 using SRMS.Domain.Students;
 
 namespace SRMS.Application.Students.CreateStudent;
 
-public class CreateStudentCommand : IRequest<Student>
+public class CreateStudentCommand : IRequest<StudentDto>
 {
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
-    public string? PhoneNumber { get; set; }
-    public string? Address { get; set; }
+    public CreateStudentDto Student { get; set; } = new();
 }
