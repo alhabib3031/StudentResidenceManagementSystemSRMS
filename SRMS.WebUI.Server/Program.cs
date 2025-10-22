@@ -11,8 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMudServices();
 
 // Add services to the container.
-builder.Services.AddRazorComponents();
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
 //================my code====================//
+builder.Services.AddControllersWithViews();
+
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
@@ -42,10 +46,35 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//=================my code====================//
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>();
+
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
+
 
 app.Run();
+
+//================تعديل لاحقا====================//
+// async Task SeedRolesAsync(IServiceProvider serviceProvider)
+// {
+//     var roleManager = serviceProvider.GetRequiredService<Microsoft.AspNetCore.Identity.RoleManager<Microsoft.AspNetCore.Identity.IdentityRole>>();
+//     
+//     string[] roles = { "Admin", "User", "Teacher", "Student" };
+//     
+//     foreach (var role in roles)
+//     {
+//         if (!await roleManager.RoleExistsAsync(role))
+//         {
+//             await roleManager.CreateAsync(new Microsoft.AspNetCore.Identity.IdentityRole(role));
+//             Console.WriteLine($"✅ Role '{role}' created");
+//         }
+//     }
+// }

@@ -1,4 +1,5 @@
 ﻿@page "/students/edit/{Id:guid}"
+@rendermode InteractiveServer
 @inject ISender Sender
 @inject NavigationManager Navigation
 
@@ -20,7 +21,7 @@
         {
             <MudText Typo="Typo.h4" GutterBottom="true">Edit Student</MudText>
             
-            <EditForm Model="@_updateStudentDto" OnValidSubmit="HandleSubmit" FormName="EditStudentForm">
+            <EditForm Model="@_updateStudentDto" OnValidSubmit="HandleSubmit">
                 <DataAnnotationsValidator />
                 
                 <MudGrid>
@@ -112,7 +113,7 @@
     
     private UpdateStudentDto? _updateStudentDto;
     private bool _isLoading = true;
-    private bool _isSubmitting;
+    private bool _isSubmitting = false;
     private string? _errorMessage;
     private string? _successMessage;
 
@@ -128,16 +129,19 @@
         {
             var query = new GetStudentByIdQuery { Id = Id };
             var student = await Sender.Send(query);
-
-            _updateStudentDto = new UpdateStudentDto
+            
+            if (student != null)
             {
-                Id = student.Id,
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Email = student.Email,
-                PhoneNumber = student.PhoneNumber,
-                Address = student.Address
-            };
+                _updateStudentDto = new UpdateStudentDto
+                {
+                    Id = student.Id,
+                    FirstName = student.FirstName,
+                    LastName = student.LastName,
+                    Email = student.Email,
+                    PhoneNumber = student.PhoneNumber,
+                    Address = student.Address
+                };
+            }
         }
         catch (Exception ex)
         {
@@ -156,7 +160,7 @@
         _successMessage = null;
 
         try
-         {
+        {
             var command = new UpdateStudentCommand { Student = _updateStudentDto! };
             var result = await Sender.Send(command);
             
@@ -170,14 +174,14 @@
             {
                 _errorMessage = "Student not found!";
             }
-         }
-         catch (Exception ex)
-         {
-             _errorMessage = $"Error updating student: {ex.Message}";
-         }
-         finally
-         {
-             _isSubmitting = false;
-         }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error updating student: {ex.Message}";
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
     }
 }

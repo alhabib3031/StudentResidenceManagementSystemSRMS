@@ -13,25 +13,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Users/ApplicationUser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_14_2025_3_39_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_14_2025_3_39_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/shelf/Uncommitted_changes_before_Merge_at_10_14_2025_3_41_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/shelf/Uncommitted_changes_before_Merge_at_10_14_2025_3_41_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Domain/SRMS.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/SRMS.Domain.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/SRMS.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/SRMS.Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/CreateStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/EditStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentDetails.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Students.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/App.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/App.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/cqrs" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -111,7 +100,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feature/add-Interactivity",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -170,7 +159,7 @@
       <workItem from="1760687062400" duration="6495000" />
       <workItem from="1760781985763" duration="2537000" />
       <workItem from="1760937061244" duration="10006000" />
-      <workItem from="1761125100152" duration="15162000" />
+      <workItem from="1761125100152" duration="18174000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency.">
       <option name="closed" value="true" />
@@ -196,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760759495928</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Remove temporary IntelliJ `.idea` files and unshelved patches&#10;&#10;Deleted unnecessary `.idea` files and shelved patches, cleaning up the project structure and ensuring only required configuration files are retained.">
+      <option name="closed" value="true" />
+      <created>1761143050821</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1761143050821</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +217,8 @@
     <MESSAGE value="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency." />
     <MESSAGE value="Introduce CQRS for Student feature with MediatR&#10;&#10;Added support for CQRS in the Student feature. Implemented `CreateStudentCommand` and its handler for creating students, along with supporting DTOs (`StudentDto`, `CreateStudentDto`, `UpdateStudentDto`). Extended `IStudentRepository` with CRUD methods and refactored `StudentRepository` to handle soft deletes. Added MediatR and Mapster package dependencies to the Application layer." />
     <MESSAGE value="Implement CRUD functionality for Students with CQRS&#10;&#10;Added `DeleteStudentCommandHandler` and UI pages for managing students (`CreateStudent`, `Students`, etc.). Refactored existing queries/commands (`CreateStudentCommand`, `GetStudentQuery`) to utilize DTOs and Mapster for mapping. Integrated reusable components like `ConfirmDialog`. Enhanced the Application layer with validation, mapping, and asynchronous patterns." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement CRUD functionality for Students with CQRS&#10;&#10;Added `DeleteStudentCommandHandler` and UI pages for managing students (`CreateStudent`, `Students`, etc.). Refactored existing queries/commands (`CreateStudentCommand`, `GetStudentQuery`) to utilize DTOs and Mapster for mapping. Integrated reusable components like `ConfirmDialog`. Enhanced the Application layer with validation, mapping, and asynchronous patterns." />
+    <MESSAGE value="Remove temporary IntelliJ `.idea` files and unshelved patches&#10;&#10;Deleted unnecessary `.idea` files and shelved patches, cleaning up the project structure and ensuring only required configuration files are retained." />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove temporary IntelliJ `.idea` files and unshelved patches&#10;&#10;Deleted unnecessary `.idea` files and shelved patches, cleaning up the project structure and ensuring only required configuration files are retained." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

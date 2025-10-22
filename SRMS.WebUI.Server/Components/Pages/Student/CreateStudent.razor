@@ -1,4 +1,5 @@
 ﻿@page "/students/create"
+@rendermode InteractiveServer
 @inject ISender Sender
 @inject NavigationManager Navigation
 
@@ -8,7 +9,7 @@
     <MudPaper Elevation="3" Class="pa-6">
         <MudText Typo="Typo.h4" GutterBottom="true">Create New Student</MudText>
         
-        <EditForm Model="@_createStudentDto" OnValidSubmit="HandleSubmit" FormName="CreateStudentForm">
+        <EditForm Model="@_createStudentDto" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
             
             <MudGrid>
@@ -103,7 +104,7 @@
             var command = new CreateStudentCommand { Student = _createStudentDto };
             var result = await Sender.Send(command);
             
-            // Navigate to a student list after success
+            // Navigate to student list after success
             Navigation.NavigateTo("/students");
         }
         catch (Exception ex)
