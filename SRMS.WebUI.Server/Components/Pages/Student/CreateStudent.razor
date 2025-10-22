@@ -1,6 +1,4 @@
 ﻿@page "/students/create"
-@using SRMS.Application.Students.CreateStudent
-@using SRMS.Application.Students.DTOs
 @inject ISender Sender
 @inject NavigationManager Navigation
 
@@ -10,7 +8,7 @@
     <MudPaper Elevation="3" Class="pa-6">
         <MudText Typo="Typo.h4" GutterBottom="true">Create New Student</MudText>
         
-        <EditForm Model="@_createStudentDto" OnValidSubmit="HandleSubmit">
+        <EditForm Model="@_createStudentDto" OnValidSubmit="HandleSubmit" FormName="CreateStudentForm">
             <DataAnnotationsValidator />
             
             <MudGrid>
@@ -105,7 +103,7 @@
             var command = new CreateStudentCommand { Student = _createStudentDto };
             var result = await Sender.Send(command);
             
-            // Navigate to student list after success
+            // Navigate to a student list after success
             Navigation.NavigateTo("/students");
         }
         catch (Exception ex)

@@ -1,6 +1,4 @@
 ﻿@page "/students/{Id:guid}"
-@using SRMS.Application.Students.GetStudentById
-@using SRMS.Application.Students.DTOs
 @inject ISender Sender
 @inject NavigationManager Navigation
 
@@ -57,11 +55,12 @@
                             <MudItem xs="12" sm="6">
                                 <MudText Typo="Typo.caption" Color="Color.Secondary">Status</MudText>
                                 <div class="mb-3">
-                                    @*<MudChip
+                                    <MudChip
+                                        T="bool"
                                         Size="Size.Small"
-                                        Color="@(_student.IsActive ? Color.Success : Color.Default)">*@
+                                        Color="@(_student.IsActive ? Color.Success : Color.Default)">
                                         @(_student.IsActive ? "Active" : "Inactive")
-                                    @*</MudChip>*@
+                                    </MudChip>
                                 </div>
                             </MudItem>
 

@@ -13,28 +13,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ConfirmDialog.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/CreateStudent.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/EditStudent.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentDetails.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Students.razor" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Users/ApplicationUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_14_2025_3_39_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_14_2025_3_39_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/shelf/Uncommitted_changes_before_Merge_at_10_14_2025_3_41_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/shelf/Uncommitted_changes_before_Merge_at_10_14_2025_3_41_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/CreateStudentDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/CreateStudentDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/UpdateStudentDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/UpdateStudentDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdQuery.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/MainLayout.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/MainLayout.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Domain/SRMS.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/SRMS.Domain.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/SRMS.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/SRMS.Infrastructure.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/CreateStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/EditStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentDetails.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Students.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +62,13 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/cb2fe2a95e1947b6b256a7edc555c66e4400/21/d55b6850/0200000Fpdb4.il" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/cb2fe2a95e1947b6b256a7edc555c66e4400/6f/31b77b74/02000005pdb12.il" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/12f8d680aa1c5ae78dc1fb7cf8212be01e323372dbe3b9b87360e27c58936a/IRequest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/758adc83fd8d9792ed96a07b4f55d697c2461ef31e29b74af8cc5fcbd628/DataAnnotationsValidator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Authentication/AuthenticationResult.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Authentication/AuthenticationService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Authentication/IAuthenticationService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/CreateStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
@@ -79,12 +83,13 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Users/ApplicationUser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ConfirmDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/CreateStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/EditStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentDetails.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Students.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Weather.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -162,7 +167,10 @@
       <workItem from="1760461989091" duration="2080000" />
       <workItem from="1760511754966" duration="6422000" />
       <workItem from="1760524975535" duration="1414000" />
-      <workItem from="1760687062400" duration="6448000" />
+      <workItem from="1760687062400" duration="6495000" />
+      <workItem from="1760781985763" duration="2537000" />
+      <workItem from="1760937061244" duration="10006000" />
+      <workItem from="1761125100152" duration="15162000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency.">
       <option name="closed" value="true" />
@@ -180,7 +188,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760688181041</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Implement CRUD functionality for Students with CQRS&#10;&#10;Added `DeleteStudentCommandHandler` and UI pages for managing students (`CreateStudent`, `Students`, etc.). Refactored existing queries/commands (`CreateStudentCommand`, `GetStudentQuery`) to utilize DTOs and Mapster for mapping. Integrated reusable components like `ConfirmDialog`. Enhanced the Application layer with validation, mapping, and asynchronous patterns.">
+      <option name="closed" value="true" />
+      <created>1760759495928</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1760759495928</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,7 +219,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency." />
     <MESSAGE value="Introduce CQRS for Student feature with MediatR&#10;&#10;Added support for CQRS in the Student feature. Implemented `CreateStudentCommand` and its handler for creating students, along with supporting DTOs (`StudentDto`, `CreateStudentDto`, `UpdateStudentDto`). Extended `IStudentRepository` with CRUD methods and refactored `StudentRepository` to handle soft deletes. Added MediatR and Mapster package dependencies to the Application layer." />
-    <option name="LAST_COMMIT_MESSAGE" value="Introduce CQRS for Student feature with MediatR&#10;&#10;Added support for CQRS in the Student feature. Implemented `CreateStudentCommand` and its handler for creating students, along with supporting DTOs (`StudentDto`, `CreateStudentDto`, `UpdateStudentDto`). Extended `IStudentRepository` with CRUD methods and refactored `StudentRepository` to handle soft deletes. Added MediatR and Mapster package dependencies to the Application layer." />
+    <MESSAGE value="Implement CRUD functionality for Students with CQRS&#10;&#10;Added `DeleteStudentCommandHandler` and UI pages for managing students (`CreateStudent`, `Students`, etc.). Refactored existing queries/commands (`CreateStudentCommand`, `GetStudentQuery`) to utilize DTOs and Mapster for mapping. Integrated reusable components like `ConfirmDialog`. Enhanced the Application layer with validation, mapping, and asynchronous patterns." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement CRUD functionality for Students with CQRS&#10;&#10;Added `DeleteStudentCommandHandler` and UI pages for managing students (`CreateStudent`, `Students`, etc.). Refactored existing queries/commands (`CreateStudentCommand`, `GetStudentQuery`) to utilize DTOs and Mapster for mapping. Integrated reusable components like `ConfirmDialog`. Enhanced the Application layer with validation, mapping, and asynchronous patterns." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -47,7 +47,7 @@ public class StudentRepository : IStudentRepository
         var student = await GetByIdAsync(id);
         if (student == null) return false;
         
-        // Soft Delete
+        // Softly Delete
         student.IsDeleted = true;
         student.DeletedAt = DateTime.UtcNow;
         student.IsActive = false;

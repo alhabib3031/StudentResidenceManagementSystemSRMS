@@ -1,12 +1,9 @@
 ﻿@page "/students"
-@using SRMS.Application.Students.GetStudent
-@using SRMS.Application.Students.DeleteStudent
-@using SRMS.Application.Students.DTOs
 @inject ISender Sender
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 
-<PageTitle>Students</PageTitle>
+<PageTitle>Students</PageTitle> 
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-8">
     <MudPaper Elevation="3" Class="pa-4">
@@ -58,11 +55,12 @@
                     <MudTd DataLabel="Email">@context.Email</MudTd>
                     <MudTd DataLabel="Phone">@context.PhoneNumber</MudTd>
                     <MudTd DataLabel="Status">
-                        @*<MudChip 
+                        <MudChip
+                            T="bool"
                             Size="Size.Small" 
                             Color="@(context.IsActive ? Color.Success : Color.Default)">
                             @(context.IsActive ? "Active" : "Inactive")
-                        </MudChip>*@
+                        </MudChip>
                     </MudTd>
                     <MudTd DataLabel="Created At">
                         <MudText Typo="Typo.caption">
@@ -125,5 +123,10 @@
     {
         // سنضيف هذا لاحقاً
         Console.WriteLine($"Delete student: {id}");
+    }
+    
+    private Color GetStatusColor(bool isActive)
+    {
+        return isActive ? Color.Success : Color.Default;
     }
 }

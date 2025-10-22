@@ -18,6 +18,13 @@ public class GetStudentQueryHandler : IRequestHandler<GetStudentQuery, IEnumerab
     {
         var students = await _studentRepository.GetAllAsync();
         
+        // مثال: إذا المستخدم أغلق الصفحة قبل انتهاء العملية
+        if (cancellationToken.IsCancellationRequested)
+        {
+            // أوقف العملية
+            return null!;
+        }
+        
         // Map من Entity إلى DTO
         return students.Adapt<IEnumerable<StudentDto>>();
     }
