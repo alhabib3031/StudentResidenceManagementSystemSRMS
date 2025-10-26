@@ -1,15 +1,16 @@
 ﻿using Mapster;
 using MediatR;
 using SRMS.Application.Students.DTOs;
+using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
 
 namespace SRMS.Application.Students.GetStudentById;
 
 public class GetStudentByIdQueryHandler : IRequestHandler<GetStudentByIdQuery, StudentDto?>
 {
-    private readonly IStudentRepository _studentRepository;
+    private readonly IRepositories<Student> _studentRepository;
     
-    public GetStudentByIdQueryHandler(IStudentRepository studentRepository)
+    public GetStudentByIdQueryHandler(IRepositories<Student> studentRepository)
     {
         _studentRepository = studentRepository;
     }

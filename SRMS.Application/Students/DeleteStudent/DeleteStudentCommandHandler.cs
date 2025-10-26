@@ -1,13 +1,14 @@
 ﻿using MediatR;
+using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
 
 namespace SRMS.Application.Students.DeleteStudent;
 
 public class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentCommand, bool>
 {
-    private readonly IStudentRepository _studentRepository;
+    private readonly IRepositories<Student> _studentRepository;
     
-    public DeleteStudentCommandHandler(IStudentRepository studentRepository)
+    public DeleteStudentCommandHandler(IRepositories<Student> studentRepository)
     {
         _studentRepository = studentRepository;
     }

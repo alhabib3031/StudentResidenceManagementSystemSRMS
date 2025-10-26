@@ -1,15 +1,16 @@
 ﻿using Mapster;
 using MediatR;
 using SRMS.Application.Students.DTOs;
+using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
 
 namespace SRMS.Application.Students.GetStudent;
 
 public class GetStudentQueryHandler : IRequestHandler<GetStudentQuery, IEnumerable<StudentDto>>
 {
-    private readonly IStudentRepository _studentRepository;
+    private readonly IRepositories<Student> _studentRepository;
     
-    public GetStudentQueryHandler(IStudentRepository studentRepository)
+    public GetStudentQueryHandler(IRepositories<Student> studentRepository)
     {
         _studentRepository = studentRepository;
     }
@@ -17,15 +18,12 @@ public class GetStudentQueryHandler : IRequestHandler<GetStudentQuery, IEnumerab
     public async Task<IEnumerable<StudentDto>> Handle(GetStudentQuery request, CancellationToken cancellationToken)
     {
         var students = await _studentRepository.GetAllAsync();
-        
+
         // مثال: إذا المستخدم أغلق الصفحة قبل انتهاء العملية
-        if (cancellationToken.IsCancellationRequested)
-        {
+        return cancellationToken.IsCancellationRequested ?
             // أوقف العملية
-            return null!;
-        }
-        
-        // Map من Entity إلى DTO
-        return students.Adapt<IEnumerable<StudentDto>>();
+            null! :
+            // Map من Entity إلى DTO
+            students.Adapt<IEnumerable<StudentDto>>();
     }
 }

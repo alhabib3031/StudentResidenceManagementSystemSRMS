@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SRMS.Application.Students;
+using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
 using SRMS.Infrastructure.Repositories;
 
@@ -14,7 +14,7 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<IRepositories<Student>, StudentRepository>();
         
         return services;
     }

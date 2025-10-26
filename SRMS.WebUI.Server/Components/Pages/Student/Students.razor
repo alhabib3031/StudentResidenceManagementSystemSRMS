@@ -25,7 +25,7 @@
                 <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
             </div>
         }
-        else if (_students == null || !_students.Any())
+        else if (!_students.Any())
         {
             <MudAlert Severity="Severity.Info">No students found. Create your first student!</MudAlert>
         }
@@ -89,7 +89,7 @@
                     </MudTd>
                 </RowTemplate>
                 <PagerContent>
-                    <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+                    <MudTablePager PageSizeOptions="new[] { 10, 25, 50, 100 }" />
                 </PagerContent>
             </MudTable>
         }
@@ -133,12 +133,13 @@
         var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete Student", parameters, options);
         var result = await dialog.Result;
 
-        if (!result.Canceled)
+        if (result is { Canceled: false })
         {
             try
             {
                 var command = new DeleteStudentCommand { Id = id };
                 var success = await Sender.Send(command);
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
 
                 if (success)
                 {

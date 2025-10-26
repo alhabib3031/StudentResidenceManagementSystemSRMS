@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
 
 namespace SRMS.Infrastructure.Repositories;
 
-public class StudentRepository : IStudentRepository
+public class StudentRepository : IRepositories<Student>
 {
     private readonly ApplicationDbContext _context;
 
@@ -24,6 +26,21 @@ public class StudentRepository : IStudentRepository
     {
         return await _context.Students
             .FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
+    }
+
+    public Task<Student?> GetByIdAsync(string id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Student>> FindAsync(Expression<Func<Student, bool>> predicate)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Student?> FirstOrDefaultAsync(Expression<Func<Student, bool>> predicate)
+    {
+        throw new NotImplementedException();
     }
 
     // Command Operations
