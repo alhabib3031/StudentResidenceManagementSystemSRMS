@@ -13,38 +13,68 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommandHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/CreateManagerDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/ManagerDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/UpdateManagerDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DeleteManager/DeleteManagerCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DeleteManager/DeleteManagerCommandHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/GetManager/GetManagerQuery.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/GetManager/GetManagerQueryHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/GetManagerById/GetManagerByIdQuery.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/GetManagerById/GetManagerByIdQueryHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommandHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Repositories/IRepositories.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Residence/Residence.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Common/Mapping/MappingConfigurations.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/AuditLogs/AuditLog.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/AuditLogs/Enums/AuditAction.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/Complaint.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/ComplaintUpdate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintCategory.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintPriority.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintStatus.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Managers/Enums/ManagerStatus.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Payments/Enums/PaymentStatus.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Payments/Payment.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Residences/Residence.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Residences/ResidenceFacilities.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Rooms/Enums/RoomAmenities.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Rooms/Enums/RoomType.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Rooms/Room.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Enums/Gender.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Enums/StudentStatus.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/ValueObjects/Address.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/ValueObjects/DateRange.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/ValueObjects/Email.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/ValueObjects/Mony.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/ValueObjects/PhoneNumber.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Domain/ValueObjects/ValueObject.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/AuditLogConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ComplaintConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ManagerConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/PaymentConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ResidenceConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/RoomConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/StudentConfiguration.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/CreateManagerDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/CreateManagerDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/ManagerDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/ManagerDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/UpdateManagerDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/UpdateManagerDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommandHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/SharedServices/IDataServices.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/CreateStudentDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDTOs/CreateStudentDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDTOs/StudentDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/UpdateStudentDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDTOs/UpdateStudentDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommand.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Residence/Residence.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Domain/SRMS.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/SRMS.Domain.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/GenericRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,9 +108,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/cb2fe2a95e1947b6b256a7edc555c66e4400/21/d55b6850/0200000Fpdb4.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/cb2fe2a95e1947b6b256a7edc555c66e4400/6f/31b77b74/02000005pdb12.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/dce8f498b0cb4d63bbe0ca6caca4823711800/86/1851ccda/0200000Epdb2.il" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2663272d9cfc479e8dd6e758d166571b15000/92/385b744d/IRequestHandler`2.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a6b7f037ba7b44df80b8d3aa7e58eeb2e8e938/b8/3e08f498/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/12f8d680aa1c5ae78dc1fb7cf8212be01e323372dbe3b9b87360e27c58936a/IRequest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/595a766ed7f61b215a7ac7769e9641c57e332cf488a1a7ff65ff95ea15ba7/MailAddress.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/758adc83fd8d9792ed96a07b4f55d697c2461ef31e29b74af8cc5fcbd628/DataAnnotationsValidator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Common/Mapping/MappingConfigurations.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/DTOs/CreateManagerDto.cs" root0="FORCE_HIGHLIGHTING" />
@@ -107,11 +140,41 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdQuery.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/AuditLogs/AuditLog.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/AuditLogs/Enums/AuditAction.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Complaint.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/ComplaintUpdate.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintCategory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintPriority.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintStatus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Managers/Enums/ManagerStatus.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Payments/Enums/PaymentStatus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Payments/Payment.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Repositories/IRepositories.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Residence/Residence.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Residences/Residence.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Residences/ResidenceFacilities.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Rooms/Enums/RoomAmenities.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Rooms/Enums/RoomType.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Rooms/Room.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/Enums/Gender.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/Enums/StudentStatus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Users/ApplicationUser.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/Address.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/DateRange.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/Email.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/Mony.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/PhoneNumber.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/ValueObject.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/AuditLogConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ComplaintConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ManagerConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/PaymentConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ResidenceConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/RoomConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/StudentConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/GenericRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ConfirmDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
@@ -120,6 +183,9 @@
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Weather.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -131,22 +197,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Debug",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.SRMS.WebUI.Server: http.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="  Id: Guid       FirstName: string   LastName: string   Email: string   PhoneNumber: string   Address: stirng   ImagePath : string " />
@@ -208,7 +274,10 @@
       <workItem from="1761466122427" duration="151000" />
       <workItem from="1761466618301" duration="434000" />
       <workItem from="1761467118462" duration="325000" />
-      <workItem from="1761506454984" duration="6316000" />
+      <workItem from="1761506454984" duration="7665000" />
+      <workItem from="1761644248634" duration="28265000" />
+      <workItem from="1761674412322" duration="3285000" />
+      <workItem from="1761934515671" duration="2707000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency.">
       <option name="closed" value="true" />
@@ -250,7 +319,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761157535864</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Refactor and extend application with Manager entity support, unify repository interfaces&#10;&#10;- Replaced `IStudentRepository` and `IDataServices` with a generic `IRepositories` interface for consistency.&#10;- Introduced CRUD functionality for the Manager entity using CQRS with MediatR (`CreateManagerCommand`, `UpdateManagerCommand`, etc.).&#10;- Added DTOs for Manager feature (`ManagerDto`, `CreateManagerDto`, `UpdateManagerDto`) and integrated Mapster for mappings.&#10;- Updated Students and Managers to include relationships.&#10;- Refined Student Info feature, removed unused files, and improved UI logic for better user experience.&#10;- Updated migrations and DbContext to accommodate new Manager entity and relationships.">
+      <option name="closed" value="true" />
+      <created>1761515219489</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1761515219489</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,7 +353,8 @@
     <MESSAGE value="Implement CRUD functionality for Students with CQRS&#10;&#10;Added `DeleteStudentCommandHandler` and UI pages for managing students (`CreateStudent`, `Students`, etc.). Refactored existing queries/commands (`CreateStudentCommand`, `GetStudentQuery`) to utilize DTOs and Mapster for mapping. Integrated reusable components like `ConfirmDialog`. Enhanced the Application layer with validation, mapping, and asynchronous patterns." />
     <MESSAGE value="Remove temporary IntelliJ `.idea` files and unshelved patches&#10;&#10;Deleted unnecessary `.idea` files and shelved patches, cleaning up the project structure and ensuring only required configuration files are retained." />
     <MESSAGE value="Update workspace.xml to use escaped characters for XML compatibility&#10;&#10;Refactored `.idea` configuration by replacing CDATA sections with properly escaped characters to ensure XML compliance and improve file readability." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update workspace.xml to use escaped characters for XML compatibility&#10;&#10;Refactored `.idea` configuration by replacing CDATA sections with properly escaped characters to ensure XML compliance and improve file readability." />
+    <MESSAGE value="Refactor and extend application with Manager entity support, unify repository interfaces&#10;&#10;- Replaced `IStudentRepository` and `IDataServices` with a generic `IRepositories` interface for consistency.&#10;- Introduced CRUD functionality for the Manager entity using CQRS with MediatR (`CreateManagerCommand`, `UpdateManagerCommand`, etc.).&#10;- Added DTOs for Manager feature (`ManagerDto`, `CreateManagerDto`, `UpdateManagerDto`) and integrated Mapster for mappings.&#10;- Updated Students and Managers to include relationships.&#10;- Refined Student Info feature, removed unused files, and improved UI logic for better user experience.&#10;- Updated migrations and DbContext to accommodate new Manager entity and relationships." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor and extend application with Manager entity support, unify repository interfaces&#10;&#10;- Replaced `IStudentRepository` and `IDataServices` with a generic `IRepositories` interface for consistency.&#10;- Introduced CRUD functionality for the Manager entity using CQRS with MediatR (`CreateManagerCommand`, `UpdateManagerCommand`, etc.).&#10;- Added DTOs for Manager feature (`ManagerDto`, `CreateManagerDto`, `UpdateManagerDto`) and integrated Mapster for mappings.&#10;- Updated Students and Managers to include relationships.&#10;- Refined Student Info feature, removed unused files, and improved UI logic for better user experience.&#10;- Updated migrations and DbContext to accommodate new Manager entity and relationships." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

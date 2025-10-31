@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SRMS.Application.Students.DTOs;
+namespace SRMS.Application.Students.DTOs.StudentDTOs;
 
 // DTO للتحديث
 public class UpdateStudentDto
@@ -21,8 +21,8 @@ public class UpdateStudentDto
     public string Email { get; set; } = string.Empty;
 
     [Phone(ErrorMessage = "Invalid phone number")]
-    public string? PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = string.Empty;
 
     [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters")]
-    public string? Address { get; set; }
+    public string Address { get; set; } = string.Empty;
 }

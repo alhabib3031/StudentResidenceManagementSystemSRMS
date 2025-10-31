@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <Folder Include="Residences\" />
+      <Folder Include="Students\DTOs\ValueObjectDTOs\" />
     </ItemGroup>
 
 </Project>

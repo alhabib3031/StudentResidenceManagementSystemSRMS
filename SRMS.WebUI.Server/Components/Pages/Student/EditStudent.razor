@@ -1,4 +1,5 @@
 ﻿@page "/students/edit/{Id:guid}"
+@using SRMS.Application.Students.DTOs.StudentDTOs
 @rendermode InteractiveServer
 @inject ISender Sender
 @inject NavigationManager Navigation
@@ -137,7 +138,7 @@
                     Id = student.Id,
                     FirstName = student.FirstName,
                     LastName = student.LastName,
-                    Email = student.Email,
+                    Email = student.Email, // هنا لازم اندير تحقق try catch or throw exported exception
                     PhoneNumber = student.PhoneNumber,
                     Address = student.Address
                 };

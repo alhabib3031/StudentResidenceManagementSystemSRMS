@@ -1,4 +1,5 @@
 ﻿@page "/students"
+@using SRMS.Application.Students.DTOs.StudentDTOs
 @rendermode InteractiveServer
 @inject ISender Sender
 @inject IDialogService DialogService
@@ -53,8 +54,12 @@
                     <MudTd DataLabel="Full Name">
                         <MudText Typo="Typo.body2">@context.FullName</MudText>
                     </MudTd>
-                    <MudTd DataLabel="Email">@context.Email</MudTd>
-                    <MudTd DataLabel="Phone">@context.PhoneNumber</MudTd>
+                    <MudTd DataLabel="Email">
+                        <MudText Typo="Typo.body2">@(context.Email)</MudText>
+                    </MudTd>
+                    <MudTd DataLabel="Phone">
+                        <MudText Typo="Typo.body2">@(context.PhoneNumber)</MudText>
+                    </MudTd>
                     <MudTd DataLabel="Status">
                         <MudChip
                             T="bool"

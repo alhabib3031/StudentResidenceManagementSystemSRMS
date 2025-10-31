@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SRMS.Domain.ValueObjects;
 
 namespace SRMS.Application.Managers.DTOs;
 
@@ -17,8 +18,8 @@ public class CreateManagerDto
     public string Email { get; set; } = string.Empty;
 
     [Phone(ErrorMessage = "Invalid phone number")]
-    public string? PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = string.Empty;
 
     [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters")]
-    public string? Address { get; set; }
+    public string Address { get; set; } = string.Empty;
 }

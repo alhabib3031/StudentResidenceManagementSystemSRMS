@@ -1,4 +1,5 @@
 ﻿@page "/students/{Id:guid}"
+@using SRMS.Application.Students.DTOs.StudentDTOs
 @rendermode InteractiveServer
 @inject ISender Sender
 @inject NavigationManager Navigation
@@ -73,14 +74,14 @@
                                 <MudItem xs="12" sm="6">
                                     <MudText Typo="Typo.caption" Color="Color.Secondary">Phone Number</MudText>
                                     <MudText Typo="Typo.body1" Class="mb-3">
-                                        @(_student.PhoneNumber ?? "N/A")
+                                        @((object)_student.PhoneNumber! ?? "N/A")
                                     </MudText>
                                 </MudItem>
                                 
                                 <MudItem xs="12">
                                     <MudText Typo="Typo.caption" Color="Color.Secondary">Address</MudText>
                                     <MudText Typo="Typo.body1" Class="mb-3">
-                                        @(_student.Address ?? "N/A")
+                                        @((object)_student.Address! ?? "N/A")
                                     </MudText>
                                 </MudItem>
                             </MudGrid>
