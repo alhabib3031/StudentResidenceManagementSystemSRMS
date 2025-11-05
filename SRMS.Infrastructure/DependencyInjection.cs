@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SRMS.Domain.Managers;
 using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
 using SRMS.Infrastructure.Repositories;
@@ -15,6 +16,7 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IRepositories<Student>, StudentRepository>();
+        services.AddScoped<IRepositories<Manager>, ManagerRepository>();
         
         return services;
     }

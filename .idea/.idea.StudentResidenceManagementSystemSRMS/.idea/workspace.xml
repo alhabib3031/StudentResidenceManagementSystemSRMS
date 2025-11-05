@@ -13,38 +13,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommandHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/CreateManagerDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/ManagerDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DTOs/UpdateManagerDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DeleteManager/DeleteManagerCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DeleteManager/DeleteManagerCommandHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/GetManager/GetManagerQuery.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/GetManager/GetManagerQueryHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/GetManagerById/GetManagerByIdQuery.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/GetManagerById/GetManagerByIdQueryHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommandHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Repositories/IRepositories.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Residence/Residence.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/ManagerRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/SRMS.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/SharedServices/IDataServices.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Students/IStudentRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommand.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/StudentIfo.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Migrations/20251014171556_Initial.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Migrations/20251014171556_Initial.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/SRMS.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/SRMS.Infrastructure.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="f5898ccec5983b68570b0a006a510ec82b92cce7" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -78,8 +54,10 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/cb2fe2a95e1947b6b256a7edc555c66e4400/21/d55b6850/0200000Fpdb4.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/cb2fe2a95e1947b6b256a7edc555c66e4400/6f/31b77b74/02000005pdb12.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/dce8f498b0cb4d63bbe0ca6caca4823711800/86/1851ccda/0200000Epdb2.il" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2663272d9cfc479e8dd6e758d166571b15000/92/385b744d/IRequestHandler`2.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a6b7f037ba7b44df80b8d3aa7e58eeb2e8e938/b8/3e08f498/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/12f8d680aa1c5ae78dc1fb7cf8212be01e323372dbe3b9b87360e27c58936a/IRequest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/595a766ed7f61b215a7ac7769e9641c57e332cf488a1a7ff65ff95ea15ba7/MailAddress.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/758adc83fd8d9792ed96a07b4f55d697c2461ef31e29b74af8cc5fcbd628/DataAnnotationsValidator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
@@ -96,9 +74,6 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/CreateStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/UpdateStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" root0="FORCE_HIGHLIGHTING" />
@@ -109,15 +84,17 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Repositories/IRepositories.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Residence/Residence.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Users/ApplicationUser.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/ManagerRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ConfirmDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Weather.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://diff.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -133,12 +110,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Debug",
+    ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feature/complete-system",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
