@@ -22,7 +22,7 @@ public class AuditLog
     public DateTime Timestamp { get; set; }
     
     // How (كيف)
-    public AuditAction AuditAction { get; set; } // enums
+    public AuditAction AuditAction { get; set; }
     
     // Changes (التغييرات)
     public string? OldValues { get; set; }  // JSON

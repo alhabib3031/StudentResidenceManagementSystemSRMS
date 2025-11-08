@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using SRMS.Domain.Abstractions;
 using SRMS.Domain.Repositories;
-using SRMS.Domain.Students;
 
 namespace SRMS.Infrastructure.Repositories;
 

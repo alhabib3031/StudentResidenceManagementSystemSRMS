@@ -3,11 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SRMS.Domain.Complaints;
 using SRMS.Domain.Managers;
-using SRMS.Domain.Payments;
 using SRMS.Domain.Repositories;
-using SRMS.Domain.Residence;
 using SRMS.Domain.Residences;
-using SRMS.Domain.Rooms;
 using SRMS.Domain.Students;
 using SRMS.Infrastructure.Repositories;
 
@@ -54,12 +51,12 @@ public static class DependencyInjection
         // services.AddScoped<IRepositories<Manager>, ManagerRepository>();
         
         // يمكنك أيضاً تسجيلها بشكل صريح:
-        services.AddScoped<IRepositories<Student>, GenericRepository<Student>>();
-        services.AddScoped<IRepositories<Manager>, GenericRepository<Manager>>();
-        services.AddScoped<IRepositories<Residence>, GenericRepository<Residence>>();
-        services.AddScoped<IRepositories<Room>, GenericRepository<Room>>();
-        services.AddScoped<IRepositories<Payment>, GenericRepository<Payment>>();
-        services.AddScoped<IRepositories<Complaint>, GenericRepository<Complaint>>();
+        // services.AddScoped<IRepositories<Student>, GenericRepository<Student>>();
+        // services.AddScoped<IRepositories<Manager>, GenericRepository<Manager>>();
+        // services.AddScoped<IRepositories<Residence>, GenericRepository<Residence>>();
+        // services.AddScoped<IRepositories<Room>, GenericRepository<Room>>();
+        // services.AddScoped<IRepositories<Payment>, GenericRepository<Payment>>();
+        // services.AddScoped<IRepositories<Complaint>, GenericRepository<Complaint>>();
         
         return services;
     }

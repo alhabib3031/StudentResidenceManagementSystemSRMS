@@ -1,11 +1,4 @@
-﻿using SRMS.Domain.Abstractions;
-using SRMS.Domain.Managers;
-using SRMS.Domain.Residence;
-using SRMS.Domain.Residences;
-using SRMS.Domain.Rooms;
-using SRMS.Domain.ValueObjects;
-
-namespace SRMS.Domain.Residences;
+﻿namespace SRMS.Domain.Residences;
 
 /// <summary>
 /// Residence (السكن) - Aggregate Root
@@ -19,8 +12,8 @@ public class Residence : Entity
     public string? Description { get; private set; }
     
     // Capacity (السعة)
-    private int TotalCapacity { get; set; }
-    private int AvailableCapacity { get; set; }
+    public int TotalCapacity { get; private set; }
+    public int AvailableCapacity { get; private set; }
     public bool IsFull => AvailableCapacity <= 0;
     
     // Pricing

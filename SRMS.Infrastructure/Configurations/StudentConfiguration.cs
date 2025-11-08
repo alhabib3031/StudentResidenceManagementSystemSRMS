@@ -4,7 +4,7 @@ using SRMS.Domain.Students;
 
 namespace SRMS.Infrastructure.Configurations;
 
-// <summary>
+/// <summary>
 /// StudentConfiguration - تكوين Student Entity
 /// </summary>
 public class StudentConfiguration : IEntityTypeConfiguration<Student>

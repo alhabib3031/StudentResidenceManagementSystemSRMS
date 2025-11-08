@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SRMS.Domain.Complaints;
 
-namespace SRMS.Domain.Configurations;
+namespace SRMS.Infrastructure.Configurations;
 
 /// <summary>
 /// ComplaintConfiguration

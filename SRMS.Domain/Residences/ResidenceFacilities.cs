@@ -1,4 +1,4 @@
-﻿namespace SRMS.Domain.Residence;
+﻿namespace SRMS.Domain.Residences;
 
 /// <summary>
 /// ResidenceFacilities - المرافق المتوفرة في السكن
