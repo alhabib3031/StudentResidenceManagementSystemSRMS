@@ -1,4 +1,7 @@
 ﻿using SRMS.Domain.Abstractions;
+using SRMS.Domain.Common.ValueObjects;
+using SRMS.Domain.Managers.Enums;
+using SRMS.Domain.Residences;
 using SRMS.Domain.Students;
 
 namespace SRMS.Domain.Managers;

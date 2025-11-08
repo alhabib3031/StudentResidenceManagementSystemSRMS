@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SRMS.Domain.Residences;
 
 namespace SRMS.Infrastructure.Configurations;
 

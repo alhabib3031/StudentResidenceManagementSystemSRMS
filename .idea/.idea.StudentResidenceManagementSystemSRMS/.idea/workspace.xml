@@ -13,39 +13,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/AuditLogs/AuditLog.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/AuditLogs/Enums/AuditAction.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/Address.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/DateRange.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/Email.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/Mony.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/PhoneNumber.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/ValueObject.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/Complaint.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/ComplaintUpdate.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintCategory.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintPriority.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintStatus.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Managers/Enums/ManagerStatus.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Residences/Residence.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Residences/ResidenceFacilities.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Enums/Gender.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Enums/StudentStatus.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/AuditLogConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ComplaintConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ManagerConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/PaymentConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ResidenceConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/RoomConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/StudentConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/GenericRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Common/Mapping/MappingConfigurations.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Residences/Residence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Residences/Residence.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/ManagerRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Repositories/StudentRepository.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/PaymentConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/PaymentConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ResidenceConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ResidenceConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/RoomConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/RoomConfiguration.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,22 +134,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.SRMS.WebUI.Server: http.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/complete-system&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="  Id: Guid       FirstName: string   LastName: string   Email: string   PhoneNumber: string   Address: stirng   ImagePath : string " />

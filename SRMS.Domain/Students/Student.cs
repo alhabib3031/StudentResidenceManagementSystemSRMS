@@ -2,6 +2,8 @@
 using SRMS.Domain.Common.ValueObjects;
 using SRMS.Domain.Complaints;
 using SRMS.Domain.Managers;
+using SRMS.Domain.Payments;
+using SRMS.Domain.Rooms;
 using SRMS.Domain.Students.Enums;
 
 namespace SRMS.Domain.Students;
