@@ -3,14 +3,38 @@ using SRMS.Domain.Students;
 
 namespace SRMS.Domain.Managers;
 
+/// <summary>
+/// Manager - مدير السكن
+/// </summary>
 public class Manager : Entity
 {
-    public string? FirstName { get; set; }
-    public string? LastName { get; set; }
-    public string? Email { get; set; }
-    public string? PhoneNumber { get; set; }
-    public string? Address { get; set; }
-    public string? ImagePath { get; set; }
+    // Personal Information
+    public string FirstName { get; private set; } = string.Empty;
+    public string LastName { get; private set; } = string.Empty;
+    public string FullName => $"{FirstName} {LastName}";
     
-    public ICollection<Student> Students { get; set; } = new List<Student>();
+    // Contact Information
+    public Email Email { get; private set; } = null!;
+    public PhoneNumber? PhoneNumber { get; private set; }
+    public Address? Address { get; private set; }
+    
+    // Profile
+    public string? ImagePath { get; private set; }
+    public string? EmployeeNumber { get; private set; }
+    public DateTime? HireDate { get; private set; }
+    
+    // Assigned Residences
+    private readonly List<Residence> _residences = new();
+    public IReadOnlyCollection<Residence> Residences => _residences.AsReadOnly();
+    
+    // Managed Students
+    private readonly List<Student> _students = new();
+    public IReadOnlyCollection<Student> Students => _students.AsReadOnly();
+    
+    // Working Hours
+    public TimeSpan? WorkingHoursStart { get; private set; }
+    public TimeSpan? WorkingHoursEnd { get; private set; }
+    
+    // Status
+    public ManagerStatus Status { get; private set; }
 }
