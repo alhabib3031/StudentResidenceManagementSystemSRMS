@@ -1,0 +1,215 @@
+﻿// ============================================================
+// SUPERROOT DASHBOARD (Blazor Component)
+// ============================================================
+@page "/superroot"
+@attribute [Authorize(Policy = "SuperRootOnly")]
+@using Microsoft.AspNetCore.Authorization
+@using SRMS.Application.Identity.DTOs
+@using SRMS.Application.Identity.Interfaces
+@inject IUserService UserService
+@inject IRoleService RoleService
+@inject NavigationManager Navigation
+
+<div class="superroot-dashboard">
+    <h1>🔐 SuperRoot Dashboard</h1>
+    <p class="text-muted">Welcome, @currentUser?.FullName. You have full system access.</p>
+    
+    <div class="row mt-4">
+        <!-- User Management -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-users"></i> User Management
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="/superroot/users">Manage All Users</a></li>
+                        <li><a href="/superroot/users/create">Create User</a></li>
+                        <li><a href="/superroot/users/bulk-import">Bulk Import</a></li>
+                        <li><a href="/superroot/users/activity">User Activity Logs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Role Management -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <i class="fas fa-user-shield"></i> Role Management
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="/superroot/roles">Manage Roles</a></li>
+                        <li><a href="/superroot/roles/create">Create Role</a></li>
+                        <li><a href="/superroot/permissions">Manage Permissions</a></li>
+                        <li><a href="/superroot/roles/assign">Assign Roles</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- System Configuration -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <i class="fas fa-cog"></i> System Configuration
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="/superroot/settings">System Settings</a></li>
+                        <li><a href="/superroot/email-config">Email Configuration</a></li>
+                        <li><a href="/superroot/sms-config">SMS Configuration</a></li>
+                        <li><a href="/superroot/payment-config">Payment Gateway</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+        <!-- Database Management -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <i class="fas fa-database"></i> Database Management
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="/superroot/database/backup">Backup Database</a></li>
+                        <li><a href="/superroot/database/restore">Restore Database</a></li>
+                        <li><a href="/superroot/database/migrations">Manage Migrations</a></li>
+                        <li><a href="/superroot/database/cleanup">Data Cleanup</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Audit & Logs -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <i class="fas fa-file-alt"></i> Audit & Logs
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="/superroot/audit/users">User Audit Log</a></li>
+                        <li><a href="/superroot/audit/system">System Audit Log</a></li>
+                        <li><a href="/superroot/audit/errors">Error Logs</a></li>
+                        <li><a href="/superroot/audit/security">Security Events</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Advanced Features -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <i class="fas fa-tools"></i> Advanced Features
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="/superroot/maintenance">Maintenance Mode</a></li>
+                        <li><a href="/superroot/cache">Clear Cache</a></li>
+                        <li><a href="/superroot/jobs">Background Jobs</a></li>
+                        <li><a href="/superroot/api-keys">API Keys</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+        <!-- Statistics -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i> System Statistics
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <h3>@totalUsers</h3>
+                            <p class="text-muted">Total Users</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3>@activeUsers</h3>
+                            <p class="text-muted">Active Users</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3>@totalRoles</h3>
+                            <p class="text-muted">Total Roles</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3>@systemUptime</h3>
+                            <p class="text-muted">System Uptime (days)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Danger Zone -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <i class="fas fa-exclamation-triangle"></i> Danger Zone
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger">
+                        <strong>Warning!</strong> The actions below are irreversible and can cause system-wide issues.
+                    </div>
+                    <button class="btn btn-danger" @onclick="ShowDeleteAllDataModal">
+                        <i class="fas fa-trash"></i> Delete All Data
+                    </button>
+                    <button class="btn btn-warning ml-2" @onclick="ResetToDefaults">
+                        <i class="fas fa-undo"></i> Reset to Defaults
+                    </button>
+                    <button class="btn btn-secondary ml-2" @onclick="GenerateTestData">
+                        <i class="fas fa-vial"></i> Generate Test Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private UserDto? currentUser;
+    private int totalUsers;
+    private int activeUsers;
+    private int totalRoles;
+    private int systemUptime = 30;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        // Load statistics
+        await LoadStatistics();
+    }
+    
+    private async Task LoadStatistics()
+    {
+        // TODO: Implement actual statistics loading
+        totalUsers = 150;
+        activeUsers = 120;
+        totalRoles = 4;
+    }
+    
+    private void ShowDeleteAllDataModal()
+    {
+        // TODO: Show confirmation modal
+    }
+    
+    private async Task ResetToDefaults()
+    {
+        // TODO: Implement reset functionality
+    }
+    
+    private async Task GenerateTestData()
+    {
+        // TODO: Generate test data
+    }
+}

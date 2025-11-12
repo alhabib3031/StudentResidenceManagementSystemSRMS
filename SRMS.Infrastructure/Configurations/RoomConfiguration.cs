@@ -13,12 +13,23 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
     {
         builder.HasKey(r => r.Id);
         
-        builder.Property(r => r.RoomNumber).HasMaxLength(20).IsRequired();
-        builder.Property(r => r.Floor).IsRequired();
-        builder.Property(r => r.RoomType).IsRequired();
+        builder.Property(r => r.RoomNumber)
+            .HasMaxLength(50)
+            .IsRequired();
         
-        builder.OwnsOne(r => r.Amenities);
+        builder.Property(r => r.Floor)
+            .IsRequired();
         
+        builder.Property(r => r.RoomType)
+            .IsRequired();
+        
+        builder.Property(r => r.TotalBeds)
+            .IsRequired();
+        
+        builder.Property(r => r.OccupiedBeds)
+            .IsRequired();
+        
+        // Relationships
         builder.HasOne(r => r.Residence)
             .WithMany(res => res.Rooms)
             .HasForeignKey(r => r.ResidenceId)
@@ -29,7 +40,20 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
             .HasForeignKey(s => s.RoomId)
             .OnDelete(DeleteBehavior.SetNull);
         
-        builder.HasIndex(r => new { r.ResidenceId, r.RoomNumber }).IsUnique();
+        // Indexes
+        builder.HasIndex(r => new { r.ResidenceId, r.RoomNumber })
+            .IsUnique()
+            .HasDatabaseName("IX_Rooms_Residence_RoomNumber");
+        
+        builder.HasIndex(r => r.IsDeleted)
+            .HasDatabaseName("IX_Rooms_IsDeleted");
+
+        builder.HasIndex(r => new { r.ResidenceId, r.IsFull })
+            .HasDatabaseName("IX_Rooms_Residence_IsFull");
+        
+        builder.Ignore(r => r.IsFull);
+        
+        // Query Filter
         builder.HasQueryFilter(r => !r.IsDeleted);
         
         builder.ToTable("Rooms");

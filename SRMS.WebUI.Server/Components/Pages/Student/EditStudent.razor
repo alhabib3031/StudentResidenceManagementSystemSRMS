@@ -1,5 +1,4 @@
 ﻿@page "/students/edit/{Id:guid}"
-@using SRMS.Application.Students.DTOs.StudentDTOs
 @rendermode InteractiveServer
 @inject ISender Sender
 @inject NavigationManager Navigation
@@ -59,14 +58,14 @@
                             Variant="Variant.Outlined" />
                     </MudItem>
                     
-                    <MudItem xs="12">
-                        <MudTextField 
-                            Label="Address" 
-                            @bind-Value="_updateStudentDto.Address"
-                            For="@(() => _updateStudentDto.Address)"
-                            Variant="Variant.Outlined"
-                            Lines="3" />
-                    </MudItem>
+                    @* <MudItem xs="12"> *@
+                    @*     <MudTextField  *@
+                    @*         Label="Address"  *@
+                    @*         $1$ @bind-Value="_updateStudentDto.Address" #1# *@
+                    @*         $1$ For="@(() => _updateStudentDto.Address)" #1# *@
+                    @*         Variant="Variant.Outlined" *@
+                    @*         Lines="3" /> *@
+                    @* </MudItem> *@
                     
                     <MudItem xs="12" Class="d-flex gap-4">
                         <MudButton 
@@ -140,7 +139,7 @@
                     LastName = student.LastName,
                     Email = student.Email, // هنا لازم اندير تحقق try catch or throw exported exception
                     PhoneNumber = student.PhoneNumber,
-                    Address = student.Address
+                    // Address = student.Address
                 };
             }
         }

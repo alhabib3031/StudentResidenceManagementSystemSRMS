@@ -1,11 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SRMS.Application.Identity.Interfaces;
+using SRMS.Application.Notifications.Interfaces;
+using SRMS.Application.SuperRoot.Interfaces;
 using SRMS.Domain.Complaints;
 using SRMS.Domain.Managers;
 using SRMS.Domain.Repositories;
 using SRMS.Domain.Residences;
 using SRMS.Domain.Students;
+using SRMS.Infrastructure.Configurations.Services;
 using SRMS.Infrastructure.Repositories;
 
 namespace SRMS.Infrastructure;
@@ -45,6 +49,16 @@ public static class DependencyInjection
         
         // Generic Repository لكل الكيانات
         services.AddScoped(typeof(IRepositories<>), typeof(GenericRepository<>));
+        
+        // Adding services and interfaces
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<ISMSService, SMSService>();
+        services.AddScoped<ISuperRootService, SuperRootService>();
+        services.AddScoped<IUserService, UserService>();
+        
         
         // إذا كنت تريد Repositories مخصصة:
         // services.AddScoped<IRepositories<Student>, StudentRepository>();

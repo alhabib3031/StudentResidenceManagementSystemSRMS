@@ -2,10 +2,10 @@
 
 public enum ComplaintStatus
 {
-    Submitted = 1,
-    UnderReview = 2,
-    InProgress = 3,
-    Resolved = 4,
-    Closed = 5,
-    Rejected = 6
+    Open = 0,           // مفتوحة
+    InProgress = 1,     // قيد المعالجة
+    Resolved = 2,       // تم الحل
+    Closed = 3,         // مغلقة
+    Cancelled = 4,      // ملغاة
+    Reopened = 5        // تم إعادة الفتح
 }

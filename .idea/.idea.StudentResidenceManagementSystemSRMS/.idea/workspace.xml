@@ -14,14 +14,21 @@
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Common/Mapping/MappingConfigurations.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Residences/Residence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Residences/Residence.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Common/Mappings/MapsterConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Common/Mappings/MapsterConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Domain/ValueObjects/Mony.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/ValueObjects/Mony.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/PaymentConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/PaymentConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ResidenceConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ResidenceConfiguration.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/RoomConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/RoomConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/EmailService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/NotificationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/NotificationService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/RoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/RoleService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SMSService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SMSService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SuperRootService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SuperRootService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +41,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="f5898ccec5983b68570b0a006a510ec82b92cce7" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,13 +63,45 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/cb2fe2a95e1947b6b256a7edc555c66e4400/6f/31b77b74/02000005pdb12.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/ILViewer/dce8f498b0cb4d63bbe0ca6caca4823711800/86/1851ccda/0200000Epdb2.il" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2663272d9cfc479e8dd6e758d166571b15000/92/385b744d/IRequestHandler`2.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2900c4feb0ef45c6a383943c0af258ea1a928/4f/999e1613/IdentityDbContext`1.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a6b7f037ba7b44df80b8d3aa7e58eeb2e8e938/b8/3e08f498/ExceptionDispatchInfo.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a9ce663431c24c9aba988159f5e36465291420/6d/f45f99e9/DbContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/12f8d680aa1c5ae78dc1fb7cf8212be01e323372dbe3b9b87360e27c58936a/IRequest.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/595a766ed7f61b215a7ac7769e9641c57e332cf488a1a7ff65ff95ea15ba7/MailAddress.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6fa05d7dbf2e454ce78b261b422234da1f1ccedee678fd997e5ef4afe6df6e/ControllerBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/758adc83fd8d9792ed96a07b4f55d697c2461ef31e29b74af8cc5fcbd628/DataAnnotationsValidator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f9342fb513b7b524925c79d9822cd3ecaf072c50231aa3b469875f4c2cdf/IdentityDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Common/Mappings/MapsterConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/AssignComplaint/AssignComplaintCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/AssignComplaint/AssignComplaintCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/CreateComplaint/CreateComplaintCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/CreateComplaint/CreateComplaintCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/DTOs/ComplaintDetailsDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/DTOs/ComplaintDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/DTOs/ComplaintUpdateDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/DTOs/CreateComplaintDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/DTOs/UpdateComplaintDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/ResolveComplaint/ResolveComplaintCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/ResolveComplaint/ResolveComplaintCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/UpdateComplaint/UpdateComplaintCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/UpdateComplaint/UpdateComplaintCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/ChangePasswordDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/ForgotPasswordDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/GoogleAuthDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/LoginDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/LoginResponseDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/RegisterDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/ResetPasswordDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/UpdateUserDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/UserDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/DTOs/VerifyEmailDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/Interfaces/IAuthService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/Interfaces/IRoleService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Identity/Interfaces/IUserService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/DTOs/CreateManagerDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/DTOs/ManagerDetailsDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/DTOs/ManagerDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/DTOs/UpdateManagerDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/DeleteManager/DeleteManagerCommand.cs" root0="FORCE_HIGHLIGHTING" />
@@ -73,52 +112,125 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/GetManagerById/GetManagerByIdQueryHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/CreateNotification/CreateNotificationCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/CreateNotification/CreateNotificationCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/DTOs/CreateNotificationDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/DTOs/NotificationDetailsDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/DTOs/NotificationDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/Interfaces/IEmailService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/Interfaces/IInAppNotificationService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/Interfaces/INotificationService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/Interfaces/ISMSService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/MarkAsRead/MarkNotificationAsReadCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/MarkAsRead/MarkNotificationAsReadCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/CreatePayment/CreatePaymentCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/CreatePayment/CreatePaymentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/DTOs/CreatePaymentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/DTOs/PaymentDetailsDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/DTOs/PaymentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/DTOs/UpdatePaymentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/UpdatePayment/UpdatePaymentCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/UpdatePayment/UpdatePaymentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Residences/DTOs/CreateResidenceDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Residences/DTOs/ResidenceDetailsDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Residences/DTOs/ResidenceDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Residences/DTOs/UpdateResidenceDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/CreateRoom/CreateRoomCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/CreateRoom/CreateRoomCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/DTOs/CreateRoomDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/DTOs/RoomDetailsDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/DTOs/RoomDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/DTOs/RoomStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/DTOs/UpdateRoomDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/UpdateRoom/UpdateRoomCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/UpdateRoom/UpdateRoomCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/CreateStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDetailsDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/StudentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/UpdateStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdQuery.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudentDetails/GetStudentDetailsQuery.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudentDetails/GetStudentDetailsQueryHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/SuperRoot/Interfaces/ISuperRootService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.Domain/AuditLogs/AuditLog.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/AuditLogs/AuditLog.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.Domain/AuditLogs/AuditLog.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/AuditLogs/Enums/AuditAction.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/Address.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/DateRange.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/Email.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/Mony.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/PhoneNumber.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Common/ValueObjects/ValueObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Complaint.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/ComplaintUpdate.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintCategory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintPriority.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintStatus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Extensions/EnumExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Identity/ApplicationRole.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Identity/ApplicationUser.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Identity/Constants/Roles.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Managers/Enums/ManagerStatus.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Managers/Manager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Notifications/Enums/NotificationPriority.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Notifications/Enums/NotificationStatus.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Notifications/Enums/NotificationType.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Notifications/Notification.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Payments/Enums/PaymentMethod.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Repositories/IRepositories.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Residences/Residence.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Residences/ResidenceFacilities.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/Enums/Gender.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/Enums/StudentStatus.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Students/Student.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Users/ApplicationUser.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/Address.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/DateRange.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/Email.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Domain/ValueObjects/PhoneNumber.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/AuditLogConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.Infrastructure/Configurations/AuditLogConfiguration.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.Infrastructure/Configurations/AuditLogConfiguration.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.Infrastructure/Configurations/ComplaintConfiguration.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ComplaintConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.Infrastructure/Configurations/ComplaintConfiguration.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Data/IdentityDataSeeder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ManagerConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/NotificationConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/PaymentConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ResidenceConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/RoomConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuthService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/EmailService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/NotificationService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/RoleService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SMSService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SuperRootService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/UserService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/StudentConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Controllers/AuthController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Data/IdentityDataSeeder.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.Infrastructure/Migrations/ApplicationDbContextModelSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/GenericRepository.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Services/AuthService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Services/EmailService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Services/NotificationService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Services/RoleService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Services/SMSService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Services/SuperRootService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Services/UserService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ConfirmDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Weather.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.WebUI.Server/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://diff.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="mock://diff.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
@@ -141,7 +253,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feature/add-auth-and-complete-dtos",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -261,7 +373,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762371163110</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="commit after merging complete-system pranch with main">
+      <option name="closed" value="true" />
+      <created>1762622114468</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1762622114468</updated>
+    </task>
+    <task id="LOCAL-00008" summary="complete entitys and add dtos adding google auth external api and create rolse and one page for supper root">
+      <option name="closed" value="true" />
+      <created>1762891270291</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1762891270291</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -288,7 +416,9 @@
     <MESSAGE value="Remove temporary IntelliJ `.idea` files and unshelved patches&#10;&#10;Deleted unnecessary `.idea` files and shelved patches, cleaning up the project structure and ensuring only required configuration files are retained." />
     <MESSAGE value="Update workspace.xml to use escaped characters for XML compatibility&#10;&#10;Refactored `.idea` configuration by replacing CDATA sections with properly escaped characters to ensure XML compliance and improve file readability." />
     <MESSAGE value="downgrade to last commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="downgrade to last commit" />
+    <MESSAGE value="commit after merging complete-system pranch with main" />
+    <MESSAGE value="complete entitys and add dtos adding google auth external api and create rolse and one page for supper root" />
+    <option name="LAST_COMMIT_MESSAGE" value="complete entitys and add dtos adding google auth external api and create rolse and one page for supper root" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

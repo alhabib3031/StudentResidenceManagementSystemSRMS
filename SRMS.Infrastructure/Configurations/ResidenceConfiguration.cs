@@ -28,8 +28,6 @@ public class ResidenceConfiguration : IEntityTypeConfiguration<Residence>
             money.Property(m => m.Currency).HasColumnName("Currency").HasMaxLength(3);
         });
         
-        builder.OwnsOne(r => r.Facilities);
-        
         builder.Property(r => r.Name).HasMaxLength(200).IsRequired();
         builder.Property(r => r.Description).HasMaxLength(1000);
         

@@ -1,39 +1,129 @@
 ﻿using Mapster;
 using MapsterMapper;
 using MediatR;
-using SRMS.Application.Students.DTOs.StudentDTOs;
+using SRMS.Application.Students.DTOs;
 using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
+using SRMS.Domain.ValueObjects;
 
 namespace SRMS.Application.Students.CreateStudent;
 
 public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, StudentDto>
 {
     private readonly IRepositories<Student> _studentRepository;
-    private readonly IMapper _mapper;
     
-    public CreateStudentCommandHandler(IRepositories<Student> studentRepository, IMapper mapper)
+    public CreateStudentCommandHandler(IRepositories<Student> studentRepository)
     {
         _studentRepository = studentRepository;
-        _mapper = mapper;
     }
     
     public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
     {
-        // Map من DTO إلى Entity
-        // var student = request.Student.Adapt<Student>(); // هذا الاصدار الاول
-        var student = _mapper.Map<Student>(request.Student);
+        // ✅ إنشاء Student جديد
+        var student = new Student
+        {
+            Id = Guid.NewGuid(),
+            
+            // Personal Information
+            FirstName = request.Student.FirstName,
+            LastName = request.Student.LastName,
+            NationalId = request.Student.NationalId,
+            DateOfBirth = request.Student.DateOfBirth,
+            Gender = request.Student.Gender,
+            
+            // Academic Information
+            UniversityName = request.Student.UniversityName,
+            StudentNumber = request.Student.StudentNumber,
+            Major = request.Student.Major,
+            AcademicYear = request.Student.AcademicYear,
+            
+            // Emergency Contact
+            EmergencyContactName = request.Student.EmergencyContactName,
+            EmergencyContactRelation = request.Student.EmergencyContactRelation,
+            
+            // Audit
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            IsActive = true,
+            IsDeleted = false
+        };
         
-        student.Id = Guid.NewGuid();
-        student.CreatedAt = DateTime.UtcNow;
-        student.UpdatedAt = DateTime.UtcNow;
-        student.IsActive = true;
-        student.IsDeleted = false;
+        // ✅ إنشاء Email (Value Object)
+        try
+        {
+            student.Email = !string.IsNullOrWhiteSpace(request.Student.Email)
+                ? Email.Create(request.Student.Email)
+                : null;
+        }
+        catch (ArgumentException ex)
+        {
+            throw new InvalidOperationException($"Invalid email: {ex.Message}");
+        }
         
-        var createdStudent = await _studentRepository.CreateAsync(student);
+        // ✅ إنشاء PhoneNumber (Value Object)
+        try
+        {
+            student.PhoneNumber = !string.IsNullOrWhiteSpace(request.Student.PhoneNumber)
+                ? PhoneNumber.Create(
+                    request.Student.PhoneNumber,
+                    request.Student.PhoneCountryCode ?? "+218")
+                : null;
+        }
+        catch (ArgumentException ex)
+        {
+            throw new InvalidOperationException($"Invalid phone number: {ex.Message}");
+        }
         
-        // Map من Entity إلى DTO للإرجاع
-        // return createdStudent.Adapt<StudentDto>(); // هذا الاصدار الاول 
-        return _mapper.Map<StudentDto>(createdStudent);
+        // ✅ إنشاء Emergency Contact Phone (Value Object)
+        try
+        {
+            student.EmergencyContactPhone = !string.IsNullOrWhiteSpace(request.Student.EmergencyContactPhone)
+                ? PhoneNumber.Create(
+                    request.Student.EmergencyContactPhone,
+                    request.Student.EmergencyContactPhoneCountryCode ?? "+218")
+                : null;
+        }
+        catch (ArgumentException ex)
+        {
+            throw new InvalidOperationException($"Invalid emergency contact phone: {ex.Message}");
+        }
+        
+        // ✅ إنشاء Address (Value Object)
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(request.Student.AddressCity))
+            {
+                student.Address = Address.Create(
+                    city: request.Student.AddressCity,
+                    street: request.Student.AddressStreet ?? "",
+                    state: request.Student.AddressState ?? "",
+                    postalCode: request.Student.AddressPostalCode ?? "",
+                    country: request.Student.AddressCountry ?? "Libya"
+                );
+            }
+        }
+        catch (ArgumentException ex)
+        {
+            throw new InvalidOperationException($"Invalid address: {ex.Message}");
+        }
+        
+        // ✅ حفظ في قاعدة البيانات
+        var created = await _studentRepository.CreateAsync(student);
+        
+        // ✅ إرجاع DTO
+        return new StudentDto
+        {
+            Id = created.Id,
+            FirstName = created.FirstName,
+            LastName = created.LastName,
+            FullName = created.FullName,
+            Email = created.Email?.Value,
+            PhoneNumber = created.PhoneNumber?.GetFormatted(),
+            Address = created.Address?.GetFullAddress(),
+            CreatedAt = created.CreatedAt,
+            UpdatedAt = created.UpdatedAt,
+            IsActive = created.IsActive,
+            Status = created.Status
+        };
     }
 }

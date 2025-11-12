@@ -1,6 +1,6 @@
 ﻿using Mapster;
 using MediatR;
-using SRMS.Application.Students.DTOs.StudentDTOs;
+using SRMS.Application.Students.DTOs;
 using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
 

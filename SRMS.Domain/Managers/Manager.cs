@@ -1,43 +1,39 @@
 ﻿using SRMS.Domain.Abstractions;
-using SRMS.Domain.Common.ValueObjects;
 using SRMS.Domain.Managers.Enums;
 using SRMS.Domain.Residences;
 using SRMS.Domain.Students;
+using SRMS.Domain.ValueObjects;
 
 namespace SRMS.Domain.Managers;
 
 /// <summary>
-/// Manager - مدير السكن
+/// Manager Entity - مدير السكن (حامل للخصائص فقط)
 /// </summary>
 public class Manager : Entity
 {
     // Personal Information
-    public string FirstName { get; private set; } = string.Empty;
-    public string LastName { get; private set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
     public string FullName => $"{FirstName} {LastName}";
     
     // Contact Information
-    public Email Email { get; private set; } = null!;
-    public PhoneNumber? PhoneNumber { get; private set; }
-    public Address? Address { get; private set; }
+    public Email? Email { get; set; }
+    public PhoneNumber? PhoneNumber { get; set; }
+    public Address? Address { get; set; }
     
     // Profile
-    public string? ImagePath { get; private set; }
-    public string? EmployeeNumber { get; private set; }
-    public DateTime? HireDate { get; private set; }
-    
-    // Assigned Residences
-    private readonly List<Residence> _residences = new();
-    public IReadOnlyCollection<Residence> Residences => _residences.AsReadOnly();
-    
-    // Managed Students
-    private readonly List<Student> _students = new();
-    public IReadOnlyCollection<Student> Students => _students.AsReadOnly();
+    public string? ImagePath { get; set; }
+    public string? EmployeeNumber { get; set; }
+    public DateTime? HireDate { get; set; }
     
     // Working Hours
-    public TimeSpan? WorkingHoursStart { get; private set; }
-    public TimeSpan? WorkingHoursEnd { get; private set; }
+    public TimeSpan? WorkingHoursStart { get; set; }
+    public TimeSpan? WorkingHoursEnd { get; set; }
     
     // Status
-    public ManagerStatus Status { get; private set; }
+    public ManagerStatus Status { get; set; }
+    
+    // Navigation Properties
+    public ICollection<Residence> Residences { get; set; } = new List<Residence>();
+    public ICollection<Student> Students { get; set; } = new List<Student>();
 }

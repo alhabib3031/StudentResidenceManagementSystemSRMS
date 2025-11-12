@@ -1,40 +1,42 @@
 ﻿using SRMS.Domain.Abstractions;
-using SRMS.Domain.Common.ValueObjects;
 using SRMS.Domain.Managers;
 using SRMS.Domain.Rooms;
+using SRMS.Domain.ValueObjects;
 
 namespace SRMS.Domain.Residences;
 
 /// <summary>
-/// Residence (السكن) - Aggregate Root
+/// Residence Entity - السكن (حامل للخصائص فقط)
 /// </summary>
 public class Residence : Entity
 {
-    // Properties الأساسية
-    public string Name { get; private set; } = string.Empty;
-    public Address Address { get; private set; } = null!;
-    public string? ImagePath { get; private set; }
-    public string? Description { get; private set; }
+    public string Name { get; set; } = string.Empty;
+    public Address? Address { get; set; }
+    public string? ImagePath { get; set; }
+    public string? Description { get; set; }
     
-    // Capacity (السعة)
-    public int TotalCapacity { get; private set; }
-    public int AvailableCapacity { get; private set; }
+    // Capacity
+    public int TotalCapacity { get; set; }
+    public int AvailableCapacity { get; set; }
     public bool IsFull => AvailableCapacity <= 0;
     
     // Pricing
-    public Money MonthlyRent { get; private set; } = null!;
+    public Money? MonthlyRent { get; set; }
     
     // Manager
-    public Guid? ManagerId { get; private set; }
-    public Manager? Manager { get; private set; }
+    public Guid? ManagerId { get; set; }
+    public Manager? Manager { get; set; }
+    
+    // Facilities
+    public bool HasWifi { get; set; }
+    public bool HasParking { get; set; }
+    public bool HasLaundry { get; set; }
+    public bool HasGym { get; set; }
+    public bool HasSwimmingPool { get; set; }
+    public bool HasSecurity { get; set; }
+    public bool HasKitchen { get; set; }
+    public bool HasStudyRoom { get; set; }
     
     // Navigation Properties
-    private readonly List<Room> _rooms = new();
-    public IReadOnlyCollection<Room> Rooms => _rooms.AsReadOnly();
-    
-    // Facilities (المرافق)
-    public ResidenceFacilities Facilities { get; private set; } = new();
-    
-    // Private constructor لإجبار استخدام Factory Method
-    
+    public ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

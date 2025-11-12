@@ -3,7 +3,9 @@ using MediatR;
 using SRMS.Application.Managers.DTOs;
 using SRMS.Application.Students.CreateStudent;
 using SRMS.Domain.Managers;
+using SRMS.Domain.Managers.Enums;
 using SRMS.Domain.Repositories;
+using SRMS.Domain.ValueObjects;
 
 namespace SRMS.Application.Managers.CreateManager;
 
@@ -18,17 +20,93 @@ public class CreateManagerCommandHandler : IRequestHandler<CreateManagerCommand,
 
     public async Task<ManagerDto> Handle(CreateManagerCommand request, CancellationToken cancellationToken)
     {
-        // Map من DTO إلى Entity
-        var manager = request.Manager.Adapt<Manager>();
-        manager.Id = Guid.NewGuid();
-        manager.CreatedAt = DateTime.UtcNow;
-        manager.UpdatedAt = DateTime.UtcNow;
-        manager.IsActive = true;
-        manager.IsDeleted = false;
+        // ✅ إنشاء Manager جديد
+        var manager = new Manager
+        {
+            Id = Guid.NewGuid(),
+            
+            // Personal Information
+            FirstName = request.Manager.FirstName,
+            LastName = request.Manager.LastName,
+            
+            // Profile
+            EmployeeNumber = request.Manager.EmployeeNumber,
+            HireDate = request.Manager.HireDate,
+            WorkingHoursStart = request.Manager.WorkingHoursStart,
+            WorkingHoursEnd = request.Manager.WorkingHoursEnd,
+            
+            // Status
+            Status = ManagerStatus.Active,
+            
+            // Audit
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            IsActive = true,
+            IsDeleted = false
+        };
         
-        var createdStudent = await _managerRepository.CreateAsync(manager);
+        // ✅ إنشاء Email (Value Object)
+        try
+        {
+            manager.Email = !string.IsNullOrWhiteSpace(request.Manager.Email)
+                ? Email.Create(request.Manager.Email)
+                : null;
+        }
+        catch (ArgumentException ex)
+        {
+            throw new InvalidOperationException($"Invalid email: {ex.Message}");
+        }
         
-        // Map من Entity إلى DTO للإرجاع
-        return createdStudent.Adapt<ManagerDto>();
+        // ✅ إنشاء PhoneNumber (Value Object)
+        try
+        {
+            manager.PhoneNumber = !string.IsNullOrWhiteSpace(request.Manager.PhoneNumber)
+                ? PhoneNumber.Create(
+                    request.Manager.PhoneNumber,
+                    request.Manager.PhoneCountryCode ?? "+218")
+                : null;
+        }
+        catch (ArgumentException ex)
+        {
+            throw new InvalidOperationException($"Invalid phone number: {ex.Message}");
+        }
+        
+        // ✅ إنشاء Address (Value Object)
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(request.Manager.AddressCity))
+            {
+                manager.Address = Address.Create(
+                    city: request.Manager.AddressCity,
+                    street: request.Manager.AddressStreet ?? "",
+                    state: request.Manager.AddressState ?? "",
+                    postalCode: request.Manager.AddressPostalCode ?? "",
+                    country: request.Manager.AddressCountry ?? "Libya"
+                );
+            }
+        }
+        catch (ArgumentException ex)
+        {
+            throw new InvalidOperationException($"Invalid address: {ex.Message}");
+        }
+        
+        // ✅ حفظ في قاعدة البيانات - تم تصحيح اسم المتغير
+        var createdManager = await _managerRepository.CreateAsync(manager);
+        
+        // ✅ إرجاع DTO
+        return new ManagerDto
+        {
+            Id = createdManager.Id,
+            FirstName = createdManager.FirstName,
+            LastName = createdManager.LastName,
+            FullName = createdManager.FullName,
+            Email = createdManager.Email?.Value,
+            PhoneNumber = createdManager.PhoneNumber?.GetFormatted(),
+            EmployeeNumber = createdManager.EmployeeNumber,
+            Status = createdManager.Status,
+            CreatedAt = createdManager.CreatedAt,
+            UpdatedAt = createdManager.UpdatedAt,
+            IsActive = createdManager.IsActive
+        };
     }
 }

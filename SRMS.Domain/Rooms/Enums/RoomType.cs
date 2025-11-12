@@ -2,9 +2,10 @@
 
 public enum RoomType
 {
-    Single = 1,
-    Double = 2,
-    Triple = 3,
-    Quad = 4,
-    Suite = 5
+    Single = 1,         // غرفة فردية
+    Double = 2,         // غرفة مزدوجة
+    Triple = 3,         // غرفة ثلاثية
+    Quad = 4,           // غرفة رباعية
+    Dormitory = 5,      // مهجع (أكثر من 4)
+    Suite = 6           // جناح
 }

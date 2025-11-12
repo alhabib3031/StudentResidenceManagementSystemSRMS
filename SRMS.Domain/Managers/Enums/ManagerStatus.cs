@@ -5,8 +5,8 @@
 /// </summary>
 public enum ManagerStatus
 {
-    Active = 1,
-    OnLeave = 2,
-    Suspended = 3,
-    Terminated = 4
+    Active = 1,         // نشط
+    OnLeave = 2,        // في إجازة
+    Suspended = 3,      // معلق
+    Terminated = 4      // تم إنهاء الخدمة
 }

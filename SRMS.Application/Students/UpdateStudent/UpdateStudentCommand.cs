@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SRMS.Application.Students.DTOs.StudentDTOs;
+using SRMS.Application.Students.DTOs;
 
 namespace SRMS.Application.Students.UpdateStudent;
 

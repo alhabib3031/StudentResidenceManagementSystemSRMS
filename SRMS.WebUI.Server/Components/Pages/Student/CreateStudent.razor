@@ -1,5 +1,4 @@
 ﻿@page "/students/create"
-@using SRMS.Application.Students.DTOs.StudentDTOs
 @rendermode InteractiveServer
 @inject ISender Sender
 @inject NavigationManager Navigation
@@ -47,14 +46,14 @@
                         Variant="Variant.Outlined" />
                 </MudItem>
                 
-                <MudItem xs="12">
-                    <MudTextField 
-                        Label="Address" 
-                        @bind-Value="_createStudentDto.Address"
-                        For="@(() => _createStudentDto.Address)"
-                        Variant="Variant.Outlined"
-                        Lines="3" />
-                </MudItem>
+                @* <MudItem xs="12"> *@
+                @*     <MudTextField  *@
+                @*         Label="Address"  *@
+                @*         $1$ @bind-Value="_createStudentDto.Address" #1# *@
+                @*         $1$ For="@(() => _createStudentDto.Address)" #1# *@
+                @*         Variant="Variant.Outlined" *@
+                @*         Lines="3" /> *@
+                @* </MudItem> *@
                 
                 <MudItem xs="12" Class="d-flex gap-4">
                     <MudButton 

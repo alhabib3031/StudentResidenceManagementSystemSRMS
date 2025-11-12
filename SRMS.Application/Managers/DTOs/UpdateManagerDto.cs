@@ -1,19 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SRMS.Domain.Managers.Enums;
 using SRMS.Domain.ValueObjects;
 
 namespace SRMS.Application.Managers.DTOs;
 
+// ============================================================
+// DTO للتحديث
+// ============================================================
 public class UpdateManagerDto
 {
     [Required]
     public Guid Id { get; set; }
 
     [Required(ErrorMessage = "First name is required")]
-    [StringLength(50, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 50 characters")]
+    [StringLength(100, MinimumLength = 2)]
     public string FirstName { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Last name is required")]
-    [StringLength(50, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 50 characters")]
+    [StringLength(100, MinimumLength = 2)]
     public string LastName { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Email is required")]
@@ -21,8 +25,27 @@ public class UpdateManagerDto
     public string Email { get; set; } = string.Empty;
 
     [Phone(ErrorMessage = "Invalid phone number")]
-    public string PhoneNumber { get; set; } = string.Empty;
+    public string? PhoneNumber { get; set; }
+    
+    public string? PhoneCountryCode { get; set; } = "+218";
 
-    [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters")]
-    public string Address { get; set; } = string.Empty;
+    // Address
+    public string? AddressCity { get; set; }
+    public string? AddressStreet { get; set; }
+    public string? AddressState { get; set; }
+    public string? AddressPostalCode { get; set; }
+    public string? AddressCountry { get; set; } = "Libya";
+    
+    // Profile
+    [StringLength(50)]
+    public string? EmployeeNumber { get; set; }
+    
+    public DateTime? HireDate { get; set; }
+    
+    // Working Hours
+    public TimeSpan? WorkingHoursStart { get; set; }
+    public TimeSpan? WorkingHoursEnd { get; set; }
+    
+    // Status
+    public ManagerStatus Status { get; set; }
 }

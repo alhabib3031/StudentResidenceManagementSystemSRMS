@@ -2,8 +2,8 @@
 
 public enum ComplaintPriority
 {
-    Low = 1,
-    Medium = 2,
-    High = 3,
-    Critical = 4
+    Low = 1,            // منخفضة
+    Medium = 2,         // متوسطة
+    High = 3,           // عالية
+    Critical = 4        // حرجة
 }
