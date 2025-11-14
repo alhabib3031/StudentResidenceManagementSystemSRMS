@@ -118,10 +118,10 @@ public class AuthService : IAuthService
             };
         }
         
-        var result = await _signInManager.PasswordSignInAsync(
-            user.UserName!,
+        // ✅ استخدم CheckPasswordSignInAsync (لا يكتب Cookie!)
+        var result = await _signInManager.CheckPasswordSignInAsync(
+            user,
             dto.Password,
-            dto.RememberMe,
             lockoutOnFailure: true
         );
         
@@ -153,20 +153,18 @@ public class AuthService : IAuthService
             };
         }
         
-        // Update last login
+        // ✅ Update last login
         user.LastLoginAt = DateTime.UtcNow;
         user.LoginCount++;
         await _userManager.UpdateAsync(user);
         
-        // Generate JWT token
-        var jwtToken = await GenerateJwtTokenAsync(user);
-        
+        // ✅ Get roles
         var roles = await _userManager.GetRolesAsync(user);
         
+        // ✅ لا حاجة لـ JWT في Blazor Server، سنستخدم CustomAuthenticationStateProvider
         return new LoginResponseDto
         {
             Success = true,
-            Token = jwtToken,
             User = new UserDto
             {
                 Id = user.Id,

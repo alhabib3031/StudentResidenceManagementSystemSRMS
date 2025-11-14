@@ -13,43 +13,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/ConfirmWithTextDialog.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/CreateRoleDialog.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/CreateUserDialog.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/DatabaseToolsDialog.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Register.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/dictionaries/project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Services/CustomAuthenticationStateProvider.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Data/IdentityDataSeeder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Data/IdentityDataSeeder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuthService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/EmailService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/NotificationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/NotificationService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/RoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/RoleService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SMSService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SMSService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SuperRootService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/SuperRootService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/StudentConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/StudentConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Data/IdentityDataSeeder.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Services/AuthService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Services/EmailService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Services/NotificationService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Services/RoleService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Services/SMSService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Services/SuperRootService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Services/UserService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/App.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/App.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/MainLayout.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/MainLayout.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ConfirmDialog.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/ConfirmDialog.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Weather.razor" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="feature/create-pages-and-dialogs" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -232,18 +203,14 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/StudentConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Controllers/AuthController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/GenericRepository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/ConfirmDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/ConfirmWithTextDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/CreateRoleDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/CreateUserDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/DatabaseToolsDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Register.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Services/CustomAuthenticationStateProvider.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.WebUI.Server/appsettings.json" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -257,29 +224,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.SRMS.WebUI.Server: http.executor&quot;: &quot;Debug&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Debug",
+    ".NET Launch Settings Profile.SRMS.WebUI.Server: https.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="  Id: Guid       FirstName: string   LastName: string   Email: string   PhoneNumber: string   Address: stirng   ImagePath : string " />
       <command value="  Id: Guid       FirstName: string   LastName: string   Email: string   PhoneNumber: string   Address: stirng   ImagePath : string  create this prop" />
     </option>
   </component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.SRMS.WebUI.Server: http">
+  <component name="RunManager" selected=".NET Launch Settings Profile.SRMS.WebUI.Server: https">
     <configuration name="SRMS.WebUI.Server: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/SRMS.WebUI.Server/SRMS.WebUI.Server.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net9.0" />

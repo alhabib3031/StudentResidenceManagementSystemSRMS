@@ -3,6 +3,7 @@
 @rendermode InteractiveServer
 @inject IAuthService AuthService
 @inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
 @inject ISnackbar Snackbar
 
 <PageTitle>Login - SRMS</PageTitle>
@@ -132,8 +133,12 @@
             {
                 Snackbar.Add("Welcome back! Login successful.", Severity.Success);
                 
+                var customProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+                
+                await customProvider.LoginAsync(result.User.Email);
+                
                 // Redirect based on role
-                var role = result.User?.Roles.FirstOrDefault();
+                var role = result.User.Roles.FirstOrDefault();
                 
                 var redirectUrl = role switch
                 {

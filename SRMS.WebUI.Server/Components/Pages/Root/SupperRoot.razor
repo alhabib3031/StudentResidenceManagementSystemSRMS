@@ -1,5 +1,5 @@
 ﻿@page "/superroot"
-@attribute [Authorize(Policy = "SuperRootOnly")]
+@attribute [Authorize(Roles = "SuperRoot")]
 @rendermode InteractiveServer
 @inject IUserService UserService
 @inject IRoleService RoleService

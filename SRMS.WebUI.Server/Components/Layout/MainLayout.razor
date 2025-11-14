@@ -195,10 +195,10 @@
         Navigation.NavigateTo("/notifications");
     }
 
-    private async Task HandleLogout()
+    private /* async Task */ void HandleLogout()
     {
         // Implement logout logic
-        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        // await AuthenticationStateProvider.GetAuthenticationStateAsync();
         Navigation.NavigateTo("/login");
     }
 

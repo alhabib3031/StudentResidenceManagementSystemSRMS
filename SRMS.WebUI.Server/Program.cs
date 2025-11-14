@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,7 @@ using SRMS.Domain.Identity.Constants;
 using SRMS.Infrastructure;
 using SRMS.Infrastructure.Configurations.Data;
 using SRMS.WebUI.Server.Components;
+using SRMS.WebUI.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +66,11 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()     // ربط Identity بـ EF Core
 .AddDefaultTokenProviders();                          // لتوليد Tokens (Reset Password, etc.)
 
+// builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddAuthorizationCore();
 
 // ═══════════════════════════════════════════════════════════
 // 5️⃣ JWT Authentication ← للـ API
