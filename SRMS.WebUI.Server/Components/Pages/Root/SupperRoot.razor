@@ -1,215 +1,310 @@
-﻿// ============================================================
-// SUPERROOT DASHBOARD (Blazor Component)
-// ============================================================
-@page "/superroot"
+﻿@page "/superroot"
 @attribute [Authorize(Policy = "SuperRootOnly")]
-@using Microsoft.AspNetCore.Authorization
-@using SRMS.Application.Identity.DTOs
-@using SRMS.Application.Identity.Interfaces
+@rendermode InteractiveServer
 @inject IUserService UserService
 @inject IRoleService RoleService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
 @inject NavigationManager Navigation
 
-<div class="superroot-dashboard">
-    <h1>🔐 SuperRoot Dashboard</h1>
-    <p class="text-muted">Welcome, @currentUser?.FullName. You have full system access.</p>
-    
-    <div class="row mt-4">
-        <!-- User Management -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <i class="fas fa-users"></i> User Management
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li><a href="/superroot/users">Manage All Users</a></li>
-                        <li><a href="/superroot/users/create">Create User</a></li>
-                        <li><a href="/superroot/users/bulk-import">Bulk Import</a></li>
-                        <li><a href="/superroot/users/activity">User Activity Logs</a></li>
-                    </ul>
-                </div>
+<PageTitle>SuperRoot Dashboard</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4" Color="Color.Primary">
+                    <MudIcon Icon="@Icons.Material.Filled.Shield" Class="mr-2" />
+                    SuperRoot Control Panel
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Full system access and control
+                </MudText>
             </div>
-        </div>
-        
-        <!-- Role Management -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <i class="fas fa-user-shield"></i> Role Management
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li><a href="/superroot/roles">Manage Roles</a></li>
-                        <li><a href="/superroot/roles/create">Create Role</a></li>
-                        <li><a href="/superroot/permissions">Manage Permissions</a></li>
-                        <li><a href="/superroot/roles/assign">Assign Roles</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <!-- System Configuration -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-warning text-dark">
-                    <i class="fas fa-cog"></i> System Configuration
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li><a href="/superroot/settings">System Settings</a></li>
-                        <li><a href="/superroot/email-config">Email Configuration</a></li>
-                        <li><a href="/superroot/sms-config">SMS Configuration</a></li>
-                        <li><a href="/superroot/payment-config">Payment Gateway</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row mt-3">
-        <!-- Database Management -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-info text-white">
-                    <i class="fas fa-database"></i> Database Management
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li><a href="/superroot/database/backup">Backup Database</a></li>
-                        <li><a href="/superroot/database/restore">Restore Database</a></li>
-                        <li><a href="/superroot/database/migrations">Manage Migrations</a></li>
-                        <li><a href="/superroot/database/cleanup">Data Cleanup</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Audit & Logs -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <i class="fas fa-file-alt"></i> Audit & Logs
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li><a href="/superroot/audit/users">User Audit Log</a></li>
-                        <li><a href="/superroot/audit/system">System Audit Log</a></li>
-                        <li><a href="/superroot/audit/errors">Error Logs</a></li>
-                        <li><a href="/superroot/audit/security">Security Events</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Advanced Features -->
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-danger text-white">
-                    <i class="fas fa-tools"></i> Advanced Features
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li><a href="/superroot/maintenance">Maintenance Mode</a></li>
-                        <li><a href="/superroot/cache">Clear Cache</a></li>
-                        <li><a href="/superroot/jobs">Background Jobs</a></li>
-                        <li><a href="/superroot/api-keys">API Keys</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row mt-3">
-        <!-- Statistics -->
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-chart-line"></i> System Statistics
-                </div>
-                <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-md-3">
-                            <h3>@totalUsers</h3>
-                            <p class="text-muted">Total Users</p>
+            <MudButton 
+                Variant="Variant.Filled" 
+                Color="Color.Error"
+                StartIcon="@Icons.Material.Filled.Warning"
+                OnClick="@ShowDangerZone">
+                Danger Zone
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+
+    <!-- Statistics Cards -->
+    <MudGrid Class="mb-4">
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Users</MudText>
+                            <MudText Typo="Typo.h4">@_stats.TotalUsers</MudText>
                         </div>
-                        <div class="col-md-3">
-                            <h3>@activeUsers</h3>
-                            <p class="text-muted">Active Users</p>
+                        <MudAvatar Color="Color.Primary" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Active Users</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Success">@_stats.ActiveUsers</MudText>
                         </div>
-                        <div class="col-md-3">
-                            <h3>@totalRoles</h3>
-                            <p class="text-muted">Total Roles</p>
+                        <MudAvatar Color="Color.Success" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Roles</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Info">@_stats.TotalRoles</MudText>
                         </div>
-                        <div class="col-md-3">
-                            <h3>@systemUptime</h3>
-                            <p class="text-muted">System Uptime (days)</p>
+                        <MudAvatar Color="Color.Info" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">System Uptime</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Warning">@_stats.SystemUptime<small>d</small></MudText>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Danger Zone -->
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <div class="card border-danger">
-                <div class="card-header bg-danger text-white">
-                    <i class="fas fa-exclamation-triangle"></i> Danger Zone
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-danger">
-                        <strong>Warning!</strong> The actions below are irreversible and can cause system-wide issues.
-                    </div>
-                    <button class="btn btn-danger" @onclick="ShowDeleteAllDataModal">
-                        <i class="fas fa-trash"></i> Delete All Data
-                    </button>
-                    <button class="btn btn-warning ml-2" @onclick="ResetToDefaults">
-                        <i class="fas fa-undo"></i> Reset to Defaults
-                    </button>
-                    <button class="btn btn-secondary ml-2" @onclick="GenerateTestData">
-                        <i class="fas fa-vial"></i> Generate Test Data
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                        <MudAvatar Color="Color.Warning" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.Timer" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Quick Actions -->
+    <MudGrid Class="mb-4">
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.People" Class="mr-2" Size="Size.Small" />
+                            User Management
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudList T="string" Dense="true">
+                        <MudListItem Icon="@Icons.Material.Filled.PersonAdd" OnClick="@CreateNewUser">
+                            Create New User
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/users">
+                            View All Users
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Block" OnClick="@ManageInactiveUsers">
+                            Manage Inactive Users
+                        </MudListItem>
+                    </MudList>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" Size="Size.Small" />
+                            Role Management
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudList T="string" Dense="true">
+                        <MudListItem Icon="@Icons.Material.Filled.Add" OnClick="@CreateNewRole">
+                            Create New Role
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/roles">
+                            View All Roles
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Security" Href="/superroot/permissions">
+                            Manage Permissions
+                        </MudListItem>
+                    </MudList>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" Size="Size.Small" />
+                            System Settings
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudList T="string" Dense="true">
+                        <MudListItem Icon="@Icons.Material.Filled.Email" Href="/superroot/email-config">
+                            Email Configuration
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Sms" Href="/superroot/sms-config">
+                            SMS Configuration
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Dataset" OnClick="@ShowDatabaseTools">
+                            Database Tools
+                        </MudListItem>
+                    </MudList>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Recent Activity -->
+    <MudCard Elevation="4">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">
+                    <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
+                    Recent System Activity
+                </MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Href="/superroot/audit">
+                    View All
+                </MudButton>
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTimeline TimelineOrientation="TimelineOrientation.Vertical" TimelinePosition="TimelinePosition.Start">
+                <MudTimelineItem Color="Color.Success" Size="Size.Small">
+                    <ItemContent>
+                        <MudText Typo="Typo.body2">New user registered: john@example.com</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">2 minutes ago</MudText>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="Color.Info" Size="Size.Small">
+                    <ItemContent>
+                        <MudText Typo="Typo.body2">Manager role assigned to alice@example.com</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">15 minutes ago</MudText>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="Color.Warning" Size="Size.Small">
+                    <ItemContent>
+                        <MudText Typo="Typo.body2">System settings updated</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">1 hour ago</MudText>
+                    </ItemContent>
+                </MudTimelineItem>
+            </MudTimeline>
+        </MudCardContent>
+    </MudCard>
+</MudContainer>
 
 @code {
-    private UserDto? currentUser;
-    private int totalUsers;
-    private int activeUsers;
-    private int totalRoles;
-    private int systemUptime = 30;
-    
+    private bool _isLoading = true;
+    private (int TotalUsers, int ActiveUsers, int TotalRoles, int SystemUptime) _stats = (0, 0, 0, 0);
+
     protected override async Task OnInitializedAsync()
     {
-        // Load statistics
         await LoadStatistics();
+        _isLoading = false;
     }
-    
+
     private async Task LoadStatistics()
     {
-        // TODO: Implement actual statistics loading
-        totalUsers = 150;
-        activeUsers = 120;
-        totalRoles = 4;
+        // Mock data - replace with real data
+        await Task.Delay(500);
+        _stats = (150, 120, 4, 30);
     }
-    
-    private void ShowDeleteAllDataModal()
+
+    private async Task CreateNewUser()
     {
-        // TODO: Show confirmation modal
+        var parameters = new DialogParameters<CreateUserDialog>();
+        var dialog = await DialogService.ShowAsync<CreateUserDialog>("Create New User", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            Snackbar.Add("User created successfully!", Severity.Success);
+            await LoadStatistics();
+        }
     }
-    
-    private async Task ResetToDefaults()
+
+    private async Task CreateNewRole()
     {
-        // TODO: Implement reset functionality
+        var parameters = new DialogParameters
+        {
+            ["RoleName"] = "",
+            ["Description"] = ""
+        };
+        
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<CreateRoleDialog>("Create New Role", parameters, options);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            Snackbar.Add("Role created successfully!", Severity.Success);
+        }
     }
-    
-    private async Task GenerateTestData()
+
+    private void ManageInactiveUsers()
     {
-        // TODO: Generate test data
+        Navigation.NavigateTo("/superroot/users?filter=inactive");
+    }
+
+    private async Task ShowDatabaseTools()
+    {
+        var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true };
+        await DialogService.ShowAsync<DatabaseToolsDialog>("Database Management", options);
+    }
+
+    private async Task ShowDangerZone()
+    {
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = "You are about to enter the Danger Zone. Actions here are irreversible and can affect the entire system.",
+            ["ButtonText"] = "I Understand",
+            ["Color"] = Color.Error
+        };
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small };
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("⚠️ Warning", parameters, options);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            Navigation.NavigateTo("/superroot/danger-zone");
+        }
     }
 }
+
+// Placeholder components - create these separately
+public class CreateUserDialog : MudBlazor.MudComponentBase { }
+public class CreateRoleDialog : MudBlazor.MudComponentBase { }
+public class DatabaseToolsDialog : MudBlazor.MudComponentBase { }

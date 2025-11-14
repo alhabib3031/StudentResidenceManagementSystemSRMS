@@ -1,4 +1,6 @@
-﻿@using System.Net.Http
+﻿@* SRMS.WebUI.Server/Components/_Imports.razor *@
+
+@using System.Net.Http
 @using System.Net.Http.Json
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
@@ -6,16 +8,38 @@
 @using static Microsoft.AspNetCore.Components.Web.RenderMode
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
+
+@* MudBlazor *@
 @using MudBlazor
 @using MudBlazor.Services
+
+@* Authorization *@
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+
+@* Application Components *@
 @using SRMS.WebUI.Server
 @using SRMS.WebUI.Server.Components
+@using SRMS.WebUI.Server.Components.Pages
+@using SRMS.WebUI.Server.Components.Pages.Dialogs
+
+@* Domain & Application *@
 @using SRMS.Domain.Students
+@using SRMS.Domain.Identity
+@using SRMS.Domain.Identity.Constants
+
+@* Application Services *@
 @using SRMS.Application.Students
-@using MediatR
+@using SRMS.Application.Students.DTOs
 @using SRMS.Application.Students.GetStudent
 @using SRMS.Application.Students.CreateStudent
-@using SRMS.Application.Students.DTOs
 @using SRMS.Application.Students.GetStudentById
 @using SRMS.Application.Students.UpdateStudent
 @using SRMS.Application.Students.DeleteStudent
+
+@using SRMS.Application.Identity.DTOs
+@using SRMS.Application.Identity.Interfaces
+@using SRMS.Application.SuperRoot.Interfaces
+
+@* MediatR *@
+@using MediatR

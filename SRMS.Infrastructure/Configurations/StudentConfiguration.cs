@@ -58,11 +58,10 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
                 .HasMaxLength(256)
                 .IsRequired(false);
             
-            email.Ignore(e => e.Value); // لأننا نستخدم الـ backing field
-            
             // Index على Email للبحث السريع
             email.HasIndex(e => e.Value)
-                .HasDatabaseName("IX_Students_Email");
+                .HasDatabaseName("IX_Students_Email")
+                .HasFilter("[Email] IS NOT NULL");
         });
         
         // PhoneNumber Value Object

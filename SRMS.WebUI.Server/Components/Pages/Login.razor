@@ -1,6 +1,170 @@
-﻿@page "/Login"
-<h3>Login</h3>
+﻿@page "/login"
+@using System.Diagnostics.CodeAnalysis
+@rendermode InteractiveServer
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+
+<PageTitle>Login - SRMS</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="d-flex align-center justify-center" Style="min-height: 100vh;">
+    <MudPaper Elevation="8" Class="pa-8" Style="width: 100%; max-width: 500px; border-radius: 16px;">
+        <!-- Logo & Title -->
+        <div class="text-center mb-6">
+            <MudIcon Icon="@Icons.Material.Filled.School" Size="Size.Large" Color="Color.Primary" Class="mb-2" Style="font-size: 64px;" />
+            <MudText Typo="Typo.h4" GutterBottom="true">Welcome Back</MudText>
+            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                Sign in to Student Residence Management System
+            </MudText>
+        </div>
+
+        <!-- Login Form -->
+        <EditForm Model="@_loginModel" OnValidSubmit="HandleLogin" FormName="LoginForm">
+            <DataAnnotationsValidator />
+            
+            <MudStack Spacing="3">
+                <!-- Email -->
+                <MudTextField 
+                    @bind-Value="_loginModel.Email"
+                    Label="Email Address"
+                    Variant="Variant.Outlined"
+                    InputType="InputType.Email"
+                    Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Email"
+                    For="@(() => _loginModel.Email)"
+                    HelperText="Enter your email address"
+                    Required="true" />
+
+                <!-- Password -->
+                <MudTextField 
+                    @bind-Value="_loginModel.Password"
+                    Label="Password"
+                    Variant="Variant.Outlined"
+                    InputType="@(_showPassword ? InputType.Text : InputType.Password)"
+                    Adornment="Adornment.End"
+                    AdornmentIcon="@(_showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
+                    OnAdornmentClick="TogglePasswordVisibility"
+                    For="@(() => _loginModel.Password)"
+                    HelperText="Enter your password"
+                    Required="true" />
+
+                <!-- Remember Me -->
+                <MudCheckBox 
+                    @bind-Value="_loginModel.RememberMe" 
+                    Color="Color.Primary"
+                    Dense="true">
+                    Remember me for 7 days
+                </MudCheckBox>
+
+                <!-- Login Button -->
+                <MudButton 
+                    ButtonType="ButtonType.Submit"
+                    Variant="Variant.Filled"
+                    Color="Color.Primary"
+                    FullWidth="true"
+                    Size="Size.Large"
+                    Disabled="_isLoading"
+                    Style="height: 50px;">
+                    @if (_isLoading)
+                    {
+                        <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                        <span>Signing in...</span>
+                    }
+                    else
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.Login" Class="mr-2" />
+                        <span>Sign In</span>
+                    }
+                </MudButton>
+
+                <!-- Divider -->
+                <MudDivider Class="my-4" />
+
+                <!-- Alternative Options -->
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                    <MudLink Href="/forgot-password" Color="Color.Primary" Typo="Typo.body2">
+                        Forgot password?
+                    </MudLink>
+                    <MudLink Href="/register" Color="Color.Primary" Typo="Typo.body2">
+                        Create account
+                    </MudLink>
+                </MudStack>
+
+                <!-- Test Accounts Info -->
+                <MudAlert Severity="Severity.Info" Dense="true" Class="mt-4">
+                    <strong>Test Accounts:</strong><br/>
+                    <small>
+                        SuperRoot: <code>superroot@srms.edu.ly</code> / <code>SuperRoot@123!</code><br/>
+                        More accounts will be created after first login
+                    </small>
+                </MudAlert>
+            </MudStack>
+        </EditForm>
+    </MudPaper>
+</MudContainer>
 
 @code {
-    
+    private LoginDto _loginModel = new();
+    private bool _showPassword = false;
+    private bool _isLoading = false;
+
+    protected override void OnInitialized()
+    {
+        // Check if already logged in
+        // Redirect to appropriate dashboard
+    }
+
+    private void TogglePasswordVisibility()
+    {
+        _showPassword = !_showPassword;
+    }
+
+    [SuppressMessage("ReSharper.DPA", "DPA0009: High execution time of DB command", MessageId = "time: 1370ms")]
+    private async Task HandleLogin()
+    {
+        _isLoading = true;
+        
+        try
+        {
+            var result = await AuthService.LoginAsync(_loginModel);
+
+            if (result.Success)
+            {
+                Snackbar.Add("Welcome back! Login successful.", Severity.Success);
+                
+                // Redirect based on role
+                var role = result.User?.Roles.FirstOrDefault();
+                
+                var redirectUrl = role switch
+                {
+                    "SuperRoot" => "/superroot",
+                    "Admin" => "/admin",
+                    "Manager" => "/manager",
+                    "Student" => "/student",
+                    _ => "/"
+                };
+                
+                await Task.Delay(500); // Small delay for UX
+                Navigation.NavigateTo(redirectUrl);
+            }
+            else
+            {
+                // Show error message
+                var message = result.RequiresEmailConfirmation 
+                    ? "Please verify your email before logging in." 
+                    : result.Message ?? "Invalid email or password.";
+                
+                Snackbar.Add(message, Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[AUTH_ERROR] {ex.ToString()}");
+            Snackbar.Add($"Login failed: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
 }

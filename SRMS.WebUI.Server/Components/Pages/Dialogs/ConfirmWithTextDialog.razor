@@ -1,0 +1,91 @@
+﻿@* Components/Dialogs/ConfirmWithTextDialog.razor *@
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6" Color="Color.Error">
+            <MudIcon Icon="@Icons.Material.Filled.Warning" Class="mr-2" />
+            Confirmation Required
+        </MudText>
+    </TitleContent>
+    
+    <DialogContent>
+        <MudStack Spacing="3">
+            <MudAlert Severity="Severity.Error" Dense="false">
+                @ContentText
+            </MudAlert>
+
+            <MudTextField 
+                @bind-Value="_confirmationText"
+                Label="Type confirmation text"
+                Variant="Variant.Outlined"
+                Placeholder="@ExpectedText"
+                HelperText="@($"Type '{ExpectedText}' exactly to confirm")"
+                Immediate="true"
+                OnKeyUp="ValidateInput" />
+
+            @if (!string.IsNullOrEmpty(_confirmationText) && _confirmationText != ExpectedText)
+            {
+                <MudText Typo="Typo.caption" Color="Color.Error">
+                    ❌ Text does not match. Please type exactly: <strong>@ExpectedText</strong>
+                </MudText>
+            }
+            else if (_confirmationText == ExpectedText)
+            {
+                <MudText Typo="Typo.caption" Color="Color.Success">
+                    ✓ Confirmation text is correct
+                </MudText>
+            }
+        </MudStack>
+    </DialogContent>
+    
+    <DialogActions>
+        <MudButton OnClick="Cancel" Variant="Variant.Text">
+            Cancel
+        </MudButton>
+        <MudButton 
+            Color="@ButtonColor" 
+            Variant="Variant.Filled"
+            OnClick="Submit"
+            Disabled="@(_confirmationText != ExpectedText)"
+            StartIcon="@Icons.Material.Filled.Warning">
+            @ButtonText
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public string ContentText { get; set; } = "Are you sure you want to proceed?";
+
+    [Parameter]
+    public string ExpectedText { get; set; } = "RESET";
+
+    [Parameter]
+    public string ButtonText { get; set; } = "Confirm";
+
+    [Parameter]
+    public Color ButtonColor { get; set; } = Color.Error;
+
+    private string _confirmationText = "";
+
+    private void ValidateInput()
+    {
+        StateHasChanged();
+    }
+
+    private void Submit()
+    {
+        if (_confirmationText == ExpectedText)
+        {
+            MudDialog.Close(DialogResult.Ok(ExpectedText));
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}

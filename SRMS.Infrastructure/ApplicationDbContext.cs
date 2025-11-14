@@ -18,7 +18,7 @@ namespace SRMS.Infrastructure;
 /// <summary>
 /// ApplicationDbContext - Database Context الرئيسي
 /// </summary>
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -69,7 +69,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         // ═══════════════════════════════════════════════════════════
         
         modelBuilder.Entity<ApplicationUser>().ToTable("Users");
-        modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+        modelBuilder.Entity<ApplicationRole>().ToTable("Roles");
         modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles");
         modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims");
         modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins");

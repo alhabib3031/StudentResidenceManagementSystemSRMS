@@ -1,0 +1,178 @@
+﻿@inject IAuthService AuthService
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <DialogContent>
+        <EditForm Model="@_model" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+            
+            <MudGrid>
+                <!-- Role Selection -->
+                <MudItem xs="12">
+                    <MudSelect 
+                        @bind-Value="_selectedRole"
+                        Label="Select Role"
+                        Variant="Variant.Outlined"
+                        AnchorOrigin="Origin.BottomCenter"
+                        Required="true">
+                        <MudSelectItem Value="@("Admin")">
+                            <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Size="Size.Small" Class="mr-2" />
+                            Administrator
+                        </MudSelectItem>
+                        <MudSelectItem Value="@("Manager")">
+                            <MudIcon Icon="@Icons.Material.Filled.ManageAccounts" Size="Size.Small" Class="mr-2" />
+                            Manager
+                        </MudSelectItem>
+                        <MudSelectItem Value="@("Student")">
+                            <MudIcon Icon="@Icons.Material.Filled.School" Size="Size.Small" Class="mr-2" />
+                            Student
+                        </MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <!-- Personal Info -->
+                <MudItem xs="12" sm="6">
+                    <MudTextField 
+                        @bind-Value="_model.FirstName"
+                        Label="First Name"
+                        Variant="Variant.Outlined"
+                        For="@(() => _model.FirstName)"
+                        Required="true" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField 
+                        @bind-Value="_model.LastName"
+                        Label="Last Name"
+                        Variant="Variant.Outlined"
+                        For="@(() => _model.LastName)"
+                        Required="true" />
+                </MudItem>
+
+                <!-- Contact Info -->
+                <MudItem xs="12">
+                    <MudTextField 
+                        @bind-Value="_model.Email"
+                        Label="Email Address"
+                        Variant="Variant.Outlined"
+                        InputType="InputType.Email"
+                        Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Email"
+                        For="@(() => _model.Email)"
+                        Required="true" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudTextField 
+                        @bind-Value="_model.PhoneNumber"
+                        Label="Phone Number"
+                        Variant="Variant.Outlined"
+                        Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Phone"
+                        For="@(() => _model.PhoneNumber)"
+                        Required="true"
+                        Placeholder="+218 91 234 5678" />
+                </MudItem>
+
+                <!-- Password -->
+                <MudItem xs="12">
+                    <MudTextField 
+                        @bind-Value="_model.Password"
+                        Label="Temporary Password"
+                        Variant="Variant.Outlined"
+                        InputType="InputType.Password"
+                        For="@(() => _model.Password)"
+                        HelperText="User will be required to change password on first login"
+                        Required="true" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudTextField 
+                        @bind-Value="_model.ConfirmPassword"
+                        Label="Confirm Password"
+                        Variant="Variant.Outlined"
+                        InputType="InputType.Password"
+                        For="@(() => _model.ConfirmPassword)"
+                        Required="true" />
+                </MudItem>
+
+                <!-- Additional Options -->
+                <MudItem xs="12">
+                    <MudCheckBox 
+                        @bind-Value="_sendWelcomeEmail"
+                        Color="Color.Primary">
+                        Send welcome email with login credentials
+                    </MudCheckBox>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </DialogContent>
+    
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton 
+            Color="Color.Primary" 
+            Variant="Variant.Filled"
+            OnClick="HandleSubmit"
+            Disabled="_isSubmitting">
+            @if (_isSubmitting)
+            {
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+            }
+            Create User
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    private RegisterDto _model = new();
+    private string _selectedRole = "Student";
+    private bool _sendWelcomeEmail = true;
+    private bool _isSubmitting = false;
+
+    private async Task HandleSubmit()
+    {
+        _isSubmitting = true;
+
+        try
+        {
+            // Register the user
+            var result = await AuthService.RegisterAsync(_model);
+
+            if (result.Success)
+            {
+                // Assign role
+                // await UserService.AddToRoleAsync(result.User.Id, _selectedRole);
+
+                if (_sendWelcomeEmail)
+                {
+                    // Send welcome email
+                    // await EmailService.SendWelcomeEmailAsync(_model.Email, _model.FirstName);
+                }
+
+                Snackbar.Add($"{_selectedRole} account created successfully!", Severity.Success);
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            else
+            {
+                Snackbar.Add(result.Message ?? "Failed to create user", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}

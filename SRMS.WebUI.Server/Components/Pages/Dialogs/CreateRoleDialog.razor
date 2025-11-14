@@ -1,0 +1,180 @@
+﻿@* Components/Dialogs/CreateRoleDialog.razor *@
+@using SRMS.Application.Identity.Interfaces
+@inject IRoleService RoleService
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" />
+            Create New Role
+        </MudText>
+    </TitleContent>
+    
+    <DialogContent>
+        <MudStack Spacing="3">
+            <MudAlert Severity="Severity.Info" Dense="true">
+                Create a new role for the system. This role can be assigned to users later.
+            </MudAlert>
+
+            <MudTextField 
+                @bind-Value="_roleName"
+                Label="Role Name"
+                Variant="Variant.Outlined"
+                Placeholder="e.g., SecurityGuard"
+                HelperText="Role name must be unique and contain no spaces"
+                Required="true"
+                Immediate="true"
+                OnKeyUp="ValidateRoleName" />
+
+            <MudTextField 
+                @bind-Value="_description"
+                Label="Description"
+                Variant="Variant.Outlined"
+                Lines="3"
+                Placeholder="Describe the purpose and responsibilities of this role"
+                HelperText="Optional: Provide a brief description"
+                MaxLength="500" />
+
+            <!-- Role Preview -->
+            @if (!string.IsNullOrWhiteSpace(_roleName))
+            {
+                <MudPaper Elevation="0" Class="pa-3" Style="background-color: var(--mud-palette-background-grey);">
+                    <MudText Typo="Typo.caption" Color="Color.Secondary">Preview:</MudText>
+                    <MudChip 
+                        T="string"
+                        Size="Size.Small" 
+                        Color="Color.Primary" 
+                        Icon="@Icons.Material.Filled.Badge">
+                        @_roleName
+                    </MudChip>
+                </MudPaper>
+            }
+
+            <!-- Validation Message -->
+            @if (_validationMessage != null)
+            {
+                <MudAlert Severity="@(_isValid ? Severity.Success : Severity.Error)" Dense="true">
+                    @_validationMessage
+                </MudAlert>
+            }
+        </MudStack>
+    </DialogContent>
+    
+    <DialogActions>
+        <MudButton OnClick="Cancel" Variant="Variant.Text">
+            Cancel
+        </MudButton>
+        <MudButton 
+            Color="Color.Primary" 
+            Variant="Variant.Filled"
+            OnClick="HandleSubmit"
+            Disabled="@(!_isValid || _isSubmitting || string.IsNullOrWhiteSpace(_roleName))"
+            StartIcon="@Icons.Material.Filled.Add">
+            @if (_isSubmitting)
+            {
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+            }
+            Create Role
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    private string _roleName = "";
+    private string _description = "";
+    private bool _isSubmitting = false;
+    private bool _isValid = false;
+    private string? _validationMessage = null;
+
+    private void ValidateRoleName()
+    {
+        if (string.IsNullOrWhiteSpace(_roleName))
+        {
+            _isValid = false;
+            _validationMessage = null;
+            return;
+        }
+
+        // Check for spaces
+        if (_roleName.Contains(" "))
+        {
+            _isValid = false;
+            _validationMessage = "Role name cannot contain spaces";
+            return;
+        }
+
+        // Check for special characters
+        if (!System.Text.RegularExpressions.Regex.IsMatch(_roleName, @"^[a-zA-Z0-9_]+$"))
+        {
+            _isValid = false;
+            _validationMessage = "Role name can only contain letters, numbers, and underscores";
+            return;
+        }
+
+        // Check length
+        if (_roleName.Length < 3)
+        {
+            _isValid = false;
+            _validationMessage = "Role name must be at least 3 characters";
+            return;
+        }
+
+        if (_roleName.Length > 50)
+        {
+            _isValid = false;
+            _validationMessage = "Role name must not exceed 50 characters";
+            return;
+        }
+
+        _isValid = true;
+        _validationMessage = "✓ Valid role name";
+    }
+
+    private async Task HandleSubmit()
+    {
+        _isSubmitting = true;
+
+        try
+        {
+            // Check if role already exists
+            var exists = await RoleService.RoleExistsAsync(_roleName);
+            
+            if (exists)
+            {
+                Snackbar.Add($"Role '{_roleName}' already exists!", Severity.Warning);
+                _isSubmitting = false;
+                return;
+            }
+
+            // Create the role
+            var result = await RoleService.CreateRoleAsync(_roleName, _description);
+
+            if (result)
+            {
+                Snackbar.Add($"Role '{_roleName}' created successfully!", Severity.Success);
+                MudDialog.Close(DialogResult.Ok(_roleName));
+            }
+            else
+            {
+                Snackbar.Add("Failed to create role. Please try again.", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}

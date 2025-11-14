@@ -1,8 +1,176 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+﻿@rendermode InteractiveServer
 
-    <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Weather</MudNavLink>
+<!-- Sidebar Header -->
+<div class="pa-4 text-center">
+    <MudImage 
+        Src="images/logo.png" 
+        Alt="Logo" 
+        Height="48" 
+        ObjectFit="ObjectFit.Contain"
+        Class="mb-2" />
+    <MudText Typo="Typo.subtitle1" Color="Color.Primary">
+        <strong>SRMS</strong>
+    </MudText>
+    <MudText Typo="Typo.caption" Color="Color.Secondary">
+        Student Residence
+    </MudText>
+</div>
+
+<MudDivider Class="mb-2" />
+
+<AuthorizeView>
+    <Authorized Context="auth">
+        <!-- SuperRoot Menu -->
+        <AuthorizeView Roles="SuperRoot">
+            <MudNavGroup 
+                Title="SuperRoot Panel" 
+                Icon="@Icons.Material.Filled.Shield" 
+                IconColor="Color.Error"
+                Expanded="true">
+                <MudNavLink Href="/superroot" Icon="@Icons.Material.Filled.Dashboard">
+                    Dashboard
+                </MudNavLink>
+                <MudNavLink Href="/superroot/users" Icon="@Icons.Material.Filled.People">
+                    Manage Users
+                </MudNavLink>
+                <MudNavLink Href="/superroot/roles" Icon="@Icons.Material.Filled.AdminPanelSettings">
+                    Manage Roles
+                </MudNavLink>
+                <MudNavLink Href="/superroot/settings" Icon="@Icons.Material.Filled.Settings">
+                    System Settings
+                </MudNavLink>
+                <MudNavLink Href="/superroot/audit" Icon="@Icons.Material.Filled.History">
+                    Audit Logs
+                </MudNavLink>
+            </MudNavGroup>
+        </AuthorizeView>
+
+        <!-- Admin Menu -->
+        <AuthorizeView Roles="Admin,SuperRoot">
+            <MudNavGroup 
+                Title="Administration" 
+                Icon="@Icons.Material.Filled.AdminPanelSettings"
+                IconColor="Color.Primary"
+                Expanded="@IsAdmin()">
+                <MudNavLink Href="/admin" Icon="@Icons.Material.Filled.Dashboard">
+                    Admin Dashboard
+                </MudNavLink>
+                <MudNavLink Href="/admin/residences" Icon="@Icons.Material.Filled.Apartment">
+                    Residences
+                </MudNavLink>
+                <MudNavLink Href="/admin/managers" Icon="@Icons.Material.Filled.SupervisedUserCircle">
+                    Managers
+                </MudNavLink>
+                <MudNavLink Href="/admin/reports" Icon="@Icons.Material.Filled.Assessment">
+                    Reports
+                </MudNavLink>
+            </MudNavGroup>
+        </AuthorizeView>
+
+        <!-- Manager Menu -->
+        <AuthorizeView Roles="Manager,Admin,SuperRoot">
+            <MudNavGroup 
+                Title="Management" 
+                Icon="@Icons.Material.Filled.ManageAccounts"
+                IconColor="Color.Info"
+                Expanded="@IsManager()">
+                <MudNavLink Href="/manager" Icon="@Icons.Material.Filled.Dashboard">
+                    Manager Dashboard
+                </MudNavLink>
+                <MudNavLink Href="/students" Icon="@Icons.Material.Filled.School">
+                    Students
+                </MudNavLink>
+                <MudNavLink Href="/rooms" Icon="@Icons.Material.Filled.MeetingRoom">
+                    Rooms
+                </MudNavLink>
+                <MudNavLink Href="/complaints" Icon="@Icons.Material.Filled.Report">
+                    Complaints
+                </MudNavLink>
+                <MudNavLink Href="/payments" Icon="@Icons.Material.Filled.Payment">
+                    Payments
+                </MudNavLink>
+            </MudNavGroup>
+        </AuthorizeView>
+
+        <!-- Student Menu -->
+        <AuthorizeView Roles="Student">
+            <MudNavGroup 
+                Title="Student Portal" 
+                Icon="@Icons.Material.Filled.School"
+                IconColor="Color.Success"
+                Expanded="true">
+                <MudNavLink Href="/student" Icon="@Icons.Material.Filled.Dashboard">
+                    My Dashboard
+                </MudNavLink>
+                <MudNavLink Href="/student/profile" Icon="@Icons.Material.Filled.Person">
+                    My Profile
+                </MudNavLink>
+                <MudNavLink Href="/student/room" Icon="@Icons.Material.Filled.MeetingRoom">
+                    My Room
+                </MudNavLink>
+                <MudNavLink Href="/student/payments" Icon="@Icons.Material.Filled.Payment">
+                    My Payments
+                </MudNavLink>
+                <MudNavLink Href="/student/complaints" Icon="@Icons.Material.Filled.Report">
+                    My Complaints
+                </MudNavLink>
+            </MudNavGroup>
+        </AuthorizeView>
+
+        <!-- Common Links -->
+        <MudDivider Class="my-2" />
+        
+        <MudNavLink Href="/notifications" Icon="@Icons.Material.Filled.Notifications">
+            <MudBadge Content="3" Color="Color.Error" Overlap="true">
+                Notifications
+            </MudBadge>
+        </MudNavLink>
+        
+        <MudNavLink Href="/help" Icon="@Icons.Material.Filled.Help">
+            Help & Support
+        </MudNavLink>
+    </Authorized>
     
-    <MudNavLink Href="students" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Person">Students</MudNavLink>
+    <NotAuthorized>
+        <!-- Public Menu -->
+        <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">
+            Home
+        </MudNavLink>
+        <MudNavLink Href="/about" Icon="@Icons.Material.Filled.Info">
+            About Us
+        </MudNavLink>
+        <MudNavLink Href="/contact" Icon="@Icons.Material.Filled.ContactMail">
+            Contact
+        </MudNavLink>
+        <MudDivider Class="my-2" />
+        <MudNavLink Href="/login" Icon="@Icons.Material.Filled.Login">
+            Sign In
+        </MudNavLink>
+        <MudNavLink Href="/register" Icon="@Icons.Material.Filled.PersonAdd">
+            Register
+        </MudNavLink>
+    </NotAuthorized>
+</AuthorizeView>
 
-</MudNavMenu>
+<!-- Version Info -->
+<MudSpacer />
+<div class="pa-4 text-center">
+    <MudText Typo="Typo.caption" Color="Color.Secondary">
+        Version 1.0.0
+    </MudText>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    private bool IsAdmin()
+    {
+        return AuthenticationStateTask?.Result.User.IsInRole("Admin") ?? false;
+    }
+
+    private bool IsManager()
+    {
+        return AuthenticationStateTask?.Result.User.IsInRole("Manager") ?? false;
+    }
+}

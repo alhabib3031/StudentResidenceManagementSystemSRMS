@@ -1,92 +1,278 @@
 ﻿@inherits LayoutComponentBase
-<MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode"/>
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<MudThemeProvider Theme="@_theme" IsDarkMode="@_isDarkMode" />
+<MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
-<MudPopoverProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="1">
-        <MudText Typo="Typo.h5" Class="ml-3">Application</MudText>
+    <!-- App Bar -->
+    <MudAppBar Elevation="1" Dense="true">
+        <!-- Menu Toggle Button -->
+        <MudIconButton 
+            Icon="@Icons.Material.Filled.Menu" 
+            Color="Color.Inherit" 
+            Edge="Edge.Start" 
+            OnClick="@ToggleDrawer" />
+
+        <!-- Logo & Title -->
+        <MudImage 
+            Src="images/logo.png" 
+            Alt="SRMS Logo" 
+            Height="32" 
+            Class="mr-2" 
+            ObjectFit="ObjectFit.Contain"
+            Style="display: none;" />
+        
+        <MudText Typo="Typo.h6" Class="ml-2">
+            <MudIcon Icon="@Icons.Material.Filled.School" Size="Size.Small" Class="mr-1" />
+            SRMS
+        </MudText>
+
+        <MudSpacer />
+
+        <!-- Search (Optional) -->
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+            <MudTextField 
+                @bind-Value="_searchString" 
+                Placeholder="Search..." 
+                Adornment="Adornment.Start" 
+                AdornmentIcon="@Icons.Material.Filled.Search" 
+                IconSize="Size.Small" 
+                Variant="Variant.Outlined"
+                Margin="Margin.Dense"
+                Class="mr-4"
+                Style="max-width: 300px;" />
+        </MudHidden>
+
+        <!-- Dark/Light Mode Toggle -->
+        <MudTooltip Text="@(_isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode")">
+            <MudIconButton 
+                Icon="@(_isDarkMode ? Icons.Material.Outlined.LightMode : Icons.Material.Outlined.DarkMode)" 
+                Color="Color.Inherit" 
+                OnClick="@ToggleDarkMode" />
+        </MudTooltip>
+
+        <!-- Notifications -->
+        <MudTooltip Text="Notifications">
+            <MudBadge Content="@_notificationCount" Color="Color.Error" Overlap="true" Visible="@(_notificationCount > 0)">
+                <MudIconButton 
+                    Icon="@Icons.Material.Filled.Notifications" 
+                    Color="Color.Inherit"
+                    OnClick="@OpenNotifications" />
+            </MudBadge>
+        </MudTooltip>
+
+        <!-- User Menu -->
+        <AuthorizeView>
+            <Authorized Context="auth">
+                <MudMenu
+                    Icon="@Icons.Material.Filled.AccountCircle"
+                    Color="Color.Inherit"
+                    AnchorOrigin="Origin.BottomRight"
+                    TransformOrigin="Origin.TopRight">
+                    
+                     <ChildContent>
+                        <!-- User Info -->
+                        <div class="pa-4" style="min-width: 250px;">
+                            <MudStack Spacing="1">
+                                <MudText Typo="Typo.body1">
+                                    <strong>@auth.User.Identity?.Name</strong>
+                                </MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                    @GetUserRole(auth.User)
+                                </MudText>
+                            </MudStack>
+                        </div>
+                        <MudDivider/>
+
+                        <!-- Menu Items -->
+                        <MudMenuItem Icon="@Icons.Material.Filled.Person" Href="/profile">
+                            My Profile
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Settings" Href="/settings">
+                            Settings
+                        </MudMenuItem>
+                        <MudDivider/>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="@HandleLogout" IconColor="Color.Error">
+                            <MudText Color="Color.Error">Logout</MudText>
+                        </MudMenuItem>
+                     </ChildContent> 
+                </MudMenu>
+            </Authorized>
+            <NotAuthorized>
+                <MudButton 
+                    Href="/login" 
+                    Variant="Variant.Text" 
+                    Color="Color.Inherit"
+                    StartIcon="@Icons.Material.Filled.Login">
+                    Sign In
+                </MudButton>
+            </NotAuthorized>
+        </AuthorizeView>
     </MudAppBar>
-    <MudDrawer id="nav-drawer" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-        <NavMenu/>
+
+    <!-- Drawer / Sidebar -->
+    <MudDrawer 
+        @bind-Open="_drawerOpen" 
+        Elevation="2" 
+        ClipMode="DrawerClipMode.Always">
+        <NavMenu />
     </MudDrawer>
-    <MudMainContent Class="pt-16 pa-4">
-        @Body
+
+    <!-- Main Content -->
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="py-6">
+            <AuthorizeView>
+                <Authorized>
+                    @Body
+                </Authorized>
+                <NotAuthorized>
+                    @if (IsPublicPage())
+                    {
+                        @Body
+                    }
+                    else
+                    {
+                        <MudPaper Elevation="3" Class="pa-8 text-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Lock" Size="Size.Large" Color="Color.Error" Style="font-size: 80px;" />
+                            <MudText Typo="Typo.h4" Class="mt-4">Access Denied</MudText>
+                            <MudText Typo="Typo.body1" Color="Color.Secondary" Class="my-4">
+                                You need to be logged in to access this page.
+                            </MudText>
+                            <MudButton 
+                                Href="/login" 
+                                Variant="Variant.Filled" 
+                                Color="Color.Primary"
+                                StartIcon="@Icons.Material.Filled.Login">
+                                Sign In Now
+                            </MudButton>
+                        </MudPaper>
+                    }
+                </NotAuthorized>
+            </AuthorizeView>
+        </MudContainer>
     </MudMainContent>
 </MudLayout>
-
 
 @code {
     private bool _drawerOpen = true;
     private bool _isDarkMode = true;
     private MudTheme? _theme = null;
+    private string _searchString = "";
+    private int _notificationCount = 3;
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
-
-        _theme = new()
+        _theme = new MudTheme
         {
             PaletteLight = _lightPalette,
             PaletteDark = _darkPalette,
-            LayoutProperties = new LayoutProperties()
+            LayoutProperties = new LayoutProperties
+            {
+                DrawerWidthLeft = "260px"
+            }
         };
     }
 
-    private void DrawerToggle()
+    private void ToggleDrawer()
     {
         _drawerOpen = !_drawerOpen;
     }
 
-    private void DarkModeToggle()
+    private void ToggleDarkMode()
     {
         _isDarkMode = !_isDarkMode;
+        // Save preference to local storage
     }
 
+    private void OpenNotifications()
+    {
+        // Open notifications panel/dialog
+        Navigation.NavigateTo("/notifications");
+    }
+
+    private async Task HandleLogout()
+    {
+        // Implement logout logic
+        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        Navigation.NavigateTo("/login");
+    }
+
+    private string GetUserRole(System.Security.Claims.ClaimsPrincipal user)
+    {
+        if (user.IsInRole("SuperRoot")) return "🔐 Super Administrator";
+        if (user.IsInRole("Admin")) return "👔 Administrator";
+        if (user.IsInRole("Manager")) return "🏢 Manager";
+        if (user.IsInRole("Student")) return "🎓 Student";
+        return "👤 User";
+    }
+
+    private bool IsPublicPage()
+    {
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        var path = uri.AbsolutePath.ToLower();
+        
+        var publicPages = new[] { "/", "/login", "/register", "/forgot-password", "/verify-email" };
+        return publicPages.Contains(path);
+    }
+
+    // Light Theme Palette
     private readonly PaletteLight _lightPalette = new()
     {
         Black = "#110e2d",
         AppbarText = "#424242",
-        AppbarBackground = "rgba(255,255,255,0.8)",
+        AppbarBackground = "rgba(255,255,255,0.95)",
         DrawerBackground = "#ffffff",
-        GrayLight = "#e8e8e8",
-        GrayLighter = "#f9f9f9",
+        DrawerText = "#424242",
+        DrawerIcon = "#616161",
+        Surface = "#ffffff",
+        Background = "#f5f5f5",
+        BackgroundGray = "#e0e0e0",
+        TextPrimary = "#212121",
+        TextSecondary = "#757575",
+        Primary = "#1976d2",
+        PrimaryContrastText = "#ffffff",
+        Secondary = "#424242",
+        Info = "#2196f3",
+        Success = "#4caf50",
+        Warning = "#fb8c00",
+        Error = "#f44336",
+        Dark = "#424242",
+        GrayLight = "#e0e0e0",
+        GrayLighter = "#f5f5f5",
     };
 
+    // Dark Theme Palette
     private readonly PaletteDark _darkPalette = new()
     {
         Primary = "#7e6fff",
+        Secondary = "#b0b0b0",
         Surface = "#1e1e2d",
         Background = "#1a1a27",
         BackgroundGray = "#151521",
         AppbarText = "#92929f",
-        AppbarBackground = "rgba(26,26,39,0.8)",
+        AppbarBackground = "rgba(26,26,39,0.95)",
         DrawerBackground = "#1a1a27",
+        DrawerText = "#b2b0bf",
+        DrawerIcon = "#92929f",
         ActionDefault = "#74718e",
         ActionDisabled = "#9999994d",
         ActionDisabledBackground = "#605f6d4d",
-        TextPrimary = "#b2b0bf",
-        TextSecondary = "#92929f",
+        TextPrimary = "#e0e0e0",
+        TextSecondary = "#b0b0b0",
         TextDisabled = "#ffffff33",
-        DrawerIcon = "#92929f",
-        DrawerText = "#92929f",
-        GrayLight = "#2a2833",
-        GrayLighter = "#1e1e2d",
         Info = "#4a86ff",
         Success = "#3dcb6c",
         Warning = "#ffb545",
         Error = "#ff3f5f",
+        Dark = "#27272f",
         LinesDefault = "#33323e",
         TableLines = "#33323e",
         Divider = "#292838",
         OverlayLight = "#1e1e2d80",
     };
-
-    public string DarkLightModeButtonIcon => _isDarkMode switch
-    {
-        true => Icons.Material.Rounded.AutoMode,
-        false => Icons.Material.Outlined.DarkMode,
-    };
-
 }
