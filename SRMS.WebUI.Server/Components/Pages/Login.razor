@@ -135,7 +135,7 @@
                 
                 var customProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
                 
-                await customProvider.LoginAsync(result.User.Email);
+                await customProvider.LoginAsync(result.User!.Email);
                 
                 // Redirect based on role
                 var role = result.User.Roles.FirstOrDefault();

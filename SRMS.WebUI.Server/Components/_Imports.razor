@@ -16,6 +16,7 @@
 @* Authorization *@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
 
 @* Application Components *@
 @using SRMS.WebUI.Server
@@ -27,15 +28,21 @@
 @using SRMS.Domain.Students
 @using SRMS.Domain.Identity
 @using SRMS.Domain.Identity.Constants
+@using SRMS.Domain.Complaints.Enums
+@using SRMS.Domain.Payments.Enums
 
 @* Application Services *@
 @using SRMS.Application.Students
+@using SRMS.Application.Rooms.DTOs
 @using SRMS.Application.Students.DTOs
 @using SRMS.Application.Students.GetStudent
 @using SRMS.Application.Students.CreateStudent
 @using SRMS.Application.Students.GetStudentById
 @using SRMS.Application.Students.UpdateStudent
 @using SRMS.Application.Students.DeleteStudent
+@using SRMS.Application.Complaints.DTOs
+@using SRMS.Application.Payments.DTOs
+
 
 @* WebUI.Server Services *@
 @using SRMS.WebUI.Server.Services

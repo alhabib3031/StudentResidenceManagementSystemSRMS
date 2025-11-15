@@ -1,0 +1,287 @@
+﻿@page "/superroot/audit"
+@attribute [Authorize(Roles = "SuperRoot")]
+@rendermode InteractiveServer
+@inject ISnackbar Snackbar
+
+<PageTitle>Audit Logs</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4" Color="Color.Primary">
+                    <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" />
+                    Audit Logs
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Track all system activities and changes
+                </MudText>
+            </div>
+            <MudButton 
+                Variant="Variant.Filled" 
+                Color="Color.Primary"
+                StartIcon="@Icons.Material.Filled.Download"
+                OnClick="@ExportLogs">
+                Export Logs
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+
+    <!-- Statistics -->
+    <MudGrid Class="mb-4">
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Actions</MudText>
+                            <MudText Typo="Typo.h4">1,234</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Primary" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.TouchApp" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Today</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Success">87</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Success" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.Today" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Failed Actions</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Error">12</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Error" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.Error" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Active Users</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Info">45</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Info" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Filters -->
+    <MudPaper Elevation="2" Class="pa-4 mb-4">
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="3">
+                <MudTextField 
+                    @bind-Value="_searchString"
+                    Label="Search"
+                    Variant="Variant.Outlined"
+                    Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Search"
+                    Margin="Margin.Dense" />
+            </MudItem>
+            
+            <MudItem xs="12" sm="6" md="3">
+                <MudSelect 
+                    T="string"
+                    @bind-Value="_actionFilter"
+                    Label="Action Type"
+                    Variant="Variant.Outlined"
+                    Margin="Margin.Dense"
+                    Clearable="true">
+                    <MudSelectItem Value="@("Create")">Create</MudSelectItem>
+                    <MudSelectItem Value="@("Update")">Update</MudSelectItem>
+                    <MudSelectItem Value="@("Delete")">Delete</MudSelectItem>
+                    <MudSelectItem Value="@("View")">View</MudSelectItem>
+                    <MudSelectItem Value="@("Login")">Login</MudSelectItem>
+                    <MudSelectItem Value="@("Logout")">Logout</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+            
+            <MudItem xs="12" sm="6" md="3">
+                <MudSelect 
+                    T="string"
+                    @bind-Value="_entityFilter"
+                    Label="Entity"
+                    Variant="Variant.Outlined"
+                    Margin="Margin.Dense"
+                    Clearable="true">
+                    <MudSelectItem Value="@("User")">User</MudSelectItem>
+                    <MudSelectItem Value="@("Student")">Student</MudSelectItem>
+                    <MudSelectItem Value="@("Manager")">Manager</MudSelectItem>
+                    <MudSelectItem Value="@("Room")">Room</MudSelectItem>
+                    <MudSelectItem Value="@("Payment")">Payment</MudSelectItem>
+                    <MudSelectItem Value="@("Complaint")">Complaint</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+            
+            <MudItem xs="12" sm="6" md="3">
+                <MudDateRangePicker 
+                    @bind-DateRange="_dateRange"
+                    Label="Date Range"
+                    Variant="Variant.Outlined"
+                    Margin="Margin.Dense" />
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <!-- Logs Table -->
+    <MudPaper Elevation="4">
+        <MudTable Items="@_logs" Hover="true" Striped="true" Dense="true" Loading="@_isLoading">
+            <HeaderContent>
+                <MudTh>Timestamp</MudTh>
+                <MudTh>User</MudTh>
+                <MudTh>Action</MudTh>
+                <MudTh>Entity</MudTh>
+                <MudTh>Details</MudTh>
+                <MudTh>IP Address</MudTh>
+                <MudTh Style="text-align: right">Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Timestamp">
+                    <MudStack Spacing="0">
+                        <MudText Typo="Typo.body2">@context.Timestamp.ToString("MMM dd, yyyy")</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">@context.Timestamp.ToString("HH:mm:ss")</MudText>
+                    </MudStack>
+                </MudTd>
+                <MudTd DataLabel="User">
+                    <MudStack Spacing="0">
+                        <MudText Typo="Typo.body2"><strong>@context.UserName</strong></MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">@context.UserId</MudText>
+                    </MudStack>
+                </MudTd>
+                <MudTd DataLabel="Action">
+                    <MudChip T="string" Size="Size.Small" Color="@GetActionColor(context.Action)">
+                        @context.Action
+                    </MudChip>
+                </MudTd>
+                <MudTd DataLabel="Entity">
+                    <MudText Typo="Typo.body2">@context.EntityName</MudText>
+                </MudTd>
+                <MudTd DataLabel="Details">
+                    <MudText Typo="Typo.caption" Style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                        @context.Details
+                    </MudText>
+                </MudTd>
+                <MudTd DataLabel="IP">
+                    <MudText Typo="Typo.caption">@context.IpAddress</MudText>
+                </MudTd>
+                <MudTd DataLabel="Actions" Style="text-align: right">
+                    <MudIconButton 
+                        Icon="@Icons.Material.Filled.Visibility"
+                        Color="Color.Info"
+                        Size="Size.Small"
+                        OnClick="@(() => ViewDetails(context))" />
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new[] { 25, 50, 100 }" />
+            </PagerContent>
+        </MudTable>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private List<AuditLogEntry> _logs = new();
+    private bool _isLoading = true;
+    private string _searchString = "";
+    private string? _actionFilter;
+    private string? _entityFilter;
+    private DateRange? _dateRange;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadLogs();
+    }
+
+    private async Task LoadLogs()
+    {
+        _isLoading = true;
+        try
+        {
+            // TODO: Load from database
+            await Task.Delay(500);
+            _logs = GenerateSampleLogs();
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private List<AuditLogEntry> GenerateSampleLogs()
+    {
+        return new List<AuditLogEntry>
+        {
+            new() { Timestamp = DateTime.Now.AddMinutes(-5), UserName = "admin@srms.edu.ly", UserId = "Admin", Action = "Create", EntityName = "Student", Details = "Created new student: John Doe", IpAddress = "192.168.1.100" },
+            new() { Timestamp = DateTime.Now.AddMinutes(-15), UserName = "manager@srms.edu.ly", UserId = "Manager", Action = "Update", EntityName = "Payment", Details = "Updated payment status to Paid", IpAddress = "192.168.1.101" },
+            new() { Timestamp = DateTime.Now.AddMinutes(-30), UserName = "student@srms.edu.ly", UserId = "Student", Action = "Login", EntityName = "User", Details = "Successful login", IpAddress = "192.168.1.102" },
+            new() { Timestamp = DateTime.Now.AddHours(-1), UserName = "admin@srms.edu.ly", UserId = "Admin", Action = "Delete", EntityName = "Complaint", Details = "Deleted complaint ID: 123", IpAddress = "192.168.1.100" },
+            new() { Timestamp = DateTime.Now.AddHours(-2), UserName = "manager@srms.edu.ly", UserId = "Manager", Action = "View", EntityName = "Student", Details = "Viewed student profile", IpAddress = "192.168.1.101" }
+        };
+    }
+
+    private Color GetActionColor(string action) => action switch
+    {
+        "Create" => Color.Success,
+        "Update" => Color.Info,
+        "Delete" => Color.Error,
+        "View" => Color.Default,
+        "Login" => Color.Primary,
+        "Logout" => Color.Secondary,
+        _ => Color.Default
+    };
+
+    private void ViewDetails(AuditLogEntry log)
+    {
+        Snackbar.Add($"Viewing details for: {log.Details}", Severity.Info);
+    }
+
+    private void ExportLogs()
+    {
+        Snackbar.Add("Exporting logs...", Severity.Info);
+    }
+
+    public class AuditLogEntry
+    {
+        public DateTime Timestamp { get; set; }
+        public string UserName { get; set; } = "";
+        public string UserId { get; set; } = "";
+        public string Action { get; set; } = "";
+        public string EntityName { get; set; } = "";
+        public string Details { get; set; } = "";
+        public string IpAddress { get; set; } = "";
+    }
+}

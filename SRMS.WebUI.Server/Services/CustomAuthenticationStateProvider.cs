@@ -38,11 +38,7 @@ public class CustomAuthenticationStateProvider : RevalidatingServerAuthenticatio
 
         using var scope = _scopeFactory.CreateScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        
-        if (!Guid.TryParse(userId, out var userGuid))
-            return false;
-            
-        var appUser = await userManager.FindByIdAsync(userGuid.ToString());
+        var appUser = await userManager.FindByIdAsync(userId);
 
         return appUser != null && appUser.IsActive;
     }
@@ -52,7 +48,6 @@ public class CustomAuthenticationStateProvider : RevalidatingServerAuthenticatio
         return Task.FromResult(new AuthenticationState(_currentUser));
     }
 
-    // ✅ Login Method
     public async Task LoginAsync(string email)
     {
         using var scope = _scopeFactory.CreateScope();
@@ -60,16 +55,9 @@ public class CustomAuthenticationStateProvider : RevalidatingServerAuthenticatio
         var user = await userManager.FindByEmailAsync(email);
 
         if (user == null)
-        {
-            Console.WriteLine($"[AUTH] User not found: {email}");
             return;
-        }
 
         var roles = await userManager.GetRolesAsync(user);
-        
-        Console.WriteLine($"[AUTH] Logging in user: {email}");
-        Console.WriteLine($"[AUTH] User ID: {user.Id}");
-        Console.WriteLine($"[AUTH] Roles: {string.Join(", ", roles)}");
         
         var claims = new List<Claim>
         {
@@ -81,21 +69,14 @@ public class CustomAuthenticationStateProvider : RevalidatingServerAuthenticatio
 
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-        var identity = new ClaimsIdentity(claims, "SRMS-Auth");
+        var identity = new ClaimsIdentity(claims, "CustomAuth");
         _currentUser = new ClaimsPrincipal(identity);
 
-        Console.WriteLine($"[AUTH] Claims created: {claims.Count}");
-        Console.WriteLine($"[AUTH] Identity authenticated: {identity.IsAuthenticated}");
-
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(_currentUser)));
-        
-        Console.WriteLine("[AUTH] Authentication state changed!");
     }
 
-    // ✅ Logout Method
     public void Logout()
     {
-        Console.WriteLine("[AUTH] Logging out...");
         _currentUser = new ClaimsPrincipal(new ClaimsIdentity());
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(_currentUser)));
     }
