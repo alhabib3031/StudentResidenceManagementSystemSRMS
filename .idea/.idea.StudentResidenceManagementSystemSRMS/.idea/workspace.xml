@@ -13,22 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Admin/Dashboard.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/ComplaintsManagement.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/Dashboard.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/PaymentsManagement.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Rooms/RoomsManagement.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/AppSystemSettings.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/AuditLogs.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/DangerZone.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/RolesManagement.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/UserManagement.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student Portal/Dashboard.razor" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/MyProfile.razor" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/EmailConfiguration.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Services/CustomAuthenticationStateProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Services/CustomAuthenticationStateProvider.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,6 +206,7 @@
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/AppSystemSettings.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/AuditLogs.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/DangerZone.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/EmailConfiguration.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/RolesManagement.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/UserManagement.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
@@ -399,7 +386,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763132512407</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="complete creating pages">
+      <option name="closed" value="true" />
+      <created>1763234009110</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1763234009111</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -429,7 +424,8 @@
     <MESSAGE value="commit after merging complete-system pranch with main" />
     <MESSAGE value="complete entitys and add dtos adding google auth external api and create rolse and one page for supper root" />
     <MESSAGE value="fix superroot page access denied" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix superroot page access denied" />
+    <MESSAGE value="complete creating pages" />
+    <option name="LAST_COMMIT_MESSAGE" value="complete creating pages" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

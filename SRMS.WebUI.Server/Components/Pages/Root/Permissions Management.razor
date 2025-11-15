@@ -1,0 +1,427 @@
+﻿@page "/superroot/permissions"
+@attribute [Authorize(Roles = "SuperRoot")]
+@rendermode InteractiveServer
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<PageTitle>Permissions Management</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4" Color="Color.Primary">
+                    <MudIcon Icon="@Icons.Material.Filled.Security" Class="mr-2" />
+                    Permissions Management
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Manage role-based permissions and access control
+                </MudText>
+            </div>
+            <MudButton 
+                Variant="Variant.Filled" 
+                Color="Color.Primary"
+                StartIcon="@Icons.Material.Filled.Add"
+                OnClick="@CreatePermission">
+                Create Permission
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+
+    <!-- Role Selector -->
+    <MudPaper Elevation="2" Class="pa-4 mb-4">
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="4">
+                <MudSelect 
+                    T="string"
+                    @bind-Value="_selectedRole"
+                    Label="Select Role to Manage"
+                    Variant="Variant.Outlined"
+                    Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Badge">
+                    <MudSelectItem Value="@("SuperRoot")">
+                        <div class="d-flex align-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Shield" Color="Color.Error" Class="mr-2" />
+                            SuperRoot
+                        </div>
+                    </MudSelectItem>
+                    <MudSelectItem Value="@("Admin")">
+                        <div class="d-flex align-center">
+                            <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Color="Color.Primary" Class="mr-2" />
+                            Admin
+                        </div>
+                    </MudSelectItem>
+                    <MudSelectItem Value="@("Manager")">
+                        <div class="d-flex align-center">
+                            <MudIcon Icon="@Icons.Material.Filled.ManageAccounts" Color="Color.Info" Class="mr-2" />
+                            Manager
+                        </div>
+                    </MudSelectItem>
+                    <MudSelectItem Value="@("Student")">
+                        <div class="d-flex align-center">
+                            <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Success" Class="mr-2" />
+                            Student
+                        </div>
+                    </MudSelectItem>
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4">
+                <MudTextField 
+                    @bind-Value="_searchString"
+                    Label="Search Permissions"
+                    Variant="Variant.Outlined"
+                    Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Search"
+                    Immediate="true" />
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4">
+                <MudSelect 
+                    T="string"
+                    @bind-Value="_categoryFilter"
+                    Label="Filter by Category"
+                    Variant="Variant.Outlined"
+                    Clearable="true">
+                    <MudSelectItem Value="@("Users")">Users</MudSelectItem>
+                    <MudSelectItem Value="@("Students")">Students</MudSelectItem>
+                    <MudSelectItem Value="@("Managers")">Managers</MudSelectItem>
+                    <MudSelectItem Value="@("Rooms")">Rooms</MudSelectItem>
+                    <MudSelectItem Value="@("Payments")">Payments</MudSelectItem>
+                    <MudSelectItem Value="@("Complaints")">Complaints</MudSelectItem>
+                    <MudSelectItem Value="@("System")">System</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <!-- Permission Categories -->
+    <MudGrid>
+        @foreach (var category in GetFilteredCategories())
+        {
+            <MudItem xs="12" md="6">
+                <MudCard Elevation="4">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">
+                                <MudIcon Icon="@GetCategoryIcon(category.Name)" Class="mr-2" Size="Size.Small" />
+                                @category.Name Permissions
+                            </MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudChip T="string" Size="Size.Small" Color="Color.Info">
+                                @category.Permissions.Count(p => p.IsEnabled) / @category.Permissions.Count
+                            </MudChip>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudList T="string" Dense="true">
+                            @foreach (var permission in category.Permissions)
+                            {
+                                <MudListItem>
+                                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                        <div style="flex: 1;">
+                                            <MudText Typo="Typo.body2"><strong>@permission.Name</strong></MudText>
+                                            <MudText Typo="Typo.caption" Color="Color.Secondary">@permission.Description</MudText>
+                                            <MudText Typo="Typo.caption" Color="Color.Tertiary" Style="font-family: monospace;">
+                                                @permission.Key
+                                            </MudText>
+                                        </div>
+                                        <MudSwitch 
+                                            T="bool"
+                                            @bind-Value="permission.IsEnabled"
+                                            Color="Color.Success"
+                                            OnChanged="@(() => TogglePermission(permission))"
+                                            Disabled="@IsSystemPermission(permission.Key)" />
+                                    </MudStack>
+                                </MudListItem>
+                                <MudDivider />
+                            }
+                        </MudList>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton 
+                            Size="Size.Small" 
+                            Variant="Variant.Text" 
+                            Color="Color.Primary"
+                            OnClick="@(() => EnableAll(category))">
+                            Enable All
+                        </MudButton>
+                        <MudButton 
+                            Size="Size.Small" 
+                            Variant="Variant.Text" 
+                            Color="Color.Secondary"
+                            OnClick="@(() => DisableAll(category))">
+                            Disable All
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+
+    <!-- Save Button -->
+    <MudPaper Elevation="0" Class="pa-4 mt-4 text-center">
+        <MudButton 
+            Variant="Variant.Filled" 
+            Color="Color.Primary"
+            Size="Size.Large"
+            StartIcon="@Icons.Material.Filled.Save"
+            OnClick="@SavePermissions"
+            Disabled="_isSaving">
+            @if (_isSaving)
+            {
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                <span>Saving Changes...</span>
+            }
+            else
+            {
+                <span>Save All Changes</span>
+            }
+        </MudButton>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private List<PermissionCategory> _categories = new();
+    private string _selectedRole = "Manager";
+    private string _searchString = "";
+    private string? _categoryFilter;
+    private bool _isLoading = true;
+    private bool _isSaving = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPermissions();
+    }
+
+    private async Task LoadPermissions()
+    {
+        _isLoading = true;
+        try
+        {
+            await Task.Delay(500);
+            _categories = new List<PermissionCategory>
+            {
+                new()
+                {
+                    Name = "Users",
+                    Permissions = new()
+                    {
+                        new() { Key = "Permissions.Users.View", Name = "View Users", Description = "View all users in the system", IsEnabled = true },
+                        new() { Key = "Permissions.Users.Create", Name = "Create Users", Description = "Create new user accounts", IsEnabled = true },
+                        new() { Key = "Permissions.Users.Edit", Name = "Edit Users", Description = "Modify user information", IsEnabled = true },
+                        new() { Key = "Permissions.Users.Delete", Name = "Delete Users", Description = "Delete user accounts", IsEnabled = false },
+                        new() { Key = "Permissions.Users.Manage", Name = "Manage Users", Description = "Full user management access", IsEnabled = true }
+                    }
+                },
+                new()
+                {
+                    Name = "Students",
+                    Permissions = new()
+                    {
+                        new() { Key = "Permissions.Students.View", Name = "View Students", Description = "View student profiles", IsEnabled = true },
+                        new() { Key = "Permissions.Students.ViewOwn", Name = "View Own Profile", Description = "View own student profile", IsEnabled = true },
+                        new() { Key = "Permissions.Students.Edit", Name = "Edit Students", Description = "Modify student information", IsEnabled = true },
+                        new() { Key = "Permissions.Students.EditOwn", Name = "Edit Own Profile", Description = "Edit own student profile", IsEnabled = true },
+                        new() { Key = "Permissions.Students.Delete", Name = "Delete Students", Description = "Remove student records", IsEnabled = false },
+                        new() { Key = "Permissions.Students.Manage", Name = "Manage Students", Description = "Full student management", IsEnabled = true }
+                    }
+                },
+                new()
+                {
+                    Name = "Managers",
+                    Permissions = new()
+                    {
+                        new() { Key = "Permissions.Managers.View", Name = "View Managers", Description = "View manager profiles", IsEnabled = false },
+                        new() { Key = "Permissions.Managers.Create", Name = "Create Managers", Description = "Create new managers", IsEnabled = false },
+                        new() { Key = "Permissions.Managers.Edit", Name = "Edit Managers", Description = "Modify manager information", IsEnabled = false },
+                        new() { Key = "Permissions.Managers.Delete", Name = "Delete Managers", Description = "Remove managers", IsEnabled = false },
+                        new() { Key = "Permissions.Managers.Manage", Name = "Manage Managers", Description = "Full manager management", IsEnabled = false }
+                    }
+                },
+                new()
+                {
+                    Name = "Rooms",
+                    Permissions = new()
+                    {
+                        new() { Key = "Permissions.Rooms.View", Name = "View Rooms", Description = "View room information", IsEnabled = true },
+                        new() { Key = "Permissions.Rooms.Create", Name = "Create Rooms", Description = "Add new rooms", IsEnabled = true },
+                        new() { Key = "Permissions.Rooms.Edit", Name = "Edit Rooms", Description = "Modify room details", IsEnabled = true },
+                        new() { Key = "Permissions.Rooms.Delete", Name = "Delete Rooms", Description = "Remove rooms", IsEnabled = true },
+                        new() { Key = "Permissions.Rooms.Manage", Name = "Manage Rooms", Description = "Full room management", IsEnabled = true },
+                        new() { Key = "Permissions.Rooms.Assign", Name = "Assign Rooms", Description = "Assign students to rooms", IsEnabled = true }
+                    }
+                },
+                new()
+                {
+                    Name = "Payments",
+                    Permissions = new()
+                    {
+                        new() { Key = "Permissions.Payments.View", Name = "View Payments", Description = "View payment records", IsEnabled = true },
+                        new() { Key = "Permissions.Payments.ViewOwn", Name = "View Own Payments", Description = "View own payment history", IsEnabled = true },
+                        new() { Key = "Permissions.Payments.ViewAll", Name = "View All Payments", Description = "View all payment records", IsEnabled = true },
+                        new() { Key = "Permissions.Payments.Create", Name = "Record Payments", Description = "Record new payments", IsEnabled = true },
+                        new() { Key = "Permissions.Payments.Edit", Name = "Edit Payments", Description = "Modify payment records", IsEnabled = true },
+                        new() { Key = "Permissions.Payments.Delete", Name = "Delete Payments", Description = "Remove payment records", IsEnabled = false }
+                    }
+                },
+                new()
+                {
+                    Name = "Complaints",
+                    Permissions = new()
+                    {
+                        new() { Key = "Permissions.Complaints.View", Name = "View Complaints", Description = "View complaints", IsEnabled = true },
+                        new() { Key = "Permissions.Complaints.ViewOwn", Name = "View Own Complaints", Description = "View own complaints", IsEnabled = true },
+                        new() { Key = "Permissions.Complaints.Create", Name = "Submit Complaints", Description = "Create new complaints", IsEnabled = true },
+                        new() { Key = "Permissions.Complaints.Edit", Name = "Edit Complaints", Description = "Modify complaints", IsEnabled = true },
+                        new() { Key = "Permissions.Complaints.Delete", Name = "Delete Complaints", Description = "Remove complaints", IsEnabled = false },
+                        new() { Key = "Permissions.Complaints.Manage", Name = "Manage Complaints", Description = "Full complaint management", IsEnabled = true },
+                        new() { Key = "Permissions.Complaints.Resolve", Name = "Resolve Complaints", Description = "Mark complaints as resolved", IsEnabled = true }
+                    }
+                },
+                new()
+                {
+                    Name = "Residences",
+                    Permissions = new()
+                    {
+                        new() { Key = "Permissions.Residences.View", Name = "View Residences", Description = "View residence information", IsEnabled = true },
+                        new() { Key = "Permissions.Residences.Create", Name = "Create Residences", Description = "Add new residences", IsEnabled = false },
+                        new() { Key = "Permissions.Residences.Edit", Name = "Edit Residences", Description = "Modify residence details", IsEnabled = false },
+                        new() { Key = "Permissions.Residences.Delete", Name = "Delete Residences", Description = "Remove residences", IsEnabled = false },
+                        new() { Key = "Permissions.Residences.Manage", Name = "Manage Residence", Description = "Manage assigned residence", IsEnabled = true },
+                        new() { Key = "Permissions.Residences.ManageAll", Name = "Manage All Residences", Description = "Full residence management", IsEnabled = false }
+                    }
+                },
+                new()
+                {
+                    Name = "System",
+                    Permissions = new()
+                    {
+                        new() { Key = "Permissions.System.ViewReports", Name = "View Reports", Description = "Access system reports", IsEnabled = false },
+                        new() { Key = "Permissions.System.Settings", Name = "System Settings", Description = "Modify system settings", IsEnabled = false },
+                        new() { Key = "Permissions.System.Audit", Name = "View Audit Logs", Description = "Access audit trail", IsEnabled = false },
+                        new() { Key = "Permissions.System.Configure", Name = "System Configuration", Description = "Configure system parameters", IsEnabled = false },
+                        new() { Key = "Permissions.Database.Manage", Name = "Database Management", Description = "Manage database operations", IsEnabled = false }
+                    }
+                }
+            };
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private IEnumerable<PermissionCategory> GetFilteredCategories()
+    {
+        var filtered = _categories.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(_categoryFilter))
+        {
+            filtered = filtered.Where(c => c.Name.Equals(_categoryFilter, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!string.IsNullOrWhiteSpace(_searchString))
+        {
+            filtered = filtered.Where(c => 
+                c.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                c.Permissions.Any(p => 
+                    p.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                    p.Description.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                    p.Key.Contains(_searchString, StringComparison.OrdinalIgnoreCase)
+                )
+            );
+        }
+
+        return filtered;
+    }
+
+    private string GetCategoryIcon(string category) => category switch
+    {
+        "Users" => Icons.Material.Filled.People,
+        "Students" => Icons.Material.Filled.School,
+        "Managers" => Icons.Material.Filled.ManageAccounts,
+        "Rooms" => Icons.Material.Filled.MeetingRoom,
+        "Payments" => Icons.Material.Filled.Payment,
+        "Complaints" => Icons.Material.Filled.Report,
+        "Residences" => Icons.Material.Filled.Apartment,
+        "System" => Icons.Material.Filled.Settings,
+        _ => Icons.Material.Filled.Security
+    };
+
+    private bool IsSystemPermission(string key)
+    {
+        return key.StartsWith("Permissions.System") || key.StartsWith("Permissions.Database");
+    }
+
+    private void TogglePermission(Permission permission)
+    {
+        Snackbar.Add($"Permission '{permission.Name}' {(permission.IsEnabled ? "enabled" : "disabled")}", Severity.Info);
+    }
+
+    private void EnableAll(PermissionCategory category)
+    {
+        foreach (var permission in category.Permissions)
+        {
+            if (!IsSystemPermission(permission.Key))
+            {
+                permission.IsEnabled = true;
+            }
+        }
+        StateHasChanged();
+    }
+
+    private void DisableAll(PermissionCategory category)
+    {
+        foreach (var permission in category.Permissions)
+        {
+            if (!IsSystemPermission(permission.Key))
+            {
+                permission.IsEnabled = false;
+            }
+        }
+        StateHasChanged();
+    }
+
+    private async Task SavePermissions()
+    {
+        _isSaving = true;
+        try
+        {
+            await Task.Delay(1500);
+            Snackbar.Add($"Permissions for {_selectedRole} role saved successfully!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSaving = false;
+        }
+    }
+
+    private void CreatePermission()
+    {
+        Snackbar.Add("Create custom permission - Coming soon!", Severity.Info);
+    }
+
+    public class PermissionCategory
+    {
+        public string Name { get; set; } = "";
+        public List<Permission> Permissions { get; set; } = new();
+    }
+
+    public class Permission
+    {
+        public string Key { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public bool IsEnabled { get; set; }
+    }
+}
