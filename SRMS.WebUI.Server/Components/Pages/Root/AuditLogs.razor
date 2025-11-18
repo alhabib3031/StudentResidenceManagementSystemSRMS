@@ -1,6 +1,11 @@
 ﻿@page "/superroot/audit"
+@using SRMS.Application.AuditLogs.Interfaces
+@using SRMS.Domain.AuditLogs.Enums
+@using SRMS.Domain.AuditLogs
 @attribute [Authorize(Roles = "SuperRoot")]
 @rendermode InteractiveServer
+@inject IUserService UserService
+@inject IAuditService AuditService
 @inject ISnackbar Snackbar
 
 <PageTitle>Audit Logs</PageTitle>
@@ -41,7 +46,7 @@
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">Total Actions</MudText>
-                            <MudText Typo="Typo.h4">1,234</MudText>
+                            <MudText Typo="Typo.h4">@_stats.TotalActions</MudText>
                         </div>
                         <MudAvatar Color="Color.Primary" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.TouchApp" Size="Size.Large" />
@@ -57,7 +62,7 @@
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">Today</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Success">87</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Success">@_stats.TodayActions</MudText>
                         </div>
                         <MudAvatar Color="Color.Success" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.Today" Size="Size.Large" />
@@ -73,7 +78,7 @@
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">Failed Actions</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Error">12</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Error">@_stats.FailedActions</MudText>
                         </div>
                         <MudAvatar Color="Color.Error" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.Error" Size="Size.Large" />
@@ -89,7 +94,7 @@
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">Active Users</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Info">45</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Info">@_stats.activeUsers</MudText>
                         </div>
                         <MudAvatar Color="Color.Info" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" />
@@ -159,7 +164,7 @@
 
     <!-- Logs Table -->
     <MudPaper Elevation="4">
-        <MudTable Items="@_logs" Hover="true" Striped="true" Dense="true" Loading="@_isLoading">
+        <MudTable Items="@_auditLog" Hover="true" Striped="true" Dense="true" Loading="@_isLoading">
             <HeaderContent>
                 <MudTh>Timestamp</MudTh>
                 <MudTh>User</MudTh>
@@ -190,9 +195,9 @@
                 <MudTd DataLabel="Entity">
                     <MudText Typo="Typo.body2">@context.EntityName</MudText>
                 </MudTd>
-                <MudTd DataLabel="Details">
+                <MudTd DataLabel="AdditionalInfo">
                     <MudText Typo="Typo.caption" Style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
-                        @context.Details
+                        @context.AdditionalInfo
                     </MudText>
                 </MudTd>
                 <MudTd DataLabel="IP">
@@ -214,7 +219,8 @@
 </MudContainer>
 
 @code {
-    private List<AuditLogEntry> _logs = new();
+    private List<AuditLog>? _auditLog = new();
+    private (int TotalActions, int TodayActions, int FailedActions, int activeUsers) _stats = (0, 0, 0, 0);
     private bool _isLoading = true;
     private string _searchString = "";
     private string? _actionFilter;
@@ -229,28 +235,38 @@
     private async Task LoadLogs()
     {
         _isLoading = true;
+        
         try
         {
             // TODO: Load from database
             await Task.Delay(500);
-            _logs = GenerateSampleLogs();
+            // 1. جلب بيانات المستخدمين النشطين (هذا استدعاء منفصل)
+            var activeUsers = (await UserService.GetActiveUsersAsync()).Count;
+
+            // 2. ✅ جلب كل السجلات مرة واحدة وتخزينها
+            _auditLog = (await AuditService.GetAllAsync()).ToList();
+
+            // 3. ✅ الآن، قم بحساب الإحصائيات من القائمة التي لدينا
+            var totalActions = _auditLog.Count;
+            var todayActions = _auditLog.Count(log => log.Timestamp.Date == DateTime.UtcNow.Date);
+            var failedActions = _auditLog.Count(log => log.AuditAction == AuditAction.Failure); // استخدام Enum
+
+            // 4. ✅ تحديث الإحصائيات
+            _stats = (
+                totalActions,
+                todayActions,
+                failedActions,
+                activeUsers
+            );
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Failed to load logs: {ex.Message}", Severity.Error);
         }
         finally
         {
             _isLoading = false;
         }
-    }
-
-    private List<AuditLogEntry> GenerateSampleLogs()
-    {
-        return new List<AuditLogEntry>
-        {
-            new() { Timestamp = DateTime.Now.AddMinutes(-5), UserName = "admin@srms.edu.ly", UserId = "Admin", Action = "Create", EntityName = "Student", Details = "Created new student: John Doe", IpAddress = "192.168.1.100" },
-            new() { Timestamp = DateTime.Now.AddMinutes(-15), UserName = "manager@srms.edu.ly", UserId = "Manager", Action = "Update", EntityName = "Payment", Details = "Updated payment status to Paid", IpAddress = "192.168.1.101" },
-            new() { Timestamp = DateTime.Now.AddMinutes(-30), UserName = "student@srms.edu.ly", UserId = "Student", Action = "Login", EntityName = "User", Details = "Successful login", IpAddress = "192.168.1.102" },
-            new() { Timestamp = DateTime.Now.AddHours(-1), UserName = "admin@srms.edu.ly", UserId = "Admin", Action = "Delete", EntityName = "Complaint", Details = "Deleted complaint ID: 123", IpAddress = "192.168.1.100" },
-            new() { Timestamp = DateTime.Now.AddHours(-2), UserName = "manager@srms.edu.ly", UserId = "Manager", Action = "View", EntityName = "Student", Details = "Viewed student profile", IpAddress = "192.168.1.101" }
-        };
     }
 
     private Color GetActionColor(string action) => action switch
@@ -261,27 +277,19 @@
         "View" => Color.Default,
         "Login" => Color.Primary,
         "Logout" => Color.Secondary,
+        "Failure" => Color.Error,
         _ => Color.Default
     };
 
-    private void ViewDetails(AuditLogEntry log)
+    private void ViewDetails(AuditLog log)
     {
-        Snackbar.Add($"Viewing details for: {log.Details}", Severity.Info);
+        //TODO : add dialog for this or use existing dialog you have 
+        Snackbar.Add($"Viewing details for: {log.AdditionalInfo}", Severity.Info);
     }
 
     private void ExportLogs()
     {
+        //TODO : download the logs as pdf file 
         Snackbar.Add("Exporting logs...", Severity.Info);
-    }
-
-    public class AuditLogEntry
-    {
-        public DateTime Timestamp { get; set; }
-        public string UserName { get; set; } = "";
-        public string UserId { get; set; } = "";
-        public string Action { get; set; } = "";
-        public string EntityName { get; set; } = "";
-        public string Details { get; set; } = "";
-        public string IpAddress { get; set; } = "";
     }
 }

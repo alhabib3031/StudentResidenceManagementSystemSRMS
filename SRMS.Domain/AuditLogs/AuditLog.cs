@@ -34,35 +34,4 @@ public class AuditLog
     
     // Additional Info
     public string? AdditionalInfo { get; set; }
-    
-    private AuditLog() { }
-    
-    public static AuditLog Create(
-        string? userId,
-        string? userName,
-        string action,
-        string entityName,
-        string? entityId,
-        AuditAction auditAction,
-        string? oldValues = null,
-        string? newValues = null,
-        string? ipAddress = null,
-        string? userAgent = null)
-    {
-        return new AuditLog
-        {
-            Id = Guid.NewGuid(),
-            UserId = userId,
-            UserName = userName,
-            Action = action,
-            EntityName = entityName,
-            EntityId = entityId,
-            AuditAction = auditAction,
-            OldValues = oldValues,
-            NewValues = newValues,
-            IpAddress = ipAddress,
-            UserAgent = userAgent,
-            Timestamp = DateTime.UtcNow
-        };
-    }
 }

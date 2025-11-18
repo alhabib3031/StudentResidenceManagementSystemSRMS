@@ -138,6 +138,39 @@ public class UserService : IUserService
         return result.Succeeded;
     }
     
+    public async Task<List<UserDto>> GetActiveUsersAsync()
+    {
+        var users = await _userManager.Users
+            .Where(u => u.IsActive && !u.IsDeleted)
+            .ToListAsync();
+
+        var userDtos = new List<UserDto>();
+
+        foreach (var user in users)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+
+            userDtos.Add(new UserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                FullName = user.FullName,
+                Email = user.Email!,
+                PhoneNumber = user.PhoneNumber,
+                ProfilePicture = user.ProfilePicture,
+                Roles = roles.ToList(),
+                IsActive = user.IsActive,
+                CreatedAt = user.CreatedAt,
+                LastLoginAt = user.LastLoginAt,
+                LoginCount = user.LoginCount
+            });
+        }
+
+        return userDtos;
+    }
+
+    
     public async Task<bool> DeleteUserAsync(Guid userId)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());

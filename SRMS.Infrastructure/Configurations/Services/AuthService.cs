@@ -5,9 +5,11 @@ using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Identity.DTOs;
 using SRMS.Application.Identity.Interfaces;
 using SRMS.Application.Notifications.Interfaces;
+using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Identity;
 using SRMS.Domain.Identity.Constants;
 
@@ -19,17 +21,23 @@ public class AuthService : IAuthService
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IEmailService _emailService;
     private readonly IConfiguration _configuration;
+    private readonly IAuditService _audit;
+    private readonly IUserService _userService;
     
     public AuthService(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IEmailService emailService,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IAuditService audit,
+        IUserService userService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _emailService = emailService;
         _configuration = configuration;
+        _audit = audit;
+        _userService = userService;
     }
     
     public async Task<LoginResponseDto> RegisterAsync(RegisterDto dto)
@@ -74,9 +82,23 @@ public class AuthService : IAuthService
         
         // Generate email confirmation token
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+    
+        // 2. [مهم جداً] تشفير التوكن ليكون آمناً في الرابط
+        var encodedToken = System.Net.WebUtility.UrlEncode(token);
+
+        // 3. تعديل استدعاء خدمة البريد (لاحظ أننا سنحتاج لتعديل الخدمة أيضاً)
+        // سنمرر البريد، ومعرف المستخدم، والتوكن المشفر
+        await _emailService.SendVerificationEmailAsync(user.Email, user.Id.ToString(), encodedToken);
         
-        // Send confirmation email
-        await _emailService.SendVerificationEmailAsync(user.Email, token);
+        //logs audit
+        await _audit.LogAsync(
+            AuditAction.Create,
+            "Student",
+            existingUser?.Id.ToString(),
+            "Nothing",
+            "New Student Registered",
+            "Nothing"
+        );
         
         return new LoginResponseDto
         {
@@ -161,6 +183,16 @@ public class AuthService : IAuthService
         // ✅ Get roles
         var roles = await _userManager.GetRolesAsync(user);
         
+        //logs audit
+        await _audit.LogAsync(
+            AuditAction.Login,
+            $"{roles}",
+            user?.Id.ToString(),
+            "not logged in",
+            "user logged in",
+            "Nothing"
+        );
+        
         // ✅ لا حاجة لـ JWT في Blazor Server، سنستخدم CustomAuthenticationStateProvider
         return new LoginResponseDto
         {
@@ -186,6 +218,16 @@ public class AuthService : IAuthService
     public async Task<bool> LogoutAsync(Guid userId)
     {
         await _signInManager.SignOutAsync();
+        //logs audit
+        var user = await _userService.GetUserByIdAsync(userId);
+        await _audit.LogAsync(
+            AuditAction.Logout,
+            $"{user?.Roles}",
+            userId.ToString(),
+            "logged in",
+            "user logged out",
+            "Nothing"
+        );
         return true;
     }
     
@@ -200,8 +242,19 @@ public class AuthService : IAuthService
         }
         
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var encodedToken = System.Net.WebUtility.UrlEncode(token);
+        await _emailService.SendPasswordResetEmailAsync(user.Email!, encodedToken);
         
-        await _emailService.SendPasswordResetEmailAsync(user.Email!, token);
+        //logs audit
+        var userRole = await _userService.GetUserByIdAsync(user.Id);
+        await _audit.LogAsync(
+            AuditAction.Login,
+            $"{userRole?.Roles}",
+            userRole?.Id.ToString(),
+            "Have a valid token",
+            "Forgot password email sent",
+            "Nothing"
+        );
         
         return true;
     }
@@ -214,6 +267,17 @@ public class AuthService : IAuthService
             return false;
         
         var result = await _userManager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
+        
+        //logs audit
+        var userRole = await _userService.GetUserByIdAsync(user.Id);
+        await _audit.LogAsync(
+            AuditAction.Login,
+            $"{userRole?.Roles}",
+            userRole?.Id.ToString(),
+            "Have a valid token",
+            "Reset password successful!",
+            "Nothing"
+        );
         
         return result.Succeeded;
     }
@@ -229,6 +293,17 @@ public class AuthService : IAuthService
             user,
             dto.CurrentPassword,
             dto.NewPassword
+        );
+        
+        //logs audit
+        var userRole = await _userService.GetUserByIdAsync(userId);
+        await _audit.LogAsync(
+            AuditAction.Update,
+            $"{userRole?.Roles}",
+            userId.ToString(),
+            "have an account",
+            "Change password successful!",
+            "Nothing"
         );
         
         return result.Succeeded;
@@ -247,6 +322,17 @@ public class AuthService : IAuthService
         {
             await _emailService.SendWelcomeEmailAsync(user.Email!, user.FullName);
         }
+        
+        //logs audit
+        var userRole = await _userService.GetUserByIdAsync(user.Id);
+        await _audit.LogAsync(
+            AuditAction.Export,
+            $"{userRole?.Roles}",
+            userRole?.Id.ToString(),
+            "Registered successfully. wait For Email Confirmation ",
+            "Receive email verification link",
+            "Nothing"
+        );
         
         return result.Succeeded;
     }
@@ -313,6 +399,17 @@ public class AuthService : IAuthService
             
             var roles = await _userManager.GetRolesAsync(user);
             
+            //logs audit
+            var userRole = await _userService.GetUserByIdAsync(user.Id);
+            await _audit.LogAsync(
+                AuditAction.Login,
+                $"{roles}",
+                userRole?.Id.ToString(),
+                "not logged in",
+                "Google login successful!",
+                "Nothing"
+            );
+            
             return new LoginResponseDto
             {
                 Success = true,
@@ -343,7 +440,7 @@ public class AuthService : IAuthService
             };
         }
     }
-    
+    // هنا مزال ما سجلت اكواد السجلات لتجربة السابق اولا 
     private async Task<string> GenerateJwtTokenAsync(ApplicationUser user)
     {
         var roles = await _userManager.GetRolesAsync(user);

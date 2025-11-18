@@ -95,87 +95,87 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     /// <summary>
     /// Override SaveChanges لإضافة Audit Trail تلقائياً
     /// </summary>
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        // ═══════════════════════════════════════════════════════════
-        // Audit Trail - تسجيل كل التغييرات تلقائياً
-        // ═══════════════════════════════════════════════════════════
-        
-        var auditEntries = new List<AuditLog>();
-        
-        foreach (var entry in ChangeTracker.Entries())
-        {
-            // تجاهل AuditLog نفسه لتجنب Infinite Loop
-            if (entry.Entity is AuditLog)
-                continue;
-            
-            // تجاهل Unchanged
-            if (entry.State == EntityState.Unchanged)
-                continue;
-            
-            var entityName = entry.Entity.GetType().Name;
-            var entityId = entry.Properties
-                .FirstOrDefault(p => p.Metadata.Name == "Id")?
-                .CurrentValue?.ToString();
-            
-            AuditAction auditAction = entry.State switch
-            {
-                EntityState.Added => AuditAction.Create,
-                EntityState.Modified => AuditAction.Update,
-                EntityState.Deleted => AuditAction.Delete,
-                _ => AuditAction.View
-            };
-            
-            string? oldValues = null;
-            string? newValues = null;
-            
-            if (entry.State == EntityState.Modified)
-            {
-                var modifiedProperties = entry.Properties
-                    .Where(p => p.IsModified)
-                    .Select(p => new
-                    {
-                        Property = p.Metadata.Name,
-                        OldValue = p.OriginalValue?.ToString(),
-                        NewValue = p.CurrentValue?.ToString()
-                    })
-                    .ToList();
-                
-                oldValues = System.Text.Json.JsonSerializer.Serialize(
-                    modifiedProperties.ToDictionary(p => p.Property, p => p.OldValue));
-                newValues = System.Text.Json.JsonSerializer.Serialize(
-                    modifiedProperties.ToDictionary(p => p.Property, p => p.NewValue));
-            }
-            else if (entry.State == EntityState.Added)
-            {
-                newValues = System.Text.Json.JsonSerializer.Serialize(
-                    entry.Properties.ToDictionary(p => p.Metadata.Name, p => p.CurrentValue?.ToString()));
-            }
-            
-            var auditLog = AuditLog.Create(
-                userId: null,  // يمكن الحصول عليه من IHttpContextAccessor
-                userName: null,
-                action: $"{auditAction} {entityName}",
-                entityName: entityName,
-                entityId: entityId,
-                auditAction: auditAction,
-                oldValues: oldValues,
-                newValues: newValues
-            );
-            
-            auditEntries.Add(auditLog);
-        }
-        
-        // حفظ التغييرات
-        var result = await base.SaveChangesAsync(cancellationToken);
-        
-        // إضافة Audit Logs
-        if (auditEntries.Any())
-        {
-            await AuditLogs.AddRangeAsync(auditEntries, cancellationToken);
-            await base.SaveChangesAsync(cancellationToken);
-        }
-        
-        return result;
-    }
+    // public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    // {
+    //     // ═══════════════════════════════════════════════════════════
+    //     // Audit Trail - تسجيل كل التغييرات تلقائياً
+    //     // ═══════════════════════════════════════════════════════════
+    //     
+    //     var auditEntries = new List<AuditLog>();
+    //     
+    //     foreach (var entry in ChangeTracker.Entries())
+    //     {
+    //         // تجاهل AuditLog نفسه لتجنب Infinite Loop
+    //         if (entry.Entity is AuditLog)
+    //             continue;
+    //         
+    //         // تجاهل Unchanged
+    //         if (entry.State == EntityState.Unchanged)
+    //             continue;
+    //         
+    //         var entityName = entry.Entity.GetType().Name;
+    //         var entityId = entry.Properties
+    //             .FirstOrDefault(p => p.Metadata.Name == "Id")?
+    //             .CurrentValue?.ToString();
+    //         
+    //         AuditAction auditAction = entry.State switch
+    //         {
+    //             EntityState.Added => AuditAction.Create,
+    //             EntityState.Modified => AuditAction.Update,
+    //             EntityState.Deleted => AuditAction.Delete,
+    //             _ => AuditAction.View
+    //         };
+    //         
+    //         string? oldValues = null;
+    //         string? newValues = null;
+    //         
+    //         if (entry.State == EntityState.Modified)
+    //         {
+    //             var modifiedProperties = entry.Properties
+    //                 .Where(p => p.IsModified)
+    //                 .Select(p => new
+    //                 {
+    //                     Property = p.Metadata.Name,
+    //                     OldValue = p.OriginalValue?.ToString(),
+    //                     NewValue = p.CurrentValue?.ToString()
+    //                 })
+    //                 .ToList();
+    //             
+    //             oldValues = System.Text.Json.JsonSerializer.Serialize(
+    //                 modifiedProperties.ToDictionary(p => p.Property, p => p.OldValue));
+    //             newValues = System.Text.Json.JsonSerializer.Serialize(
+    //                 modifiedProperties.ToDictionary(p => p.Property, p => p.NewValue));
+    //         }
+    //         else if (entry.State == EntityState.Added)
+    //         {
+    //             newValues = System.Text.Json.JsonSerializer.Serialize(
+    //                 entry.Properties.ToDictionary(p => p.Metadata.Name, p => p.CurrentValue?.ToString()));
+    //         }
+    //         
+    //         var auditLog = AuditLog.Create(
+    //             userId: null,  // يمكن الحصول عليه من IHttpContextAccessor
+    //             userName: null,
+    //             action: $"{auditAction} {entityName}",
+    //             entityName: entityName,
+    //             entityId: entityId,
+    //             auditAction: auditAction,
+    //             oldValues: oldValues,
+    //             newValues: newValues
+    //         );
+    //         
+    //         auditEntries.Add(auditLog);
+    //     }
+    //     
+    //     // حفظ التغييرات
+    //     var result = await base.SaveChangesAsync(cancellationToken);
+    //     
+    //     // إضافة Audit Logs
+    //     if (auditEntries.Any())
+    //     {
+    //         await AuditLogs.AddRangeAsync(auditEntries, cancellationToken);
+    //         await base.SaveChangesAsync(cancellationToken);
+    //     }
+    //     
+    //     return result;
+    // }
 }

@@ -57,16 +57,17 @@ public class EmailService : IEmailService
         return await Task.FromResult(true);
     }
     
-    public async Task<bool> SendVerificationEmailAsync(string to, string verificationCode)
+    public async Task<bool> SendVerificationEmailAsync(string to, string userId, string verificationCode)
     {
         var subject = "Verify Your Email - SRMS";
+        var verificationLink = $"https://localhost:7117/verify-email?userId={userId}&code={verificationCode}"; // i can make it http with different port
         var body = $@"
             <html>
             <body style='font-family: Arial, sans-serif;'>
                 <div style='max-width: 600px; margin: 0 auto; padding: 20px;'>
                     <h2 style='color: #333;'>Welcome to SRMS!</h2>
                     <p>Please verify your email by clicking the link below:</p>
-                    <a href='https://yourdomain.com/verify-email?code={verificationCode}' 
+                    <a href='{verificationLink}' 
                        style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;'>
                         Verify Email
                     </a>

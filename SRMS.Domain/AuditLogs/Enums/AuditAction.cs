@@ -12,5 +12,6 @@ public enum AuditAction
     Login = 5,      // تسجيل دخول
     Logout = 6,     // تسجيل خروج
     Export = 7,     // تصدير
-    Import = 8      // استيراد
+    Import = 8,      // استيراد
+    Failure         // فشل
 }

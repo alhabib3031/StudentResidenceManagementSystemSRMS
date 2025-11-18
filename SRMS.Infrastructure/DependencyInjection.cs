@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Identity.Interfaces;
 using SRMS.Application.Notifications.Interfaces;
 using SRMS.Application.SuperRoot.Interfaces;
@@ -58,6 +59,8 @@ public static class DependencyInjection
         services.AddScoped<ISMSService, SMSService>();
         services.AddScoped<ISuperRootService, SuperRootService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IAuditService, AuditService>();
+        services.AddHttpContextAccessor();
         
         
         // إذا كنت تريد Repositories مخصصة:
