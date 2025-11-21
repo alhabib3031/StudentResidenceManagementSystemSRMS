@@ -1,5 +1,8 @@
-﻿using MediatR;
+﻿using Mapster;
+using MediatR;
+using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Complaints.DTOs;
+using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Complaints;
 using SRMS.Domain.Complaints.Enums;
 using SRMS.Domain.Repositories;
@@ -9,10 +12,12 @@ namespace SRMS.Application.Complaints.CreateComplaint;
 public class CreateComplaintCommandHandler : IRequestHandler<CreateComplaintCommand, ComplaintDto>
 {
     private readonly IRepositories<Complaint> _complaintRepository;
+    private readonly IAuditService _audit;
     
-    public CreateComplaintCommandHandler(IRepositories<Complaint> complaintRepository)
+    public CreateComplaintCommandHandler(IRepositories<Complaint> complaintRepository, IAuditService audit)
     {
         _complaintRepository = complaintRepository;
+        _audit = audit;
     }
 
     public async Task<ComplaintDto> Handle(CreateComplaintCommand request, CancellationToken cancellationToken)
@@ -37,18 +42,34 @@ public class CreateComplaintCommandHandler : IRequestHandler<CreateComplaintComm
         
         var created = await _complaintRepository.CreateAsync(complaint);
         
-        return new ComplaintDto
-        {
-            Id = created.Id,
-            ComplaintNumber = created.ComplaintNumber,
-            Title = created.Title,
-            Category = created.Category,
-            Priority = created.Priority,
-            Status = created.Status,
-            StudentId = created.StudentId,
-            StudentName = created.Student?.FullName ?? "",
-            CreatedAt = created.CreatedAt,
-            IsResolved = created.Status == ComplaintStatus.Resolved
-        };
+        // ✅ Log complaint submission
+        await _audit.LogAsync(
+            action: AuditAction.ComplaintSubmitted,
+            entityName: "Complaint",
+            entityId: created.Id.ToString(),
+            newValues: new
+            {
+                created.ComplaintNumber,
+                created.Title,
+                created.Category,
+                created.Priority
+            },
+            additionalInfo: $"Complaint submitted: {created.Title}"
+        );
+        
+        // return new ComplaintDto
+        // {
+        //     Id = created.Id,
+        //     ComplaintNumber = created.ComplaintNumber,
+        //     Title = created.Title,
+        //     Category = created.Category,
+        //     Priority = created.Priority,
+        //     Status = created.Status,
+        //     StudentId = created.StudentId,
+        //     StudentName = created.Student?.FullName ?? "",
+        //     CreatedAt = created.CreatedAt,
+        //     IsResolved = created.Status == ComplaintStatus.Resolved
+        // };
+        return complaint.Adapt<ComplaintDto>();
     }
 }

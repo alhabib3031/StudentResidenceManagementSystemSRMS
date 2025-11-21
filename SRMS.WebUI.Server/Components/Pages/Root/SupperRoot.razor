@@ -237,9 +237,9 @@
 
     private async Task LoadStatistics()
     {
-        var totalUsers = (await UserService.GetAllUsersAsync()).Count;
-        var activeUsers = (await UserService.GetActiveUsersAsync()).Count;
-        var totalRoles = (await RoleService.GetAllRolesAsync()).Count;
+        var totalUsers = (await UserService.GetAllUsersAsync(log: false)).Count;
+        var activeUsers = (await UserService.GetActiveUsersAsync(log: false)).Count;
+        var totalRoles = (await RoleService.GetAllRolesAsync(log: false)).Count;
         
         // Mock data - replace with real data
         await Task.Delay(500);

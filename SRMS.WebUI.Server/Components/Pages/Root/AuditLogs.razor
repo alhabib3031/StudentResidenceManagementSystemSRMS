@@ -23,13 +23,23 @@
                     Track all system activities and changes
                 </MudText>
             </div>
-            <MudButton 
-                Variant="Variant.Filled" 
-                Color="Color.Primary"
-                StartIcon="@Icons.Material.Filled.Download"
-                OnClick="@ExportLogs">
-                Export Logs
-            </MudButton>
+            <MudStack Row="true" Spacing="2">
+                <MudButton 
+                    Variant="Variant.Filled" 
+                    Color="Color.Info"
+                    StartIcon="@Icons.Material.Filled.Refresh"
+                    OnClick="@LoadLogs"
+                    Disabled="@_isLoading">
+                    Refresh
+                </MudButton>
+                <MudButton 
+                    Variant="Variant.Filled" 
+                    Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Download"
+                    OnClick="@ExportLogs">
+                    Export Logs
+                </MudButton>
+            </MudStack>
         </MudStack>
     </MudPaper>
 
@@ -129,7 +139,7 @@
                     <MudSelectItem Value="@("Create")">Create</MudSelectItem>
                     <MudSelectItem Value="@("Update")">Update</MudSelectItem>
                     <MudSelectItem Value="@("Delete")">Delete</MudSelectItem>
-                    <MudSelectItem Value="@("View")">View</MudSelectItem>
+                    <MudSelectItem Value="@("Read User")">View</MudSelectItem>
                     <MudSelectItem Value="@("Login")">Login</MudSelectItem>
                     <MudSelectItem Value="@("Logout")">Logout</MudSelectItem>
                 </MudSelect>
@@ -238,26 +248,21 @@
         
         try
         {
-            // TODO: Load from database
-            await Task.Delay(500);
-            // 1. جلب بيانات المستخدمين النشطين (هذا استدعاء منفصل)
-            var activeUsers = (await UserService.GetActiveUsersAsync()).Count;
-
-            // 2. ✅ جلب كل السجلات مرة واحدة وتخزينها
+            var activeUsers = (await UserService.GetActiveUsersAsync(log: false)).Count;
             _auditLog = (await AuditService.GetAllAsync()).ToList();
 
-            // 3. ✅ الآن، قم بحساب الإحصائيات من القائمة التي لدينا
             var totalActions = _auditLog.Count;
             var todayActions = _auditLog.Count(log => log.Timestamp.Date == DateTime.UtcNow.Date);
-            var failedActions = _auditLog.Count(log => log.AuditAction == AuditAction.Failure); // استخدام Enum
+            var failedActions = _auditLog.Count(log => log.AuditAction == AuditAction.Failure);
 
-            // 4. ✅ تحديث الإحصائيات
             _stats = (
                 totalActions,
                 todayActions,
                 failedActions,
                 activeUsers
             );
+            
+            Snackbar.Add("Logs refreshed successfully", Severity.Success);
         }
         catch (Exception ex)
         {
@@ -283,13 +288,11 @@
 
     private void ViewDetails(AuditLog log)
     {
-        //TODO : add dialog for this or use existing dialog you have 
         Snackbar.Add($"Viewing details for: {log.AdditionalInfo}", Severity.Info);
     }
 
     private void ExportLogs()
     {
-        //TODO : download the logs as pdf file 
         Snackbar.Add("Exporting logs...", Severity.Info);
     }
 }

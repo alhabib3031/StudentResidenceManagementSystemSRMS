@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Rooms.DTOs;
+using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Repositories;
 using SRMS.Domain.Rooms;
 
@@ -8,10 +10,14 @@ namespace SRMS.Application.Rooms.CreateRoom;
 public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomDto>
 {
     private readonly IRepositories<Room> _roomRepository;
+    private readonly IAuditService _audit;
     
-    public CreateRoomCommandHandler(IRepositories<Room> roomRepository)
+    public CreateRoomCommandHandler(
+        IRepositories<Room> roomRepository,
+        IAuditService audit)
     {
         _roomRepository = roomRepository;
+        _audit = audit;
     }
 
     public async Task<RoomDto> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
@@ -25,8 +31,6 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
             RoomType = request.Room.RoomType,
             TotalBeds = request.Room.TotalBeds,
             OccupiedBeds = 0,
-            
-            // Amenities
             HasPrivateBathroom = request.Room.HasPrivateBathroom,
             HasAirConditioning = request.Room.HasAirConditioning,
             HasHeating = request.Room.HasHeating,
@@ -34,8 +38,6 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
             HasDesk = request.Room.HasDesk,
             HasWardrobe = request.Room.HasWardrobe,
             HasBalcony = request.Room.HasBalcony,
-            
-            // Audit
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             IsActive = true,
@@ -43,6 +45,21 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
         };
         
         var created = await _roomRepository.CreateAsync(room);
+        
+        // ✅ Log room creation
+        await _audit.LogCrudAsync(
+            action: AuditAction.Create,
+            newEntity: new
+            {
+                created.Id,
+                created.RoomNumber,
+                created.Floor,
+                created.RoomType,
+                created.TotalBeds,
+                created.ResidenceId
+            },
+            additionalInfo: $"New room created: {created.RoomNumber} on Floor {created.Floor}"
+        );
         
         return new RoomDto
         {

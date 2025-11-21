@@ -13,23 +13,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/SRMS.Application/AuditLogs/Interfaces/IAuditService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuditService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/VerifyEmail.razor" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/AuditLogs/Extensions/Extensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Complaints/Extensions/EnumExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Managers/Extensions/EnumExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Notifications/Extensions/EnumExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Payments/DTOs/PaymentAuditChangeDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Payments/Extensions/EnumExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Rooms/Extensions/EnumExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.Application/Students/Extensions/EnumExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/AuditLogDetailsDialog.razor" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Extensions/AuditActionMudBlazorExtensions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/AuditLogs/Interfaces/IAuditService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/AuditLogs/Interfaces/IAuditService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Common/Mappings/MapsterConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/MapsterConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Complaints/AssignComplaint/AssignComplaintCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Complaints/AssignComplaint/AssignComplaintCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Complaints/CreateComplaint/CreateComplaintCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Complaints/CreateComplaint/CreateComplaintCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Complaints/ResolveComplaint/ResolveComplaintCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Complaints/ResolveComplaint/ResolveComplaintCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Identity/Interfaces/IRoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Identity/Interfaces/IRoleService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Application/Identity/Interfaces/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Identity/Interfaces/IUserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Application/Notifications/Interfaces/IEmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Notifications/Interfaces/IEmailService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Domain/AuditLogs/AuditLog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/AuditLogs/AuditLog.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Managers/CreateManager/CreateManagerCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Managers/DeleteManager/DeleteManagerCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Managers/DeleteManager/DeleteManagerCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Managers/UpdateManager/UpdateManagerCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Payments/CreatePayment/CreatePaymentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Payments/CreatePayment/CreatePaymentCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Payments/UpdatePayment/UpdatePaymentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Payments/UpdatePayment/UpdatePaymentCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Rooms/CreateRoom/CreateRoomCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Rooms/CreateRoom/CreateRoomCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Rooms/UpdateRoom/UpdateRoomCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Rooms/UpdateRoom/UpdateRoomCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Application/Students/UpdateStudent/UpdateStudentCommandHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Domain/AuditLogs/Enums/AuditAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Domain/AuditLogs/Enums/AuditAction.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Domain/Extensions/EnumExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuditService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuditService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/AuthService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/EmailService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/RoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/RoleService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/AuditLogs.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/AuditLogs.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/_Imports.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +99,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/eddc51a49dddbdbde4ba2ca25b90ace5a2b5c63fd7d9ea946adb53ab61da735/AuthenticationStateProvider.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f9342fb513b7b524925c79d9822cd3ecaf072c50231aa3b469875f4c2cdf/IdentityDbContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/AuditLogs/Interfaces/IAuditService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Application/Common/Mappings/MapsterConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/AssignComplaint/AssignComplaintCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/AssignComplaint/AssignComplaintCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/CreateComplaint/CreateComplaintCommand.cs" root0="FORCE_HIGHLIGHTING" />
@@ -90,6 +108,7 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/DTOs/ComplaintUpdateDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/DTOs/CreateComplaintDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/DTOs/UpdateComplaintDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/Extensions/EnumExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/ResolveComplaint/ResolveComplaintCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/ResolveComplaint/ResolveComplaintCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Complaints/UpdateComplaint/UpdateComplaintCommand.cs" root0="FORCE_HIGHLIGHTING" />
@@ -115,6 +134,7 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/DTOs/UpdateManagerDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/DeleteManager/DeleteManagerCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/DeleteManager/DeleteManagerCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/Extensions/EnumExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/GetManager/GetManagerQuery.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/GetManager/GetManagerQueryHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Managers/GetManagerById/GetManagerByIdQuery.cs" root0="FORCE_HIGHLIGHTING" />
@@ -126,6 +146,7 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/DTOs/CreateNotificationDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/DTOs/NotificationDetailsDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/DTOs/NotificationDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/Extensions/EnumExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/Interfaces/IEmailService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/Interfaces/IInAppNotificationService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Notifications/Interfaces/INotificationService.cs" root0="FORCE_HIGHLIGHTING" />
@@ -135,9 +156,11 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/CreatePayment/CreatePaymentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/CreatePayment/CreatePaymentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/DTOs/CreatePaymentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/DTOs/PaymentAuditChangeDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/DTOs/PaymentDetailsDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/DTOs/PaymentDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/DTOs/UpdatePaymentDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/Extensions/EnumExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/UpdatePayment/UpdatePaymentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Payments/UpdatePayment/UpdatePaymentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Residences/DTOs/CreateResidenceDto.cs" root0="FORCE_HIGHLIGHTING" />
@@ -151,6 +174,7 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/DTOs/RoomDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/DTOs/RoomStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/DTOs/UpdateRoomDto.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/Extensions/EnumExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/UpdateRoom/UpdateRoomCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Rooms/UpdateRoom/UpdateRoomCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/CreateStudent/CreateStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
@@ -161,6 +185,7 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DTOs/UpdateStudentDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/DeleteStudent/DeleteStudentCommandHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/Extensions/EnumExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQuery.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudent/GetStudentQueryHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Application/Students/GetStudentById/GetStudentByIdHandler.cs" root0="FORCE_HIGHLIGHTING" />
@@ -177,7 +202,6 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintCategory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintPriority.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Complaints/Enums/ComplaintStatus.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.Domain/Extensions/EnumExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Identity/ApplicationRole.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Identity/ApplicationUser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Domain/Identity/Constants/Roles.cs" root0="FORCE_HIGHLIGHTING" />
@@ -201,6 +225,7 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ComplaintConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Data/IdentityDataSeeder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ManagerConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/MapsterConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/NotificationConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/PaymentConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Configurations/ResidenceConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
@@ -217,6 +242,7 @@
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Controllers/AuthController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.Infrastructure/Repositories/GenericRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Admin/Dashboard.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/AuditLogDetailsDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/ComplaintsManagement.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/Dashboard.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
@@ -238,6 +264,7 @@
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/VerifyEmail.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Extensions/AuditActionMudBlazorExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Services/CustomAuthenticationStateProvider.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -252,23 +279,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.SRMS.WebUI.Server: http.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Launch Settings Profile.SRMS.WebUI.Server: https.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Run",
+    ".NET Launch Settings Profile.SRMS.WebUI.Server: https.executor": "Debug",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="  Id: Guid       FirstName: string   LastName: string   Email: string   PhoneNumber: string   Address: stirng   ImagePath : string " />
@@ -334,7 +361,8 @@
       <workItem from="1762957751079" duration="11000" />
       <workItem from="1762972405418" duration="9267000" />
       <workItem from="1763070121190" duration="11682000" />
-      <workItem from="1763395879588" duration="28008000" />
+      <workItem from="1763395879588" duration="28898000" />
+      <workItem from="1763509202396" duration="18651000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency.">
       <option name="closed" value="true" />
@@ -424,7 +452,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763235015166</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="make some of logs inside servecs useing new AuditService">
+      <option name="closed" value="true" />
+      <created>1763486871570</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1763486871570</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -456,7 +492,8 @@
     <MESSAGE value="fix superroot page access denied" />
     <MESSAGE value="complete creating pages" />
     <MESSAGE value="countinue complete the pages" />
-    <option name="LAST_COMMIT_MESSAGE" value="countinue complete the pages" />
+    <MESSAGE value="make some of logs inside servecs useing new AuditService" />
+    <option name="LAST_COMMIT_MESSAGE" value="make some of logs inside servecs useing new AuditService" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,6 +1,8 @@
 ﻿using Mapster;
 using MediatR;
+using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Students.DTOs;
+using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
 using SRMS.Domain.ValueObjects;
@@ -10,10 +12,12 @@ namespace SRMS.Application.Students.UpdateStudent;
 public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand, StudentDto?>
 {
     private readonly IRepositories<Student> _studentRepository;
+    private readonly IAuditService _audit;
     
-    public UpdateStudentCommandHandler(IRepositories<Student> studentRepository)
+    public UpdateStudentCommandHandler(IRepositories<Student> studentRepository, IAuditService audit)
     {
         _studentRepository = studentRepository;
+        _audit = audit;
     }
     
     public async Task<StudentDto?> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
@@ -21,7 +25,34 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         var existing = await _studentRepository.GetByIdAsync(request.Student.Id);
         
         if (existing == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "Student",
+                request.Student.Id.ToString(),
+                additionalInfo: "Attempted to update non-existent student"
+            );
             return null;
+        }
+        
+        // ✅ Store old values for audit
+        var oldValues = new
+        {
+            existing.FirstName,
+            existing.LastName,
+            existing.NationalId,
+            existing.DateOfBirth,
+            existing.Gender,
+            Email = existing.Email?.Value,
+            PhoneNumber = existing.PhoneNumber?.GetFormatted(),
+            existing.UniversityName,
+            existing.StudentNumber,
+            existing.Major,
+            existing.AcademicYear,
+            existing.Status,
+            existing.RoomId,
+            existing.ManagerId
+        };
         
         // ✅ تحديث الخصائص البسيطة
         existing.FirstName = request.Student.FirstName;
@@ -54,6 +85,12 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Student",
+                existing.Id.ToString(),
+                additionalInfo: $"Invalid email during update: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid email: {ex.Message}");
         }
         
@@ -68,6 +105,12 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Student",
+                existing.Id.ToString(),
+                additionalInfo: $"Invalid phone number during update: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid phone number: {ex.Message}");
         }
         
@@ -82,6 +125,12 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Student",
+                existing.Id.ToString(),
+                additionalInfo: $"Invalid emergency contact phone during update: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid emergency contact phone: {ex.Message}");
         }
         
@@ -105,6 +154,12 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Student",
+                existing.Id.ToString(),
+                additionalInfo: $"Invalid address during update: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid address: {ex.Message}");
         }
         
@@ -113,6 +168,71 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         
         // ✅ حفظ التغييرات
         var updated = await _studentRepository.UpdateAsync(existing);
+        
+        // ✅ Store new values for audit
+        var newValues = new
+        {
+            updated.FirstName,
+            updated.LastName,
+            updated.NationalId,
+            updated.DateOfBirth,
+            updated.Gender,
+            Email = updated.Email?.Value,
+            PhoneNumber = updated.PhoneNumber?.GetFormatted(),
+            updated.UniversityName,
+            updated.StudentNumber,
+            updated.Major,
+            updated.AcademicYear,
+            updated.Status,
+            updated.RoomId,
+            updated.ManagerId
+        };
+        
+        // ✅ Log student update
+        await _audit.LogCrudAsync(
+            action: AuditAction.Update,
+            oldEntity: oldValues,
+            newEntity: newValues,
+            additionalInfo: $"Student updated: {updated.FullName}"
+        );
+        
+        // ✅ If status changed, log status change
+        if (oldValues.Status != newValues.Status)
+        {
+            await _audit.LogStudentStatusChangeAsync(
+                studentId: updated.Id,
+                oldStatus: oldValues.Status.ToString(),
+                newStatus: newValues.Status.ToString(),
+                reason: "Status changed via update"
+            );
+        }
+        
+        // ✅ If room assigned, log room assignment
+        if (oldValues.RoomId != newValues.RoomId)
+        {
+            if (newValues.RoomId.HasValue)
+            {
+                await _audit.LogAsync(
+                    action: AuditAction.RoomAssigned,
+                    entityName: "Student",
+                    entityId: updated.Id.ToString(),
+                    oldValues: new { RoomId = oldValues.RoomId },
+                    newValues: new { RoomId = newValues.RoomId },
+                    additionalInfo: $"Room assigned to student: {updated.FullName}"
+                );
+            }
+            else
+            {
+                await _audit.LogAsync(
+                    action: AuditAction.RoomUnassigned,
+                    entityName: "Student",
+                    entityId: updated.Id.ToString(),
+                    oldValues: new { RoomId = oldValues.RoomId },
+                    newValues: new { RoomId = (Guid?)null },
+                    additionalInfo: $"Room unassigned from student: {updated.FullName}"
+                );
+            }
+        }
         
         // ✅ إرجاع DTO
         return new StudentDto

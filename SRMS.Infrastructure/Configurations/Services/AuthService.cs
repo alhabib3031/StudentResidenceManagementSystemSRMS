@@ -45,6 +45,12 @@ public class AuthService : IAuthService
         var existingUser = await _userManager.FindByEmailAsync(dto.Email);
         if (existingUser != null)
         {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                additionalInfo: $"Registration failed - Email already exists: {dto.Email}"
+            );
+            
             return new LoginResponseDto
             {
                 Success = false,
@@ -70,6 +76,12 @@ public class AuthService : IAuthService
         
         if (!result.Succeeded)
         {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                additionalInfo: $"Registration failed: {string.Join(", ", result.Errors.Select(e => e.Description))}"
+            );
+            
             return new LoginResponseDto
             {
                 Success = false,
@@ -90,14 +102,17 @@ public class AuthService : IAuthService
         // سنمرر البريد، ومعرف المستخدم، والتوكن المشفر
         await _emailService.SendVerificationEmailAsync(user.Email, user.Id.ToString(), encodedToken);
         
-        //logs audit
-        await _audit.LogAsync(
-            AuditAction.Create,
-            "Student",
-            existingUser?.Id.ToString(),
-            "Nothing",
-            "New Student Registered",
-            "Nothing"
+        // ✅ Log successful registration
+        await _audit.LogCrudAsync(
+            action: AuditAction.Create,
+            newEntity: new
+            {
+                user.Id,
+                user.FullName,
+                user.Email,
+                Role = "Student"
+            },
+            additionalInfo: $"New user registered: {user.FullName} ({user.Email})"
         );
         
         return new LoginResponseDto
@@ -114,6 +129,8 @@ public class AuthService : IAuthService
         
         if (user == null)
         {
+            // ✅ Log failed login - user not found
+            await _audit.LogLoginAttemptAsync(dto.Email, false, "User not found");
             return new LoginResponseDto
             {
                 Success = false,
@@ -123,6 +140,8 @@ public class AuthService : IAuthService
         
         if (!user.IsActive)
         {
+            // ✅ Log failed login - account inactive
+            await _audit.LogLoginAttemptAsync(dto.Email, false, "Account is deactivated");
             return new LoginResponseDto
             {
                 Success = false,
@@ -132,6 +151,8 @@ public class AuthService : IAuthService
         
         if (!user.EmailConfirmed)
         {
+            // ✅ Log failed login - email not verified
+            await _audit.LogLoginAttemptAsync(dto.Email, false, "Email not confirmed");
             return new LoginResponseDto
             {
                 Success = false,
@@ -159,6 +180,14 @@ public class AuthService : IAuthService
         
         if (result.IsLockedOut)
         {
+            // ✅ Log account lockout
+            await _audit.LogAsync(
+                AuditAction.AccountLocked,
+                "User",
+                user.Id.ToString(),
+                additionalInfo: "Account locked due to multiple failed login attempts"
+            );
+            
             return new LoginResponseDto
             {
                 Success = false,
@@ -168,6 +197,9 @@ public class AuthService : IAuthService
         
         if (!result.Succeeded)
         {
+            // ✅ Log failed login - wrong password
+            await _audit.LogLoginAttemptAsync(dto.Email, false, "Invalid password");
+            
             return new LoginResponseDto
             {
                 Success = false,
@@ -183,14 +215,12 @@ public class AuthService : IAuthService
         // ✅ Get roles
         var roles = await _userManager.GetRolesAsync(user);
         
-        //logs audit
+        // ✅ Log successful login
         await _audit.LogAsync(
             AuditAction.Login,
-            $"{roles}",
-            user?.Id.ToString(),
-            "not logged in",
-            "user logged in",
-            "Nothing"
+            "User",
+            user.Id.ToString(),
+            additionalInfo: $"Successful login - Roles: {string.Join(", ", roles)}"
         );
         
         // ✅ لا حاجة لـ JWT في Blazor Server، سنستخدم CustomAuthenticationStateProvider
@@ -217,27 +247,32 @@ public class AuthService : IAuthService
     
     public async Task<bool> LogoutAsync(Guid userId)
     {
-        await _signInManager.SignOutAsync();
-        //logs audit
         var user = await _userService.GetUserByIdAsync(userId);
+    
+        // ✅ Log logout
         await _audit.LogAsync(
             AuditAction.Logout,
-            $"{user?.Roles}",
+            "User",
             userId.ToString(),
-            "logged in",
-            "user logged out",
-            "Nothing"
+            additionalInfo: $"User logged out - Roles: {string.Join(", ", user?.Roles ?? new List<string>())}"
         );
+    
+        await _signInManager.SignOutAsync();
         return true;
     }
-    
+    //
     public async Task<bool> ForgotPasswordAsync(ForgotPasswordDto dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
         
         if (user == null || !user.EmailConfirmed)
         {
-            // Don't reveal that the user doesn't exist or is not confirmed
+            // Don't reveal that the user doesn't exist
+            await _audit.LogAsync(
+                AuditAction.LoginFailed,
+                "User",
+                additionalInfo: $"Password reset requested for non-existent/unconfirmed email: {dto.Email}"
+            );
             return true;
         }
         
@@ -245,39 +280,52 @@ public class AuthService : IAuthService
         var encodedToken = System.Net.WebUtility.UrlEncode(token);
         await _emailService.SendPasswordResetEmailAsync(user.Email!, encodedToken);
         
-        //logs audit
-        var userRole = await _userService.GetUserByIdAsync(user.Id);
+        // ✅ Log password reset request
         await _audit.LogAsync(
-            AuditAction.Login,
-            $"{userRole?.Roles}",
-            userRole?.Id.ToString(),
-            "Have a valid token",
-            "Forgot password email sent",
-            "Nothing"
+            AuditAction.PasswordReset,
+            "User",
+            user.Id.ToString(),
+            additionalInfo: $"Password reset email sent to: {user.Email}"
         );
         
         return true;
     }
-    
+    //
     public async Task<bool> ResetPasswordAsync(ResetPasswordDto dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
         
         if (user == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                additionalInfo: $"Password reset failed - User not found: {dto.Email}"
+            );
             return false;
+        }
         
         var result = await _userManager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
         
-        //logs audit
-        var userRole = await _userService.GetUserByIdAsync(user.Id);
-        await _audit.LogAsync(
-            AuditAction.Login,
-            $"{userRole?.Roles}",
-            userRole?.Id.ToString(),
-            "Have a valid token",
-            "Reset password successful!",
-            "Nothing"
-        );
+        if (result.Succeeded)
+        {
+            // ✅ Log successful password reset
+            await _audit.LogAsync(
+                AuditAction.PasswordReset,
+                "User",
+                user.Id.ToString(),
+                additionalInfo: $"Password reset successful for: {user.Email}"
+            );
+        }
+        else
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                user.Id.ToString(),
+                additionalInfo: $"Password reset failed: {string.Join(", ", result.Errors.Select(e => e.Description))}"
+            );
+        }
         
         return result.Succeeded;
     }
@@ -285,55 +333,62 @@ public class AuthService : IAuthService
     public async Task<bool> ChangePasswordAsync(Guid userId, ChangePasswordDto dto)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
-        
+    
         if (user == null)
             return false;
-        
+    
         var result = await _userManager.ChangePasswordAsync(
             user,
             dto.CurrentPassword,
             dto.NewPassword
         );
-        
-        //logs audit
-        var userRole = await _userService.GetUserByIdAsync(userId);
-        await _audit.LogAsync(
-            AuditAction.Update,
-            $"{userRole?.Roles}",
-            userId.ToString(),
-            "have an account",
-            "Change password successful!",
-            "Nothing"
-        );
-        
+    
+        if (result.Succeeded)
+        {
+            // ✅ Log password change
+            await _audit.LogAsync(
+                AuditAction.PasswordChanged,
+                "User",
+                userId.ToString(),
+                additionalInfo: "Password changed successfully"
+            );
+        }
+        else
+        {
+            // ✅ Log failed password change
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                userId.ToString(),
+                additionalInfo: $"Password change failed: {string.Join(", ", result.Errors.Select(e => e.Description))}"
+            );
+        }
+    
         return result.Succeeded;
     }
     
     public async Task<bool> VerifyEmailAsync(VerifyEmailDto dto)
     {
         var user = await _userManager.FindByIdAsync(dto.UserId.ToString());
-        
+    
         if (user == null)
             return false;
-        
+    
         var result = await _userManager.ConfirmEmailAsync(user, dto.Token);
-        
+    
         if (result.Succeeded)
         {
+            // ✅ Log email verification
+            await _audit.LogAsync(
+                AuditAction.EmailVerified,
+                "User",
+                user.Id.ToString(),
+                additionalInfo: "Email verified successfully"
+            );
+        
             await _emailService.SendWelcomeEmailAsync(user.Email!, user.FullName);
         }
-        
-        //logs audit
-        var userRole = await _userService.GetUserByIdAsync(user.Id);
-        await _audit.LogAsync(
-            AuditAction.Export,
-            $"{userRole?.Roles}",
-            userRole?.Id.ToString(),
-            "Registered successfully. wait For Email Confirmation ",
-            "Receive email verification link",
-            "Nothing"
-        );
-        
+    
         return result.Succeeded;
     }
     
@@ -367,6 +422,12 @@ public class AuthService : IAuthService
                 
                 if (!result.Succeeded)
                 {
+                    await _audit.LogAsync(
+                        AuditAction.Failure,
+                        "User",
+                        additionalInfo: $"Google registration failed: {string.Join(", ", result.Errors.Select(e => e.Description))}"
+                    );
+                    
                     return new LoginResponseDto
                     {
                         Success = false,
@@ -375,15 +436,19 @@ public class AuthService : IAuthService
                 }
                 
                 await _userManager.AddToRoleAsync(user, Roles.Student);
+                
+                // ✅ Log new user via Google
+                await _audit.LogCrudAsync(
+                    action: AuditAction.Create,
+                    newEntity: new { user.Id, user.FullName, user.Email, Provider = "Google" },
+                    additionalInfo: $"New user registered via Google: {user.FullName}"
+                );
             }
-            else
+            // Update Google info if not set
+            else if (string.IsNullOrEmpty(user.GoogleId))
             {
-                // Update Google info if not set
-                if (string.IsNullOrEmpty(user.GoogleId))
-                {
-                    user.GoogleId = payload.Subject;
-                    await _userManager.UpdateAsync(user);
-                }
+                user.GoogleId = payload.Subject;
+                await _userManager.UpdateAsync(user);
             }
             
             // Update last login
@@ -394,21 +459,19 @@ public class AuthService : IAuthService
             // Sign in
             await _signInManager.SignInAsync(user, isPersistent: false);
             
+            var roles = await _userManager.GetRolesAsync(user);
+            
+            // ✅ Log successful Google login
+            await _audit.LogAsync(
+                AuditAction.Login,
+                "User",
+                user.Id.ToString(),
+                additionalInfo: $"Google login successful: {user.Email} - Roles: {string.Join(", ", roles)}"
+            );
+            
             // Generate JWT token
             var jwtToken = await GenerateJwtTokenAsync(user);
             
-            var roles = await _userManager.GetRolesAsync(user);
-            
-            //logs audit
-            var userRole = await _userService.GetUserByIdAsync(user.Id);
-            await _audit.LogAsync(
-                AuditAction.Login,
-                $"{roles}",
-                userRole?.Id.ToString(),
-                "not logged in",
-                "Google login successful!",
-                "Nothing"
-            );
             
             return new LoginResponseDto
             {
@@ -433,6 +496,12 @@ public class AuthService : IAuthService
         }
         catch (Exception ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                additionalInfo: $"Google authentication failed: {ex.Message}"
+            );
+
             return new LoginResponseDto
             {
                 Success = false,

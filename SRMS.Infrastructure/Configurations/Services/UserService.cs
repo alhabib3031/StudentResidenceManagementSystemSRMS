@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Domain.Identity;
 using SRMS.Application.Identity.DTOs;
 using SRMS.Application.Identity.Interfaces;
+using SRMS.Domain.AuditLogs.Enums;
 
 namespace SRMS.Infrastructure.Configurations.Services;
 
@@ -10,13 +12,16 @@ public class UserService : IUserService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
+    private readonly IAuditService _audit;
     
     public UserService(
         UserManager<ApplicationUser> userManager,
-        RoleManager<ApplicationRole> roleManager)
+        RoleManager<ApplicationRole> roleManager,
+        IAuditService audit)
     {
         _userManager = userManager;
         _roleManager = roleManager;
+        _audit = audit;
     }
     
     public async Task<UserDto?> GetUserByIdAsync(Guid userId)
@@ -27,6 +32,14 @@ public class UserService : IUserService
             return null;
         
         var roles = await _userManager.GetRolesAsync(user);
+        
+        // ✅ Log user view (optional - might generate too many logs)
+        // await _audit.LogAsync(
+        //     AuditAction.Read,
+        //     "User",
+        //     user.Id.ToString(),
+        //     additionalInfo: $"User profile viewed: {user.FullName}"
+        // );
         
         return new UserDto
         {
@@ -51,7 +64,7 @@ public class UserService : IUserService
         return user == null ? null : await GetUserByIdAsync(user.Id);
     }
     
-    public async Task<List<UserDto>> GetAllUsersAsync()
+    public async Task<List<UserDto>> GetAllUsersAsync(bool log = true)
     {
         var users = await _userManager.Users
             .Where(u => !u.IsDeleted)
@@ -79,6 +92,16 @@ public class UserService : IUserService
                 LoginCount = user.LoginCount
             });
         }
+
+        if (log)
+        {
+            // ✅ Log bulk user retrieval
+            await _audit.LogAsync(
+                AuditAction.Read,
+                "User",
+                additionalInfo: $"Retrieved all users - Count: {userDtos.Count}"
+            );
+        }
         
         return userDtos;
     }
@@ -88,7 +111,31 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(userId.ToString());
         
         if (user == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                userId.ToString(),
+                additionalInfo: "Attempted to update non-existent user"
+            );
             return false;
+        }
+        
+        // Store old values
+        var oldValues = new
+        {
+            user.FirstName,
+            user.LastName,
+            user.PhoneNumber,
+            user.City,
+            user.Street,
+            user.PostalCode,
+            user.Country,
+            user.PreferredLanguage,
+            user.Theme,
+            user.EmailNotificationsEnabled,
+            user.SMSNotificationsEnabled
+        };
         
         user.FirstName = dto.FirstName;
         user.LastName = dto.LastName;
@@ -105,6 +152,42 @@ public class UserService : IUserService
         
         var result = await _userManager.UpdateAsync(user);
         
+        if (result.Succeeded)
+        {
+            // Store new values
+            var newValues = new
+            {
+                user.FirstName,
+                user.LastName,
+                user.PhoneNumber,
+                user.City,
+                user.Street,
+                user.PostalCode,
+                user.Country,
+                user.PreferredLanguage,
+                user.Theme,
+                user.EmailNotificationsEnabled,
+                user.SMSNotificationsEnabled
+            };
+            
+            // ✅ Log user update
+            await _audit.LogCrudAsync(
+                action: AuditAction.Update,
+                oldEntity: oldValues,
+                newEntity: newValues,
+                additionalInfo: $"User profile updated: {user.FullName}"
+            );
+        }
+        else
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                userId.ToString(),
+                additionalInfo: $"Failed to update user: {string.Join(", ", result.Errors.Select(e => e.Description))}"
+            );
+        }
+        
         return result.Succeeded;
     }
     
@@ -113,12 +196,33 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(userId.ToString());
         
         if (user == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                userId.ToString(),
+                additionalInfo: "Attempted to deactivate non-existent user"
+            );
             return false;
+        }
         
         user.IsActive = false;
         user.UpdatedAt = DateTime.UtcNow;
         
         var result = await _userManager.UpdateAsync(user);
+        
+        if (result.Succeeded)
+        {
+            // ✅ Log user deactivation
+            await _audit.LogAsync(
+                action: AuditAction.Update,
+                entityName: "User",
+                entityId: userId.ToString(),
+                oldValues: new { IsActive = true },
+                newValues: new { IsActive = false },
+                additionalInfo: $"User deactivated: {user.FullName}"
+            );
+        }
         
         return result.Succeeded;
     }
@@ -128,17 +232,38 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(userId.ToString());
         
         if (user == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                userId.ToString(),
+                additionalInfo: "Attempted to activate non-existent user"
+            );
             return false;
+        }
         
         user.IsActive = true;
         user.UpdatedAt = DateTime.UtcNow;
         
         var result = await _userManager.UpdateAsync(user);
         
+        if (result.Succeeded)
+        {
+            // ✅ Log user activation
+            await _audit.LogAsync(
+                action: AuditAction.Update,
+                entityName: "User",
+                entityId: userId.ToString(),
+                oldValues: new { IsActive = false },
+                newValues: new { IsActive = true },
+                additionalInfo: $"User activated: {user.FullName}"
+            );
+        }
+        
         return result.Succeeded;
     }
     
-    public async Task<List<UserDto>> GetActiveUsersAsync()
+    public async Task<List<UserDto>> GetActiveUsersAsync(bool log = true)
     {
         var users = await _userManager.Users
             .Where(u => u.IsActive && !u.IsDeleted)
@@ -176,7 +301,23 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(userId.ToString());
         
         if (user == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                userId.ToString(),
+                additionalInfo: "Attempted to delete non-existent user"
+            );
             return false;
+        }
+        
+        var userInfo = new
+        {
+            user.Id,
+            user.FullName,
+            user.Email,
+            Roles = await _userManager.GetRolesAsync(user)
+        };
         
         // Soft delete
         user.IsDeleted = true;
@@ -184,6 +325,25 @@ public class UserService : IUserService
         user.IsActive = false;
         
         var result = await _userManager.UpdateAsync(user);
+        
+        if (result.Succeeded)
+        {
+            // ✅ Log user deletion
+            await _audit.LogCrudAsync(
+                action: AuditAction.Delete,
+                oldEntity: userInfo,
+                additionalInfo: $"User deleted (soft delete): {userInfo.FullName}"
+            );
+        }
+        else
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                userId.ToString(),
+                additionalInfo: $"Failed to delete user: {userInfo.FullName}"
+            );
+        }
         
         return result.Succeeded;
     }
@@ -205,12 +365,43 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(userId.ToString());
         
         if (user == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "UserRole",
+                userId.ToString(),
+                additionalInfo: $"Attempted to assign role '{role}' to non-existent user"
+            );
             return false;
+        }
         
         if (!await _roleManager.RoleExistsAsync(role))
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "UserRole",
+                userId.ToString(),
+                additionalInfo: $"Attempted to assign non-existent role: {role}"
+            );
             return false;
+        }
         
         var result = await _userManager.AddToRoleAsync(user, role);
+        
+        if (result.Succeeded)
+        {
+            // ✅ Log role assignment
+            await _audit.LogRoleChangeAsync(userId, role, isAdded: true);
+        }
+        else
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "UserRole",
+                userId.ToString(),
+                additionalInfo: $"Failed to assign role '{role}': {string.Join(", ", result.Errors.Select(e => e.Description))}"
+            );
+        }
         
         return result.Succeeded;
     }
@@ -220,9 +411,32 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(userId.ToString());
         
         if (user == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "UserRole",
+                userId.ToString(),
+                additionalInfo: $"Attempted to remove role '{role}' from non-existent user"
+            );
             return false;
+        }
         
         var result = await _userManager.RemoveFromRoleAsync(user, role);
+        
+        if (result.Succeeded)
+        {
+            // ✅ Log role removal
+            await _audit.LogRoleChangeAsync(userId, role, isAdded: false);
+        }
+        else
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "UserRole",
+                userId.ToString(),
+                additionalInfo: $"Failed to remove role '{role}': {string.Join(", ", result.Errors.Select(e => e.Description))}"
+            );
+        }
         
         return result.Succeeded;
     }

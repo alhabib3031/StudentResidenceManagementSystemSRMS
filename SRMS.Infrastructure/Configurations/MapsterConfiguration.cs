@@ -2,13 +2,16 @@
 using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
+using SRMS.Application.Complaints.DTOs;
 using SRMS.Application.Managers.DTOs;
 using SRMS.Application.Students.DTOs;
+using SRMS.Domain.Complaints;
+using SRMS.Domain.Complaints.Enums;
 using SRMS.Domain.Managers;
 using SRMS.Domain.Students;
 using SRMS.Domain.ValueObjects;
 
-namespace SRMS.Application.Common.Mappings;
+namespace SRMS.Infrastructure.Common.Mappings;
 
 public static class MapsterConfiguration
 {
@@ -142,6 +145,15 @@ public static class MapsterConfiguration
                 : null)
             .Map(dest => dest.ResidencesCount, src => src.Residences != null ? src.Residences.Count : 0)
             .Map(dest => dest.StudentsCount, src => src.Students != null ? src.Students.Count : 0);
+        
+        
+        // ═══════════════════════════════════════════════════════════
+        // COMPLAINT MAPPINGS
+        // ═══════════════════════════════════════════════════════════
+        config.NewConfig<Complaint, ComplaintDto>()
+            .Map(dest => dest.StudentName, src => src.Student != null ? src.Student.FullName : "")
+            .Map(dest => dest.IsResolved, src => src.Status == ComplaintStatus.Resolved);
+
         
         // ═══════════════════════════════════════════════════════════
         // Scan for other mappings from assembly

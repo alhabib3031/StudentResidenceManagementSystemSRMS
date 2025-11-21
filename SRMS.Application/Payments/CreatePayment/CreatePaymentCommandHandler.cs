@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using MediatR;
+using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Payments.DTOs;
 using SRMS.Domain.Payments;
 using SRMS.Domain.Payments.Enums;
@@ -11,10 +12,12 @@ namespace SRMS.Application.Payments.CreatePayment;
 public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, PaymentDto>
 {
     private readonly IRepositories<Payment> _paymentRepository;
+    private readonly IAuditService _audit;
     
-    public CreatePaymentCommandHandler(IRepositories<Payment> paymentRepository)
+    public CreatePaymentCommandHandler(IRepositories<Payment> paymentRepository, IAuditService audit)
     {
         _paymentRepository = paymentRepository;
+        _audit = audit;
     }
 
     public async Task<PaymentDto> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
@@ -64,6 +67,14 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
         }
         
         var created = await _paymentRepository.CreateAsync(payment);
+        
+        // ✅ Log payment creation
+        await _audit.LogPaymentAsync(
+            paymentId: created.Id,
+            status: "Created",
+            amount: created.Amount?.Amount ?? 0,
+            additionalInfo: $"Payment created for student {created.StudentId}"
+        );
         
         return new PaymentDto
         {

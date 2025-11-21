@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using SRMS.Application.AuditLogs.Interfaces;
+using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Complaints;
 using SRMS.Domain.Complaints.Enums;
 using SRMS.Domain.Repositories;
@@ -8,10 +10,12 @@ namespace SRMS.Application.Complaints.ResolveComplaint;
 public class ResolveComplaintCommandHandler : IRequestHandler<ResolveComplaintCommand, bool>
 {
     private readonly IRepositories<Complaint> _complaintRepository;
-
-    public ResolveComplaintCommandHandler(IRepositories<Complaint> complaintRepository)
+    private readonly IAuditService _audit;
+    
+    public ResolveComplaintCommandHandler(IRepositories<Complaint> complaintRepository, IAuditService audit)
     {
         _complaintRepository = complaintRepository;
+        _audit = audit;
     }
 
     public async Task<bool> Handle(ResolveComplaintCommand request, CancellationToken cancellationToken)
@@ -28,6 +32,21 @@ public class ResolveComplaintCommandHandler : IRequestHandler<ResolveComplaintCo
         complaint.UpdatedAt = DateTime.UtcNow;
         
         await _complaintRepository.UpdateAsync(complaint);
+        
+        // ✅ Log complaint resolution
+        await _audit.LogAsync(
+            action: AuditAction.ComplaintResolved,
+            entityName: "Complaint",
+            entityId: complaint.Id.ToString(),
+            newValues: new
+            {
+                Status = ComplaintStatus.Resolved,
+                complaint.Resolution,
+                complaint.ResolvedBy,
+                complaint.ResolvedAt
+            },
+            additionalInfo: $"Complaint resolved by manager {request.ResolvedByManagerId}"
+        );
         
         return true;
     }

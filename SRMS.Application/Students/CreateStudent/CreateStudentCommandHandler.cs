@@ -1,7 +1,9 @@
 ﻿using Mapster;
 using MapsterMapper;
 using MediatR;
+using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Students.DTOs;
+using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Repositories;
 using SRMS.Domain.Students;
 using SRMS.Domain.ValueObjects;
@@ -11,10 +13,12 @@ namespace SRMS.Application.Students.CreateStudent;
 public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, StudentDto>
 {
     private readonly IRepositories<Student> _studentRepository;
+    private readonly IAuditService _audit;
     
-    public CreateStudentCommandHandler(IRepositories<Student> studentRepository)
+    public CreateStudentCommandHandler(IRepositories<Student> studentRepository, IAuditService audit)
     {
         _studentRepository = studentRepository;
+        _audit = audit;
     }
     
     public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
@@ -57,6 +61,11 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Student",
+                additionalInfo: $"Invalid email during student creation: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid email: {ex.Message}");
         }
         
@@ -71,6 +80,11 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Student",
+                additionalInfo: $"Invalid phone number during student creation: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid phone number: {ex.Message}");
         }
         
@@ -85,6 +99,11 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Student",
+                additionalInfo: $"Invalid emergency contact phone during student creation: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid emergency contact phone: {ex.Message}");
         }
         
@@ -104,11 +123,32 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Student",
+                additionalInfo: $"Invalid address during student creation: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid address: {ex.Message}");
         }
         
         // ✅ حفظ في قاعدة البيانات
         var created = await _studentRepository.CreateAsync(student);
+        
+        // ✅ Log student registration
+        await _audit.LogCrudAsync(
+            action: AuditAction.StudentRegistered,
+            newEntity: new
+            {
+                created.Id,
+                created.FullName,
+                created.StudentNumber,
+                Email = created.Email?.Value,
+                created.UniversityName,
+                created.Major,
+                created.Status
+            },
+            additionalInfo: $"New student registered: {created.FullName} (Student #: {created.StudentNumber})"
+        );
         
         // ✅ إرجاع DTO
         return new StudentDto
