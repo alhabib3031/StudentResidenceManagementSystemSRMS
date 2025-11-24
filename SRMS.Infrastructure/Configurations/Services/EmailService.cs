@@ -62,7 +62,9 @@ public class EmailService : IEmailService
         var subject = "Verify Your Email - SRMS";
         // Get the base URL from configuration or use a default
         var baseUrl = _configuration["AppSettings:BaseUrl"] ?? "https://localhost:7117";
-        var verificationLink = $"{baseUrl}/verify-email?userId={userId}&code={verificationCode}";
+        // URL-encode the token to ensure it's safe in the URL
+        var encodedToken = System.Net.WebUtility.UrlEncode(verificationCode);
+        var verificationLink = $"{baseUrl}/verify-email?userId={userId}&code={encodedToken}";
         var body = $@"
             <html>
             <body style='font-family: Arial, sans-serif;'>
@@ -85,13 +87,16 @@ public class EmailService : IEmailService
     public async Task<bool> SendPasswordResetEmailAsync(string to, string resetToken)
     {
         var subject = "Reset Your Password - SRMS";
+        var baseUrl = _configuration["AppSettings:BaseUrl"] ?? "https://localhost:7117";
+        var encodedToken = System.Net.WebUtility.UrlEncode(resetToken);
+        var encodedEmail = System.Net.WebUtility.UrlEncode(to);
         var body = $@"
             <html>
             <body style='font-family: Arial, sans-serif;'>
                 <div style='max-width: 600px; margin: 0 auto; padding: 20px;'>
                     <h2 style='color: #333;'>Password Reset Request</h2>
                     <p>You requested to reset your password. Click the link below:</p>
-                    <a href='{_configuration["AppSettings:BaseUrl"] ?? "https://localhost:7117"}/reset-password?email={to}&token={resetToken}' 
+                    <a href='{baseUrl}/reset-password?email={encodedEmail}&token={encodedToken}' 
                        style='background-color: #dc3545; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;'>
                         Reset Password
                     </a>

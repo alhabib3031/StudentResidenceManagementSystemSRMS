@@ -94,13 +94,9 @@ public class AuthService : IAuthService
         
         // Generate email confirmation token
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-    
-        // 2. [مهم جداً] تشفير التوكن ليكون آمناً في الرابط
-        var encodedToken = System.Net.WebUtility.UrlEncode(token);
-
-        // 3. تعديل استدعاء خدمة البريد (لاحظ أننا سنحتاج لتعديل الخدمة أيضاً)
-        // سنمرر البريد، ومعرف المستخدم، والتوكن المشفر
-        await _emailService.SendVerificationEmailAsync(user.Email, user.Id.ToString(), encodedToken);
+        
+        // Send verification email (token will be URL-encoded in EmailService)
+        await _emailService.SendVerificationEmailAsync(user.Email, user.Id.ToString(), token);
         
         // ✅ Log successful registration
         await _audit.LogCrudAsync(
@@ -277,8 +273,8 @@ public class AuthService : IAuthService
         }
         
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        var encodedToken = System.Net.WebUtility.UrlEncode(token);
-        await _emailService.SendPasswordResetEmailAsync(user.Email!, encodedToken);
+        // Token will be URL-encoded in EmailService
+        await _emailService.SendPasswordResetEmailAsync(user.Email!, token);
         
         // ✅ Log password reset request
         await _audit.LogAsync(
