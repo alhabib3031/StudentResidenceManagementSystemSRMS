@@ -1,5 +1,7 @@
-﻿using SRMS.Application.Notifications.DTOs;
+﻿using SRMS.Application.AuditLogs.Interfaces;
+using SRMS.Application.Notifications.DTOs;
 using SRMS.Application.Notifications.Interfaces;
+using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Notifications;
 using SRMS.Domain.Notifications.Enums;
 using SRMS.Domain.Repositories;
@@ -11,11 +13,13 @@ public class NotificationService : INotificationService
     private readonly IRepositories<Notification> _notificationRepository;
     private readonly IEmailService _emailService;
     private readonly ISMSService _smsService;
+    private readonly IAuditService _audit;
     
     public NotificationService(
         IRepositories<Notification> notificationRepository,
         IEmailService emailService,
-        ISMSService smsService)
+        ISMSService smsService,
+        IAuditService audit)
     {
         _notificationRepository = notificationRepository;
         _emailService = emailService;
@@ -49,6 +53,14 @@ public class NotificationService : INotificationService
         
         var created = await _notificationRepository.CreateAsync(notification);
         
+        // ✅ Log notification
+        await _audit.LogAsync(
+            action: AuditAction.NotificationSent,
+            entityName: "Notification",
+            entityId: created.Id.ToString(),
+            additionalInfo: $"Notification sent: {created.Title}"
+        );
+        
         // Send notifications asynchronously
         _ = Task.Run(async () =>
         {
@@ -56,17 +68,37 @@ public class NotificationService : INotificationService
             {
                 if (created.SendEmail && !string.IsNullOrEmpty(created.UserEmail))
                 {
-                    await _emailService.SendEmailAsync(
+                    var sent = await _emailService.SendEmailAsync(
                         created.UserEmail,
                         created.Title,
                         created.Message,
                         isHtml: true
                     );
+                    
+                    if (sent)
+                    {
+                        await _audit.LogAsync(
+                            action: AuditAction.EmailSent,
+                            entityName: "Notification",
+                            entityId: created.Id.ToString(),
+                            additionalInfo: $"Email sent: {created.UserEmail}"
+                        );
+                    }
                 }
                 
                 if (created.SendSMS && !string.IsNullOrEmpty(created.UserPhone))
                 {
-                    await _smsService.SendSMSAsync(created.UserPhone, created.Message);
+                    var sent = await _smsService.SendSMSAsync(created.UserPhone, created.Message);
+                    
+                    if (sent)
+                    {
+                        await _audit.LogAsync(
+                            action: AuditAction.SMSSent,
+                            entityName: "Notification",
+                            entityId: created.Id.ToString(),
+                            additionalInfo: $"SMS sent: {created.UserPhone}"
+                        );
+                    }
                 }
                 
                 created.Status = NotificationStatus.Sent;
@@ -80,6 +112,13 @@ public class NotificationService : INotificationService
                 created.RetryCount++;
                 created.LastRetryAt = DateTime.UtcNow;
                 await _notificationRepository.UpdateAsync(created);
+                
+                await _audit.LogAsync(
+                    action: AuditAction.Failure,
+                    entityName: "Notification",
+                    entityId: created.Id.ToString(),
+                    additionalInfo: $"Notification failed: {ex.Message}"
+                );
             }
         });
         
@@ -90,6 +129,14 @@ public class NotificationService : INotificationService
     {
         var tasks = notifications.Select(n => SendNotificationAsync(n));
         var results = await Task.WhenAll(tasks);
+        
+        // ✅ Log bulk notification
+        await _audit.LogAsync(
+            action: AuditAction.NotificationSent,
+            entityName: "Notification",
+            additionalInfo: $"Bulk notifications sent: {notifications.Count} recipients"
+        );
+        
         return results.All(r => r);
     }
     
@@ -114,12 +161,24 @@ public class NotificationService : INotificationService
         var notifications = await _notificationRepository
             .FindAsync(n => n.UserId == userId && !n.IsRead);
         
+        var count = 0;
         foreach (var notification in notifications)
         {
             notification.IsRead = true;
             notification.ReadAt = DateTime.UtcNow;
             notification.Status = NotificationStatus.Read;
             await _notificationRepository.UpdateAsync(notification);
+            count++;
+        }
+        
+        if (count > 0)
+        {
+            // ✅ Log bulk mark as read
+            await _audit.LogAsync(
+                action: AuditAction.Update,
+                entityName: "Notification",
+                additionalInfo: $"Marked {count} notifications as read for user {userId}"
+            );
         }
         
         return true;

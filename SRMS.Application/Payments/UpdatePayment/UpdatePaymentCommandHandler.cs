@@ -26,10 +26,26 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
         var existing = await _paymentRepository.GetByIdAsync(request.Payment.Id);
         
         if (existing == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "Payment",
+                request.Payment.Id.ToString(),
+                additionalInfo: "Attempted to update non-existent payment"
+            );
             return null;
+        }
         
         var oldStatus = existing.Status;
         var oldAmount = existing.Amount?.Amount ?? 0;
+        var oldValues = new
+        {
+            existing.Status,
+            Amount = existing.Amount?.Amount,
+            existing.Description,
+            existing.TransactionId,
+            existing.PaymentMethod
+        };
         
         // Update properties
         existing.Description = request.Payment.Description;
@@ -46,6 +62,12 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Payment",
+                existing.Id.ToString(),
+                additionalInfo: $"Invalid amount during payment update: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid amount: {ex.Message}");
         }
         
@@ -61,6 +83,12 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
             }
             catch (ArgumentException ex)
             {
+                await _audit.LogAsync(
+                    AuditAction.Error,
+                    "Payment",
+                    existing.Id.ToString(),
+                    additionalInfo: $"Invalid late fee during payment update: {ex.Message}"
+                );
                 throw new InvalidOperationException($"Invalid late fee: {ex.Message}");
             }
         }
@@ -71,63 +99,80 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
         
         existing.UpdatedAt = DateTime.UtcNow;
         
+        var updated = await _paymentRepository.UpdateAsync(existing);
         
-        // logs
-        // If payment is being marked as paid
-        if (request.Payment.Status == PaymentStatus.Paid && oldStatus != PaymentStatus.Paid)
+        // Store new values
+        var newValues = new
         {
-            existing.PaidAt = DateTime.UtcNow;
-            existing.TransactionId = request.Payment.TransactionId;
-            existing.PaymentMethod = request.Payment.PaymentMethod;
-            
-            // ✅ Log payment completion
-            await _audit.LogPaymentAsync(
-                paymentId: existing.Id,
-                status: "Paid",
-                amount: existing.Amount?.Amount ?? 0,
-                additionalInfo: $"Payment completed - Method: {existing.PaymentMethod}, Transaction: {existing.TransactionId}"
-            );
-        }
-        else if (request.Payment.Status == PaymentStatus.Cancelled)
+            updated.Status,
+            Amount = updated.Amount?.Amount,
+            updated.Description,
+            updated.TransactionId,
+            updated.PaymentMethod
+        };
+        
+        
+        // ✅ Log payment update based on status change
+        if (oldStatus != updated.Status)
         {
-            // ✅ Log payment cancellation
-            await _audit.LogPaymentAsync(
-                paymentId: existing.Id,
-                status: "Cancelled",
-                amount: existing.Amount?.Amount ?? 0,
-                additionalInfo: $"Payment cancelled - Reason: {request.Payment.Notes}"
-            );
-        }
-        else if (request.Payment.Status == PaymentStatus.Refunded)
-        {
-            // ✅ Log payment refund
-            await _audit.LogPaymentAsync(
-                paymentId: existing.Id,
-                status: "Refunded",
-                amount: existing.Amount?.Amount ?? 0,
-                additionalInfo: $"Payment refunded - Reason: {request.Payment.Notes}"
-            );
+            switch (updated.Status)
+            {
+                case PaymentStatus.Paid:
+                    await _audit.LogPaymentAsync(
+                        paymentId: updated.Id,
+                        status: "Paid",
+                        amount: updated.Amount?.Amount ?? 0,
+                        additionalInfo: $"Payment completed - Reference: {updated.PaymentReference}, Method: {updated.PaymentMethod}, Transaction: {updated.TransactionId}"
+                    );
+                    break;
+                    
+                case PaymentStatus.Cancelled:
+                    await _audit.LogPaymentAsync(
+                        paymentId: updated.Id,
+                        status: "Cancelled",
+                        amount: updated.Amount?.Amount ?? 0,
+                        additionalInfo: $"Payment cancelled - Reference: {updated.PaymentReference}, Reason: {updated.Notes}"
+                    );
+                    break;
+                    
+                case PaymentStatus.Refunded:
+                    await _audit.LogPaymentAsync(
+                        paymentId: updated.Id,
+                        status: "Refunded",
+                        amount: updated.Amount?.Amount ?? 0,
+                        additionalInfo: $"Payment refunded - Reference: {updated.PaymentReference}, Reason: {updated.Notes}"
+                    );
+                    break;
+                    
+                case PaymentStatus.Overdue:
+                    await _audit.LogPaymentAsync(
+                        paymentId: updated.Id,
+                        status: "Overdue",
+                        amount: updated.Amount?.Amount ?? 0,
+                        additionalInfo: $"Payment marked as overdue - Reference: {updated.PaymentReference}"
+                    );
+                    break;
+                    
+                default:
+                    await _audit.LogCrudAsync(
+                        action: AuditAction.Update,
+                        oldEntity: oldValues,
+                        newEntity: newValues,
+                        additionalInfo: $"Payment updated: {updated.PaymentReference}"
+                    );
+                    break;
+            }
         }
         else
         {
-            // ✅ Log general payment update
-            await _audit.LogCrudAsync<PaymentAuditChangeDto>( 
+            // General update log
+            await _audit.LogCrudAsync(
                 action: AuditAction.Update,
-                oldEntity: new PaymentAuditChangeDto 
-                { 
-                    Status = oldStatus, 
-                    Amount = oldAmount 
-                },
-                newEntity: new PaymentAuditChangeDto 
-                { 
-                    Status = existing.Status, 
-                    Amount = existing.Amount?.Amount ?? 0 
-                },
-                additionalInfo: $"Payment updated"
+                oldEntity: oldValues,
+                newEntity: newValues,
+                additionalInfo: $"Payment updated: {updated.PaymentReference}"
             );
         }
-        
-        var updated = await _paymentRepository.UpdateAsync(existing);
         
         return new PaymentDto
         {

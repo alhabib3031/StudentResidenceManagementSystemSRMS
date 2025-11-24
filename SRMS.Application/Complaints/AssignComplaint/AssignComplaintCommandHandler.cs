@@ -23,7 +23,15 @@ public class AssignComplaintCommandHandler : IRequestHandler<AssignComplaintComm
         var complaint = await _complaintRepository.GetByIdAsync(request.ComplaintId);
         
         if (complaint == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "Complaint",
+                request.ComplaintId.ToString(),
+                additionalInfo: "Attempted to assign non-existent complaint"
+            );
             return false;
+        }
         
         var oldAssignee = complaint.AssignedTo;
         
@@ -41,7 +49,7 @@ public class AssignComplaintCommandHandler : IRequestHandler<AssignComplaintComm
             entityId: complaint.Id.ToString(),
             oldValues: new { AssignedTo = oldAssignee },
             newValues: new { AssignedTo = complaint.AssignedTo },
-            additionalInfo: $"Complaint assigned to manager {request.AssignToManagerId}"
+            additionalInfo: $"Complaint {complaint.ComplaintNumber} assigned to manager {request.AssignToManagerId}"
         );
         
         return true;

@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Notifications.DTOs;
 using SRMS.Application.Notifications.Interfaces;
+using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Notifications;
 using SRMS.Domain.Notifications.Enums;
 using SRMS.Domain.Repositories;
@@ -12,15 +14,18 @@ public class CreateNotificationCommandHandler : IRequestHandler<CreateNotificati
     private readonly IRepositories<Notification> _notificationRepository;
     private readonly IEmailService _emailService;
     private readonly ISMSService _smsService;
+    private readonly IAuditService _audit;
     
     public CreateNotificationCommandHandler(
         IRepositories<Notification> notificationRepository,
         IEmailService emailService,
-        ISMSService smsService)
+        ISMSService smsService,
+        IAuditService audit)
     {
         _notificationRepository = notificationRepository;
         _emailService = emailService;
         _smsService = smsService;
+        _audit = audit;
     }
 
     public async Task<NotificationDto> Handle(CreateNotificationCommand request, CancellationToken cancellationToken)
@@ -50,24 +55,67 @@ public class CreateNotificationCommandHandler : IRequestHandler<CreateNotificati
         
         var created = await _notificationRepository.CreateAsync(notification);
         
+        // ✅ Log notification creation
+        await _audit.LogAsync(
+            action: AuditAction.NotificationSent,
+            entityName: "Notification",
+            entityId: created.Id.ToString(),
+            newValues: new
+            {
+                created.Title,
+                created.Type,
+                created.Priority,
+                Recipient = created.UserEmail ?? created.UserPhone ?? created.UserId?.ToString(),
+                created.SendEmail,
+                created.SendSMS,
+                created.SendInApp
+            },
+            additionalInfo: $"Notification created: {created.Title} (Type: {created.Type}, Priority: {created.Priority})"
+        );
+        
         // Send notifications asynchronously (fire and forget or use background job)
         _ = Task.Run(async () =>
         {
             try
             {
+                bool emailSent = false;
+                bool smsSent = false;
+                
                 if (created.SendEmail && !string.IsNullOrEmpty(created.UserEmail))
                 {
-                    await _emailService.SendEmailAsync(
+                    emailSent = await _emailService.SendEmailAsync(
                         created.UserEmail,
                         created.Title,
                         created.Message,
                         isHtml: true
                     );
+                    
+                    if (emailSent)
+                    {
+                        // ✅ Log email sent
+                        await _audit.LogAsync(
+                            action: AuditAction.EmailSent,
+                            entityName: "Notification",
+                            entityId: created.Id.ToString(),
+                            additionalInfo: $"Email sent to: {created.UserEmail} - Subject: {created.Title}"
+                        );
+                    }
                 }
                 
                 if (created.SendSMS && !string.IsNullOrEmpty(created.UserPhone))
                 {
-                    await _smsService.SendSMSAsync(created.UserPhone, created.Message);
+                    smsSent = await _smsService.SendSMSAsync(created.UserPhone, created.Message);
+                    
+                    if (smsSent)
+                    {
+                        // ✅ Log SMS sent
+                        await _audit.LogAsync(
+                            action: AuditAction.SMSSent,
+                            entityName: "Notification",
+                            entityId: created.Id.ToString(),
+                            additionalInfo: $"SMS sent to: {created.UserPhone}"
+                        );
+                    }
                 }
                 
                 created.Status = NotificationStatus.Sent;
@@ -81,6 +129,14 @@ public class CreateNotificationCommandHandler : IRequestHandler<CreateNotificati
                 created.RetryCount++;
                 created.LastRetryAt = DateTime.UtcNow;
                 await _notificationRepository.UpdateAsync(created);
+                
+                // ✅ Log notification failure
+                await _audit.LogAsync(
+                    action: AuditAction.Failure,
+                    entityName: "Notification",
+                    entityId: created.Id.ToString(),
+                    additionalInfo: $"Notification sending failed: {ex.Message}"
+                );
             }
         }, cancellationToken);
         

@@ -2,6 +2,7 @@
 using MediatR;
 using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Payments.DTOs;
+using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Payments;
 using SRMS.Domain.Payments.Enums;
 using SRMS.Domain.Repositories;
@@ -47,6 +48,11 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
         }
         catch (ArgumentException ex)
         {
+            await _audit.LogAsync(
+                AuditAction.Error,
+                "Payment",
+                additionalInfo: $"Invalid amount during payment creation: {ex.Message}"
+            );
             throw new InvalidOperationException($"Invalid amount: {ex.Message}");
         }
         
@@ -62,6 +68,11 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             }
             catch (ArgumentException ex)
             {
+                await _audit.LogAsync(
+                    AuditAction.Error,
+                    "Payment",
+                    additionalInfo: $"Invalid late fee during payment creation: {ex.Message}"
+                );
                 throw new InvalidOperationException($"Invalid late fee: {ex.Message}");
             }
         }
@@ -73,7 +84,7 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             paymentId: created.Id,
             status: "Created",
             amount: created.Amount?.Amount ?? 0,
-            additionalInfo: $"Payment created for student {created.StudentId}"
+            additionalInfo: $"Payment created: {created.PaymentReference} for student {created.StudentId} - Amount: {created.Amount}"
         );
         
         return new PaymentDto

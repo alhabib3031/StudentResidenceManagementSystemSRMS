@@ -52,9 +52,10 @@ public class CreateComplaintCommandHandler : IRequestHandler<CreateComplaintComm
                 created.ComplaintNumber,
                 created.Title,
                 created.Category,
-                created.Priority
+                created.Priority,
+                created.StudentId
             },
-            additionalInfo: $"Complaint submitted: {created.Title}"
+            additionalInfo: $"Complaint submitted: {created.ComplaintNumber} - {created.Title} (Priority: {created.Priority}, Category: {created.Category})"
         );
         
         // return new ComplaintDto

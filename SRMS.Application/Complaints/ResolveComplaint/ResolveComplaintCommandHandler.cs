@@ -23,7 +23,17 @@ public class ResolveComplaintCommandHandler : IRequestHandler<ResolveComplaintCo
         var complaint = await _complaintRepository.GetByIdAsync(request.ComplaintId);
         
         if (complaint == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "Complaint",
+                request.ComplaintId.ToString(),
+                additionalInfo: "Attempted to resolve non-existent complaint"
+            );
             return false;
+        }
+        
+        var oldStatus = complaint.Status;
         
         complaint.Status = ComplaintStatus.Resolved;
         complaint.Resolution = request.Resolution;
@@ -38,6 +48,7 @@ public class ResolveComplaintCommandHandler : IRequestHandler<ResolveComplaintCo
             action: AuditAction.ComplaintResolved,
             entityName: "Complaint",
             entityId: complaint.Id.ToString(),
+            oldValues: new { Status = oldStatus },
             newValues: new
             {
                 Status = ComplaintStatus.Resolved,
@@ -45,7 +56,7 @@ public class ResolveComplaintCommandHandler : IRequestHandler<ResolveComplaintCo
                 complaint.ResolvedBy,
                 complaint.ResolvedAt
             },
-            additionalInfo: $"Complaint resolved by manager {request.ResolvedByManagerId}"
+            additionalInfo: $"Complaint {complaint.ComplaintNumber} resolved by manager {request.ResolvedByManagerId} - Resolution: {request.Resolution}"
         );
         
         return true;
