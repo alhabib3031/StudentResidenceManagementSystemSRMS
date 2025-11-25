@@ -24,6 +24,7 @@ public class NotificationService : INotificationService
         _notificationRepository = notificationRepository;
         _emailService = emailService;
         _smsService = smsService;
+        _audit = audit;
     }
     
     public async Task<bool> SendNotificationAsync(CreateNotificationDto dto)

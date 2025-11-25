@@ -1,0 +1,294 @@
+@page "/contact"
+@attribute [Authorize]
+@rendermode InteractiveServer
+@inject ISnackbar Snackbar
+
+<PageTitle>Contact Us - SRMS</PageTitle>
+
+<div class="animate-fade-in">
+    <!-- Header -->
+    <div class="text-center mb-6">
+        <MudText Typo="Typo.h3" Class="text-gradient mb-2" Style="font-weight: 800;">
+            Get In Touch
+        </MudText>
+        <MudText Typo="Typo.h6" Color="Color.Secondary">
+            We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+        </MudText>
+    </div>
+
+    <MudGrid>
+        <!-- Contact Form -->
+        <MudItem xs="12" md="8">
+            <MudPaper Class="glass-card pa-6">
+                <MudText Typo="Typo.h5" Class="mb-4" Style="font-weight: 700;">
+                    <MudIcon Icon="@Icons.Material.Filled.Email" Class="mr-2" />
+                    Send Us a Message
+                </MudText>
+
+                <EditForm Model="@_contactModel" OnValidSubmit="SubmitForm">
+                    <DataAnnotationsValidator />
+                    
+                    <MudGrid>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField 
+                                @bind-Value="_contactModel.FirstName"
+                                Label="First Name"
+                                Variant="Variant.Outlined"
+                                Required="true"
+                                For="@(() => _contactModel.FirstName)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField 
+                                @bind-Value="_contactModel.LastName"
+                                Label="Last Name"
+                                Variant="Variant.Outlined"
+                                Required="true"
+                                For="@(() => _contactModel.LastName)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField 
+                                @bind-Value="_contactModel.Email"
+                                Label="Email Address"
+                                Variant="Variant.Outlined"
+                                InputType="InputType.Email"
+                                Required="true"
+                                For="@(() => _contactModel.Email)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField 
+                                @bind-Value="_contactModel.Phone"
+                                Label="Phone Number"
+                                Variant="Variant.Outlined"
+                                For="@(() => _contactModel.Phone)" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudSelect 
+                                @bind-Value="_contactModel.Subject"
+                                Label="Subject"
+                                Variant="Variant.Outlined"
+                                Required="true">
+                                <MudSelectItem Value="@("General Inquiry")">General Inquiry</MudSelectItem>
+                                <MudSelectItem Value="@("Technical Support")">Technical Support</MudSelectItem>
+                                <MudSelectItem Value="@("Billing Question")">Billing Question</MudSelectItem>
+                                <MudSelectItem Value="@("Feature Request")">Feature Request</MudSelectItem>
+                                <MudSelectItem Value="@("Bug Report")">Bug Report</MudSelectItem>
+                                <MudSelectItem Value="@("Partnership")">Partnership</MudSelectItem>
+                                <MudSelectItem Value="@("Other")">Other</MudSelectItem>
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField 
+                                @bind-Value="_contactModel.Message"
+                                Label="Message"
+                                Variant="Variant.Outlined"
+                                Lines="6"
+                                Required="true"
+                                For="@(() => _contactModel.Message)" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudCheckBox T="bool" @bind-Checked="_contactModel.AgreeToTerms" Color="Color.Primary">
+                                I agree to the <MudLink Href="/terms">Terms of Service</MudLink> and <MudLink Href="/privacy">Privacy Policy</MudLink>
+                            </MudCheckBox>
+                        </MudItem>
+                        <MudItem xs="12" Class="d-flex justify-end gap-3">
+                            <MudButton 
+                                Variant="Variant.Outlined" 
+                                Color="Color.Default"
+                                OnClick="ResetForm">
+                                Reset
+                            </MudButton>
+                            <MudButton 
+                                ButtonType="ButtonType.Submit"
+                                Variant="Variant.Filled"
+                                Color="Color.Primary"
+                                StartIcon="@Icons.Material.Filled.Send"
+                                Class="btn-modern btn-primary">
+                                Send Message
+                            </MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </EditForm>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Contact Information -->
+        <MudItem xs="12" md="4">
+            <MudStack Spacing="4">
+                <!-- Contact Details -->
+                <MudPaper Class="glass-card pa-5">
+                    <MudText Typo="Typo.h6" Class="mb-4" Style="font-weight: 700;">
+                        <MudIcon Icon="@Icons.Material.Filled.Info" Class="mr-2" />
+                        Contact Information
+                    </MudText>
+                    
+                    <MudStack Spacing="3">
+                        <div class="d-flex align-items-start">
+                            <MudIcon Icon="@Icons.Material.Filled.LocationOn" Color="Color.Primary" Class="mr-3 mt-1" />
+                            <div>
+                                <MudText Typo="Typo.body2" Style="font-weight: 600;">Address</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                    123 University Avenue<br/>
+                                    City, State 12345<br/>
+                                    Country
+                                </MudText>
+                            </div>
+                        </div>
+
+                        <MudDivider />
+
+                        <div class="d-flex align-items-start">
+                            <MudIcon Icon="@Icons.Material.Filled.Phone" Color="Color.Success" Class="mr-3 mt-1" />
+                            <div>
+                                <MudText Typo="Typo.body2" Style="font-weight: 600;">Phone</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                    +1 (555) 123-4567<br/>
+                                    +1 (555) 987-6543
+                                </MudText>
+                            </div>
+                        </div>
+
+                        <MudDivider />
+
+                        <div class="d-flex align-items-start">
+                            <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Info" Class="mr-3 mt-1" />
+                            <div>
+                                <MudText Typo="Typo.body2" Style="font-weight: 600;">Email</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                    info@srms.com<br/>
+                                    support@srms.com
+                                </MudText>
+                            </div>
+                        </div>
+
+                        <MudDivider />
+
+                        <div class="d-flex align-items-start">
+                            <MudIcon Icon="@Icons.Material.Filled.Schedule" Color="Color.Warning" Class="mr-3 mt-1" />
+                            <div>
+                                <MudText Typo="Typo.body2" Style="font-weight: 600;">Business Hours</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                    Monday - Friday: 9:00 AM - 6:00 PM<br/>
+                                    Saturday: 10:00 AM - 4:00 PM<br/>
+                                    Sunday: Closed
+                                </MudText>
+                            </div>
+                        </div>
+                    </MudStack>
+                </MudPaper>
+
+                <!-- Social Media -->
+                <MudPaper Class="glass-card pa-5">
+                    <MudText Typo="Typo.h6" Class="mb-4" Style="font-weight: 700;">
+                        <MudIcon Icon="@Icons.Material.Filled.Share" Class="mr-2" />
+                        Follow Us
+                    </MudText>
+                    
+                    <MudStack Row="true" Justify="Justify.SpaceAround">
+                        <MudIconButton 
+                            Icon="@Icons.Custom.Brands.Facebook" 
+                            Color="Color.Primary"
+                            Size="Size.Large"
+                            Class="hover-scale" />
+                        <MudIconButton 
+                            Icon="@Icons.Custom.Brands.Twitter" 
+                            Color="Color.Info"
+                            Size="Size.Large"
+                            Class="hover-scale" />
+                        <MudIconButton 
+                            Icon="@Icons.Custom.Brands.LinkedIn" 
+                            Color="Color.Primary"
+                            Size="Size.Large"
+                            Class="hover-scale" />
+                        <MudIconButton 
+                            Icon="@Icons.Custom.Brands.Instagram" 
+                            Color="Color.Error"
+                            Size="Size.Large"
+                            Class="hover-scale" />
+                    </MudStack>
+                </MudPaper>
+
+                <!-- Quick Links -->
+                <MudPaper Class="glass-card pa-5">
+                    <MudText Typo="Typo.h6" Class="mb-3" Style="font-weight: 700;">
+                        <MudIcon Icon="@Icons.Material.Filled.Link" Class="mr-2" />
+                        Quick Links
+                    </MudText>
+                    
+                    <MudStack Spacing="2">
+                        <MudButton 
+                            Variant="Variant.Text" 
+                            Color="Color.Primary"
+                            FullWidth="true"
+                            Href="/help"
+                            StartIcon="@Icons.Material.Filled.Help">
+                            Help Center
+                        </MudButton>
+                        <MudButton 
+                            Variant="Variant.Text" 
+                            Color="Color.Primary"
+                            FullWidth="true"
+                            Href="/about"
+                            StartIcon="@Icons.Material.Filled.Info">
+                            About Us
+                        </MudButton>
+                        <MudButton 
+                            Variant="Variant.Text" 
+                            Color="Color.Primary"
+                            FullWidth="true"
+                            StartIcon="@Icons.Material.Filled.Description">
+                            Documentation
+                        </MudButton>
+                    </MudStack>
+                </MudPaper>
+            </MudStack>
+        </MudItem>
+
+        <!-- Map Section (Placeholder) -->
+        <MudItem xs="12">
+            <MudPaper Class="glass-card pa-4" Style="height: 400px;">
+                <div class="d-flex align-items-center justify-center h-100">
+                    <div class="text-center">
+                        <MudIcon Icon="@Icons.Material.Filled.Map" Size="Size.Large" Color="Color.Secondary" Style="font-size: 80px;" />
+                        <MudText Typo="Typo.h6" Class="mt-3">Interactive Map</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">
+                            Map integration coming soon
+                        </MudText>
+                    </div>
+                </div>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</div>
+
+@code {
+    private ContactModel _contactModel = new();
+
+    private void SubmitForm()
+    {
+        if (!_contactModel.AgreeToTerms)
+        {
+            Snackbar.Add("Please agree to the terms and conditions", Severity.Warning);
+            return;
+        }
+
+        // Submit form to service
+        Snackbar.Add("Thank you for your message! We'll get back to you soon.", Severity.Success);
+        ResetForm();
+    }
+
+    private void ResetForm()
+    {
+        _contactModel = new ContactModel();
+    }
+
+    private class ContactModel
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string? Phone { get; set; }
+        public string Subject { get; set; } = "General Inquiry";
+        public string Message { get; set; } = string.Empty;
+        public bool AgreeToTerms { get; set; }
+    }
+}

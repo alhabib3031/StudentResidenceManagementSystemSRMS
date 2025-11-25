@@ -166,13 +166,13 @@
         {
             try
             {
-                // Decode the token (reverse the UrlEncode operation)
-                var decodedToken = System.Net.WebUtility.UrlDecode(code);
-
+                // Decode the token since it was URL-encoded when sent via email
+                var decodedToken = System.Net.WebUtility.UrlDecode(code!);
+                
                 var dto = new VerifyEmailDto
                 {
                     UserId = Guid.Parse(userId!),
-                    Token = decodedToken!
+                    Token = decodedToken
                 };
 
                 // Call the authentication service to verify email

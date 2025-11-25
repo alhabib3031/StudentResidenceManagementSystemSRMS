@@ -1,0 +1,391 @@
+/* ============================================
+   SRMS Custom Styles - Enhanced Version
+   ============================================ */
+
+/* CSS Variables - Dark Mode (Default) */
+:root {
+    /* Primary Colors & Shades */
+    --primary-color: #8b5cf6;
+    --primary-400: #a78bfa;
+    --primary-500: #8b5cf6;
+    --primary-600: #7c3aed;
+    --primary-700: #6d28d9;
+
+    --secondary-color: #d946ef;
+    --secondary-500: #d946ef;
+
+    /* Backgrounds */
+    --background-color: #0a0f1e;
+    --surface-color: #151b2e;
+    --bg-primary: var(--background-color);
+    --bg-hover: rgba(139, 92, 246, 0.1);
+
+    /* Text */
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+
+    /* Borders & Glass */
+    --glass-bg: rgba(21, 27, 46, 0.85);
+    --glass-border: rgba(139, 92, 246, 0.15);
+    --border-color: var(--glass-border);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+/* Light Mode Variables */
+[data-theme="light"],
+.theme-light {
+    --background-color: #f8fafc;
+    --surface-color: #ffffff;
+    --bg-primary: var(--background-color);
+    --bg-hover: rgba(139, 92, 246, 0.08);
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #64748b;
+
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(139, 92, 246, 0.12);
+    --border-color: var(--glass-border);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.2);
+}
+
+/* Body Styles */
+body {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism Card */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+}
+
+/* Modern Card */
+.modern-card {
+    background: var(--surface-color);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--glass-shadow);
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.modern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Modern Buttons */
+.btn-modern {
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-modern:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary-modern,
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+    color: white;
+}
+
+.btn-primary-modern:hover,
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+/* MudBlazor Overrides */
+.mud-appbar {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mud-drawer {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mud-nav-link {
+    border-radius: 10px;
+    margin: 4px 8px;
+    transition: all 0.2s ease;
+    color: var(--text-secondary) !important;
+}
+
+.mud-nav-link:hover {
+    background: var(--bg-hover) !important;
+    transform: translateX(4px);
+    color: var(--primary-color) !important;
+}
+
+.mud-nav-link.active {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%) !important;
+    color: white !important;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    font-weight: 600;
+}
+
+.mud-main-content {
+    background: var(--background-color);
+    min-height: 100vh;
+    transition: background-color 0.5s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.5s ease-out forwards;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Hover Effects */
+.hover-scale {
+    transition: transform 0.2s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.hover-brightness {
+    transition: filter 0.2s ease;
+}
+
+.hover-brightness:hover {
+    filter: brightness(1.1);
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Gradient Mesh Background */
+.gradient-mesh {
+    background:
+        radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(217, 70, 239, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(217, 70, 239, 0.15) 0px, transparent 50%);
+}
+
+[data-theme="light"] .gradient-mesh,
+.theme-light .gradient-mesh {
+    background:
+        radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(217, 70, 239, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(217, 70, 239, 0.08) 0px, transparent 50%);
+}
+
+/* Status Indicators */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.5rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.status-online {
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.status-offline {
+    background: #ef4444;
+    box-shadow: 0 0 10px #ef4444;
+}
+
+.status-away {
+    background: #f59e0b;
+    box-shadow: 0 0 10px #f59e0b;
+}
+
+/* Flex Utilities */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .glass-card {
+        padding: 16px;
+    }
+
+    .btn-modern {
+        padding: 10px 20px;
+        font-size: 0.875rem;
+    }
+}
+
+/* Login Page Styles */
+.login-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    box-shadow: var(--glass-shadow);
+}
+
+.login-form-side {
+    background: var(--surface-color);
+    padding: 48px;
+    transition: background-color 0.3s ease;
+}
+
+.login-divider-text {
+    color: var(--text-secondary);
+    padding: 0 8px;
+}
+
+.login-subtext {
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+}
+
+.login-register-box {
+    background: var(--bg-hover);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}

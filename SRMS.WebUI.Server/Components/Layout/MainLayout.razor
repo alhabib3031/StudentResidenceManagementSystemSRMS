@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 @rendermode InteractiveServer
 
 <MudThemeProvider Theme="@_theme" IsDarkMode="@_isDarkMode" />
@@ -8,29 +9,26 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
-    <!-- App Bar -->
-    <MudAppBar Elevation="1" Dense="true">
+<MudLayout Class="@(_isDarkMode ? "theme-dark" : "theme-light")" UserAttributes="@(new Dictionary<string, object> { { "data-theme", _isDarkMode ? "dark" : "light" } })">
+    <!-- Modern App Bar with Glassmorphism -->
+    <MudAppBar Elevation="0" Dense="false" Class="glass" Style="backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color);">
         <!-- Menu Toggle Button -->
         <MudIconButton 
             Icon="@Icons.Material.Filled.Menu" 
             Color="Color.Inherit" 
             Edge="Edge.Start" 
-            OnClick="@ToggleDrawer" />
+            OnClick="@ToggleDrawer"
+            Class="hover-scale" />
 
         <!-- Logo & Title -->
-        <MudImage 
-            Src="images/logo.png" 
-            Alt="SRMS Logo" 
-            Height="32" 
-            Class="mr-2" 
-            ObjectFit="ObjectFit.Contain"
-            Style="display: none;" />
-        
-        <MudText Typo="Typo.h6" Class="ml-2">
-            <MudIcon Icon="@Icons.Material.Filled.School" Size="Size.Small" Class="mr-1" />
-            SRMS
-        </MudText>
+        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(139,92,246,0.3);">
+                <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Surface" />
+            </div>
+            <MudText Typo="Typo.h6" Style="font-weight: 700; background: linear-gradient(135deg, #a78bfa 0%, #d946ef 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                SRMS
+            </MudText>
+        </MudStack>
 
         <MudSpacer />
 
@@ -45,7 +43,7 @@
                 Variant="Variant.Outlined"
                 Margin="Margin.Dense"
                 Class="mr-4"
-                Style="max-width: 300px;" />
+                Style="max-width: 350px; border-radius: 12px;" />
         </MudHidden>
 
         <!-- Dark/Light Mode Toggle -->
@@ -53,16 +51,18 @@
             <MudIconButton 
                 Icon="@(_isDarkMode ? Icons.Material.Outlined.LightMode : Icons.Material.Outlined.DarkMode)" 
                 Color="Color.Inherit" 
-                OnClick="@ToggleDarkMode" />
+                OnClick="@ToggleDarkMode"
+                Class="hover-scale" />
         </MudTooltip>
 
         <!-- Notifications -->
         <MudTooltip Text="Notifications">
-            <MudBadge Content="@_notificationCount" Color="Color.Error" Overlap="true" Visible="@(_notificationCount > 0)">
+            <MudBadge Content="@_notificationCount" Color="Color.Error" Overlap="true" Visible="@(_notificationCount > 0)" Class="animate-pulse">
                 <MudIconButton 
                     Icon="@Icons.Material.Filled.Notifications" 
                     Color="Color.Inherit"
-                    OnClick="@OpenNotifications" />
+                    OnClick="@OpenNotifications"
+                    Class="hover-scale" />
             </MudBadge>
         </MudTooltip>
 
@@ -73,31 +73,37 @@
                     Icon="@Icons.Material.Filled.AccountCircle"
                     Color="Color.Inherit"
                     AnchorOrigin="Origin.BottomRight"
-                    TransformOrigin="Origin.TopRight">
+                    TransformOrigin="Origin.TopRight"
+                    Class="hover-scale">
                     
                      <ChildContent>
-                        <!-- User Info -->
-                        <div class="pa-4" style="min-width: 250px;">
-                            <MudStack Spacing="1">
-                                <MudText Typo="Typo.body1">
-                                    <strong>@auth.User.Identity?.Name</strong>
-                                </MudText>
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">
-                                    @GetUserRole(auth.User)
-                                </MudText>
+                        <!-- User Info Card -->
+                        <div class="pa-4 glass-card" style="min-width: 280px; border-radius: 12px; margin: 8px;">
+                            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="3">
+                                <MudAvatar Color="Color.Primary" Size="Size.Large">
+                                    <MudIcon Icon="@Icons.Material.Filled.Person" />
+                                </MudAvatar>
+                                <MudStack Spacing="0">
+                                    <MudText Typo="Typo.body1" Style="font-weight: 600;">
+                                        @auth.User.Identity?.Name
+                                    </MudText>
+                                    <MudChip T="string" Size="Size.Small" Color="@GetRoleColor(auth.User)" Style="width: fit-content;">
+                                        @GetUserRole(auth.User)
+                                    </MudChip>
+                                </MudStack>
                             </MudStack>
                         </div>
                         <MudDivider/>
 
                         <!-- Menu Items -->
-                        <MudMenuItem Icon="@Icons.Material.Filled.Person" Href="/profile">
-                            My Profile
+                        <MudMenuItem Icon="@Icons.Material.Filled.Person" Href="/profile" Class="hover-brightness">
+                            <MudText>My Profile</MudText>
                         </MudMenuItem>
-                        <MudMenuItem Icon="@Icons.Material.Filled.Settings" Href="/settings">
-                            Settings
+                        <MudMenuItem Icon="@Icons.Material.Filled.Settings" Href="/settings" Class="hover-brightness">
+                            <MudText>Settings</MudText>
                         </MudMenuItem>
                         <MudDivider/>
-                        <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="@HandleLogout" IconColor="Color.Error">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="@HandleLogout" IconColor="Color.Error" Class="hover-brightness">
                             <MudText Color="Color.Error">Logout</MudText>
                         </MudMenuItem>
                      </ChildContent> 
@@ -106,26 +112,30 @@
             <NotAuthorized>
                 <MudButton 
                     Href="/login" 
-                    Variant="Variant.Text" 
-                    Color="Color.Inherit"
-                    StartIcon="@Icons.Material.Filled.Login">
+                    Variant="Variant.Filled" 
+                    Color="Color.Primary"
+                    StartIcon="@Icons.Material.Filled.Login"
+                    Class="btn-modern btn-primary">
                     Sign In
                 </MudButton>
             </NotAuthorized>
         </AuthorizeView>
     </MudAppBar>
 
-    <!-- Drawer / Sidebar -->
+    <!-- Modern Drawer / Sidebar -->
     <MudDrawer 
         @bind-Open="_drawerOpen" 
-        Elevation="2" 
-        ClipMode="DrawerClipMode.Always">
+        Elevation="0" 
+        ClipMode="DrawerClipMode.Always"
+        Class="glass"
+        Style="backdrop-filter: blur(20px); border-right: 1px solid var(--border-color);">
         <NavMenu />
     </MudDrawer>
 
-    <!-- Main Content -->
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="py-6">
+    <!-- Main Content with Modern Background -->
+    <MudMainContent Style="background: var(--bg-primary); min-height: 100vh;">
+        <div class="gradient-mesh" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.3; pointer-events: none; z-index: 0;"></div>
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="py-6" Style="position: relative; z-index: 1;">
             <AuthorizeView>
                 <Authorized>
                     @Body
@@ -137,26 +147,38 @@
                     }
                     else
                     {
-                        <MudPaper Elevation="3" Class="pa-8 text-center">
-                            <MudIcon Icon="@Icons.Material.Filled.Lock" Size="Size.Large" Color="Color.Error" Style="font-size: 80px;" />
-                            <MudText Typo="Typo.h4" Class="mt-4">Access Denied</MudText>
-                            <MudText Typo="Typo.body1" Color="Color.Secondary" Class="my-4">
-                                You need to be logged in to access this page.
-                            </MudText>
-                            <MudButton 
-                                Href="/login" 
-                                Variant="Variant.Filled" 
-                                Color="Color.Primary"
-                                StartIcon="@Icons.Material.Filled.Login">
-                                Sign In Now
-                            </MudButton>
-                        </MudPaper>
+                        <div class="animate-fade-in">
+                            <MudPaper Elevation="0" Class="glass-card pa-8 text-center" Style="max-width: 600px; margin: 100px auto;">
+                                <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 0 20px rgba(239,68,68,0.3);">
+                                    <MudIcon Icon="@Icons.Material.Filled.Lock" Color="Color.Surface" Style="font-size: 60px;" />
+                                </div>
+                                <MudText Typo="Typo.h3" Class="mb-3" Style="font-weight: 700;">Access Denied</MudText>
+                                <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-6">
+                                    You need to be logged in to access this page. Please sign in to continue.
+                                </MudText>
+                                <MudButton 
+                                    Href="/login" 
+                                    Variant="Variant.Filled" 
+                                    Color="Color.Primary"
+                                    Size="Size.Large"
+                                    StartIcon="@Icons.Material.Filled.Login"
+                                    Class="btn-modern btn-primary">
+                                    Sign In Now
+                                </MudButton>
+                            </MudPaper>
+                        </div>
                     }
                 </NotAuthorized>
             </AuthorizeView>
         </MudContainer>
     </MudMainContent>
 </MudLayout>
+
+<script>
+    window.setBodyTheme = (theme) => {
+        document.body.setAttribute('data-theme', theme);
+    };
+</script>
 
 @code {
     private bool _drawerOpen = true;
@@ -165,7 +187,7 @@
     private string _searchString = "";
     private int _notificationCount = 3;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         _theme = new MudTheme
         {
@@ -173,9 +195,13 @@
             PaletteDark = _darkPalette,
             LayoutProperties = new LayoutProperties
             {
-                DrawerWidthLeft = "260px"
+                DrawerWidthLeft = "280px",
+                AppbarHeight = "64px"
             }
         };
+        
+        // Initialize theme on body
+        await JSRuntime.InvokeVoidAsync("setBodyTheme", _isDarkMode ? "dark" : "light");
     }
 
     private void ToggleDrawer()
@@ -183,96 +209,104 @@
         _drawerOpen = !_drawerOpen;
     }
 
-    private void ToggleDarkMode()
+    private async Task ToggleDarkMode()
     {
         _isDarkMode = !_isDarkMode;
-        // Save preference to local storage
+        await JSRuntime.InvokeVoidAsync("setBodyTheme", _isDarkMode ? "dark" : "light");
     }
 
     private void OpenNotifications()
     {
-        // Open notifications panel/dialog
         Navigation.NavigateTo("/notifications");
     }
 
-    private /* async Task */ void HandleLogout()
+    private void HandleLogout()
     {
-        // Implement logout logic
-        // await AuthenticationStateProvider.GetAuthenticationStateAsync();
         Navigation.NavigateTo("/login");
     }
 
     private string GetUserRole(System.Security.Claims.ClaimsPrincipal user)
     {
-        if (user.IsInRole("SuperRoot")) return "🔐 Super Administrator";
-        if (user.IsInRole("Admin")) return "👔 Administrator";
-        if (user.IsInRole("Manager")) return "🏢 Manager";
-        if (user.IsInRole("Student")) return "🎓 Student";
-        return "👤 User";
+        if (user.IsInRole("SuperRoot")) return "Super Admin";
+        if (user.IsInRole("Admin")) return "Administrator";
+        if (user.IsInRole("Manager")) return "Manager";
+        if (user.IsInRole("Student")) return "Student";
+        return "User";
+    }
+
+    private Color GetRoleColor(System.Security.Claims.ClaimsPrincipal user)
+    {
+        if (user.IsInRole("SuperRoot")) return Color.Error;
+        if (user.IsInRole("Admin")) return Color.Primary;
+        if (user.IsInRole("Manager")) return Color.Info;
+        if (user.IsInRole("Student")) return Color.Success;
+        return Color.Default;
     }
 
     private bool IsPublicPage()
     {
         var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
-        var path = uri.AbsolutePath.ToLower();
+        var path = uri.AbsolutePath.ToLower().TrimEnd('/');
         
-        var publicPages = new[] { "/", "/login", "/register", "/forgot-password", "/verify-email" };
+        if (string.IsNullOrEmpty(path)) path = "/";
+        
+        var publicPages = new[] { "/", "/login", "/register", "/forgot-password", "/verify-email", "/reset-password", "/about", "/contact", "/help" };
         return publicPages.Contains(path);
     }
 
-    // Light Theme Palette
+    // Enhanced Light Theme Palette - Softer for eyes
     private readonly PaletteLight _lightPalette = new()
     {
-        Black = "#110e2d",
-        AppbarText = "#424242",
-        AppbarBackground = "rgba(255,255,255,0.95)",
-        DrawerBackground = "#ffffff",
-        DrawerText = "#424242",
-        DrawerIcon = "#616161",
+        Black = "#0f172a",
+        AppbarText = "#1e293b",
+        AppbarBackground = "rgba(248,250,252,0.95)",
+        DrawerBackground = "rgba(248,250,252,0.95)",
+        DrawerText = "#334155",
+        DrawerIcon = "#64748b",
         Surface = "#ffffff",
-        Background = "#f5f5f5",
-        BackgroundGray = "#e0e0e0",
-        TextPrimary = "#212121",
-        TextSecondary = "#757575",
-        Primary = "#1976d2",
+        Background = "#f8fafc",
+        BackgroundGray = "#f1f5f9",
+        TextPrimary = "#0f172a",
+        TextSecondary = "#475569",
+        Primary = "#8b5cf6",
         PrimaryContrastText = "#ffffff",
-        Secondary = "#424242",
-        Info = "#2196f3",
-        Success = "#4caf50",
-        Warning = "#fb8c00",
-        Error = "#f44336",
-        Dark = "#424242",
-        GrayLight = "#e0e0e0",
-        GrayLighter = "#f5f5f5",
+        Secondary = "#d946ef",
+        Info = "#3b82f6",
+        Success = "#10b981",
+        Warning = "#f59e0b",
+        Error = "#ef4444",
+        Dark = "#1e293b",
+        GrayLight = "#e2e8f0",
+        GrayLighter = "#f1f5f9",
     };
 
-    // Dark Theme Palette
+    // Enhanced Dark Theme Palette - More comfortable for eyes
     private readonly PaletteDark _darkPalette = new()
     {
-        Primary = "#7e6fff",
-        Secondary = "#b0b0b0",
-        Surface = "#1e1e2d",
-        Background = "#1a1a27",
-        BackgroundGray = "#151521",
-        AppbarText = "#92929f",
-        AppbarBackground = "rgba(26,26,39,0.95)",
-        DrawerBackground = "#1a1a27",
-        DrawerText = "#b2b0bf",
-        DrawerIcon = "#92929f",
-        ActionDefault = "#74718e",
-        ActionDisabled = "#9999994d",
-        ActionDisabledBackground = "#605f6d4d",
-        TextPrimary = "#e0e0e0",
-        TextSecondary = "#b0b0b0",
-        TextDisabled = "#ffffff33",
-        Info = "#4a86ff",
-        Success = "#3dcb6c",
-        Warning = "#ffb545",
-        Error = "#ff3f5f",
-        Dark = "#27272f",
-        LinesDefault = "#33323e",
-        TableLines = "#33323e",
-        Divider = "#292838",
-        OverlayLight = "#1e1e2d80",
+        Primary = "#8b5cf6",
+        Secondary = "#d946ef",
+        Surface = "#151b2e",
+        Background = "#0a0f1e",
+        BackgroundGray = "#151b2e",
+        AppbarText = "#f1f5f9",
+        AppbarBackground = "rgba(10,15,30,0.95)",
+        DrawerBackground = "rgba(10,15,30,0.95)",
+        DrawerText = "#cbd5e1",
+        DrawerIcon = "#94a3b8",
+        ActionDefault = "#94a3b8",
+        ActionDisabled = "#475569",
+        ActionDisabledBackground = "#1f2937",
+        TextPrimary = "#f1f5f9",
+        TextSecondary = "#cbd5e1",
+        TextDisabled = "#64748b",
+        Info = "#60a5fa",
+        Success = "#34d399",
+        Warning = "#fbbf24",
+        Error = "#f87171",
+        Dark = "#0a0f1e",
+        LinesDefault = "rgba(139,92,246,0.15)",
+        TableLines = "rgba(139,92,246,0.15)",
+        Divider = "rgba(255,255,255,0.06)",
+        OverlayLight = "rgba(10,15,30,0.5)",
     };
 }

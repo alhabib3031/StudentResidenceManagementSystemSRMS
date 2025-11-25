@@ -25,12 +25,10 @@ public class EmailService : IEmailService
             var fromEmail = _configuration["Email:FromEmail"];
             var fromName = _configuration["Email:FromName"] ?? "SRMS";
             
-            using var client = new SmtpClient(smtpHost, smtpPort)
-            {
-                EnableSsl = true,
-                Credentials = new NetworkCredential(smtpUsername, smtpPassword)
-            };
-            
+            using var client = new SmtpClient(smtpHost, smtpPort);
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+
             var message = new MailMessage
             {
                 From = new MailAddress(fromEmail!, fromName),

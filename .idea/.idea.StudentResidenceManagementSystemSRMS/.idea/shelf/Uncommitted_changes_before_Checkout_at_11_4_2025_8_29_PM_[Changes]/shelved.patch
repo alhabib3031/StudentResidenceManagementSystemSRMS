@@ -1,0 +1,209 @@
+Index: SRMS.Application/Students/DTOs/StudentDTOs/StudentDto.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>namespace SRMS.Application.Students.DTOs.StudentDTOs;\r\n\r\n// DTO للقراءة\r\npublic class StudentDto\r\n{\r\n    public Guid Id { get; set; }\r\n    public string FirstName { get; set; } = string.Empty;\r\n    public string LastName { get; set; } = string.Empty;\r\n    public string? Email { get; set; }\r\n    public string? PhoneNumber { get; set; }\r\n    public string? Address { get; set; }\r\n    public DateTime CreatedAt { get; set; }\r\n    public DateTime UpdatedAt { get; set; }\r\n    public bool IsActive { get; set; }\r\n    \r\n}
+===================================================================
+diff --git a/SRMS.Application/Students/DTOs/StudentDTOs/StudentDto.cs b/SRMS.Application/Students/DTOs/StudentDTOs/StudentDto.cs
+--- a/SRMS.Application/Students/DTOs/StudentDTOs/StudentDto.cs	(revision 7401ce21d2fca2f51cd95f974ff322a824b4c8fd)
++++ b/SRMS.Application/Students/DTOs/StudentDTOs/StudentDto.cs	(date 1761938709046)
+@@ -1,16 +1,22 @@
++using SRMS.Application.Students.DTOs.ValueObjectDTOs;
++
+ namespace SRMS.Application.Students.DTOs.StudentDTOs;
+ 
+-// DTO للقراءة
++/// <summary>
++/// DTO للقراءة - نسخة محسّنة
++/// </summary>
+ public class StudentDto
+ {
+     public Guid Id { get; set; }
+     public string FirstName { get; set; } = string.Empty;
+     public string LastName { get; set; } = string.Empty;
++    public string FullName => $"{FirstName} {LastName}";
++    
+     public string? Email { get; set; }
+-    public string? PhoneNumber { get; set; }
+-    public string? Address { get; set; }
++    public PhoneNumberDto? PhoneNumber { get; set; }
++    public AddressDto? Address { get; set; }
++    
+     public DateTime CreatedAt { get; set; }
+     public DateTime UpdatedAt { get; set; }
+     public bool IsActive { get; set; }
+-    
+ }
+\ No newline at end of file
+Index: SRMS.Application/Students/DTOs/StudentDTOs/CreateStudentDto.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System.ComponentModel.DataAnnotations;\r\n\r\nnamespace SRMS.Application.Students.DTOs.StudentDTOs;\r\n\r\n// DTO للإنشاء\r\npublic class CreateStudentDto\r\n{\r\n    [Required(ErrorMessage = \"First name is required\")]\r\n    [StringLength(50, MinimumLength = 2, ErrorMessage = \"First name must be between 2 and 50 characters\")]\r\n    public string FirstName { get; set; } = string.Empty;\r\n\r\n    [Required(ErrorMessage = \"Last name is required\")]\r\n    [StringLength(50, MinimumLength = 2, ErrorMessage = \"Last name must be between 2 and 50 characters\")]\r\n    public string LastName { get; set; } = string.Empty;\r\n\r\n    [Required(ErrorMessage = \"Email is required\")]\r\n    [EmailAddress(ErrorMessage = \"Invalid email address\")]\r\n    public string Email { get; set; } = string.Empty;\r\n\r\n    [Phone(ErrorMessage = \"Invalid phone number\")]\r\n    public string PhoneNumber { get; set; } = string.Empty;\r\n\r\n    [StringLength(200, ErrorMessage = \"Address cannot exceed 200 characters\")]\r\n    public string Address { get; set; } = string.Empty;\r\n    \r\n}
+===================================================================
+diff --git a/SRMS.Application/Students/DTOs/StudentDTOs/CreateStudentDto.cs b/SRMS.Application/Students/DTOs/StudentDTOs/CreateStudentDto.cs
+--- a/SRMS.Application/Students/DTOs/StudentDTOs/CreateStudentDto.cs	(revision 7401ce21d2fca2f51cd95f974ff322a824b4c8fd)
++++ b/SRMS.Application/Students/DTOs/StudentDTOs/CreateStudentDto.cs	(date 1761938709060)
+@@ -1,26 +1,28 @@
+ using System.ComponentModel.DataAnnotations;
++using SRMS.Application.Students.DTOs.ValueObjectDTOs;
+ 
+ namespace SRMS.Application.Students.DTOs.StudentDTOs;
+ 
+-// DTO للإنشاء
++/// <summary>
++/// DTO للإنشاء - نسخة محسّنة مع ValueObject DTOs
++/// </summary>
+ public class CreateStudentDto
+ {
+     [Required(ErrorMessage = "First name is required")]
+-    [StringLength(50, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 50 characters")]
++    [StringLength(50, MinimumLength = 2)]
+     public string FirstName { get; set; } = string.Empty;
+ 
+     [Required(ErrorMessage = "Last name is required")]
+-    [StringLength(50, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 50 characters")]
++    [StringLength(50, MinimumLength = 2)]
+     public string LastName { get; set; } = string.Empty;
+ 
+     [Required(ErrorMessage = "Email is required")]
+     [EmailAddress(ErrorMessage = "Invalid email address")]
+     public string Email { get; set; } = string.Empty;
+ 
+-    [Phone(ErrorMessage = "Invalid phone number")]
+-    public string PhoneNumber { get; set; } = string.Empty;
++    // استخدام PhoneNumberDto بدلاً من string
++    public PhoneNumberDto? PhoneNumber { get; set; }
+ 
+-    [StringLength(200, ErrorMessage = "Address cannot exceed 200 characters")]
+-    public string Address { get; set; } = string.Empty;
+-    
++    // استخدام AddressDto بدلاً من string
++    public AddressDto? Address { get; set; }
+ }
+\ No newline at end of file
+Index: SRMS.Application/Students/DTOs/StudentDTOs/UpdateStudentDto.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using System.ComponentModel.DataAnnotations;\r\n\r\nnamespace SRMS.Application.Students.DTOs.StudentDTOs;\r\n\r\n// DTO للتحديث\r\npublic class UpdateStudentDto\r\n{\r\n    [Required]\r\n    public Guid Id { get; set; }\r\n\r\n    [Required(ErrorMessage = \"First name is required\")]\r\n    [StringLength(50, MinimumLength = 2, ErrorMessage = \"First name must be between 2 and 50 characters\")]\r\n    public string FirstName { get; set; } = string.Empty;\r\n\r\n    [Required(ErrorMessage = \"Last name is required\")]\r\n    [StringLength(50, MinimumLength = 2, ErrorMessage = \"Last name must be between 2 and 50 characters\")]\r\n    public string LastName { get; set; } = string.Empty;\r\n\r\n    [Required(ErrorMessage = \"Email is required\")]\r\n    [EmailAddress(ErrorMessage = \"Invalid email address\")]\r\n    public string Email { get; set; } = string.Empty;\r\n\r\n    [Phone(ErrorMessage = \"Invalid phone number\")]\r\n    public string PhoneNumber { get; set; } = string.Empty;\r\n\r\n    [StringLength(200, ErrorMessage = \"Address cannot exceed 200 characters\")]\r\n    public string Address { get; set; } = string.Empty;\r\n}
+===================================================================
+diff --git a/SRMS.Application/Students/DTOs/StudentDTOs/UpdateStudentDto.cs b/SRMS.Application/Students/DTOs/StudentDTOs/UpdateStudentDto.cs
+--- a/SRMS.Application/Students/DTOs/StudentDTOs/UpdateStudentDto.cs	(revision 7401ce21d2fca2f51cd95f974ff322a824b4c8fd)
++++ b/SRMS.Application/Students/DTOs/StudentDTOs/UpdateStudentDto.cs	(date 1761939783463)
+@@ -18,7 +18,7 @@
+ 
+     [Required(ErrorMessage = "Email is required")]
+     [EmailAddress(ErrorMessage = "Invalid email address")]
+-    public string Email { get; set; } = string.Empty;
++    public string? Email { get; set; } = string.Empty;
+ 
+     [Phone(ErrorMessage = "Invalid phone number")]
+     public string PhoneNumber { get; set; } = string.Empty;
+Index: SRMS.Application/Common/Mapping/MappingConfigurations.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Mapster;\r\nusing SRMS.Application.Managers.DTOs;\r\nusing SRMS.Application.Students.DTOs.StudentDTOs;\r\nusing SRMS.Domain.Managers;\r\nusing SRMS.Domain.Students;\r\nusing SRMS.Domain.ValueObjects;\r\n\r\nnamespace SRMS.Application.Common.Mapping;\r\n\r\n/// <summary>\r\n/// تكوينات التحويل العامة لجميع أنواع الكيانات\r\n/// </summary>\r\npublic class MappingConfigurations : IRegister\r\n{\r\n    public void Register(TypeAdapterConfig config)\r\n    {\r\n        // تكوينات تحويل عامة لجميع الكيانات\r\n        RegisterValueObjectMappings(config);\r\n        \r\n        // تكوينات خاصة بالطلاب\r\n        RegisterStudentMappings(config);\r\n        \r\n        // تكوينات خاصة بالمديرين\r\n        RegisterManagerMappings(config);\r\n    }\r\n\r\n    /// <summary>\r\n    /// تسجيل تكوينات تحويل Value Objects\r\n    /// </summary>\r\n    private void RegisterValueObjectMappings(TypeAdapterConfig config)\r\n    {\r\n        // تكوين تحويل Email\r\n        config.ForType<string, Email>()\r\n            .MapWith(src => Email.Create(src));\r\n            \r\n        config.ForType<Email, string>()\r\n            .MapWith(src => src == null ? null : src.Value);\r\n            \r\n        // تكوين تحويل PhoneNumber\r\n        config.ForType<string, PhoneNumber>()\r\n            .MapWith(src => string.IsNullOrEmpty(src) ? null : PhoneNumber.Create(src.Value));\r\n            \r\n        config.ForType<PhoneNumber, string>()\r\n            .MapWith(src => src == null ? null : src.Value);\r\n            \r\n        // تكوين تحويل Address\r\n        config.ForType<string, Address>()\r\n            .MapWith(src => string.IsNullOrEmpty(src) ? null : Address.Create(src));\r\n            \r\n        config.ForType<Address, string>()\r\n            .MapWith(src => src == null ? null : src.);\r\n    }\r\n    \r\n    /// <summary>\r\n    /// تسجيل تكوينات تحويل خاصة بالطلاب\r\n    /// </summary>\r\n    private void RegisterStudentMappings(TypeAdapterConfig config)\r\n    {\r\n        // CreateStudentDto -> Student\r\n        config.NewConfig<CreateStudentDto, Student>()\r\n            .Ignore(dest => dest.Id)\r\n            .Ignore(dest => dest.CreatedAt)\r\n            .Ignore(dest => dest.UpdatedAt)\r\n            .Ignore(dest => dest.IsActive)\r\n            .Ignore(dest => dest.IsDeleted)\r\n            .Ignore(dest => dest.Status);\r\n            \r\n        // Student -> StudentDto\r\n        config.NewConfig<Student, StudentDto>();\r\n        \r\n        // إضافة المزيد من تكوينات الطلاب حسب الحاجة\r\n        config.NewConfig<UpdateStudentDto, Student>()\r\n            .Ignore(dest => dest.Id)\r\n            .Ignore(dest => dest.CreatedAt)\r\n            .Ignore(dest => dest.UpdatedAt)\r\n            .Ignore(dest => dest.IsDeleted);\r\n    }\r\n    \r\n    /// <summary>\r\n    /// تسجيل تكوينات تحويل خاصة بالمديرين\r\n    /// </summary>\r\n    private void RegisterManagerMappings(TypeAdapterConfig config)\r\n    {\r\n        // CreateManagerDto -> Manager\r\n        config.NewConfig<CreateManagerDto, Manager>()\r\n            .Ignore(dest => dest.Id)\r\n            .Ignore(dest => dest.CreatedAt)\r\n            .Ignore(dest => dest.UpdatedAt)\r\n            .Ignore(dest => dest.IsActive)\r\n            .Ignore(dest => dest.IsDeleted);\r\n            \r\n        // Manager -> ManagerDto\r\n        config.NewConfig<Manager, ManagerDto>();\r\n        \r\n        // إضافة المزيد من تكوينات المديرين حسب الحاجة\r\n        config.NewConfig<UpdateManagerDto, Manager>()\r\n            .Ignore(dest => dest.Id)\r\n            .Ignore(dest => dest.CreatedAt)\r\n            .Ignore(dest => dest.UpdatedAt)\r\n            .Ignore(dest => dest.IsDeleted);\r\n    }\r\n}
+===================================================================
+diff --git a/SRMS.Application/Common/Mapping/MappingConfigurations.cs b/SRMS.Application/Common/Mapping/MappingConfigurations.cs
+--- a/SRMS.Application/Common/Mapping/MappingConfigurations.cs	(revision 7401ce21d2fca2f51cd95f974ff322a824b4c8fd)
++++ b/SRMS.Application/Common/Mapping/MappingConfigurations.cs	(date 1761939091147)
+@@ -14,89 +14,34 @@
+ {
+     public void Register(TypeAdapterConfig config)
+     {
+-        // تكوينات تحويل عامة لجميع الكيانات
+-        RegisterValueObjectMappings(config);
++        // تسجيل Value Objects mappings
++        GenericMappingConfiguration.RegisterValueObjectMappings(config);
+         
+-        // تكوينات خاصة بالطلاب
++        // تسجيل Entity mappings
+         RegisterStudentMappings(config);
+-        
+-        // تكوينات خاصة بالمديرين
+         RegisterManagerMappings(config);
+     }
+ 
+-    /// <summary>
+-    /// تسجيل تكوينات تحويل Value Objects
+-    /// </summary>
+-    private void RegisterValueObjectMappings(TypeAdapterConfig config)
+-    {
+-        // تكوين تحويل Email
+-        config.ForType<string, Email>()
+-            .MapWith(src => Email.Create(src));
+-            
+-        config.ForType<Email, string>()
+-            .MapWith(src => src == null ? null : src.Value);
+-            
+-        // تكوين تحويل PhoneNumber
+-        config.ForType<string, PhoneNumber>()
+-            .MapWith(src => string.IsNullOrEmpty(src) ? null : PhoneNumber.Create(src.Value));
+-            
+-        config.ForType<PhoneNumber, string>()
+-            .MapWith(src => src == null ? null : src.Value);
+-            
+-        // تكوين تحويل Address
+-        config.ForType<string, Address>()
+-            .MapWith(src => string.IsNullOrEmpty(src) ? null : Address.Create(src));
+-            
+-        config.ForType<Address, string>()
+-            .MapWith(src => src == null ? null : src.);
+-    }
+-    
+-    /// <summary>
+-    /// تسجيل تكوينات تحويل خاصة بالطلاب
+-    /// </summary>
+     private void RegisterStudentMappings(TypeAdapterConfig config)
+     {
+-        // CreateStudentDto -> Student
+-        config.NewConfig<CreateStudentDto, Student>()
+-            .Ignore(dest => dest.Id)
+-            .Ignore(dest => dest.CreatedAt)
+-            .Ignore(dest => dest.UpdatedAt)
+-            .Ignore(dest => dest.IsActive)
+-            .Ignore(dest => dest.IsDeleted)
++        GenericMappingConfiguration
++            .ConfigureEntityMapping<CreateStudentDto, Student>(config)
+             .Ignore(dest => dest.Status);
+             
+-        // Student -> StudentDto
+         config.NewConfig<Student, StudentDto>();
+         
+-        // إضافة المزيد من تكوينات الطلاب حسب الحاجة
+-        config.NewConfig<UpdateStudentDto, Student>()
+-            .Ignore(dest => dest.Id)
+-            .Ignore(dest => dest.CreatedAt)
+-            .Ignore(dest => dest.UpdatedAt)
+-            .Ignore(dest => dest.IsDeleted);
++        GenericMappingConfiguration
++            .ConfigureUpdateMapping<UpdateStudentDto, Student>(config);
+     }
+     
+-    /// <summary>
+-    /// تسجيل تكوينات تحويل خاصة بالمديرين
+-    /// </summary>
+     private void RegisterManagerMappings(TypeAdapterConfig config)
+     {
+-        // CreateManagerDto -> Manager
+-        config.NewConfig<CreateManagerDto, Manager>()
+-            .Ignore(dest => dest.Id)
+-            .Ignore(dest => dest.CreatedAt)
+-            .Ignore(dest => dest.UpdatedAt)
+-            .Ignore(dest => dest.IsActive)
+-            .Ignore(dest => dest.IsDeleted);
++        GenericMappingConfiguration
++            .ConfigureEntityMapping<CreateManagerDto, Manager>(config);
+             
+-        // Manager -> ManagerDto
+         config.NewConfig<Manager, ManagerDto>();
+         
+-        // إضافة المزيد من تكوينات المديرين حسب الحاجة
+-        config.NewConfig<UpdateManagerDto, Manager>()
+-            .Ignore(dest => dest.Id)
+-            .Ignore(dest => dest.CreatedAt)
+-            .Ignore(dest => dest.UpdatedAt)
+-            .Ignore(dest => dest.IsDeleted);
++        GenericMappingConfiguration
++            .ConfigureUpdateMapping<UpdateManagerDto, Manager>(config);
+     }
+ }
+\ No newline at end of file

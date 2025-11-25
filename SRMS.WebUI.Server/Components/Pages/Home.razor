@@ -1,59 +1,179 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Home - SRMS</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor and the .NET 9 Template!</MudText>
+<!-- Hero Section -->
+<div class="animate-fade-in">
+    <div class="text-center mb-8" style="padding: 60px 0;">
+        <div class="mb-4">
+            <div style="width: 120px; height: 120px; background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%); border-radius: 30px; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: var(--shadow-glow); animation: float 3s ease-in-out infinite;">
+                <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Surface" Style="font-size: 70px;" />
+            </div>
+        </div>
+        
+        <MudText Typo="Typo.h2" Style="font-weight: 800; font-size: 3.5rem; background: linear-gradient(135deg, var(--primary-400) 0%, var(--secondary-500) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px;">
+            Welcome to SRMS
+        </MudText>
+        
+        <MudText Typo="Typo.h5" Color="Color.Secondary" Class="mb-6" Style="max-width: 700px; margin: 0 auto;">
+            The Modern Student Residence Management System
+        </MudText>
+        
+        <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-8" Style="max-width: 600px; margin: 0 auto; line-height: 1.8;">
+            Streamline your student housing operations with our comprehensive, cloud-based platform. 
+            Manage residences, students, payments, and more - all in one place.
+        </MudText>
+        
+        <MudStack Row="true" Justify="Justify.Center" Spacing="4">
+            <MudButton 
+                Variant="Variant.Filled" 
+                Color="Color.Primary"
+                Size="Size.Large"
+                Href="/register"
+                StartIcon="@Icons.Material.Filled.Rocket"
+                Class="btn-modern btn-primary"
+                Style="padding: 16px 40px; font-size: 1.1rem;">
+                Get Started Free
+            </MudButton>
+            <MudButton 
+                Variant="Variant.Outlined" 
+                Color="Color.Primary"
+                Size="Size.Large"
+                Href="/about"
+                StartIcon="@Icons.Material.Filled.Info"
+                Style="padding: 16px 40px; font-size: 1.1rem;">
+                Learn More
+            </MudButton>
+        </MudStack>
+    </div>
 
-<MudAlert Severity="Severity.Normal" ContentAlignment="HorizontalAlignment.Start">
-    You can find documentation and examples on our website here:
-    <MudLink Href="https://mudblazor.com" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        <b>www.mudblazor.com</b>
-    </MudLink>
-</MudAlert>
+    <!-- Features Section -->
+    <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">
+        Everything You Need to Manage Student Housing
+    </MudText>
+    
+    <MudGrid Class="mb-8">
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="modern-card hover-lift pa-6 h-100 text-center">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: var(--shadow-glow);">
+                    <MudIcon Icon="@Icons.Material.Filled.Apartment" Color="Color.Surface" Size="Size.Large" />
+                </div>
+                <MudText Typo="Typo.h6" Class="mb-3" Style="font-weight: 700;">Residence Management</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Efficiently manage multiple residences, rooms, and facilities with our intuitive interface.
+                </MudText>
+            </MudPaper>
+        </MudItem>
 
-<br/>
-<MudText Typo="Typo.h5" GutterBottom="true">Interactivity in this Template</MudText>
-<br/>
-<MudText Typo="Typo.body2">
-    When you opt for the "Global" Interactivity Location, <br/>
-    the render modes are defined in App.razor and consequently apply to all child components.<br/>
-    In this case, providers are globally set in the MainLayout.<br/>
-    <br/>
-    On the other hand, if you choose the "Per page/component" Interactivity Location,<br/>
-    it is necessary to include the <br/>
-    <br/>
-    &lt;MudPopoverProvider /&gt; <br/>
-    &lt;MudDialogProvider /&gt; <br/>
-    &lt;MudSnackbarProvider /&gt; <br/>
-    <br/>
-    components on every interactive page.<br/>
-    <br/>
-    If a render mode is not specified for a page, it defaults to Server-Side Rendering (SSR),<br/>
-    similar to this page. While MudBlazor allows pages to be rendered in SSR,<br/>
-    please note that interactive features, such as buttons and dropdown menus, will not be functional.
-</MudText>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="modern-card hover-lift pa-6 h-100 text-center">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--success-500) 0%, var(--success-600) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: var(--shadow-glow-success);">
+                    <MudIcon Icon="@Icons.Material.Filled.People" Color="Color.Surface" Size="Size.Large" />
+                </div>
+                <MudText Typo="Typo.h6" Class="mb-3" Style="font-weight: 700;">Student Portal</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Empower students with self-service tools for room selection, payments, and support.
+                </MudText>
+            </MudPaper>
+        </MudItem>
 
-<br/>
-<MudText Typo="Typo.h5" GutterBottom="true">What's New in Blazor with the Release of .NET 9</MudText>
-<br/>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="modern-card hover-lift pa-6 h-100 text-center">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--info-500) 0%, var(--info-600) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Payment" Color="Color.Surface" Size="Size.Large" />
+                </div>
+                <MudText Typo="Typo.h6" Class="mb-3" Style="font-weight: 700;">Payment Processing</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Secure and automated payment collection with multiple payment methods supported.
+                </MudText>
+            </MudPaper>
+        </MudItem>
 
-<MudText Typo="Typo.h6" GutterBottom="true">Prerendering</MudText>
-<MudText Typo="Typo.body2" GutterBottom="true">
-    If you're exploring the features of .NET 9 Blazor,<br/> you might be pleasantly surprised to learn that each page is prerendered on the server,<br/> regardless of the selected render mode.<br/><br/>
-    This means that you'll need to inject all necessary services on the server,<br/> even when opting for the wasm (WebAssembly) render mode.<br/><br/>
-    This prerendering functionality is crucial to ensuring that WebAssembly mode feels fast and responsive,<br/> especially when it comes to initial page load times.<br/><br/>
-    For more information on how to detect prerendering and leverage the RenderContext, you can refer to the following link:
-    <MudLink Href="https://github.com/dotnet/aspnetcore/issues/51468#issuecomment-1783568121" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        More details
-    </MudLink>
-</MudText>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="modern-card hover-lift pa-6 h-100 text-center">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--warning-500) 0%, var(--warning-600) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Report" Color="Color.Surface" Size="Size.Large" />
+                </div>
+                <MudText Typo="Typo.h6" Class="mb-3" Style="font-weight: 700;">Complaint Management</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Track and resolve student complaints efficiently with our ticketing system.
+                </MudText>
+            </MudPaper>
+        </MudItem>
 
-<br/>
-<MudText Typo="Typo.h6" GutterBottom="true">InteractiveAuto</MudText>
-<MudText Typo="Typo.body2">
-    A discussion on how to achieve this can be found here:
-    <MudLink Href="https://github.com/dotnet/aspnetcore/issues/51468#issue-1950424116" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        More details
-    </MudLink>
-</MudText>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="modern-card hover-lift pa-6 h-100 text-center">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--error-500) 0%, var(--error-600) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: var(--shadow-glow-error);">
+                    <MudIcon Icon="@Icons.Material.Filled.Analytics" Color="Color.Surface" Size="Size.Large" />
+                </div>
+                <MudText Typo="Typo.h6" Class="mb-3" Style="font-weight: 700;">Analytics & Reports</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Gain insights with comprehensive reports and real-time analytics dashboards.
+                </MudText>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Class="modern-card hover-lift pa-6 h-100 text-center">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--secondary-500) 0%, var(--secondary-600) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Security" Color="Color.Surface" Size="Size.Large" />
+                </div>
+                <MudText Typo="Typo.h6" Class="mb-3" Style="font-weight: 700;">Security & Privacy</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Enterprise-grade security with role-based access control and audit logging.
+                </MudText>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Statistics Section -->
+    <MudPaper Class="glass-card pa-8 mb-8">
+        <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">Trusted by Institutions Worldwide</MudText>
+        <MudGrid>
+            <MudItem xs="6" md="3" Class="text-center">
+                <MudText Typo="Typo.h2" Class="text-gradient mb-2" Style="font-weight: 800;">10K+</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">Active Students</MudText>
+            </MudItem>
+            <MudItem xs="6" md="3" Class="text-center">
+                <MudText Typo="Typo.h2" Class="text-gradient mb-2" Style="font-weight: 800;">50+</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">Residences</MudText>
+            </MudItem>
+            <MudItem xs="6" md="3" Class="text-center">
+                <MudText Typo="Typo.h2" Class="text-gradient mb-2" Style="font-weight: 800;">99.9%</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">Uptime</MudText>
+            </MudItem>
+            <MudItem xs="6" md="3" Class="text-center">
+                <MudText Typo="Typo.h2" Class="text-gradient mb-2" Style="font-weight: 800;">24/7</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">Support</MudText>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <!-- Call to Action -->
+    <MudPaper Class="glass-card pa-8 text-center">
+        <MudText Typo="Typo.h3" Class="mb-4" Style="font-weight: 700;">Ready to Transform Your Student Housing?</MudText>
+        <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-6" Style="max-width: 600px; margin: 0 auto;">
+            Join thousands of institutions that trust SRMS to manage their student residences efficiently and effectively.
+        </MudText>
+        <MudStack Row="true" Justify="Justify.Center" Spacing="3">
+            <MudButton 
+                Variant="Variant.Filled" 
+                Color="Color.Primary"
+                Size="Size.Large"
+                Href="/register"
+                StartIcon="@Icons.Material.Filled.PersonAdd"
+                Class="btn-modern btn-primary">
+                Sign Up Now
+            </MudButton>
+            <MudButton 
+                Variant="Variant.Outlined" 
+                Color="Color.Primary"
+                Size="Size.Large"
+                Href="/contact"
+                StartIcon="@Icons.Material.Filled.ContactMail">
+                Contact Sales
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+</div>
