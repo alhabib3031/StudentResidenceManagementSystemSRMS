@@ -1,4 +1,4 @@
-﻿@page "/students/edit/{Id:guid}"
+@page "/students/edit/{Id:guid}"
 @rendermode InteractiveServer
 @inject ISender Sender
 @inject NavigationManager Navigation
@@ -6,10 +6,10 @@
 <PageTitle>Edit Student</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
-    <MudPaper Elevation="3" Class="pa-6">
+    <MudPaper Elevation="3" Class="p-6">
         @if (_isLoading)
         {
-            <div class="d-flex justify-center pa-8">
+            <div Class="flex justify-center pa-8">
                 <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
             </div>
         }
@@ -67,7 +67,7 @@
                     @*         Lines="3" /> *@
                     @* </MudItem> *@
                     
-                    <MudItem xs="12" Class="d-flex gap-4">
+                    <MudItem xs="12" Class="flex gap-4">
                         <MudButton 
                             ButtonType="ButtonType.Submit" 
                             Variant="Variant.Filled" 

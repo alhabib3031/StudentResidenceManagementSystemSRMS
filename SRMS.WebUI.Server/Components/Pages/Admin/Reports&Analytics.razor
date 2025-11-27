@@ -1,4 +1,4 @@
-﻿@page "/admin/reports"
+@page "/admin/reports"
 @using SRMS.Application.AuditLogs.Interfaces
 @using SRMS.Domain.AuditLogs.Enums
 @using SRMS.Domain.Complaints
@@ -206,7 +206,7 @@
                             <MudText Typo="Typo.h6">Occupancy by Residence</MudText>
                         </CardHeaderContent>
                     </MudCardHeader>
-                    <MudCardContent Style="max-height: 400px; overflow-y: auto;">
+                    <MudCardContent Class="max-h-[400px] overflow-y-auto">
                         @foreach (var residence in _reportData.ResidenceOccupancy)
                         {
                             <MudStack Spacing="1" Class="mb-3">
@@ -236,7 +236,7 @@
                             <MudText Typo="Typo.h6">Complaints by Category</MudText>
                         </CardHeaderContent>
                     </MudCardHeader>
-                    <MudCardContent Style="height: 400px;">
+                    <MudCardContent Class="h-[400px]">
                         <MudChart 
                             ChartType="ChartType.Bar"
                             ChartSeries="@_complaintSeries"

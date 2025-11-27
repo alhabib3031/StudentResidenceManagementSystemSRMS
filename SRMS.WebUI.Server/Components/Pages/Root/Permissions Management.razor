@@ -1,4 +1,4 @@
-﻿@page "/superroot/permissions"
+@page "/superroot/permissions"
 @attribute [Authorize(Roles = "SuperRoot")]
 @rendermode InteractiveServer
 @inject ISnackbar Snackbar
@@ -46,25 +46,25 @@
                     Adornment="Adornment.Start"
                     AdornmentIcon="@Icons.Material.Filled.Badge">
                     <MudSelectItem Value="@("SuperRoot")">
-                        <div class="d-flex align-center">
+                        <div Class="flex items-center">
                             <MudIcon Icon="@Icons.Material.Filled.Shield" Color="Color.Error" Class="mr-2" />
                             SuperRoot
                         </div>
                     </MudSelectItem>
                     <MudSelectItem Value="@("Admin")">
-                        <div class="d-flex align-center">
+                        <div Class="flex items-center">
                             <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Color="Color.Primary" Class="mr-2" />
                             Admin
                         </div>
                     </MudSelectItem>
                     <MudSelectItem Value="@("Manager")">
-                        <div class="d-flex align-center">
+                        <div Class="flex items-center">
                             <MudIcon Icon="@Icons.Material.Filled.ManageAccounts" Color="Color.Info" Class="mr-2" />
                             Manager
                         </div>
                     </MudSelectItem>
                     <MudSelectItem Value="@("Student")">
-                        <div class="d-flex align-center">
+                        <div Class="flex items-center">
                             <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Success" Class="mr-2" />
                             Student
                         </div>
@@ -124,10 +124,10 @@
                             {
                                 <MudListItem>
                                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                                        <div style="flex: 1;">
+                                        <div class="flex-1">
                                             <MudText Typo="Typo.body2"><strong>@permission.Name</strong></MudText>
                                             <MudText Typo="Typo.caption" Color="Color.Secondary">@permission.Description</MudText>
-                                            <MudText Typo="Typo.caption" Color="Color.Tertiary" Style="font-family: monospace;">
+                                            <MudText Typo="Typo.caption" Color="Color.Tertiary" Class="font-mono">
                                                 @permission.Key
                                             </MudText>
                                         </div>

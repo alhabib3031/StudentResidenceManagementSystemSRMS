@@ -7,53 +7,53 @@
 
 <PageTitle>Login - SRMS</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="d-flex align-center justify-center" Style="min-height: 100vh; padding: 20px;">
-    <MudGrid Justify="Justify.Center" Style="width: 100%;">
-        <MudItem xs="12" md="12" lg="10">
-            <MudPaper Elevation="0" Class="login-card">
+<MudContainer MaxWidth="MaxWidth.Large" Class="min-h-screen p-5 flex items-center justify-center">
+    <MudGrid Justify="Justify.Center" Class="w-full">
+        <MudItem xs="12" md="10" lg="8">
+            <MudPaper Elevation="0" Class="rounded-[24px] overflow-hidden bg-gradient-to-br from-[#667eea] to-[#764ba2] relative">
                 
                 <!-- Decorative Elements -->
-                <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
-                <div style="position: absolute; bottom: -50px; left: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                <MudPaper class="absolute -top-[100px] -right-[100px] w-[300px] h-[300px] bg-white/10 rounded-full"></MudPaper>
+                <MudPaper class="absolute -bottom-[50px] -left-[50px] w-[200px] h-[200px] bg-white/10 rounded-full"></MudPaper>
                 
-                <MudGrid Style="position: relative; z-index: 1;">
+                <MudGrid Class="relative z-10">
                     <!-- Left Side - Branding -->
-                    <MudItem xs="12" md="5" Style="padding: 48px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                        <MudAvatar Size="Size.Large" Style="width: 120px; height: 120px; background: rgba(255,255,255,0.2); margin-bottom: 24px; backdrop-filter: blur(10px);">
-                            <MudIcon Icon="@Icons.Material.Filled.School" Style="color: white; font-size: 72px;" />
+                    <MudItem xs="12" md="5" Class="p-12 flex flex-col justify-center items-center text-center hidden md:flex">
+                        <MudAvatar Size="Size.Large" Class="w-[120px] h-[120px] bg-white/20 mb-6 backdrop-blur-sm">
+                            <MudIcon Icon="@Icons.Material.Filled.School" Class="text-white text-[72px]" />
                         </MudAvatar>
                         
-                        <MudText Typo="Typo.h3" Style="color: white; font-weight: 800; margin-bottom: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+                        <MudText Typo="Typo.h3" Class="text-white font-extrabold mb-4 drop-shadow-md">
                             Welcome Back
                         </MudText>
                         
-                        <MudText Typo="Typo.body1" Style="color: rgba(255,255,255,0.95); margin-bottom: 32px; line-height: 1.6; max-width: 300px;">
+                        <MudText Typo="Typo.body1" Class="text-white/95 mb-8 leading-relaxed max-w-[300px]">
                             Sign in to access the Student Residence Management System
                         </MudText>
                         
-                        <MudStack Row="false" Spacing="2" Style="width: 100%; max-width: 280px;">
-                            <MudPaper Elevation="0" Style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
+                        <MudStack Row="false" Spacing="2" Class="w-full max-w-[280px]">
+                            <MudPaper Elevation="0" Class="bg-white/15 backdrop-blur-sm p-4 rounded-xl border border-white/20">
                                 <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
-                                    <MudIcon Icon="@Icons.Material.Filled.Security" Style="color: white;" />
-                                    <MudText Typo="Typo.body2" Style="color: white; font-weight: 500;">Secure Login</MudText>
+                                    <MudIcon Icon="@Icons.Material.Filled.Security" Class="text-white" />
+                                    <MudText Typo="Typo.body2" Class="text-white font-medium">Secure Login</MudText>
                                 </MudStack>
                             </MudPaper>
                             
-                            <MudPaper Elevation="0" Style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
+                            <MudPaper Elevation="0" Class="bg-white/15 backdrop-blur-sm p-4 rounded-xl border border-white/20">
                                 <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
-                                    <MudIcon Icon="@Icons.Material.Filled.Speed" Style="color: white;" />
-                                    <MudText Typo="Typo.body2" Style="color: white; font-weight: 500;">Fast Access</MudText>
+                                    <MudIcon Icon="@Icons.Material.Filled.Speed" Class="text-white" />
+                                    <MudText Typo="Typo.body2" Class="text-white font-medium">Fast Access</MudText>
                                 </MudStack>
                             </MudPaper>
                         </MudStack>
                     </MudItem>
 
                     <!-- Right Side - Login Form -->
-                    <MudItem xs="12" md="7" Class="login-form-side">
-                        <MudText Typo="Typo.h4" Color="Color.Primary" Style="font-weight: 700; margin-bottom: 8px;">
+                    <MudItem xs="12" md="7" Class="bg-white p-12">
+                        <MudText Typo="Typo.h4" Class="text-gray-800 font-bold mb-2">
                             Sign In
                         </MudText>
-                        <MudText Typo="Typo.body2" Class="login-subtext">
+                        <MudText Typo="Typo.body2" Class="text-gray-500 mb-8">
                             Enter your credentials to continue
                         </MudText>
 
@@ -72,8 +72,7 @@
                                     AdornmentColor="Color.Primary"
                                     For="@(() => _loginModel.Email)"
                                     Required="true"
-                                    Class="mb-2"
-                                    Style="border-radius: 12px;" />
+                                    Class="rounded-xl" />
 
                                 <!-- Password -->
                                 <MudTextField 
@@ -87,7 +86,7 @@
                                     AdornmentColor="Color.Primary"
                                     For="@(() => _loginModel.Password)"
                                     Required="true"
-                                    Style="border-radius: 12px;" />
+                                    Class="rounded-xl" />
 
                                 <!-- Remember Me & Forgot Password -->
                                 <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
@@ -95,9 +94,11 @@
                                         @bind-Value="_loginModel.RememberMe" 
                                         Color="Color.Primary"
                                         Dense="true"
-                                        Label="Remember me" />
+                                        Class="text-gray-500">
+                                        Remember me
+                                    </MudCheckBox>
                                     
-                                    <MudLink Href="/forgot-password" Color="Color.Primary" Style="font-weight: 500; text-decoration: none;">
+                                    <MudLink Href="/forgot-password" Class="text-[#667eea] font-medium no-underline">
                                         Forgot password?
                                     </MudLink>
                                 </MudStack>
@@ -110,11 +111,10 @@
                                     FullWidth="true"
                                     Size="Size.Large"
                                     Disabled="_isLoading"
-                                    Class="btn-modern btn-primary"
-                                    Style="height: 56px;">
+                                    Class="h-14 rounded-xl font-semibold normal-case text-base bg-gradient-to-br from-[#667eea] to-[#764ba2] shadow-[0_4px_15px_rgba(102,126,234,0.4)]">
                                     @if (_isLoading)
                                     {
-                                        <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" Style="color: white;" />
+                                        <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2 text-white" />
                                         <span>Signing in...</span>
                                     }
                                     else
@@ -125,15 +125,15 @@
                                 </MudButton>
 
                                 <!-- Divider -->
-                                <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Style="margin: 16px 0;">
-                                    <MudDivider Style="flex: 1;" />
-                                    <MudText Typo="Typo.body2" Class="login-divider-text">OR</MudText>
-                                    <MudDivider Style="flex: 1;" />
+                                <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Class="my-4">
+                                    <MudDivider Class="flex-1" />
+                                    <MudText Typo="Typo.body2" Class="text-gray-400 px-2">OR</MudText>
+                                    <MudDivider Class="flex-1" />
                                 </MudStack>
 
                                 <!-- Register Link -->
-                                <MudPaper Elevation="0" Class="login-register-box">
-                                    <MudText Typo="Typo.body2" Class="login-subtext" Style="margin-bottom: 12px;">
+                                <MudPaper Elevation="0" Class="bg-gray-100 p-5 rounded-xl text-center">
+                                    <MudText Typo="Typo.body2" Class="text-gray-500 mb-3">
                                         Don't have an account?
                                     </MudText>
                                     <MudButton 
@@ -142,15 +142,15 @@
                                         Color="Color.Primary"
                                         FullWidth="true"
                                         StartIcon="@Icons.Material.Filled.PersonAdd"
-                                        Style="border-radius: 12px; text-transform: none; font-weight: 600; border-width: 2px;">
+                                        Class="rounded-xl normal-case font-semibold border-2">
                                         Create New Account
                                     </MudButton>
                                 </MudPaper>
 
                                 <!-- Test Accounts Info -->
-                                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true" Style="border-radius: 12px;">
-                                    <MudText Typo="Typo.body2" Style="font-weight: 600; margin-bottom: 8px;">Test Account:</MudText>
-                                    <MudText Typo="Typo.caption" Style="font-family: monospace;">
+                                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true" Class="rounded-xl">
+                                    <MudText Typo="Typo.body2" Class="font-semibold mb-2">Test Account:</MudText>
+                                    <MudText Typo="Typo.caption" Class="font-mono">
                                         Email: superroot@srms.edu.ly<br/>
                                         Password: SuperRoot@123!
                                     </MudText>
@@ -164,23 +164,15 @@
     </MudGrid>
 </MudContainer>
 
-<style>
-    @@media (max-width: 960px) {
-        .mud-grid > .mud-grid-item:first-child {
-            display: none;
-        }
-    }
-</style>
-
 @code {
-    private readonly LoginDto _loginModel = new();
+    private LoginDto _loginModel = new();
     private bool _showPassword = false;
     private bool _isLoading = false;
 
     protected override void OnInitialized()
     {
         // Check if already logged in
-        // Redirect to the appropriate dashboard
+        // Redirect to appropriate dashboard
     }
 
     private void TogglePasswordVisibility()
@@ -213,7 +205,7 @@
                 
                 await customProvider.LoginAsync(result.User!.Email);
                 
-                // Redirect based on the role
+                // Redirect based on role
                 var role = result.User.Roles.FirstOrDefault();
                 
                 var redirectUrl = role switch

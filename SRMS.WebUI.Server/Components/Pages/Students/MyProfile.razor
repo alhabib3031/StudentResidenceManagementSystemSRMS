@@ -8,7 +8,7 @@
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="p-4 mb-4">
         <MudText Typo="Typo.h4" Color="Color.Primary">
             <MudIcon Icon="@Icons.Material.Filled.Person" Class="mr-2" />
             My Profile
@@ -23,25 +23,20 @@
         <MudItem xs="12" md="4">
             <MudCard Elevation="4">
                 <MudCardContent Class="text-center">
-                    <MudAvatar Size="Size.Large" Style="width: 150px; height: 150px; margin: 0 auto;">
+                    <MudAvatar Size="Size.Large" Class="w-[150px] h-[150px] mx-auto">
                         <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" />
                     </MudAvatar>
                     <MudText Typo="Typo.h5" Class="mt-4">@_userName</MudText>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">Student</MudText>
-                    
+
                     <MudDivider Class="my-4" />
-                    
+
                     <MudChip T="string" Color="Color.Success" Icon="@Icons.Material.Filled.CheckCircle">
                         Active Student
                     </MudChip>
-                    
-                    <MudButton 
-                        Variant="Variant.Filled" 
-                        Color="Color.Primary"
-                        FullWidth="true"
-                        StartIcon="@Icons.Material.Filled.CloudUpload"
-                        Class="mt-4"
-                        OnClick="@UploadPhoto">
+
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
+                        StartIcon="@Icons.Material.Filled.CloudUpload" Class="mt-4" OnClick="@UploadPhoto">
                         Upload Photo
                     </MudButton>
                 </MudCardContent>
@@ -77,60 +72,38 @@
 
         <!-- Profile Information -->
         <MudItem xs="12" md="8">
-            <MudTabs Elevation="4" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+            <MudTabs Elevation="4" Rounded="true" ApplyEffectsToContainer="true" PanelClass="p-6">
                 <!-- Personal Info Tab -->
                 <MudTabPanel Text="Personal Info" Icon="@Icons.Material.Filled.Person">
                     <EditForm Model="@_profileModel" OnValidSubmit="SaveProfile">
                         <MudGrid>
                             <MudItem xs="12" sm="6">
-                                <MudTextField 
-                                    @bind-Value="_profileModel.FirstName"
-                                    Label="First Name"
-                                    Variant="Variant.Outlined"
-                                    Required="true" />
+                                <MudTextField @bind-Value="_profileModel.FirstName" Label="First Name"
+                                    Variant="Variant.Outlined" Required="true" />
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <MudTextField 
-                                    @bind-Value="_profileModel.LastName"
-                                    Label="Last Name"
-                                    Variant="Variant.Outlined"
-                                    Required="true" />
+                                <MudTextField @bind-Value="_profileModel.LastName" Label="Last Name"
+                                    Variant="Variant.Outlined" Required="true" />
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <MudTextField 
-                                    @bind-Value="_profileModel.Email"
-                                    Label="Email"
-                                    Variant="Variant.Outlined"
-                                    InputType="InputType.Email"
-                                    Required="true"
-                                    Disabled="true" />
+                                <MudTextField @bind-Value="_profileModel.Email" Label="Email" Variant="Variant.Outlined"
+                                    InputType="InputType.Email" Required="true" Disabled="true" />
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <MudTextField 
-                                    @bind-Value="_profileModel.PhoneNumber"
-                                    Label="Phone Number"
-                                    Variant="Variant.Outlined"
-                                    Required="true" />
+                                <MudTextField @bind-Value="_profileModel.PhoneNumber" Label="Phone Number"
+                                    Variant="Variant.Outlined" Required="true" />
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <MudTextField 
-                                    @bind-Value="_profileModel.NationalId"
-                                    Label="National ID"
+                                <MudTextField @bind-Value="_profileModel.NationalId" Label="National ID"
                                     Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <MudDatePicker 
-                                    @bind-Date="_profileModel.DateOfBirth"
-                                    Label="Date of Birth"
+                                <MudDatePicker @bind-Date="_profileModel.DateOfBirth" Label="Date of Birth"
                                     Variant="Variant.Outlined" />
                             </MudItem>
                             <MudItem xs="12">
-                                <MudButton 
-                                    ButtonType="ButtonType.Submit"
-                                    Variant="Variant.Filled"
-                                    Color="Color.Primary"
-                                    StartIcon="@Icons.Material.Filled.Save"
-                                    Disabled="_isSaving">
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                                    StartIcon="@Icons.Material.Filled.Save" Disabled="_isSaving">
                                     @if (_isSaving)
                                     {
                                         <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
@@ -150,37 +123,23 @@
                 <MudTabPanel Text="Academic Info" Icon="@Icons.Material.Filled.School">
                     <MudGrid>
                         <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                @bind-Value="_profileModel.UniversityName"
-                                Label="University Name"
+                            <MudTextField @bind-Value="_profileModel.UniversityName" Label="University Name"
                                 Variant="Variant.Outlined" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                @bind-Value="_profileModel.StudentNumber"
-                                Label="Student Number"
+                            <MudTextField @bind-Value="_profileModel.StudentNumber" Label="Student Number"
                                 Variant="Variant.Outlined" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                @bind-Value="_profileModel.Major"
-                                Label="Major"
-                                Variant="Variant.Outlined" />
+                            <MudTextField @bind-Value="_profileModel.Major" Label="Major" Variant="Variant.Outlined" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <MudNumericField 
-                                @bind-Value="_profileModel.AcademicYear"
-                                Label="Academic Year"
-                                Variant="Variant.Outlined"
-                                Min="1"
-                                Max="6" />
+                            <MudNumericField @bind-Value="_profileModel.AcademicYear" Label="Academic Year"
+                                Variant="Variant.Outlined" Min="1" Max="6" />
                         </MudItem>
                         <MudItem xs="12">
-                            <MudButton 
-                                Variant="Variant.Filled"
-                                Color="Color.Primary"
-                                StartIcon="@Icons.Material.Filled.Save"
-                                OnClick="SaveProfile">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                StartIcon="@Icons.Material.Filled.Save" OnClick="SaveProfile">
                                 Save Changes
                             </MudButton>
                         </MudItem>
@@ -191,41 +150,26 @@
                 <MudTabPanel Text="Address" Icon="@Icons.Material.Filled.Home">
                     <MudGrid>
                         <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                @bind-Value="_profileModel.City"
-                                Label="City"
+                            <MudTextField @bind-Value="_profileModel.City" Label="City" Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_profileModel.State" Label="State" Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_profileModel.Street" Label="Street Address"
                                 Variant="Variant.Outlined" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                @bind-Value="_profileModel.State"
-                                Label="State"
+                            <MudTextField @bind-Value="_profileModel.PostalCode" Label="Postal Code"
+                                Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_profileModel.Country" Label="Country"
                                 Variant="Variant.Outlined" />
                         </MudItem>
                         <MudItem xs="12">
-                            <MudTextField 
-                                @bind-Value="_profileModel.Street"
-                                Label="Street Address"
-                                Variant="Variant.Outlined" />
-                        </MudItem>
-                        <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                @bind-Value="_profileModel.PostalCode"
-                                Label="Postal Code"
-                                Variant="Variant.Outlined" />
-                        </MudItem>
-                        <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                @bind-Value="_profileModel.Country"
-                                Label="Country"
-                                Variant="Variant.Outlined" />
-                        </MudItem>
-                        <MudItem xs="12">
-                            <MudButton 
-                                Variant="Variant.Filled"
-                                Color="Color.Primary"
-                                StartIcon="@Icons.Material.Filled.Save"
-                                OnClick="SaveProfile">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                StartIcon="@Icons.Material.Filled.Save" OnClick="SaveProfile">
                                 Save Changes
                             </MudButton>
                         </MudItem>
@@ -236,29 +180,20 @@
                 <MudTabPanel Text="Emergency Contact" Icon="@Icons.Material.Filled.ContactPhone">
                     <MudGrid>
                         <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                @bind-Value="_profileModel.EmergencyContactName"
-                                Label="Contact Name"
+                            <MudTextField @bind-Value="_profileModel.EmergencyContactName" Label="Contact Name"
                                 Variant="Variant.Outlined" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                @bind-Value="_profileModel.EmergencyContactPhone"
-                                Label="Contact Phone"
+                            <MudTextField @bind-Value="_profileModel.EmergencyContactPhone" Label="Contact Phone"
                                 Variant="Variant.Outlined" />
                         </MudItem>
                         <MudItem xs="12">
-                            <MudTextField 
-                                @bind-Value="_profileModel.EmergencyContactRelation"
-                                Label="Relationship"
+                            <MudTextField @bind-Value="_profileModel.EmergencyContactRelation" Label="Relationship"
                                 Variant="Variant.Outlined" />
                         </MudItem>
                         <MudItem xs="12">
-                            <MudButton 
-                                Variant="Variant.Filled"
-                                Color="Color.Primary"
-                                StartIcon="@Icons.Material.Filled.Save"
-                                OnClick="SaveProfile">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                StartIcon="@Icons.Material.Filled.Save" OnClick="SaveProfile">
                                 Save Changes
                             </MudButton>
                         </MudItem>
@@ -274,32 +209,20 @@
                             </MudAlert>
                         </MudItem>
                         <MudItem xs="12">
-                            <MudTextField 
-                                T="string"
-                                Label="Current Password"
-                                Variant="Variant.Outlined"
+                            <MudTextField T="string" Label="Current Password" Variant="Variant.Outlined"
                                 InputType="InputType.Password" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                T="string"
-                                Label="New Password"
-                                Variant="Variant.Outlined"
+                            <MudTextField T="string" Label="New Password" Variant="Variant.Outlined"
                                 InputType="InputType.Password" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <MudTextField 
-                                T="string"
-                                Label="Confirm New Password"
-                                Variant="Variant.Outlined"
+                            <MudTextField T="string" Label="Confirm New Password" Variant="Variant.Outlined"
                                 InputType="InputType.Password" />
                         </MudItem>
                         <MudItem xs="12">
-                            <MudButton 
-                                Variant="Variant.Filled"
-                                Color="Color.Warning"
-                                StartIcon="@Icons.Material.Filled.Lock"
-                                OnClick="ChangePassword">
+                            <MudButton Variant="Variant.Filled" Color="Color.Warning"
+                                StartIcon="@Icons.Material.Filled.Lock" OnClick="ChangePassword">
                                 Change Password
                             </MudButton>
                         </MudItem>
@@ -319,20 +242,20 @@
     {
         var authState = await AuthStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        
+
         if (user.Identity?.IsAuthenticated == true)
         {
             _userName = user.Identity.Name ?? "Student";
         }
-        
+
         // TODO: Load real profile data
         _profileModel = new ProfileModel
-        {
-            FirstName = "John",
-            LastName = "Doe",
-            Email = "john.doe@example.com",
-            PhoneNumber = "+218 91 234 5678"
-        };
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = "+218 91 234 5678"
+            };
     }
 
     private async Task SaveProfile()

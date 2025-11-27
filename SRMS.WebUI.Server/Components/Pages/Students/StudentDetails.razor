@@ -1,4 +1,4 @@
-﻿@page "/students/{Id:guid}"
+@page "/students/{Id:guid}"
 @rendermode InteractiveServer
 @inject ISender Sender
 @inject NavigationManager Navigation
@@ -6,10 +6,10 @@
 <PageTitle>Student Details</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
-    <MudPaper Elevation="3" Class="pa-6">
+    <MudPaper Elevation="3" Class="p-6">
         @if (_isLoading)
         {
-            <div class="d-flex justify-center pa-8">
+            <div Class="flex justify-center pa-8">
                 <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
             </div>
         }
@@ -19,7 +19,7 @@
         }
         else
         {
-            <div class="d-flex justify-space-between align-center mb-6">
+            <div Class="flex justify-between items-center mb-6">
                 <MudText Typo="Typo.h4">Student Details</MudText>
                 <MudButtonGroup Variant="Variant.Outlined">
                     <MudButton 

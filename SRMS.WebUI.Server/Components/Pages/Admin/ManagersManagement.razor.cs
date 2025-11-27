@@ -3,6 +3,7 @@ using SRMS.Domain.Managers;
 using SRMS.Domain.Managers.Enums;
 using SRMS.Domain.Residences;
 using SRMS.Domain.Students;
+using SRMS.WebUI.Server.Components.Pages.Dialogs;
 
 namespace SRMS.WebUI.Server.Components.Pages.Admin;
 

@@ -8,17 +8,17 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Welcome Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4" Style="background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%);">
+    <MudPaper Elevation="0" Class="pa-4 mb-4 bg-gradient-to-br from-primary to-secondary">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-            <div>
-                <MudText Typo="Typo.h4" Style="color: white;">
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.h4" Class="text-white">
                     <MudIcon Icon="@Icons.Material.Filled.WavingHand" Class="mr-2" />
                     Welcome back, @_userName!
                 </MudText>
-                <MudText Typo="Typo.body2" Style="color: rgba(255,255,255,0.8);">
+                <MudText Typo="Typo.body2" Class="text-white/80">
                     Here's your residence overview
                 </MudText>
-            </div>
+            </MudStack>
             <MudAvatar Size="Size.Large" Color="Color.Surface">
                 <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" />
             </MudAvatar>
@@ -36,11 +36,11 @@
             <MudCard Elevation="4">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
+                        <MudStack Spacing="0">
                             <MudText Typo="Typo.caption" Color="Color.Secondary">My Room</MudText>
                             <MudText Typo="Typo.h5">Room 201</MudText>
                             <MudText Typo="Typo.caption">Floor 2 - Building A</MudText>
-                        </div>
+                        </MudStack>
                         <MudAvatar Color="Color.Primary" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Large" />
                         </MudAvatar>
@@ -58,11 +58,11 @@
             <MudCard Elevation="4">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
+                        <MudStack Spacing="0">
                             <MudText Typo="Typo.caption" Color="Color.Secondary">Next Payment</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Warning">Due Soon</MudText>
                             <MudText Typo="Typo.caption">500 LYD - Jan 2025</MudText>
-                        </div>
+                        </MudStack>
                         <MudAvatar Color="Color.Warning" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.Payment" Size="Size.Large" />
                         </MudAvatar>
@@ -80,11 +80,11 @@
             <MudCard Elevation="4">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
+                        <MudStack Spacing="0">
                             <MudText Typo="Typo.caption" Color="Color.Secondary">My Complaints</MudText>
                             <MudText Typo="Typo.h5">2 Active</MudText>
                             <MudText Typo="Typo.caption">1 Resolved</MudText>
-                        </div>
+                        </MudStack>
                         <MudAvatar Color="Color.Info" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.Report" Size="Size.Large" />
                         </MudAvatar>
@@ -102,11 +102,11 @@
             <MudCard Elevation="4">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
+                        <MudStack Spacing="0">
                             <MudText Typo="Typo.caption" Color="Color.Secondary">Notifications</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Error">5 New</MudText>
                             <MudText Typo="Typo.caption">3 Unread messages</MudText>
-                        </div>
+                        </MudStack>
                         <MudAvatar Color="Color.Error" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.Notifications" Size="Size.Large" />
                         </MudAvatar>
@@ -209,7 +209,7 @@
                         </MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
-                <MudCardContent Style="max-height: 400px; overflow-y: auto;">
+                <MudCardContent Class="max-h-[400px] overflow-y-auto">
                     <MudTimeline TimelineOrientation="TimelineOrientation.Vertical">
                         <MudTimelineItem Color="Color.Success" Size="Size.Small">
                             <ItemContent>

@@ -18,44 +18,41 @@ namespace SRMS.Infrastructure;
 /// <summary>
 /// ApplicationDbContext - Database Context الرئيسي
 /// </summary>
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>(options)
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    {
-    }
-    
+
     // ═══════════════════════════════════════════════════════════
     // DbSets - الجداول في قاعدة البيانات
     // ═══════════════════════════════════════════════════════════
-    
+
     // Core Entities
-    public DbSet<Student> Students { get; set; }
-    public DbSet<Manager> Managers { get; set; }
-    public DbSet<Residence> Residences { get; set; }
-    public DbSet<Room> Rooms { get; set; }
-    public DbSet<Notification> Notifications { get; set; }
-    
+    public required DbSet<Student> Students { get; set; }
+    public required DbSet<Manager> Managers { get; set; }
+    public required DbSet<Residence> Residences { get; set; }
+    public required DbSet<Room> Rooms { get; set; }
+    public required DbSet<Notification> Notifications { get; set; }
+
     // Financial & Administrative
-    public DbSet<Payment> Payments { get; set; }
-    public DbSet<Complaint> Complaints { get; set; }
-    
+    public required DbSet<Payment> Payments { get; set; }
+    public required DbSet<Complaint> Complaints { get; set; }
+
     // Audit
-    public DbSet<AuditLog> AuditLogs { get; set; }
-    
+    public required DbSet<AuditLog> AuditLogs { get; set; }
+
     // Identity (موروثة من IdentityDbContext)
     // - Users (ApplicationUser)
     // - Roles (IdentityRole)
     // - UserRoles, UserClaims, UserLogins, RoleClaims, UserTokens
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // ⚠️ مهم: استدعاء base أولاً لتكوين Identity tables
         base.OnModelCreating(modelBuilder);
-        
+
         // ═══════════════════════════════════════════════════════════
         // تطبيق Configurations من Fluent API
         // ═══════════════════════════════════════════════════════════
-        
+
         modelBuilder.ApplyConfiguration(new StudentConfiguration());
         modelBuilder.ApplyConfiguration(new ManagerConfiguration());
         modelBuilder.ApplyConfiguration(new ResidenceConfiguration());
@@ -63,11 +60,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         modelBuilder.ApplyConfiguration(new PaymentConfiguration());
         modelBuilder.ApplyConfiguration(new ComplaintConfiguration());
         modelBuilder.ApplyConfiguration(new AuditLogConfiguration());
-        
+
         // ═══════════════════════════════════════════════════════════
         // تخصيص أسماء Identity Tables (اختياري)
         // ═══════════════════════════════════════════════════════════
-        
+
         modelBuilder.Entity<ApplicationUser>().ToTable("Users");
         modelBuilder.Entity<ApplicationRole>().ToTable("Roles");
         modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserRoles");
@@ -75,14 +72,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins");
         modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims");
         modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens");
-        
+
         // ═══════════════════════════════════════════════════════════
         // Seed Data (بيانات أولية)
         // ═══════════════════════════════════════════════════════════
-        
+
         SeedData(modelBuilder);
     }
-    
+
     /// <summary>
     /// Seed Data - إضافة بيانات أولية
     /// </summary>
@@ -91,7 +88,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         // يمكنك إضافة بيانات أولية هنا
         // مثلاً: Residences, Roles, etc.
     }
-    
+
     /// <summary>
     /// Override SaveChanges لإضافة Audit Trail تلقائياً
     /// </summary>

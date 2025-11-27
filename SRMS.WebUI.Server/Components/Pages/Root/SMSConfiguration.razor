@@ -1,4 +1,4 @@
-﻿@page "/superroot/sms-config"
+@page "/superroot/sms-config"
 @attribute [Authorize(Roles = "SuperRoot")]
 @rendermode InteractiveServer
 @inject ISnackbar Snackbar
@@ -52,25 +52,25 @@
                                 Adornment="Adornment.Start"
                                 AdornmentIcon="@Icons.Material.Filled.Business">
                                 <MudSelectItem Value="@("Twilio")">
-                                    <div class="d-flex align-center">
+                                    <div Class="flex items-center">
                                         <MudIcon Icon="@Icons.Material.Filled.Message" Class="mr-2" />
                                         Twilio
                                     </div>
                                 </MudSelectItem>
                                 <MudSelectItem Value="@("Nexmo")">
-                                    <div class="d-flex align-center">
+                                    <div Class="flex items-center">
                                         <MudIcon Icon="@Icons.Material.Filled.Sms" Class="mr-2" />
                                         Nexmo (Vonage)
                                     </div>
                                 </MudSelectItem>
                                 <MudSelectItem Value="@("MessageBird")">
-                                    <div class="d-flex align-center">
+                                    <div Class="flex items-center">
                                         <MudIcon Icon="@Icons.Material.Filled.Send" Class="mr-2" />
                                         MessageBird
                                     </div>
                                 </MudSelectItem>
                                 <MudSelectItem Value="@("AWS_SNS")">
-                                    <div class="d-flex align-center">
+                                    <div Class="flex items-center">
                                         <MudIcon Icon="@Icons.Material.Filled.Cloud" Class="mr-2" />
                                         AWS SNS
                                     </div>
@@ -334,7 +334,7 @@
                             </MudTd>
                             <MudTd DataLabel="To">@context.To</MudTd>
                             <MudTd DataLabel="Message">
-                                <MudText Typo="Typo.caption" Style="max-width: 400px; overflow: hidden; text-overflow: ellipsis;">
+                                <MudText Typo="Typo.caption" Class="max-w-[400px] overflow-hidden text-ellipsis">
                                     @context.Message
                                 </MudText>
                             </MudTd>

@@ -1,4 +1,4 @@
-﻿@page "/superroot/users"
+@page "/superroot/users"
 @attribute [Authorize(Roles = "SuperRoot")]
 @rendermode InteractiveServer
 @inject IUserService UserService
@@ -108,7 +108,7 @@
                 <MudTh>Status</MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.CreatedAt)">Created</MudTableSortLabel></MudTh>
                 <MudTh>Last Login</MudTh>
-                <MudTh Style="text-align: right">Actions</MudTh>
+                <MudTh Class="text-right">Actions</MudTh>
             </HeaderContent>
             
             <RowTemplate>
@@ -181,7 +181,7 @@
                     }
                 </MudTd>
                 
-                <MudTd DataLabel="Actions" Style="text-align: right">
+                <MudTd DataLabel="Actions" Class="text-right">
                     <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
                         <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditUser(context.Id))">
                             Edit User

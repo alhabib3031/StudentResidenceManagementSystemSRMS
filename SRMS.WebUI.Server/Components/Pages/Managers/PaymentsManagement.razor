@@ -1,4 +1,4 @@
-﻿@page "/payments"
+@page "/payments"
 @attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
 @rendermode InteractiveServer
 @inject ISender Sender
@@ -172,7 +172,7 @@
                 <MudTh>Due Date</MudTh>
                 <MudTh>Status</MudTh>
                 <MudTh>Paid Date</MudTh>
-                <MudTh Style="text-align: right">Actions</MudTh>
+                <MudTh Class="text-right">Actions</MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="ID">
@@ -215,7 +215,7 @@
                         <MudText Typo="Typo.caption" Color="Color.Secondary">-</MudText>
                     }
                 </MudTd>
-                <MudTd DataLabel="Actions" Style="text-align: right">
+                <MudTd DataLabel="Actions" Class="text-right">
                     <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
                         <MudMenuItem Icon="@Icons.Material.Filled.Visibility" Href="@($"/payments/{context.Id}")">
                             View Details

@@ -5,29 +5,26 @@
 
 <PageTitle>Notifications - SRMS</PageTitle>
 
-<div class="animate-fade-in">
+<MudStack Class="animate-fade-in w-full">
     <!-- Header -->
-    <div class="flex-between mb-4">
-        <div>
-            <MudText Typo="Typo.h4" Class="text-gradient" Style="font-weight: 700;">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+        <MudStack Spacing="0">
+            <MudText Typo="Typo.h4" Class="text-gradient font-bold">
                 <MudIcon Icon="@Icons.Material.Filled.Notifications" Class="mr-2" />
                 Notifications
             </MudText>
             <MudText Typo="Typo.body2" Color="Color.Secondary">
                 Stay updated with your latest activities
             </MudText>
-        </div>
-        <MudButton 
-            Variant="Variant.Outlined" 
-            Color="Color.Primary"
-            OnClick="MarkAllAsRead"
+        </MudStack>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="MarkAllAsRead"
             StartIcon="@Icons.Material.Filled.DoneAll">
             Mark All as Read
         </MudButton>
-    </div>
+    </MudStack>
 
     <!-- Notification Filters -->
-    <MudPaper Class="glass-card mb-4 pa-4">
+    <MudPaper Class="glass-card mb-4 p-4">
         <MudChipSet T="string" @bind-SelectedChip="_selectedFilter" Filter="true" Mandatory="true">
             <MudChip T="string" Text="All" Color="Color.Primary" Default="true">All</MudChip>
             <MudChip T="string" Text="Unread" Color="Color.Error">Unread</MudChip>
@@ -44,32 +41,34 @@
             <MudList T="string" Clickable="true">
                 @foreach (var notification in FilteredNotifications)
                 {
-                    <MudListItem T="string" Class="@GetNotificationClass(notification)" OnClick="() => HandleNotificationClick(notification)">
-                        <div class="d-flex align-items-start">
+                    <MudListItem T="string" Class="@GetNotificationClass(notification)"
+                        OnClick="() => HandleNotificationClick(notification)">
+                        <MudStack Row="true" AlignItems="AlignItems.Start">
                             <MudAvatar Color="@GetNotificationColor(notification)" Class="mr-3">
                                 <MudIcon Icon="@GetNotificationIcon(notification)" />
                             </MudAvatar>
-                            <div class="flex-grow-1">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <MudText Typo="Typo.body1" Style="@($"font-weight: {(notification.IsRead ? "400" : "600")}")">
+                            <MudStack Class="flex-grow-1" Spacing="1">
+                                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
+                                    <MudStack Spacing="0">
+                                        <MudText Typo="Typo.body1"
+                                            Class="@(notification.IsRead ? "font-normal" : "font-semibold")">
                                             @notification.Title
                                         </MudText>
                                         <MudText Typo="Typo.body2" Color="Color.Secondary">
                                             @notification.Message
                                         </MudText>
-                                    </div>
+                                    </MudStack>
                                     @if (!notification.IsRead)
                                     {
-                                        <span class="status-dot status-online"></span>
+                                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" Size="Size.Small" />
                                     }
-                                </div>
+                                </MudStack>
                                 <MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mt-2">
                                     <MudIcon Icon="@Icons.Material.Filled.AccessTime" Size="Size.Small" />
                                     @notification.CreatedAt.ToString("MMM dd, yyyy - hh:mm tt")
                                 </MudText>
-                            </div>
-                        </div>
+                            </MudStack>
+                        </MudStack>
                     </MudListItem>
                     <MudDivider />
                 }
@@ -77,16 +76,17 @@
         }
         else
         {
-            <div class="text-center py-8">
-                <MudIcon Icon="@Icons.Material.Filled.NotificationsNone" Size="Size.Large" Color="Color.Secondary" Style="font-size: 80px;" />
+            <MudStack AlignItems="AlignItems.Center" Class="py-8">
+                <MudIcon Icon="@Icons.Material.Filled.NotificationsNone" Size="Size.Large" Color="Color.Secondary"
+                    Class="text-[80px]" />
                 <MudText Typo="Typo.h6" Class="mt-4">No Notifications</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
                     You're all caught up! Check back later for updates.
                 </MudText>
-            </div>
+            </MudStack>
         }
     </MudPaper>
-</div>
+</MudStack>
 
 @code {
     private MudChip<string>? _selectedFilter;
@@ -101,44 +101,44 @@
     {
         // Sample notifications - Replace with actual service call
         _notifications = new List<NotificationModel>
-        {
-            new NotificationModel
-            {
-                Id = 1,
-                Title = "Payment Received",
-                Message = "Your payment of $500 has been successfully processed.",
-                Type = NotificationType.Payment,
-                IsRead = false,
-                CreatedAt = DateTime.Now.AddHours(-2)
-            },
-            new NotificationModel
-            {
-                Id = 2,
-                Title = "Complaint Updated",
-                Message = "Your complaint #1234 has been reviewed and resolved.",
-                Type = NotificationType.Complaint,
-                IsRead = false,
-                CreatedAt = DateTime.Now.AddDays(-1)
-            },
-            new NotificationModel
-            {
-                Id = 3,
-                Title = "System Maintenance",
-                Message = "Scheduled maintenance on Dec 25, 2025 from 2:00 AM to 4:00 AM.",
-                Type = NotificationType.System,
-                IsRead = true,
-                CreatedAt = DateTime.Now.AddDays(-2)
-            },
-            new NotificationModel
-            {
-                Id = 4,
-                Title = "Welcome to SRMS",
-                Message = "Thank you for joining the Student Residence Management System!",
-                Type = NotificationType.System,
-                IsRead = true,
-                CreatedAt = DateTime.Now.AddDays(-7)
-            }
-        };
+{
+new NotificationModel
+{
+Id = 1,
+Title = "Payment Received",
+Message = "Your payment of $500 has been successfully processed.",
+Type = NotificationType.Payment,
+IsRead = false,
+CreatedAt = DateTime.Now.AddHours(-2)
+},
+new NotificationModel
+{
+Id = 2,
+Title = "Complaint Updated",
+Message = "Your complaint #1234 has been reviewed and resolved.",
+Type = NotificationType.Complaint,
+IsRead = false,
+CreatedAt = DateTime.Now.AddDays(-1)
+},
+new NotificationModel
+{
+Id = 3,
+Title = "System Maintenance",
+Message = "Scheduled maintenance on Dec 25, 2025 from 2:00 AM to 4:00 AM.",
+Type = NotificationType.System,
+IsRead = true,
+CreatedAt = DateTime.Now.AddDays(-2)
+},
+new NotificationModel
+{
+Id = 4,
+Title = "Welcome to SRMS",
+Message = "Thank you for joining the Student Residence Management System!",
+Type = NotificationType.System,
+IsRead = true,
+CreatedAt = DateTime.Now.AddDays(-7)
+}
+};
     }
 
     private IEnumerable<NotificationModel> FilteredNotifications

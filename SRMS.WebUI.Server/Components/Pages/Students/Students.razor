@@ -7,8 +7,8 @@
 <PageTitle>Students</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-8">
-    <MudPaper Elevation="3" Class="pa-4">
-        <div class="d-flex justify-space-between align-center mb-4">
+    <MudPaper Elevation="3" Class="p-4">
+        <div class="flex justify-between items-center mb-4">
             <MudText Typo="Typo.h4">Student Management</MudText>
             <MudButton 
                 Variant="Variant.Filled" 
@@ -21,7 +21,7 @@
 
         @if (_isLoading)
         {
-            <div class="d-flex justify-center pa-8">
+            <div class="flex justify-center p-8">
                 <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
             </div>
         }
@@ -44,7 +44,7 @@
                     <MudTh>Phone</MudTh>
                     <MudTh>Status</MudTh>
                     <MudTh>Created At</MudTh>
-                    <MudTh Style="text-align: center">Actions</MudTh>
+                    <MudTh Class="text-center">Actions</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="ID">
@@ -72,7 +72,7 @@
                             @context.CreatedAt.ToString("MMM dd, yyyy")
                         </MudText>
                     </MudTd>
-                    <MudTd DataLabel="Actions" Style="text-align: center">
+                    <MudTd DataLabel="Actions" Class="text-center">
                         <MudButtonGroup Variant="Variant.Outlined" Size="Size.Small">
                             <MudIconButton 
                                 Icon="@Icons.Material.Filled.Visibility"

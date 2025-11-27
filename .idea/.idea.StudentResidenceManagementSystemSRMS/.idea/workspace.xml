@@ -13,26 +13,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb8b074-e1f9-453a-81fc-1305fbdcc010" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Admin/ManagersManagement.razor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.StudentResidenceManagementSystemSRMS/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/EmailService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/NotificationService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/Configurations/Services/NotificationService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/App.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/App.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.Infrastructure/ApplicationDbContext.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/MainLayout.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/MainLayout.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Layout/NavMenu.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/About.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/About.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Admin/Dashboard.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Admin/Dashboard.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Admin/ManagersManagement.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Admin/ManagersManagement.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Admin/ManagersManagement.razor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Contact.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Contact.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ForgotPassword.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ForgotPassword.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Home.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Home.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/ComplaintsManagement.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/Dashboard.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/PaymentsManagement.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/MyProfile.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Managers/Dashboard.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Managers/Dashboard.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Notifications.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Notifications.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Profile.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Profile.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Register.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Register.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ResetPassword.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/ResetPassword.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Settings.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Settings.razor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student Portal/Dashboard.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student Portal/Dashboard.razor" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/VerifyEmail.razor" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/VerifyEmail.razor" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SRMS.WebUI.Server/wwwroot/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/SRMS.WebUI.Server/wwwroot/css/custom.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,9 +248,8 @@
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Admin/ResidencesManagement.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Dialogs/AuditLogDetailsDialog.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Login.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/ComplaintsManagement.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/Dashboard.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Manager/PaymentsManagement.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.WebUI.Server/Components/Pages/Login.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/alhab/RiderProjects/StudentResidenceManagementSystemSRMS/SRMS.WebUI.Server/Components/Pages/Login.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Rooms/RoomsManagement.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/AppSystemSettings.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/AuditLogs.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
@@ -260,11 +261,6 @@
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/SupperRoot.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Root/UserManagement.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student Portal/Dashboard.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/CreateStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/EditStudent.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/MyProfile.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/StudentDetails.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/Student/Students.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Components/Pages/VerifyEmail.razor" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Extensions/AuditActionMudBlazorExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/SRMS.WebUI.Server/Services/CustomAuthenticationStateProvider.cs" root0="FORCE_HIGHLIGHTING" />
@@ -281,23 +277,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.SRMS.WebUI.Server: http.executor": "Run",
-    ".NET Launch Settings Profile.SRMS.WebUI.Server: https.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.SRMS.WebUI.Server: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.SRMS.WebUI.Server: https.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="  Id: Guid       FirstName: string   LastName: string   Email: string   PhoneNumber: string   Address: stirng   ImagePath : string " />
@@ -371,6 +367,8 @@
       <workItem from="1764096800796" duration="39000" />
       <workItem from="1764100841114" duration="963000" />
       <workItem from="1764102877957" duration="4731000" />
+      <workItem from="1764122264223" duration="1512000" />
+      <workItem from="1764197050315" duration="3198000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor Student Info feature to use CQRS with MediatR&#10;&#10;Replaced `IStudentService` and `StudentService` with a CQRS-based approach using MediatR. Introduced `GetStudentQuery` and its handler for retrieving student data. Updated dependency injection, imports, and `StudentInfo.razor` to reflect the new pattern. Removed unused service layer abstractions. Added MediatR package dependency.">
       <option name="closed" value="true" />

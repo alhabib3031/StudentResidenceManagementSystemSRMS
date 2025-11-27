@@ -1,4 +1,4 @@
-﻿@page "/superroot/audit"
+@page "/superroot/audit"
 @using SRMS.Application.AuditLogs.Interfaces
 @using SRMS.Domain.AuditLogs.Enums
 @using SRMS.Domain.AuditLogs
@@ -182,7 +182,7 @@
                 <MudTh>Entity</MudTh>
                 <MudTh>Details</MudTh>
                 <MudTh>IP Address</MudTh>
-                <MudTh Style="text-align: right">Actions</MudTh>
+                <MudTh Class="text-right">Actions</MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Timestamp">
@@ -206,14 +206,14 @@
                     <MudText Typo="Typo.body2">@context.EntityName</MudText>
                 </MudTd>
                 <MudTd DataLabel="AdditionalInfo">
-                    <MudText Typo="Typo.caption" Style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">
+                    <MudText Typo="Typo.caption" Class="max-w-[300px] overflow-hidden text-ellipsis">
                         @context.AdditionalInfo
                     </MudText>
                 </MudTd>
                 <MudTd DataLabel="IP">
                     <MudText Typo="Typo.caption">@context.IpAddress</MudText>
                 </MudTd>
-                <MudTd DataLabel="Actions" Style="text-align: right">
+                <MudTd DataLabel="Actions" Class="text-right">
                     <MudIconButton 
                         Icon="@Icons.Material.Filled.Visibility"
                         Color="Color.Info"

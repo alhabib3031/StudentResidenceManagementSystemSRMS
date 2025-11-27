@@ -1,4 +1,4 @@
-﻿@page "/superroot/settings"
+@page "/superroot/settings"
 @attribute [Authorize(Roles = "SuperRoot")]
 @rendermode InteractiveServer
 @inject ISnackbar Snackbar
@@ -17,7 +17,7 @@
         </MudText>
     </MudPaper>
 
-    <MudTabs Elevation="4" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+    <MudTabs Elevation="4" Rounded="true" ApplyEffectsToContainer="true" PanelClass="p-6">
         <!-- General Settings -->
         <MudTabPanel Text="General" Icon="@Icons.Material.Filled.Tune">
             <MudGrid>

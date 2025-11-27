@@ -1,4 +1,4 @@
-﻿@page "/rooms"
+@page "/rooms"
 @attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
 @rendermode InteractiveServer
 @inject ISender Sender
@@ -116,7 +116,7 @@
                 Adornment="Adornment.Start"
                 AdornmentIcon="@Icons.Material.Filled.Search"
                 Margin="Margin.Dense"
-                Style="max-width: 300px;" />
+                Class="max-w-[300px]" />
             
             <MudButtonGroup Variant="Variant.Outlined">
                 <MudButton 
@@ -218,7 +218,7 @@
                     <MudTh>Beds</MudTh>
                     <MudTh>Occupancy</MudTh>
                     <MudTh>Status</MudTh>
-                    <MudTh Style="text-align: right">Actions</MudTh>
+                    <MudTh Class="text-right">Actions</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Room">
@@ -238,7 +238,7 @@
                             @(context.IsFull ? "Full" : "Available")
                         </MudChip>
                     </MudTd>
-                    <MudTd DataLabel="Actions" Style="text-align: right">
+                    <MudTd DataLabel="Actions" Class="text-right">
                         <MudButtonGroup Variant="Variant.Outlined" Size="Size.Small">
                             <MudIconButton Icon="@Icons.Material.Filled.Visibility" Color="Color.Info" Size="Size.Small" Href="@($"/rooms/{context.Id}")" />
                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(() => EditRoom(context.Id))" />

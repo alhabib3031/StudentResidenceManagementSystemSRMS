@@ -1,39 +1,39 @@
 ﻿@rendermode InteractiveServer
 
 <!-- Modern Sidebar Header -->
-<div class="pa-5 text-center" style="border-bottom: 1px solid var(--border-color);">
-    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; box-shadow: var(--shadow-glow); animation: float 3s ease-in-out infinite;">
+<MudPaper class="pa-5 text-center" style="border-bottom: 1px solid var(--border-color);">
+    <MudPaper
+        style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; box-shadow: var(--shadow-glow); animation: float 3s ease-in-out infinite;">
         <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Surface" Size="Size.Large" />
-    </div>
-    <MudText Typo="Typo.h6" Style="font-weight: 700; background: linear-gradient(135deg, var(--primary-400) 0%, var(--secondary-500) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+    </MudPaper>
+    <MudText Typo="Typo.h6"
+        Style="font-weight: 700; background: linear-gradient(135deg, var(--primary-400) 0%, var(--secondary-500) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         SRMS
     </MudText>
     <MudText Typo="Typo.caption" Color="Color.Secondary">
         Student Residence Management
     </MudText>
-</div>
+</MudPaper>
 
-<div class="pa-3">
+<MudPaper class="pa-3">
     <AuthorizeView>
         <Authorized Context="auth">
             <!-- SuperRoot Menu -->
             <AuthorizeView Roles="SuperRoot">
-                <MudNavGroup 
-                    Title="SuperRoot Panel" 
-                    Icon="@Icons.Material.Filled.Shield" 
-                    IconColor="Color.Error"
-                    Expanded="true"
-                    Class="modern-nav-group">
+                <MudNavGroup Title="SuperRoot Panel" Icon="@Icons.Material.Filled.Shield" IconColor="Color.Error"
+                    Expanded="true" Class="modern-nav-group">
                     <MudNavLink Href="/superroot" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
                         Dashboard
                     </MudNavLink>
                     <MudNavLink Href="/superroot/users" Icon="@Icons.Material.Filled.People" Class="modern-nav-link">
                         Manage Users
                     </MudNavLink>
-                    <MudNavLink Href="/superroot/roles" Icon="@Icons.Material.Filled.AdminPanelSettings" Class="modern-nav-link">
+                    <MudNavLink Href="/superroot/roles" Icon="@Icons.Material.Filled.AdminPanelSettings"
+                        Class="modern-nav-link">
                         Manage Roles
                     </MudNavLink>
-                    <MudNavLink Href="/superroot/settings" Icon="@Icons.Material.Filled.Settings" Class="modern-nav-link">
+                    <MudNavLink Href="/superroot/settings" Icon="@Icons.Material.Filled.Settings"
+                        Class="modern-nav-link">
                         System Settings
                     </MudNavLink>
                     <MudNavLink Href="/superroot/audit" Icon="@Icons.Material.Filled.History" Class="modern-nav-link">
@@ -44,19 +44,17 @@
 
             <!-- Admin Menu -->
             <AuthorizeView Roles="Admin,SuperRoot">
-                <MudNavGroup 
-                    Title="Administration" 
-                    Icon="@Icons.Material.Filled.AdminPanelSettings"
-                    IconColor="Color.Primary"
-                    Expanded="@IsAdmin()"
-                    Class="modern-nav-group">
+                <MudNavGroup Title="Administration" Icon="@Icons.Material.Filled.AdminPanelSettings"
+                    IconColor="Color.Primary" Expanded="@IsAdmin()" Class="modern-nav-group">
                     <MudNavLink Href="/admin" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
                         Admin Dashboard
                     </MudNavLink>
-                    <MudNavLink Href="/admin/residences" Icon="@Icons.Material.Filled.Apartment" Class="modern-nav-link">
+                    <MudNavLink Href="/admin/residences" Icon="@Icons.Material.Filled.Apartment"
+                        Class="modern-nav-link">
                         Residences
                     </MudNavLink>
-                    <MudNavLink Href="/admin/managers" Icon="@Icons.Material.Filled.SupervisedUserCircle" Class="modern-nav-link">
+                    <MudNavLink Href="/admin/managers" Icon="@Icons.Material.Filled.SupervisedUserCircle"
+                        Class="modern-nav-link">
                         Managers
                     </MudNavLink>
                     <MudNavLink Href="/admin/reports" Icon="@Icons.Material.Filled.Assessment" Class="modern-nav-link">
@@ -67,12 +65,8 @@
 
             <!-- Manager Menu -->
             <AuthorizeView Roles="Manager,Admin,SuperRoot">
-                <MudNavGroup 
-                    Title="Management" 
-                    Icon="@Icons.Material.Filled.ManageAccounts"
-                    IconColor="Color.Info"
-                    Expanded="@IsManager()"
-                    Class="modern-nav-group">
+                <MudNavGroup Title="Management" Icon="@Icons.Material.Filled.ManageAccounts" IconColor="Color.Info"
+                    Expanded="@IsManager()" Class="modern-nav-group">
                     <MudNavLink Href="/manager" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
                         Manager Dashboard
                     </MudNavLink>
@@ -93,12 +87,8 @@
 
             <!-- Student Menu -->
             <AuthorizeView Roles="Student">
-                <MudNavGroup 
-                    Title="Student Portal" 
-                    Icon="@Icons.Material.Filled.School"
-                    IconColor="Color.Success"
-                    Expanded="true"
-                    Class="modern-nav-group">
+                <MudNavGroup Title="Student Portal" Icon="@Icons.Material.Filled.School" IconColor="Color.Success"
+                    Expanded="true" Class="modern-nav-group">
                     <MudNavLink Href="/student" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
                         My Dashboard
                     </MudNavLink>
@@ -119,19 +109,19 @@
 
             <!-- Common Links -->
             <MudDivider Class="my-3" Style="border-color: var(--border-color);" />
-            
+
             <MudNavLink Href="/notifications" Icon="@Icons.Material.Filled.Notifications" Class="modern-nav-link">
-                <div class="d-flex align-items-center justify-space-between w-100">
+                <MudPaper Class="flex align-items-center justify-space-between w-100">
                     <span>Notifications</span>
                     <MudBadge Content="3" Color="Color.Error" Overlap="false" Class="animate-pulse" />
-                </div>
+                </MudPaper>
             </MudNavLink>
-            
+
             <MudNavLink Href="/help" Icon="@Icons.Material.Filled.Help" Class="modern-nav-link">
                 Help & Support
             </MudNavLink>
         </Authorized>
-        
+
         <NotAuthorized>
             <!-- Public Menu -->
             <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" Class="modern-nav-link">
@@ -146,9 +136,9 @@
             <MudNavLink Href="/help" Icon="@Icons.Material.Filled.Help" Class="modern-nav-link">
                 Help
             </MudNavLink>
-            
+
             <MudDivider Class="my-3" Style="border-color: var(--border-color);" />
-            
+
             <MudNavLink Href="/login" Icon="@Icons.Material.Filled.Login" Class="modern-nav-link">
                 <MudText Style="font-weight: 600;">Sign In</MudText>
             </MudNavLink>
@@ -157,11 +147,11 @@
             </MudNavLink>
         </NotAuthorized>
     </AuthorizeView>
-</div>
+</MudPaper>
 
 <!-- Version Info & Footer -->
 <MudSpacer />
-<div class="pa-4 text-center" style="border-top: 1px solid var(--border-color);">
+<MudPaper class="pa-4 text-center" style="border-top: 1px solid var(--border-color);">
     <MudStack Spacing="2">
         <MudText Typo="Typo.caption" Color="Color.Secondary">
             <MudIcon Icon="@Icons.Material.Filled.Code" Size="Size.Small" /> Version 1.0.0
@@ -170,7 +160,7 @@
             © 2025 SRMS. All rights reserved.
         </MudText>
     </MudStack>
-</div>
+</MudPaper>
 
 <style>
     .modern-nav-group {
