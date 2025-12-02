@@ -5,6 +5,9 @@ using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Notifications;
 using SRMS.Domain.Notifications.Enums;
 using SRMS.Domain.Repositories;
+using Microsoft.AspNetCore.Identity;
+using SRMS.Domain.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace SRMS.Infrastructure.Configurations.Services;
 
@@ -14,19 +17,22 @@ public class NotificationService : INotificationService
     private readonly IEmailService _emailService;
     private readonly ISMSService _smsService;
     private readonly IAuditService _audit;
-    
+    private readonly UserManager<ApplicationUser> _userManager;
+
     public NotificationService(
         IRepositories<Notification> notificationRepository,
         IEmailService emailService,
         ISMSService smsService,
-        IAuditService audit)
+        IAuditService audit,
+        UserManager<ApplicationUser> userManager)
     {
         _notificationRepository = notificationRepository;
         _emailService = emailService;
         _smsService = smsService;
         _audit = audit;
+        _userManager = userManager;
     }
-    
+
     public async Task<bool> SendNotificationAsync(CreateNotificationDto dto)
     {
         var notification = new Notification
@@ -51,9 +57,9 @@ public class NotificationService : INotificationService
             UpdatedAt = DateTime.UtcNow,
             IsActive = true
         };
-        
+
         var created = await _notificationRepository.CreateAsync(notification);
-        
+
         // ✅ Log notification
         await _audit.LogAsync(
             action: AuditAction.NotificationSent,
@@ -61,7 +67,7 @@ public class NotificationService : INotificationService
             entityId: created.Id.ToString(),
             additionalInfo: $"Notification sent: {created.Title}"
         );
-        
+
         // Send notifications asynchronously
         _ = Task.Run(async () =>
         {
@@ -75,7 +81,7 @@ public class NotificationService : INotificationService
                         created.Message,
                         isHtml: true
                     );
-                    
+
                     if (sent)
                     {
                         await _audit.LogAsync(
@@ -86,11 +92,11 @@ public class NotificationService : INotificationService
                         );
                     }
                 }
-                
+
                 if (created.SendSMS && !string.IsNullOrEmpty(created.UserPhone))
                 {
                     var sent = await _smsService.SendSMSAsync(created.UserPhone, created.Message);
-                    
+
                     if (sent)
                     {
                         await _audit.LogAsync(
@@ -101,7 +107,7 @@ public class NotificationService : INotificationService
                         );
                     }
                 }
-                
+
                 created.Status = NotificationStatus.Sent;
                 created.SentAt = DateTime.UtcNow;
                 await _notificationRepository.UpdateAsync(created);
@@ -113,7 +119,7 @@ public class NotificationService : INotificationService
                 created.RetryCount++;
                 created.LastRetryAt = DateTime.UtcNow;
                 await _notificationRepository.UpdateAsync(created);
-                
+
                 await _audit.LogAsync(
                     action: AuditAction.Failure,
                     entityName: "Notification",
@@ -122,46 +128,46 @@ public class NotificationService : INotificationService
                 );
             }
         });
-        
+
         return true;
     }
-    
+
     public async Task<bool> SendBulkNotificationsAsync(List<CreateNotificationDto> notifications)
     {
         var tasks = notifications.Select(n => SendNotificationAsync(n));
         var results = await Task.WhenAll(tasks);
-        
+
         // ✅ Log bulk notification
         await _audit.LogAsync(
             action: AuditAction.NotificationSent,
             entityName: "Notification",
             additionalInfo: $"Bulk notifications sent: {notifications.Count} recipients"
         );
-        
+
         return results.All(r => r);
     }
-    
+
     public async Task<bool> MarkAsReadAsync(Guid notificationId, Guid userId)
     {
         var notification = await _notificationRepository.GetByIdAsync(notificationId);
-        
+
         if (notification == null || notification.UserId != userId)
             return false;
-        
+
         notification.IsRead = true;
         notification.ReadAt = DateTime.UtcNow;
         notification.Status = NotificationStatus.Read;
-        
+
         await _notificationRepository.UpdateAsync(notification);
-        
+
         return true;
     }
-    
+
     public async Task<bool> MarkAllAsReadAsync(Guid userId)
     {
         var notifications = await _notificationRepository
             .FindAsync(n => n.UserId == userId && !n.IsRead);
-        
+
         var count = 0;
         foreach (var notification in notifications)
         {
@@ -171,7 +177,7 @@ public class NotificationService : INotificationService
             await _notificationRepository.UpdateAsync(notification);
             count++;
         }
-        
+
         if (count > 0)
         {
             // ✅ Log bulk mark as read
@@ -181,23 +187,23 @@ public class NotificationService : INotificationService
                 additionalInfo: $"Marked {count} notifications as read for user {userId}"
             );
         }
-        
+
         return true;
     }
-    
+
     public async Task<int> GetUnreadCountAsync(Guid userId)
     {
         var notifications = await _notificationRepository
             .FindAsync(n => n.UserId == userId && !n.IsRead);
-        
+
         return notifications.Count();
     }
-    
+
     public async Task<List<NotificationDto>> GetUserNotificationsAsync(Guid userId, int skip = 0, int take = 20)
     {
         var notifications = await _notificationRepository
             .FindAsync(n => n.UserId == userId);
-        
+
         return notifications
             .OrderByDescending(n => n.CreatedAt)
             .Skip(skip)
@@ -217,5 +223,58 @@ public class NotificationService : INotificationService
                 ActionUrl = n.ActionUrl
             })
             .ToList();
+    }
+
+
+    public async Task<bool> SendNotificationToRoleAsync(string roleName, CreateNotificationDto notification)
+    {
+        var users = await _userManager.GetUsersInRoleAsync(roleName);
+        if (!users.Any()) return false;
+
+        var notifications = users.Select(u => new CreateNotificationDto
+        {
+            UserId = u.Id,
+            UserEmail = u.Email,
+            UserPhone = u.PhoneNumber,
+            Title = notification.Title,
+            Message = notification.Message,
+            Type = notification.Type,
+            Priority = notification.Priority,
+            SendEmail = notification.SendEmail,
+            SendSMS = notification.SendSMS,
+            SendInApp = notification.SendInApp,
+            RelatedEntityType = notification.RelatedEntityType,
+            RelatedEntityId = notification.RelatedEntityId,
+            ActionUrl = notification.ActionUrl,
+            MetadataJson = notification.MetadataJson
+        }).ToList();
+
+        return await SendBulkNotificationsAsync(notifications);
+    }
+
+    public async Task<bool> SendNotificationToAllAsync(CreateNotificationDto notification)
+    {
+        var users = await _userManager.Users.ToListAsync();
+        if (!users.Any()) return false;
+
+        var notifications = users.Select(u => new CreateNotificationDto
+        {
+            UserId = u.Id,
+            UserEmail = u.Email,
+            UserPhone = u.PhoneNumber,
+            Title = notification.Title,
+            Message = notification.Message,
+            Type = notification.Type,
+            Priority = notification.Priority,
+            SendEmail = notification.SendEmail,
+            SendSMS = notification.SendSMS,
+            SendInApp = notification.SendInApp,
+            RelatedEntityType = notification.RelatedEntityType,
+            RelatedEntityId = notification.RelatedEntityId,
+            ActionUrl = notification.ActionUrl,
+            MetadataJson = notification.MetadataJson
+        }).ToList();
+
+        return await SendBulkNotificationsAsync(notifications);
     }
 }

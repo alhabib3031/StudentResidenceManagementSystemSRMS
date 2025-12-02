@@ -1,0 +1,78 @@
+@using SRMS.Application.Notifications.DTOs
+@using SRMS.Domain.Notifications.Enums
+@using SRMS.Domain.Identity.Constants
+@using MudBlazor
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="form" @bind-IsValid="@success">
+            <MudTextField T="string" Label="Title" Required="true" @bind-Value="Model.Title" />
+            <MudTextField T="string" Label="Message" Required="true" Lines="3" @bind-Value="Model.Message" />
+
+            <MudSelect T="string" Label="Target Audience" @bind-Value="SelectedAudience" Required="true">
+                @foreach (var audience in AvailableAudiences)
+                {
+                    <MudSelectItem Value="@audience.Value">@audience.Key</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="NotificationPriority" Label="Priority" @bind-Value="Model.Priority">
+                <MudSelectItem Value="NotificationPriority.Low">Low</MudSelectItem>
+                <MudSelectItem Value="NotificationPriority.Normal">Normal</MudSelectItem>
+                <MudSelectItem Value="NotificationPriority.High">High</MudSelectItem>
+                <MudSelectItem Value="NotificationPriority.Urgent">Urgent</MudSelectItem>
+            </MudSelect>
+
+            <MudSelect T="NotificationType" Label="Type" @bind-Value="Model.Type">
+                <MudSelectItem Value="NotificationType.Info">Info</MudSelectItem>
+                <MudSelectItem Value="NotificationType.Announcement">Announcement</MudSelectItem>
+                <MudSelectItem Value="NotificationType.Warning">Warning</MudSelectItem>
+                <MudSelectItem Value="NotificationType.System">System</MudSelectItem>
+            </MudSelect>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Disabled="@(!success)">Send
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
+    [Parameter] public string CurrentUserRole { get; set; }
+
+    private MudForm form;
+    private bool success;
+    private CreateNotificationDto Model = new() { Priority = NotificationPriority.Normal, Type = NotificationType.Info };
+    private string SelectedAudience { get; set; }
+
+    private Dictionary<string, string> AvailableAudiences = new();
+
+    protected override void OnInitialized()
+    {
+        if (CurrentUserRole == Roles.SuperRoot)
+        {
+            AvailableAudiences.Add("All Users", "All");
+            AvailableAudiences.Add("Admins", Roles.Admin);
+            AvailableAudiences.Add("Managers", Roles.Manager);
+            AvailableAudiences.Add("Students", Roles.Student);
+        }
+        else if (CurrentUserRole == Roles.Admin)
+        {
+            AvailableAudiences.Add("Managers", Roles.Manager);
+            AvailableAudiences.Add("Students", Roles.Student);
+        }
+        else if (CurrentUserRole == Roles.Manager)
+        {
+            AvailableAudiences.Add("Students", Roles.Student);
+        }
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(new { Notification = Model, Audience = SelectedAudience }));
+    }
+}

@@ -1,5 +1,15 @@
 @page "/notifications"
+@using SRMS.Application.Notifications.Interfaces
+@using SRMS.Application.Notifications.DTOs
+@using SRMS.Domain.Notifications.Enums
+@using System.Security.Claims
+@using SRMS.Domain.Identity.Constants
+@using SRMS.WebUI.Server.Components.Pages.Dialogs
 @inject NavigationManager Navigation
+@inject INotificationService NotificationService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
 @attribute [Authorize]
 @rendermode InteractiveServer
 
@@ -17,10 +27,19 @@
                 Stay updated with your latest activities
             </MudText>
         </MudStack>
-        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="MarkAllAsRead"
-            StartIcon="@Icons.Material.Filled.DoneAll">
-            Mark All as Read
-        </MudButton>
+        <MudStack Row="true" Spacing="2">
+            @if (CanCreateNotification)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OpenCreateDialog"
+                    StartIcon="@Icons.Material.Filled.Add">
+                    Create Notification
+                </MudButton>
+            }
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="MarkAllAsRead"
+                StartIcon="@Icons.Material.Filled.DoneAll">
+                Mark All as Read
+            </MudButton>
+        </MudStack>
     </MudStack>
 
     <!-- Notification Filters -->
@@ -90,58 +109,32 @@
 
 @code {
     private MudChip<string>? _selectedFilter;
-    private List<NotificationModel> _notifications = new();
+    private List<NotificationDto> _notifications = new();
+    private string _currentUserRole;
+    private Guid _currentUserId;
 
-    protected override void OnInitialized()
+    private bool CanCreateNotification => _currentUserRole == Roles.SuperRoot || _currentUserRole == Roles.Admin ||
+    _currentUserRole == Roles.Manager;
+
+    protected override async Task OnInitializedAsync()
     {
-        LoadNotifications();
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            _currentUserId = Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.Empty.ToString());
+            _currentUserRole = user.FindFirst(ClaimTypes.Role)?.Value ?? "";
+            await LoadNotifications();
+        }
     }
 
-    private void LoadNotifications()
+    private async Task LoadNotifications()
     {
-        // Sample notifications - Replace with actual service call
-        _notifications = new List<NotificationModel>
-{
-new NotificationModel
-{
-Id = 1,
-Title = "Payment Received",
-Message = "Your payment of $500 has been successfully processed.",
-Type = NotificationType.Payment,
-IsRead = false,
-CreatedAt = DateTime.Now.AddHours(-2)
-},
-new NotificationModel
-{
-Id = 2,
-Title = "Complaint Updated",
-Message = "Your complaint #1234 has been reviewed and resolved.",
-Type = NotificationType.Complaint,
-IsRead = false,
-CreatedAt = DateTime.Now.AddDays(-1)
-},
-new NotificationModel
-{
-Id = 3,
-Title = "System Maintenance",
-Message = "Scheduled maintenance on Dec 25, 2025 from 2:00 AM to 4:00 AM.",
-Type = NotificationType.System,
-IsRead = true,
-CreatedAt = DateTime.Now.AddDays(-2)
-},
-new NotificationModel
-{
-Id = 4,
-Title = "Welcome to SRMS",
-Message = "Thank you for joining the Student Residence Management System!",
-Type = NotificationType.System,
-IsRead = true,
-CreatedAt = DateTime.Now.AddDays(-7)
-}
-};
+        _notifications = await NotificationService.GetUserNotificationsAsync(_currentUserId, 0, 100);
     }
 
-    private IEnumerable<NotificationModel> FilteredNotifications
+    private IEnumerable<NotificationDto> FilteredNotifications
     {
         get
         {
@@ -158,14 +151,19 @@ CreatedAt = DateTime.Now.AddDays(-7)
         }
     }
 
-    private void HandleNotificationClick(NotificationModel notification)
+    private async Task HandleNotificationClick(NotificationDto notification)
     {
-        notification.IsRead = true;
-        StateHasChanged();
+        if (!notification.IsRead)
+        {
+            await NotificationService.MarkAsReadAsync(notification.Id, _currentUserId);
+            notification.IsRead = true;
+            StateHasChanged();
+        }
     }
 
-    private void MarkAllAsRead()
+    private async Task MarkAllAsRead()
     {
+        await NotificationService.MarkAllAsReadAsync(_currentUserId);
         foreach (var notification in _notifications)
         {
             notification.IsRead = true;
@@ -173,12 +171,50 @@ CreatedAt = DateTime.Now.AddDays(-7)
         StateHasChanged();
     }
 
-    private string GetNotificationClass(NotificationModel notification)
+    private async Task OpenCreateDialog()
+    {
+        var parameters = new DialogParameters
+{
+{ "CurrentUserRole", _currentUserRole }
+};
+
+        var dialog = DialogService.Show<CreateNotificationDialog>("Create Notification", parameters);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            var data = (dynamic)result.Data;
+            CreateNotificationDto notification = data.Notification;
+            string audience = data.Audience;
+
+            bool success = false;
+            if (audience == "All")
+            {
+                success = await NotificationService.SendNotificationToAllAsync(notification);
+            }
+            else
+            {
+                success = await NotificationService.SendNotificationToRoleAsync(audience, notification);
+            }
+
+            if (success)
+            {
+                Snackbar.Add("Notification sent successfully", Severity.Success);
+                await LoadNotifications(); // Refresh list if I sent it to myself too
+            }
+            else
+            {
+                Snackbar.Add("Failed to send notification", Severity.Error);
+            }
+        }
+    }
+
+    private string GetNotificationClass(NotificationDto notification)
     {
         return notification.IsRead ? "py-3" : "py-3 modern-card hover-lift";
     }
 
-    private Color GetNotificationColor(NotificationModel notification)
+    private Color GetNotificationColor(NotificationDto notification)
     {
         return notification.Type switch
         {
@@ -189,7 +225,7 @@ CreatedAt = DateTime.Now.AddDays(-7)
         };
     }
 
-    private string GetNotificationIcon(NotificationModel notification)
+    private string GetNotificationIcon(NotificationDto notification)
     {
         return notification.Type switch
         {
@@ -198,24 +234,5 @@ CreatedAt = DateTime.Now.AddDays(-7)
             NotificationType.Complaint => Icons.Material.Filled.Report,
             _ => Icons.Material.Filled.Notifications
         };
-    }
-
-    // Models
-    private class NotificationModel
-    {
-        public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Message { get; set; } = string.Empty;
-        public NotificationType Type { get; set; }
-        public bool IsRead { get; set; }
-        public DateTime CreatedAt { get; set; }
-    }
-
-    private enum NotificationType
-    {
-        System,
-        Payment,
-        Complaint,
-        General
     }
 }

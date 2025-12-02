@@ -231,8 +231,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadStatistics();
+        LoadStatistics();
         _isLoading = false;
+        await Task.CompletedTask;
     }
 
     private async Task LoadStatistics()

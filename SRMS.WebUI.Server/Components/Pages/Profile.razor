@@ -1,8 +1,8 @@
 @page "/profile"
+@attribute [Authorize]
 @inject ISnackbar Snackbar
 @inject IUserService UserService
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@attribute [Authorize]
 @rendermode InteractiveServer
 
 <PageTitle>My Profile - SRMS</PageTitle>
@@ -242,8 +242,8 @@
 @code {
     private UserDto? _currentUser;
     private bool _isLoading = true;
-    private bool _isSaving = false;
-    private bool _isChangingPassword = false;
+    private bool _isSaving;
+    private bool _isChangingPassword;
 
     private ProfileModel _profileModel = new();
     private PasswordModel _passwordModel = new();
@@ -348,7 +348,7 @@
         if (_passwordModel.NewPassword != _passwordModel.ConfirmPassword)
         {
             Snackbar.Add("Passwords do not match!", Severity.Error);
-            return;
+            await Task.CompletedTask;
         }
 
         _isChangingPassword = true;

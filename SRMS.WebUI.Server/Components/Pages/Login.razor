@@ -1,6 +1,6 @@
 @page "/login"
 @using System.Security.Claims
-@inject IAuthService AuthService
+@* @inject IAuthService AuthService *@
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ISnackbar Snackbar
@@ -10,178 +10,140 @@
 
 @if (_isCheckingAuth)
 {
-        <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
-            <MudStack AlignItems="AlignItems.Center" Spacing="4">
-                <MudProgressCircular Size="Size.Large" Indeterminate="true" Color="Color.Primary" />
-                <MudText Typo="Typo.h6" Class="text-gray-500">Checking authentication...</MudText>
-            </MudStack>
-        </MudContainer>
+    <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
+        <MudStack AlignItems="AlignItems.Center" Spacing="4">
+            <MudProgressCircular Size="Size.Large" Indeterminate="true" Color="Color.Primary" />
+            <MudText Typo="Typo.h6" Color="Color.Secondary">Checking authentication...</MudText>
+        </MudStack>
+    </MudContainer>
 }
 else
 {
-        <MudContainer MaxWidth="MaxWidth.Large" Class="min-h-screen p-5 flex items-center justify-center modern-card">
-            <MudGrid Justify="Justify.Center" Class="w-full">
-                <MudItem xs="12" md="10" lg="8">
-                    <MudPaper Elevation="0" Class="rounded-[24px] overflow-hidden bg-gradient-to-br from-[#667eea] to-[#764ba2] relative">
+    <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center py-8">
+        <MudPaper Elevation="0" Class="glass-card w-full max-w-md p-8 rounded-2xl animate-fade-in">
+            
+            <!-- Header Section -->
+            <MudStack AlignItems="AlignItems.Center" Spacing="3" Class="mb-6">
+                <MudPaper Elevation="0"
+                    Class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)]">
+                    <MudIcon Icon="@Icons.Material.Filled.Lock" Color="Color.Surface" Size="Size.Large" />
+                </MudPaper>
+                
+                <MudStack Spacing="1" AlignItems="AlignItems.Center">
+                    <MudText Typo="Typo.h4" Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                        Welcome Back
+                    </MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Sign in to access your account
+                    </MudText>
+                </MudStack>
+            </MudStack>
 
-                        <!-- Decorative Elements -->
-                        <MudPaper class="absolute -top-[100px] -right-[100px] w-[300px] h-[300px] bg-white/10 rounded-full"></MudPaper>
-                        <MudPaper class="absolute -bottom-[50px] -left-[50px] w-[200px] h-[200px] bg-white/10 rounded-full"></MudPaper>
+            <!-- Login Form -->
+            <form method="post" action="/api/auth/login">
+                <AntiforgeryToken />
 
-                        <MudGrid Class="relative z-10">
-                            <!-- Left Side - Branding -->
-                            <MudItem xs="12" md="5" Class="p-12 flex flex-col justify-center items-center text-center hidden md:flex">
-                                <MudAvatar Size="Size.Large" Class="w-[120px] h-[120px] bg-white/20 mb-6 backdrop-blur-sm">
-                                    <MudIcon Icon="@Icons.Material.Filled.School" Class="text-white text-[72px]" />
-                                </MudAvatar>
+                <MudStack Spacing="4">
+                    <!-- Email Field -->
+                    <MudTextField 
+                        @bind-Value="_loginModel.Email"
+                        Label="Email Address"
+                        Variant="Variant.Outlined"
+                        InputType="InputType.Email"
+                        Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Email"
+                        Required="true"
+                        Class="rounded-xl"
+                        UserAttributes="@(new Dictionary<string, object> { { "name", "Email" } })" />
 
-                                <MudText Typo="Typo.h3" Class="text-white font-extrabold mb-4 drop-shadow-md">
-                                    Welcome Back
-                                </MudText>
+                    <!-- Password Field -->
+                    <MudTextField 
+                        @bind-Value="_loginModel.Password"
+                        Label="Password"
+                        Variant="Variant.Outlined"
+                        InputType="@(_showPassword ? InputType.Text : InputType.Password)"
+                        Adornment="Adornment.End"
+                        AdornmentIcon="@(_showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
+                        OnAdornmentClick="TogglePasswordVisibility"
+                        Required="true"
+                        Class="rounded-xl"
+                        UserAttributes="@(new Dictionary<string, object> { { "name", "Password" } })" />
 
-                                <MudText Typo="Typo.body1" Class="text-white/95 mb-8 leading-relaxed max-w-[300px]">
-                                    Sign in to access the Student Residence Management System
-                                </MudText>
+                    <!-- Remember Me & Forgot Password -->
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <MudCheckBox 
+                            @bind-Value="_loginModel.RememberMe" 
+                            Color="Color.Primary"
+                            Dense="true"
+                            UserAttributes="@(new Dictionary<string, object> { { "name", "RememberMe" }, { "value", "true" } })">
+                            <MudText Typo="Typo.body2">Remember me</MudText>
+                        </MudCheckBox>
 
-                                <MudStack Row="false" Spacing="2" Class="w-full max-w-[280px]">
-                                    <MudPaper Elevation="0" Class="bg-white/15 backdrop-blur-sm p-4 rounded-xl border border-white/20">
-                                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
-                                            <MudIcon Icon="@Icons.Material.Filled.Security" Class="text-white" />
-                                            <MudText Typo="Typo.body2" Class="text-white font-medium">Secure Login</MudText>
-                                        </MudStack>
-                                    </MudPaper>
+                        <MudLink Href="/forgot-password" Typo="Typo.body2" Class="text-purple-500 hover:text-purple-600 transition-colors">
+                            Forgot password?
+                        </MudLink>
+                    </MudStack>
 
-                                    <MudPaper Elevation="0" Class="bg-white/15 backdrop-blur-sm p-4 rounded-xl border border-white/20">
-                                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
-                                            <MudIcon Icon="@Icons.Material.Filled.Speed" Class="text-white" />
-                                            <MudText Typo="Typo.body2" Class="text-white font-medium">Fast Access</MudText>
-                                        </MudStack>
-                                    </MudPaper>
-                                </MudStack>
-                            </MudItem>
+                    <!-- Login Button -->
+                    <MudButton 
+                        ButtonType="ButtonType.Submit"
+                        Variant="Variant.Filled"
+                        Color="Color.Primary"
+                        FullWidth="true"
+                        Size="Size.Large"
+                        StartIcon="@Icons.Material.Filled.Login"
+                        Class="btn-modern btn-primary h-12 rounded-xl font-semibold">
+                        Sign In
+                    </MudButton>
 
-                            <!-- Right Side - Login Form -->
-                            <MudItem xs="12" md="7" Class="bg-white p-12">
-                                <MudText Typo="Typo.h4" Class="text-gray-800 font-bold mb-2">
-                                    Sign In
-                                </MudText>
-                                <MudText Typo="Typo.body2" Class="text-gray-500 mb-8">
-                                    Enter your credentials to continue
-                                </MudText>
+                    <!-- Divider -->
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Class="my-2">
+                        <MudDivider Class="flex-1" />
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">OR</MudText>
+                        <MudDivider Class="flex-1" />
+                    </MudStack>
 
-                                <form method="post" action="/api/auth/login">
-                                    <AntiforgeryToken />
+                    <!-- Google Login -->
+                    <MudButton 
+                        Href="/api/auth/google-login"
+                        Variant="Variant.Outlined"
+                        FullWidth="true"
+                        StartIcon="@Icons.Custom.Brands.Google"
+                        Class="rounded-xl h-12 font-semibold border-2 hover-lift">
+                        Sign in with Google
+                    </MudButton>
 
-                                    <MudStack Spacing="4">
-                                        <!-- Email -->
-                                        <MudTextField 
-                                    @bind-Value="_loginModel.Email"
-                                            Label="Email Address"
-                                            Variant="Variant.Outlined"
-                                            InputType="InputType.Email"
-                                            Adornment="Adornment.Start"
-                                            AdornmentIcon="@Icons.Material.Filled.Email"
-                                            AdornmentColor="Color.Primary"
-                                            Required="true"
-                                            Class="rounded-xl" 
-                                            UserAttributes="@(new Dictionary<string, object> { { "name", "Email" } })" />
-
-                                        <!-- Password -->
-                                        <MudTextField 
-                                    @bind-Value="_loginModel.Password"
-                                            Label="Password"
-                                            Variant="Variant.Outlined"
-                                            InputType="@(_showPassword ? InputType.Text : InputType.Password)"
-                                            Adornment="Adornment.End"
-                                            AdornmentIcon="@(_showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
-                                            OnAdornmentClick="TogglePasswordVisibility"
-                                            AdornmentColor="Color.Primary"
-                                            Required="true"
-                                            Class="rounded-xl"
-                                            UserAttributes="@(new Dictionary<string, object> { { "name", "Password" } })" />
-
-                                        <!-- Remember Me & Forgot Password -->
-                                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                                            <MudCheckBox 
-                                        @bind-Value="_loginModel.RememberMe" 
-                                                Color="Color.Primary"
-                                                Dense="true"
-                                                Class="text-gray-500"
-                                                UserAttributes="@(new Dictionary<string, object> { { "name", "RememberMe" }, { "value", "true" } })">
-                                                Remember me
-                                            </MudCheckBox>
-
-                                            <MudLink Href="/forgot-password" Class="text-[#667eea] font-medium no-underline">
-                                                Forgot password?
-                                            </MudLink>
-                                        </MudStack>
-
-                                        <!-- Login Button -->
-                                        <MudButton 
-                                            ButtonType="ButtonType.Submit"
-                                            Variant="Variant.Filled"
-                                            Color="Color.Primary"
-                                            FullWidth="true"
-                                            Size="Size.Large"
-                                            Class="h-14 rounded-xl font-semibold normal-case text-base bg-gradient-to-br from-[#667eea] to-[#764ba2] shadow-[0_4px_15px_rgba(102,126,234,0.4)]">
-                                            Sign In
-                                        </MudButton>
-
-                                        <!-- Divider -->
-                                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Class="my-4">
-                                            <MudDivider Class="flex-1" />
-                                            <MudText Typo="Typo.body2" Class="text-gray-400 px-2">OR</MudText>
-                                            <MudDivider Class="flex-1" />
-                                        </MudStack>
-
-                                        <!-- Google Login Button -->
-                                        <MudButton 
-                                            Href="/api/auth/google-login"
-                                            Variant="Variant.Outlined"
-                                            Color="Color.Secondary"
-                                            FullWidth="true"
-                                            StartIcon="@Icons.Custom.Brands.Google"
-                                            Class="rounded-xl normal-case font-semibold border-2 h-12">
-                                            Sign in with Google
-                                        </MudButton>
-
-                                        <!-- Register Link -->
-                                        <MudPaper Elevation="0" Class="bg-gray-100 p-5 rounded-xl text-center mt-4">
-                                            <MudText Typo="Typo.body2" Class="text-gray-500 mb-3">
-                                                Don't have an account?
-                                            </MudText>
-                                            <MudButton 
-                                                Href="/register"
-                                                Variant="Variant.Outlined"
-                                                Color="Color.Primary"
-                                                FullWidth="true"
-                                                StartIcon="@Icons.Material.Filled.PersonAdd"
-                                                Class="rounded-xl normal-case font-semibold border-2">
-                                                Create New Account
-                                            </MudButton>
-                                        </MudPaper>
-
-                                        <!-- Test Accounts Info -->
-                                        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true" Class="rounded-xl">
-                                            <MudText Typo="Typo.body2" Class="font-semibold mb-2">Test Account:</MudText>
-                                            <MudText Typo="Typo.caption" Class="font-mono">
-                                                Email: superroot@srms.edu.ly<br/>
-                                                Password: SuperRoot@123!
-                                            </MudText>
-                                        </MudAlert>
-                                    </MudStack>
-                                </form>
-                            </MudItem>
-                        </MudGrid>
+                    <!-- Register Link -->
+                    <MudPaper Elevation="0" Class="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-xl text-center mt-2">
+                        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-2">
+                            Don't have an account?
+                        </MudText>
+                        <MudButton 
+                            Href="/register"
+                            Variant="Variant.Text"
+                            Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.PersonAdd"
+                            Class="font-semibold">
+                            Create Account
+                        </MudButton>
                     </MudPaper>
-                </MudItem>
-            </MudGrid>
-        </MudContainer>
+
+                    <!-- Test Account Info -->
+                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true" Class="rounded-xl">
+                        <MudText Typo="Typo.caption" Class="font-semibold mb-1">Test Account:</MudText>
+                        <MudText Typo="Typo.caption" Class="font-mono">
+                            superroot@srms.edu.ly / SuperRoot@123!
+                        </MudText>
+                    </MudAlert>
+                </MudStack>
+            </form>
+        </MudPaper>
+    </MudContainer>
 }
 
 @code {
     private LoginDto _loginModel = new();
-    private bool _showPassword = false;
+    private bool _showPassword;
     private bool _isCheckingAuth = true;
 
     [SupplyParameterFromQuery]
@@ -194,7 +156,7 @@ else
             var authState = await AuthStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
-            if (user?.Identity?.IsAuthenticated == true)
+            if (user.Identity?.IsAuthenticated == true)
             {
                 var role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 

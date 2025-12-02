@@ -371,13 +371,11 @@
                     PendingComplaints = complaints.Count(c => c.Status == ComplaintStatus.Open || c.Status == ComplaintStatus.InProgress),
                     ResolvedComplaints = complaints.Count(c => c.Status == ComplaintStatus.Resolved),
                     ResidencesGrowth = residences.Count(r => r.CreatedAt >= lastMonth),
-                    ManagerAvailability = managers.Any() ?
-                (double)managers.Count(m => m.Status == ManagerStatus.Active) / managers.Count() * 100 : 0,
-                    OccupancyRate = residences.Any() && residences.Sum(r => r.TotalCapacity) > 0 ?
-                (double)students.Count() / residences.Sum(r => r.TotalCapacity) * 100 : 0,
+                    ManagerAvailability = managers.Any() ? (double)managers.Count(m => m.Status == ManagerStatus.Active) / managers.Count() * 100 : 0,
+                    OccupancyRate = residences.Any() && residences.Sum(r => r.TotalCapacity) > 0 ? (double)students.Count() / residences.Sum(r => r.TotalCapacity) * 100 : 0,
                     MonthlyRevenue = payments
-                .Where(p => p.CreatedAt.Month == now.Month && p.CreatedAt.Year == now.Year && p.Status == PaymentStatus.Paid)
-                .Sum(p => p.Amount?.Amount ?? 0),
+                    .Where(p => p.CreatedAt.Month == now.Month && p.CreatedAt.Year == now.Year && p.Status == PaymentStatus.Paid)
+                    .Sum(p => p.Amount?.Amount ?? 0),
                     RevenueGrowth = CalculateRevenueGrowth(payments)
                 };
         }

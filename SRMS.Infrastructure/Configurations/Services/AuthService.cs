@@ -275,8 +275,9 @@ public class AuthService : IAuthService
         }
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
         // Token will be URL-encoded in EmailService
-        await _emailService.SendPasswordResetEmailAsync(user.Email!, token);
+        await _emailService.SendPasswordResetEmailAsync(user.Email!, encodedToken);
 
         // ✅ Log password reset request
         await _audit.LogAsync(
@@ -302,8 +303,24 @@ public class AuthService : IAuthService
             );
             return false;
         }
+        
+        string decodedToken;
+        try 
+        {
+            var decodedBytes = WebEncoders.Base64UrlDecode(dto.Token);
+            decodedToken = Encoding.UTF8.GetString(decodedBytes);
+        }
+        catch
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "User",
+                additionalInfo: $"Password reset failed - Invalid Token: {dto.Email}"
+            );
+            return false;
+        }
 
-        var result = await _userManager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
+        var result = await _userManager.ResetPasswordAsync(user, decodedToken, dto.NewPassword);
 
         if (result.Succeeded)
         {
@@ -405,7 +422,7 @@ public class AuthService : IAuthService
 
             if (user == null)
             {
-                // Create new user from Google data
+                // Create a new user from Google data
                 user = new ApplicationUser
                 {
                     UserName = payload.Email,

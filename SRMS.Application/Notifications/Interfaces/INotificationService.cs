@@ -14,4 +14,6 @@ public interface INotificationService
     Task<bool> MarkAllAsReadAsync(Guid userId);
     Task<int> GetUnreadCountAsync(Guid userId);
     Task<List<NotificationDto>> GetUserNotificationsAsync(Guid userId, int skip = 0, int take = 20);
+    Task<bool> SendNotificationToRoleAsync(string roleName, CreateNotificationDto notification);
+    Task<bool> SendNotificationToAllAsync(CreateNotificationDto notification);
 }
