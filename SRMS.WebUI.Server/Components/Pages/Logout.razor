@@ -1,0 +1,23 @@
+@page "/logout"
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+
+<PageTitle>Logging out...</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
+    <MudStack AlignItems="AlignItems.Center" Spacing="4">
+        <MudProgressCircular Size="Size.Large" Indeterminate="true" Color="Color.Primary" />
+        <MudText Typo="Typo.h6" Class="text-gray-500">Logging out...</MudText>
+    </MudStack>
+</MudContainer>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var customProvider = (CustomAuthenticationStateProvider)AuthStateProvider;
+        customProvider.Logout();
+
+        await Task.Delay(500);
+        Navigation.NavigateTo("/login", replace: true);
+    }
+}

@@ -1,0 +1,264 @@
+@using SRMS.Domain.AuditLogs
+@using Newtonsoft.Json
+@using SRMS.Application.AuditLogs.Extensions
+@using SRMS.WebUI.Server.Extensions
+@using Newtonsoft.Json.Linq
+
+<MudDialog>
+    <DialogContent>
+        <MudContainer Style="max-height: 70vh; overflow-y: auto;">
+            <!-- Header Info -->
+            <MudPaper Elevation="2" Class="pa-4 mb-4">
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                            <MudChip 
+                                T="string" 
+                                Color="@Log.AuditAction.GetColor()"
+                                Icon="@Log.AuditAction.GetIcon()"
+                                Size="Size.Large">
+                                @Log.AuditAction.ToArabic()
+                            </MudChip>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                @Log.Timestamp.ToString("MMM dd, yyyy HH:mm:ss")
+                            </MudText>
+                        </MudStack>
+                    </MudItem>
+                    
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.h6" Class="mt-2">@Log.Action</MudText>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+
+            <!-- User Information -->
+            <MudPaper Elevation="2" Class="pa-4 mb-4">
+                <MudText Typo="Typo.h6" Class="mb-3">
+                    <MudIcon Icon="@Icons.Material.Filled.Person" Class="mr-2" />
+                    User Information
+                </MudText>
+                <MudDivider Class="mb-3" />
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Username</MudText>
+                            <MudText Typo="Typo.body2"><strong>@(Log.UserName ?? "System")</strong></MudText>
+                        </MudStack>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">User ID</MudText>
+                            <MudText Typo="Typo.body2">@(Log.UserId ?? "N/A")</MudText>
+                        </MudStack>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">IP Address</MudText>
+                            <MudText Typo="Typo.body2">@(Log.IpAddress ?? "Unknown")</MudText>
+                        </MudStack>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">User Agent</MudText>
+                            <MudText Typo="Typo.body2" Style="word-break: break-word;">
+                                @(string.IsNullOrEmpty(Log.UserAgent) ? "Unknown" : GetShortUserAgent(Log.UserAgent))
+                            </MudText>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+
+            <!-- Entity Information -->
+            <MudPaper Elevation="2" Class="pa-4 mb-4">
+                <MudText Typo="Typo.h6" Class="mb-3">
+                    <MudIcon Icon="@Icons.Material.Filled.Info" Class="mr-2" />
+                    Entity Information
+                </MudText>
+                <MudDivider Class="mb-3" />
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Entity Type</MudText>
+                            <MudText Typo="Typo.body2"><strong>@Log.EntityName</strong></MudText>
+                        </MudStack>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Entity ID</MudText>
+                            <MudText Typo="Typo.body2">@(Log.EntityId ?? "N/A")</MudText>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+
+            <!-- Additional Information -->
+            @if (!string.IsNullOrEmpty(Log.AdditionalInfo))
+            {
+                <MudPaper Elevation="2" Class="pa-4 mb-4">
+                    <MudText Typo="Typo.h6" Class="mb-3">
+                        <MudIcon Icon="@Icons.Material.Filled.Description" Class="mr-2" />
+                        Additional Information
+                    </MudText>
+                    <MudDivider Class="mb-3" />
+                    <MudText Typo="Typo.body2">@Log.AdditionalInfo</MudText>
+                </MudPaper>
+            }
+
+            <!-- Old Values -->
+            @if (!string.IsNullOrEmpty(Log.OldValues))
+            {
+                <MudPaper Elevation="2" Class="pa-4 mb-4">
+                    <MudText Typo="Typo.h6" Class="mb-3">
+                        <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Class="mr-2" Color="Color.Warning" />
+                        Old Values
+                    </MudText>
+                    <MudDivider Class="mb-3" />
+                    <MudPaper Elevation="0" Class="pa-3" Style="background-color: #fff3e0;">
+                        <pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word; font-size: 0.875rem;">@FormatJson(Log.OldValues)</pre>
+                    </MudPaper>
+                </MudPaper>
+            }
+
+            <!-- New Values -->
+            @if (!string.IsNullOrEmpty(Log.NewValues))
+            {
+                <MudPaper Elevation="2" Class="pa-4 mb-4">
+                    <MudText Typo="Typo.h6" Class="mb-3">
+                        <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Class="mr-2" Color="Color.Success" />
+                        New Values
+                    </MudText>
+                    <MudDivider Class="mb-3" />
+                    <MudPaper Elevation="0" Class="pa-3" Style="background-color: #e8f5e9;">
+                        <pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word; font-size: 0.875rem;">@FormatJson(Log.NewValues)</pre>
+                    </MudPaper>
+                </MudPaper>
+            }
+
+            <!-- Changes Comparison (if both old and new values exist) -->
+            @if (!string.IsNullOrEmpty(Log.OldValues) && !string.IsNullOrEmpty(Log.NewValues))
+            {
+                <MudPaper Elevation="2" Class="pa-4 mb-4">
+                    <MudText Typo="Typo.h6" Class="mb-3">
+                        <MudIcon Icon="@Icons.Material.Filled.Compare" Class="mr-2" />
+                        Changes Summary
+                    </MudText>
+                    <MudDivider Class="mb-3" />
+                    @foreach (var change in GetChanges())
+                    {
+                        <MudStack Row="true" Spacing="2" Class="mb-2">
+                            <MudChip T="string" Size="Size.Small" Color="Color.Default">@change.Property</MudChip>
+                            <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" />
+                            <MudStack Spacing="0">
+                                <MudText Typo="Typo.caption" Color="Color.Warning">From: @change.OldValue</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Success">To: @change.NewValue</MudText>
+                            </MudStack>
+                        </MudStack>
+                    }
+                </MudPaper>
+            }
+
+            <!-- Metadata -->
+            <MudPaper Elevation="2" Class="p-4">
+                <MudText Typo="Typo.h6" Class="mb-3">
+                    <MudIcon Icon="@Icons.Material.Filled.AccessTime" Class="mr-2" />
+                    Metadata
+                </MudText>
+                <MudDivider Class="mb-3" />
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Timestamp (UTC)</MudText>
+                            <MudText Typo="Typo.body2">@Log.Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff")</MudText>
+                        </MudStack>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Log ID</MudText>
+                            <MudText Typo="Typo.body2" Style="font-family: monospace; font-size: 0.75rem;">@Log.Id</MudText>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Close" Color="Color.Primary" Variant="Variant.Filled">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] 
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public AuditLog Log { get; set; } = null!;
+
+    private void Close() => MudDialog.Close();
+
+    private string FormatJson(string json)
+    {
+        try
+        {
+            var obj = JToken.Parse(json);
+            return obj.ToString(Formatting.Indented);
+        }
+        catch
+        {
+            return json;
+        }
+    }
+
+    private string GetShortUserAgent(string userAgent)
+    {
+        if (string.IsNullOrEmpty(userAgent)) return "Unknown";
+        
+        // Extract browser name
+        if (userAgent.Contains("Chrome")) return "Chrome";
+        if (userAgent.Contains("Firefox")) return "Firefox";
+        if (userAgent.Contains("Safari")) return "Safari";
+        if (userAgent.Contains("Edge")) return "Edge";
+        if (userAgent.Contains("Opera")) return "Opera";
+        
+        return userAgent.Length > 50 ? userAgent.Substring(0, 50) + "..." : userAgent;
+    }
+
+    private List<(string Property, string OldValue, string NewValue)> GetChanges()
+    {
+        var changes = new List<(string, string, string)>();
+        
+        try
+        {
+            if (string.IsNullOrEmpty(Log.OldValues) || string.IsNullOrEmpty(Log.NewValues))
+                return changes;
+
+            var oldObj = JObject.Parse(Log.OldValues);
+            var newObj = JObject.Parse(Log.NewValues);
+
+            foreach (var prop in oldObj.Properties())
+            {
+                var oldValue = prop.Value.ToString();
+                var newValue = newObj[prop.Name]?.ToString() ?? "null";
+
+                if (oldValue != newValue)
+                {
+                    changes.Add((prop.Name, oldValue, newValue));
+                }
+            }
+
+            // Check for new properties
+            foreach (var prop in newObj.Properties())
+            {
+                if (oldObj[prop.Name] == null)
+                {
+                    changes.Add((prop.Name, "null", prop.Value.ToString()));
+                }
+            }
+        }
+        catch
+        {
+            // If parsing fails, return empty list
+        }
+
+        return changes;
+    }
+}

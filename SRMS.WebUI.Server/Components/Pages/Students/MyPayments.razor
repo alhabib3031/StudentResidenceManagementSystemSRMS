@@ -1,0 +1,89 @@
+@page "/student/payments"
+@attribute [Authorize(Roles = "Student")]
+@rendermode InteractiveServer
+
+<PageTitle>My Payments - SRMS</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <MudText Typo="Typo.h4" Class="text-gradient">My Payments</MudText>
+            <MudText Typo="Typo.subtitle1" Color="Color.Secondary">Track your payment history and pending dues</MudText>
+        </div>
+        <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.Payment"
+            Class="btn-modern">
+            Make Payment
+        </MudButton>
+    </div>
+
+    <MudGrid>
+        <MudItem xs="12" md="4">
+            <MudPaper Class="glass-card p-4 text-center" Elevation="0">
+                <MudIcon Icon="@Icons.Material.Filled.AccountBalanceWallet" Size="Size.Large" Color="Color.Warning" />
+                <MudText Typo="Typo.h5" Class="mt-2">$150.00</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Pending Dues</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" md="4">
+            <MudPaper Class="glass-card pa-4 text-center" Elevation="0">
+                <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large" Color="Color.Success" />
+                <MudText Typo="Typo.h5" Class="mt-2">$450.00</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Total Paid</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" md="4">
+            <MudPaper Class="glass-card pa-4 text-center" Elevation="0">
+                <MudIcon Icon="@Icons.Material.Filled.History" Size="Size.Large" Color="Color.Info" />
+                <MudText Typo="Typo.h5" Class="mt-2">3</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Transactions</MudText>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
+    <MudTable Items="@_payments" Hover="true" Breakpoint="Breakpoint.Sm" Class="glass-card mt-4" Elevation="0">
+        <HeaderContent>
+            <MudTh>Date</MudTh>
+            <MudTh>Description</MudTh>
+            <MudTh>Amount</MudTh>
+            <MudTh>Status</MudTh>
+            <MudTh>Action</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Date">@context.Date.ToShortDateString()</MudTd>
+            <MudTd DataLabel="Description">@context.Description</MudTd>
+            <MudTd DataLabel="Amount" Class="font-bold">$@context.Amount</MudTd>
+            <MudTd DataLabel="Status">
+                @if (context.Status == "Paid")
+                {
+                    <MudChip T="string" Color="Color.Success" Size="Size.Small">Paid</MudChip>
+                }
+                else
+                {
+                    <MudChip T="string" Color="Color.Warning" Size="Size.Small">Pending</MudChip>
+                }
+            </MudTd>
+            <MudTd DataLabel="Action">
+                <MudIconButton Icon="@Icons.Material.Filled.Receipt" Size="Size.Small" Color="Color.Primary" />
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudContainer>
+
+@code {
+    private List<PaymentRecord> _payments = new()
+{
+new PaymentRecord { Date = DateTime.Now.AddDays(-5), Description = "November Rent", Amount = 150.00m, Status = "Paid" },
+new PaymentRecord { Date = DateTime.Now.AddDays(-35), Description = "October Rent", Amount = 150.00m, Status = "Paid" },
+new PaymentRecord { Date = DateTime.Now.AddDays(-65), Description = "September Rent", Amount = 150.00m, Status = "Paid"
+},
+new PaymentRecord { Date = DateTime.Now, Description = "December Rent", Amount = 150.00m, Status = "Pending" },
+};
+
+    public class PaymentRecord
+    {
+        public DateTime Date { get; set; }
+        public string Description { get; set; } = "";
+        public decimal Amount { get; set; }
+        public string Status { get; set; } = "";
+    }
+}

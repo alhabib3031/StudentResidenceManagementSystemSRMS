@@ -1,0 +1,362 @@
+@page "/register"
+@using System.Security.Claims
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ISnackbar Snackbar
+@rendermode InteractiveServer
+
+<PageTitle>Register - SRMS</PageTitle>
+
+@if (_isCheckingAuth)
+{
+    <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
+        <MudStack AlignItems="AlignItems.Center" Spacing="4">
+            <MudProgressCircular Size="Size.Large" Indeterminate="true" Color="Color.Primary" />
+            <MudText Typo="Typo.h6" Class="text-gray-500">Checking authentication...</MudText>
+        </MudStack>
+    </MudContainer>
+}
+else
+{
+    <MudContainer MaxWidth="MaxWidth.Large" Class="min-h-screen py-10 px-5 modern-card">
+        <MudGrid Justify="Justify.Center">
+            <MudItem xs="12" md="10" lg="9">
+                <!-- Header -->
+                <MudStack AlignItems="AlignItems.Center" Class="mb-6">
+                    <MudAvatar Size="Size.Large"
+                        Class="w-[100px] h-[100px] bg-gradient-to-br from-[#667eea] to-[#764ba2] mx-auto mb-6 shadow-[0_10px_30px_rgba(102,126,234,0.3)]">
+                        <MudIcon Icon="@Icons.Material.Filled.PersonAdd" Size="Size.Large" Class="text-white text-[56px]" />
+                    </MudAvatar>
+                    <MudText Typo="Typo.h3" Class="text-gray-800 font-extrabold mb-2">
+                        Create Your Account
+                    </MudText>
+                    <MudText Typo="Typo.body1" Class="text-gray-500">
+                        Join the Student Residence Management System today
+                    </MudText>
+                </MudStack>
+
+                <MudPaper Elevation="8" Class="rounded-[24px] p-12 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.1)]">
+                    <EditForm Model="@_registerModel" OnValidSubmit="HandleRegister" FormName="RegisterForm">
+                        <DataAnnotationsValidator />
+
+                        <MudGrid Spacing="4">
+                            <!-- Personal Information Section -->
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0"
+                                    Class="bg-gradient-to-br from-[#667eea] to-[#764ba2] p-4 rounded-xl mb-4">
+                                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                                        <MudIcon Icon="@Icons.Material.Filled.Person" Class="text-white text-[28px]" />
+                                        <MudText Typo="Typo.h6" Class="text-white font-semibold">
+                                            Personal Information
+                                        </MudText>
+                                    </MudStack>
+                                </MudPaper>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_registerModel.FirstName" Label="First Name"
+                                    Variant="Variant.Outlined" For="@(() => _registerModel.FirstName)" Required="true"
+                                    Disabled="_isLoading" Adornment="Adornment.Start"
+                                    AdornmentIcon="@Icons.Material.Filled.Badge" AdornmentColor="Color.Primary" />
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_registerModel.LastName" Label="Last Name"
+                                    Variant="Variant.Outlined" For="@(() => _registerModel.LastName)" Required="true"
+                                    Disabled="_isLoading" Adornment="Adornment.Start"
+                                    AdornmentIcon="@Icons.Material.Filled.Badge" AdornmentColor="Color.Primary" />
+                            </MudItem>
+
+                            <!-- Contact Information Section -->
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0"
+                                    Class="bg-gradient-to-br from-[#f093fb] to-[#f5576c] p-4 rounded-xl mb-4 mt-4">
+                                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                                        <MudIcon Icon="@Icons.Material.Filled.ContactMail" Class="text-white text-[28px]" />
+                                        <MudText Typo="Typo.h6" Class="text-white font-semibold">
+                                            Contact Information
+                                        </MudText>
+                                    </MudStack>
+                                </MudPaper>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_registerModel.Email" Label="Email Address"
+                                    Variant="Variant.Outlined" InputType="InputType.Email" Adornment="Adornment.Start"
+                                    AdornmentIcon="@Icons.Material.Filled.Email" AdornmentColor="Color.Primary"
+                                    For="@(() => _registerModel.Email)" Required="true" Disabled="_isLoading"
+                                    HelperText="We'll send a verification link to this email" />
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_registerModel.PhoneNumber" Label="Phone Number"
+                                    Variant="Variant.Outlined" Adornment="Adornment.Start"
+                                    AdornmentIcon="@Icons.Material.Filled.Phone" AdornmentColor="Color.Primary"
+                                    For="@(() => _registerModel.PhoneNumber)" Required="true" Disabled="_isLoading"
+                                    Placeholder="+218 91 234 5678" />
+                            </MudItem>
+
+                            <!-- Additional Information Section -->
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0"
+                                    Class="bg-gradient-to-br from-[#4facfe] to-[#00f2fe] p-4 rounded-xl mb-4 mt-4">
+                                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                                        <MudIcon Icon="@Icons.Material.Filled.Info" Class="text-white text-[28px]" />
+                                        <MudText Typo="Typo.h6" Class="text-white font-semibold">
+                                            Additional Information (Optional)
+                                        </MudText>
+                                    </MudStack>
+                                </MudPaper>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_registerModel.NationalId" Label="National ID"
+                                    Variant="Variant.Outlined" Adornment="Adornment.Start"
+                                    AdornmentIcon="@Icons.Material.Filled.CreditCard" AdornmentColor="Color.Primary"
+                                    Disabled="_isLoading" Placeholder="e.g., 123456789012" />
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudDatePicker @bind-Date="_registerModel.DateOfBirth" Label="Date of Birth"
+                                    Variant="Variant.Outlined" MaxDate="DateTime.Today.AddYears(-16)"
+                                    Placeholder="Select your birth date" Adornment="Adornment.Start"
+                                    AdornmentIcon="@Icons.Material.Filled.Cake" AdornmentColor="Color.Primary"
+                                    Disabled="_isLoading" />
+                            </MudItem>
+
+                            <!-- Security Section -->
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0"
+                                    Class="bg-gradient-to-br from-[#fa709a] to-[#fee140] p-4 rounded-xl mb-4 mt-4">
+                                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                                        <MudIcon Icon="@Icons.Material.Filled.Security" Class="text-white text-[28px]" />
+                                        <MudText Typo="Typo.h6" Class="text-white font-semibold">
+                                            Security
+                                        </MudText>
+                                    </MudStack>
+                                </MudPaper>
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_registerModel.Password" Label="Password"
+                                    Variant="Variant.Outlined"
+                                    InputType="@(_showPassword ? InputType.Text : InputType.Password)"
+                                    Adornment="Adornment.End"
+                                    AdornmentIcon="@(_showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
+                                    OnAdornmentClick="TogglePasswordVisibility" AdornmentColor="Color.Primary"
+                                    For="@(() => _registerModel.Password)"
+                                    HelperText="Min 8 chars, uppercase, lowercase, number, special char" Required="true"
+                                    Disabled="_isLoading" @onkeyup="@(() => CalculatePasswordStrength())" />
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6">
+                                <MudTextField @bind-Value="_registerModel.ConfirmPassword" Label="Confirm Password"
+                                    Variant="Variant.Outlined"
+                                    InputType="@(_showPassword ? InputType.Text : InputType.Password)"
+                                    AdornmentColor="Color.Primary" For="@(() => _registerModel.ConfirmPassword)"
+                                    Required="true" Disabled="_isLoading" />
+                            </MudItem>
+
+                            <!-- Password Strength Indicator -->
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0" Class="bg-gray-50 p-4 rounded-xl">
+                                    <MudText Typo="Typo.body2" Class="text-gray-500 mb-2 font-medium">
+                                        Password Strength: @GetPasswordStrengthText()
+                                    </MudText>
+                                    <MudProgressLinear Color="@GetPasswordStrengthColor()" Value="@_passwordStrength"
+                                        Size="Size.Medium" Class="rounded-lg h-2" />
+                                </MudPaper>
+                            </MudItem>
+
+                            <!-- Terms & Conditions -->
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0" Class="bg-gray-100 p-5 rounded-xl border-2 border-gray-200">
+                                    <MudCheckBox @bind-Value="_acceptTerms" Color="Color.Primary" Required="true"
+                                        Disabled="_isLoading" Class="font-medium">
+                                        I agree to the <MudLink Href="/terms" Target="_blank"
+                                            Class="text-[#667eea] font-semibold">Terms & Conditions</MudLink>
+                                        and <MudLink Href="/privacy" Target="_blank" Class="text-[#667eea] font-semibold">
+                                            Privacy Policy</MudLink>
+                                    </MudCheckBox>
+                                </MudPaper>
+                            </MudItem>
+
+                            <!-- Submit Button -->
+                            <MudItem xs="12">
+                                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                                    FullWidth="true" Size="Size.Large" Disabled="@(_isLoading || !_acceptTerms)"
+                                    Class="h-[60px] rounded-xl font-bold normal-case text-lg bg-gradient-to-br from-[#667eea] to-[#764ba2] shadow-[0_8px_20px_rgba(102,126,234,0.4)]">
+                                    @if (_isLoading)
+                                    {
+                                        <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2 text-white" />
+                                        <span>Creating Your Account...</span>
+                                    }
+                                    else
+                                    {
+                                        <MudIcon Icon="@Icons.Material.Filled.AppRegistration" Class="mr-2" />
+                                        <span>Create Account</span>
+                                    }
+                                </MudButton>
+                            </MudItem>
+
+                            <!-- Login Link -->
+                            <MudItem xs="12">
+                                <MudPaper Elevation="0" Class="bg-gray-50 p-5 rounded-xl text-center">
+                                    <MudText Typo="Typo.body1" Class="text-gray-500 mb-3">
+                                        Already have an account?
+                                    </MudText>
+                                    <MudButton Href="/login" Variant="Variant.Outlined" Color="Color.Primary"
+                                        StartIcon="@Icons.Material.Filled.Login" Disabled="_isLoading"
+                                        Class="rounded-xl normal-case font-semibold border-2">
+                                        Sign In Instead
+                                    </MudButton>
+                                </MudPaper>
+                            </MudItem>
+                        </MudGrid>
+                    </EditForm>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+}
+
+@code {
+    private RegisterDto _registerModel = new();
+    private bool _showPassword = false;
+    private bool _isLoading = false;
+    private bool _acceptTerms = false;
+    private int _passwordStrength = 0;
+    private bool _isCheckingAuth = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // ✅ فحص إذا كان المستخدم مسجل دخول بالفعل
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user?.Identity?.IsAuthenticated == true)
+            {
+                // ✅ إعادة توجيه للداشبورد المناسب
+                var role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+                var redirectUrl = role switch
+                {
+                    "SuperRoot" => "/superroot",
+                    "Admin" => "/admin",
+                    "Manager" => "/manager",
+                    "Student" => "/student",
+                    _ => "/"
+                };
+
+                Navigation.NavigateTo(redirectUrl, replace: true);
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[REGISTER_INIT_ERROR] {ex.Message}");
+        }
+        finally
+        {
+            _isCheckingAuth = false;
+        }
+    }
+
+    private void TogglePasswordVisibility()
+    {
+        _showPassword = !_showPassword;
+    }
+
+    private void CalculatePasswordStrength()
+    {
+        if (string.IsNullOrEmpty(_registerModel.Password))
+        {
+            _passwordStrength = 0;
+            return;
+        }
+
+        var strength = 0;
+        if (_registerModel.Password.Length >= 8) strength += 20;
+        if (_registerModel.Password.Any(char.IsUpper)) strength += 20;
+        if (_registerModel.Password.Any(char.IsLower)) strength += 20;
+        if (_registerModel.Password.Any(char.IsDigit)) strength += 20;
+        if (_registerModel.Password.Any(ch => !char.IsLetterOrDigit(ch))) strength += 20;
+
+        _passwordStrength = strength;
+    }
+
+    private Color GetPasswordStrengthColor()
+    {
+        return _passwordStrength switch
+        {
+            <= 20 => Color.Error,
+            <= 40 => Color.Warning,
+            <= 60 => Color.Info,
+            <= 80 => Color.Primary,
+            _ => Color.Success
+        };
+    }
+
+    private string GetPasswordStrengthText()
+    {
+        return _passwordStrength switch
+        {
+            0 => "Not Set",
+            <= 20 => "Very Weak",
+            <= 40 => "Weak",
+            <= 60 => "Fair",
+            <= 80 => "Good",
+            _ => "Strong"
+        };
+    }
+
+    private async Task HandleRegister()
+    {
+        _isLoading = true;
+
+        try
+        {
+            var result = await AuthService.RegisterAsync(_registerModel);
+
+            if (result.Success)
+            {
+                Snackbar.Add(
+                "Registration successful! Please check your email to verify your account.",
+                Severity.Success,
+                config =>
+                {
+                    config.VisibleStateDuration = 7000;
+                    config.ShowCloseIcon = true;
+                }
+                );
+
+                await Task.Delay(2000);
+                Navigation.NavigateTo("/login", replace: true);
+            }
+            else
+            {
+                Snackbar.Add(
+                result.Message ?? "Registration failed. Please try again.",
+                Severity.Error,
+                config => { config.ShowCloseIcon = true; }
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[REGISTER_ERROR] {ex}");
+            Snackbar.Add(
+            $"Registration failed: {ex.Message}",
+            Severity.Error,
+            config => { config.ShowCloseIcon = true; }
+            );
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+}

@@ -1,0 +1,446 @@
+﻿@page "/superroot/danger-zone"
+@attribute [Authorize(Roles = "SuperRoot")]
+@inject ISuperRootService SuperRootService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>⚠️ Danger Zone</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large">
+    <!-- Warning Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4 bg-gradient-to-br from-red-700 to-red-500">
+        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="3">
+            <MudIcon Icon="@Icons.Material.Filled.Warning" Size="Size.Large" Class="text-white text-[64px]" />
+            <div>
+                <MudText Typo="Typo.h3" Class="text-white">
+                    ⚠️ DANGER ZONE
+                </MudText>
+                <MudText Typo="Typo.body1" Class="text-white/90">
+                    These operations are <strong>IRREVERSIBLE</strong> and can cause permanent data loss!
+                </MudText>
+            </div>
+        </MudStack>
+    </MudPaper>
+
+    <MudAlert Severity="Severity.Error" Class="mb-4">
+        <strong>⚠️ CRITICAL WARNING:</strong> Actions in this zone are <strong>PERMANENT</strong> and cannot be undone. 
+        Use with extreme caution and only if you fully understand the consequences!
+    </MudAlert>
+
+    <MudGrid>
+        <!-- Clear All Cache -->
+        <MudItem xs="12">
+            <MudCard Elevation="4" Class="border-2 border-[var(--mud-palette-warning)]">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6" Color="Color.Warning">
+                            <MudIcon Icon="@Icons.Material.Filled.CleaningServices" Class="mr-2" />
+                            Clear All Cache
+                        </MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Warning">Moderate Risk</MudChip>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Clears all cached data including sessions, temporary files, and application cache. 
+                        Users may need to log in again and may experience slower performance temporarily.
+                    </MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        Color="Color.Warning"
+                        StartIcon="@Icons.Material.Filled.Delete"
+                        OnClick="@ClearCache">
+                        Clear Cache
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <!-- Delete Audit Logs -->
+        <MudItem xs="12">
+            <MudCard Elevation="4" Class="border-2 border-[var(--mud-palette-warning)]">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6" Color="Color.Warning">
+                            <MudIcon Icon="@Icons.Material.Filled.DeleteSweep" Class="mr-2" />
+                            Delete Old Audit Logs
+                        </MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Warning">Moderate Risk</MudChip>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">
+                        Permanently deletes audit logs older than the specified period. This helps reduce database size 
+                        but removes historical tracking data.
+                    </MudText>
+                    <MudSelect 
+                        T="int"
+                        @bind-Value="_deleteLogsOlderThan"
+                        Label="Delete logs older than"
+                        Variant="Variant.Outlined">
+                        <MudSelectItem Value="30">30 days</MudSelectItem>
+                        <MudSelectItem Value="60">60 days</MudSelectItem>
+                        <MudSelectItem Value="90">90 days</MudSelectItem>
+                        <MudSelectItem Value="180">6 months</MudSelectItem>
+                        <MudSelectItem Value="365">1 year</MudSelectItem>
+                    </MudSelect>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        Color="Color.Warning"
+                        StartIcon="@Icons.Material.Filled.DeleteForever"
+                        OnClick="@DeleteOldLogs">
+                        Delete Old Logs
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <!-- Generate Test Data -->
+        <MudItem xs="12">
+            <MudCard Elevation="4" Class="border-2 border-[var(--mud-palette-info)]">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6" Color="Color.Info">
+                            <MudIcon Icon="@Icons.Material.Filled.Science" Class="mr-2" />
+                            Generate Test Data
+                        </MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Info">Low Risk</MudChip>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">
+                        Generates fake data for testing purposes. Useful for development and demo environments.
+                    </MudText>
+                    <MudGrid>
+                        <MudItem xs="12" sm="6">
+                            <MudNumericField 
+                                @bind-Value="_testUsersCount"
+                                Label="Number of Users"
+                                Variant="Variant.Outlined"
+                                Min="1"
+                                Max="1000" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudNumericField 
+                                @bind-Value="_testStudentsCount"
+                                Label="Number of Students"
+                                Variant="Variant.Outlined"
+                                Min="1"
+                                Max="1000" />
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        Color="Color.Info"
+                        StartIcon="@Icons.Material.Filled.Add"
+                        OnClick="@GenerateTestData"
+                        Disabled="_isGenerating">
+                        @if (_isGenerating)
+                        {
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                            <span>Generating...</span>
+                        }
+                        else
+                        {
+                            <span>Generate Test Data</span>
+                        }
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <!-- Reset Database -->
+        <MudItem xs="12">
+            <MudCard Elevation="4" Class="border-2 border-[var(--mud-palette-error)]">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6" Color="Color.Error">
+                            <MudIcon Icon="@Icons.Material.Filled.RestartAlt" Class="mr-2" />
+                            Reset Database to Defaults
+                        </MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Error">HIGH RISK</MudChip>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudAlert Severity="Severity.Error" Dense="true" Class="mb-3">
+                        <strong>⚠️ EXTREME CAUTION:</strong> This will reset the database to its initial state, 
+                        removing ALL data except system roles and the SuperRoot account!
+                    </MudAlert>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Resets the entire database to factory defaults. All users, students, managers, rooms, 
+                        payments, and complaints will be permanently deleted.
+                    </MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        Color="Color.Error"
+                        StartIcon="@Icons.Material.Filled.Warning"
+                        OnClick="@ResetDatabase"
+                        Disabled="_isResetting">
+                        @if (_isResetting)
+                        {
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                            <span>Resetting...</span>
+                        }
+                        else
+                        {
+                            <span>Reset Database</span>
+                        }
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <!-- Delete All Data -->
+        <MudItem xs="12">
+            <MudCard Elevation="4" Class="border-[3px] border-[var(--mud-palette-error)] bg-[rgba(211,47,47,0.05)]">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6" Color="Color.Error">
+                            <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Class="mr-2" />
+                            ⚠️ DELETE ALL DATA ⚠️
+                        </MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Error">🔥 CRITICAL 🔥</MudChip>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudAlert Severity="Severity.Error" Class="mb-3">
+                        <strong>🚨 NUCLEAR OPTION 🚨</strong><br/>
+                        This is the <strong>MOST DESTRUCTIVE</strong> action available!<br/>
+                        It will <strong>PERMANENTLY DELETE EVERYTHING</strong> including:<br/>
+                        • All users (except SuperRoot)<br/>
+                        • All students and managers<br/>
+                        • All residences and rooms<br/>
+                        • All payments and complaints<br/>
+                        • All audit logs<br/>
+                        <br/>
+                        <strong>THIS ACTION CANNOT BE UNDONE!</strong>
+                    </MudAlert>
+                    <MudText Typo="Typo.body1" Color="Color.Error" Class="mb-3">
+                        <strong>You must type the confirmation code exactly to proceed:</strong>
+                    </MudText>
+                    <MudTextField 
+                        @bind-Value="_deleteConfirmation"
+                        Label="Type 'DELETE_ALL_DATA_PERMANENTLY' to confirm"
+                        Variant="Variant.Outlined"
+                        Error="@(_showDeleteError)"
+                        ErrorText="Confirmation code does not match!"
+                        HelperText="This code must be typed exactly as shown" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        Color="Color.Error"
+                        StartIcon="@Icons.Material.Filled.DeleteForever"
+                        OnClick="@DeleteAllData"
+                        Disabled="@(_deleteConfirmation != "DELETE_ALL_DATA_PERMANENTLY" || _isDeleting)">
+                        @if (_isDeleting)
+                        {
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                            <span>Deleting Everything...</span>
+                        }
+                        else
+                        {
+                            <span>🔥 DELETE EVERYTHING 🔥</span>
+                        }
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private int _deleteLogsOlderThan = 90;
+    private int _testUsersCount = 10;
+    private int _testStudentsCount = 50;
+    private string _deleteConfirmation = "";
+    private bool _showDeleteError = false;
+    private bool _isGenerating = false;
+    private bool _isResetting = false;
+    private bool _isDeleting = false;
+
+    private async Task ClearCache()
+    {
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = "Are you sure you want to clear all cache? Users may need to log in again.",
+            ["ButtonText"] = "Clear Cache",
+            ["Color"] = Color.Warning
+        };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Clear Cache", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            try
+            {
+                var success = await SuperRootService.ClearAllCacheAsync();
+                if (success)
+                {
+                    Snackbar.Add("Cache cleared successfully!", Severity.Success);
+                }
+                else
+                {
+                    Snackbar.Add("Failed to clear cache.", Severity.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+    private async Task DeleteOldLogs()
+    {
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = $"Delete all audit logs older than {_deleteLogsOlderThan} days? This cannot be undone!",
+            ["ButtonText"] = "Delete Logs",
+            ["Color"] = Color.Warning
+        };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete Old Logs", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            Snackbar.Add($"Deleted logs older than {_deleteLogsOlderThan} days!", Severity.Success);
+        }
+    }
+
+    private async Task GenerateTestData()
+    {
+        _isGenerating = true;
+        try
+        {
+            var success = await SuperRootService.GenerateTestDataAsync(_testUsersCount, _testStudentsCount);
+            if (success)
+            {
+                Snackbar.Add($"Generated {_testUsersCount} users and {_testStudentsCount} students!", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Failed to generate test data.", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isGenerating = false;
+        }
+    }
+
+    private async Task ResetDatabase()
+    {
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = "⚠️ This will reset the database to defaults. ALL DATA will be lost! Type 'RESET' to confirm.",
+            ["ExpectedText"] = "RESET",
+            ["ButtonText"] = "Reset Database",
+            ["ButtonColor"] = Color.Error
+        };
+
+        var dialog = await DialogService.ShowAsync<ConfirmWithTextDialog>("⚠️ Reset Database", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false } && result.Data?.ToString() == "RESET")
+        {
+            _isResetting = true;
+            try
+            {
+                var success = await SuperRootService.ResetDatabaseAsync();
+                if (success)
+                {
+                    Snackbar.Add("Database reset successfully! Redirecting...", Severity.Success);
+                    await Task.Delay(2000);
+                    Navigation.NavigateTo("/login", forceLoad: true);
+                }
+                else
+                {
+                    Snackbar.Add("Failed to reset database.", Severity.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            }
+            finally
+            {
+                _isResetting = false;
+            }
+        }
+    }
+
+    private async Task DeleteAllData()
+    {
+        if (_deleteConfirmation != "DELETE_ALL_DATA_PERMANENTLY")
+        {
+            _showDeleteError = true;
+            Snackbar.Add("Confirmation code does not match!", Severity.Error);
+            return;
+        }
+
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = "🚨 FINAL WARNING 🚨\n\nThis is your LAST CHANCE to cancel!\n\nYou are about to PERMANENTLY DELETE ALL DATA.\n\nType 'DELETE' one more time to confirm:",
+            ["ExpectedText"] = "DELETE",
+            ["ButtonText"] = "I UNDERSTAND - DELETE EVERYTHING",
+            ["ButtonColor"] = Color.Error
+        };
+
+        var dialog = await DialogService.ShowAsync<ConfirmWithTextDialog>("🚨 FINAL WARNING", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false } && result.Data?.ToString() == "DELETE")
+        {
+            _isDeleting = true;
+            try
+            {
+                var success = await SuperRootService.DeleteAllDataAsync("DELETE_ALL_DATA_PERMANENTLY");
+                if (success)
+                {
+                    Snackbar.Add("All data deleted! Redirecting to login...", Severity.Success);
+                    await Task.Delay(2000);
+                    Navigation.NavigateTo("/login", forceLoad: true);
+                }
+                else
+                {
+                    Snackbar.Add("Failed to delete data.", Severity.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            }
+            finally
+            {
+                _isDeleting = false;
+            }
+        }
+    }
+}

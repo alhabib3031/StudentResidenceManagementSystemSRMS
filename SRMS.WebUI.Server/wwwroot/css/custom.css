@@ -1,0 +1,180 @@
+/* ============================================
+   SRMS Custom Styles - Enhanced Version
+   ============================================ */
+
+/* CSS Variables - Dark Mode (Default) */
+:root {
+    /* Primary Colors & Shades */
+    --primary-color: #8b5cf6;
+    --primary-400: #a78bfa;
+    --primary-500: #8b5cf6;
+    --primary-600: #7c3aed;
+    --primary-700: #6d28d9;
+
+    --secondary-color: #d946ef;
+    --secondary-500: #d946ef;
+
+    /* Backgrounds */
+    --background-color: #0a0f1e;
+    --surface-color: #151b2e;
+    --bg-primary: var(--background-color);
+    --bg-hover: rgba(139, 92, 246, 0.1);
+
+    /* Text */
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+
+    /* Borders & Glass */
+    --glass-bg: rgba(21, 27, 46, 0.85);
+    --glass-border: rgba(139, 92, 246, 0.15);
+    --border-color: var(--glass-border);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+/* Light Mode Variables */
+[data-theme="light"],
+.theme-light {
+    --background-color: #f8fafc;
+    --surface-color: #ffffff;
+    --bg-primary: var(--background-color);
+    --bg-hover: rgba(139, 92, 246, 0.08);
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #64748b;
+
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(139, 92, 246, 0.12);
+    --border-color: var(--glass-border);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.2);
+}
+
+/* Body Styles */
+body {
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism Card */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+}
+
+/* Modern Card */
+.modern-card {
+    background: var(--surface-color);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--glass-shadow);
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.modern-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Modern Buttons */
+.btn-modern {
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-modern::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-modern:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary-modern,
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+    color: white;
+}
+
+.btn-primary-modern:hover,
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+}
+
+/* MudBlazor Overrides */
+.mud-appbar {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mud-drawer {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.mud-nav-link {
+    border-radius: 10px;
+    margin: 4px 8px;
+    transition: all 0.2s ease;
+    color: var(--text-secondary) !important;
+}
+
+.mud-nav-link:hover {
+    background: var(--bg-hover) !important;
+    transform: translateX(4px);
+    color: var(--primary-color) !important;
+}
+
+/* Hover Scale Effect for Cards */
+.hover-scale {
+    transition: transform 0.2s ease-in-out;
+}
+
+.hover-scale:hover {
+    transform: translateY(-4px);
+}

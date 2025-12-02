@@ -1,0 +1,413 @@
+@page "/profile"
+@inject ISnackbar Snackbar
+@inject IUserService UserService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+@rendermode InteractiveServer
+
+<PageTitle>My Profile - SRMS</PageTitle>
+
+<MudStack Class="animate-fade-in w-full">
+    <!-- Header -->
+    <MudText Typo="Typo.h4" Class="text-gradient mb-4 font-bold">
+        <MudIcon Icon="@Icons.Material.Filled.Person" Class="mr-2" />
+        My Profile
+    </MudText>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+    else if (_currentUser == null)
+    {
+        <MudAlert Severity="Severity.Error">Unable to load profile data. Please try again.</MudAlert>
+    }
+    else
+    {
+        <MudGrid>
+            <!-- Profile Card -->
+            <MudItem xs="12" md="4">
+                <MudPaper Class="glass-card p-6 text-center">
+                    <MudPaper Elevation="0" Class="relative inline-block mb-4 bg-transparent">
+                        <MudAvatar Size="Size.Large" Class="w-[120px] h-[120px]">
+                            @if (!string.IsNullOrEmpty(_currentUser.ProfilePicture))
+                            {
+                                <MudImage Src="@_currentUser.ProfilePicture" />
+                            }
+                            else
+                            {
+                                <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" />
+                            }
+                        </MudAvatar>
+                        
+                        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.CameraAlt" Size="Size.Small"
+                            Class="absolute bottom-0 right-0" OnClick="UploadPhoto" />
+                    </MudPaper>
+
+                    <MudText Typo="Typo.h5" Class="font-semibold">@_currentUser.FullName</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">@_currentUser.Email</MudText>
+
+                    <MudChip T="string" Color="@(_currentUser.IsActive ? Color.Success : Color.Error)" Size="Size.Small">
+                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="@(_currentUser.IsActive ? Color.Success : Color.Error)" Size="Size.Small"
+                            Class="mr-2" />
+                        @(_currentUser.IsActive ? "Active" : "Inactive")
+                    </MudChip>
+
+                    <MudDivider Class="my-4" />
+
+                    <MudStack Class="text-left" Spacing="0">
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Member Since</MudText>
+                        <MudText Typo="Typo.body2" Class="mb-3">@_currentUser.CreatedAt.ToString("MMMM dd, yyyy")</MudText>
+
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Last Login</MudText>
+                        <MudText Typo="Typo.body2">@(_currentUser.LastLoginAt?.ToString("MMM dd, yyyy - hh:mm tt") ?? "Never")</MudText>
+                        
+                        @if (_currentUser.Roles.Any())
+                        {
+                            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-3">Roles</MudText>
+                            <MudStack Row="true" Class="mt-1">
+                                @foreach (var role in _currentUser.Roles)
+                                {
+                                    <MudChip T="string" Size="Size.Small" Color="@GetRoleColor(role)">@role</MudChip>
+                                }
+                            </MudStack>
+                        }
+                    </MudStack>
+                </MudPaper>
+            </MudItem>
+
+            <!-- Profile Information -->
+            <MudItem xs="12" md="8">
+                <MudPaper Class="glass-card pa-6">
+                    <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="p-6">
+                        <!-- Personal Information Tab -->
+                        <MudTabPanel Text="Personal Info" Icon="@Icons.Material.Filled.Person">
+                            <EditForm Model="@_profileModel" OnValidSubmit="SaveProfile">
+                                <DataAnnotationsValidator />
+
+                                <MudGrid>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField @bind-Value="_profileModel.FirstName" Label="First Name"
+                                            Variant="Variant.Outlined" Required="true"
+                                            For="@(() => _profileModel.FirstName)" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField @bind-Value="_profileModel.LastName" Label="Last Name"
+                                            Variant="Variant.Outlined" Required="true"
+                                            For="@(() => _profileModel.LastName)" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField @bind-Value="_profileModel.Email" Label="Email"
+                                            Variant="Variant.Outlined" InputType="InputType.Email" Disabled="true"
+                                            For="@(() => _profileModel.Email)" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField @bind-Value="_profileModel.PhoneNumber" Label="Phone Number"
+                                            Variant="Variant.Outlined" For="@(() => _profileModel.PhoneNumber)" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField @bind-Value="_profileModel.City" Label="City"
+                                            Variant="Variant.Outlined" For="@(() => _profileModel.City)" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField @bind-Value="_profileModel.Country" Label="Country"
+                                            Variant="Variant.Outlined" For="@(() => _profileModel.Country)" />
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <MudTextField @bind-Value="_profileModel.Street" Label="Street Address"
+                                            Variant="Variant.Outlined" For="@(() => _profileModel.Street)" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField @bind-Value="_profileModel.PostalCode" Label="Postal Code"
+                                            Variant="Variant.Outlined" For="@(() => _profileModel.PostalCode)" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudSelect T="string" @bind-Value="_profileModel.PreferredLanguage" Label="Preferred Language"
+                                            Variant="Variant.Outlined">
+                                            <MudSelectItem Value="@("en")">English</MudSelectItem>
+                                            <MudSelectItem Value="@("ar")">العربية</MudSelectItem>
+                                        </MudSelect>
+                                    </MudItem>
+                                    <MudItem xs="12" Class="flex justify-end">
+                                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled"
+                                            Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
+                                            Class="btn-modern btn-primary" Disabled="_isSaving">
+                                            @if (_isSaving)
+                                            {
+                                                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                                                <span>Saving...</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Save Changes</span>
+                                            }
+                                        </MudButton>
+                                    </MudItem>
+                                </MudGrid>
+                            </EditForm>
+                        </MudTabPanel>
+
+                        <!-- Security Tab -->
+                        <MudTabPanel Text="Security" Icon="@Icons.Material.Filled.Security">
+                            <EditForm Model="@_passwordModel" OnValidSubmit="ChangePassword">
+                                <DataAnnotationsValidator />
+
+                                <MudGrid>
+                                    <MudItem xs="12">
+                                        <MudTextField @bind-Value="_passwordModel.CurrentPassword" Label="Current Password"
+                                            Variant="Variant.Outlined" InputType="InputType.Password" Required="true"
+                                            For="@(() => _passwordModel.CurrentPassword)" />
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <MudTextField @bind-Value="_passwordModel.NewPassword" Label="New Password"
+                                            Variant="Variant.Outlined" InputType="InputType.Password" Required="true"
+                                            For="@(() => _passwordModel.NewPassword)" />
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <MudTextField @bind-Value="_passwordModel.ConfirmPassword"
+                                            Label="Confirm New Password" Variant="Variant.Outlined"
+                                            InputType="InputType.Password" Required="true"
+                                            For="@(() => _passwordModel.ConfirmPassword)" />
+                                    </MudItem>
+                                    <MudItem xs="12" Class="flex justify-end">
+                                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled"
+                                            Color="Color.Primary" StartIcon="@Icons.Material.Filled.Lock"
+                                            Class="btn-modern btn-primary" Disabled="_isChangingPassword">
+                                            @if (_isChangingPassword)
+                                            {
+                                                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                                                <span>Changing...</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Change Password</span>
+                                            }
+                                        </MudButton>
+                                    </MudItem>
+                                </MudGrid>
+                            </EditForm>
+                        </MudTabPanel>
+
+                        <!-- Preferences Tab -->
+                        <MudTabPanel Text="Preferences" Icon="@Icons.Material.Filled.Settings">
+                            <MudGrid>
+                                <MudItem xs="12">
+                                    <MudSwitch T="bool" @bind-Value="_profileModel.EmailNotificationsEnabled" Color="Color.Primary">
+                                        Email Notifications
+                                    </MudSwitch>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                        Receive email notifications for important updates
+                                    </MudText>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudSwitch T="bool" @bind-Value="_profileModel.SMSNotificationsEnabled" Color="Color.Primary">
+                                        SMS Notifications
+                                    </MudSwitch>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                        Receive SMS notifications for urgent matters
+                                    </MudText>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudSelect T="string" @bind-Value="_profileModel.Theme" Label="Theme"
+                                        Variant="Variant.Outlined">
+                                        <MudSelectItem Value="@("light")">Light</MudSelectItem>
+                                        <MudSelectItem Value="@("dark")">Dark</MudSelectItem>
+                                        <MudSelectItem Value="@("auto")">Auto</MudSelectItem>
+                                    </MudSelect>
+                                </MudItem>
+                                <MudItem xs="12" Class="flex justify-end">
+                                    <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                        StartIcon="@Icons.Material.Filled.Save" OnClick="SavePreferences"
+                                        Class="btn-modern btn-primary" Disabled="_isSaving">
+                                        @if (_isSaving)
+                                        {
+                                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                                            <span>Saving...</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Save Preferences</span>
+                                        }
+                                    </MudButton>
+                                </MudItem>
+                            </MudGrid>
+                        </MudTabPanel>
+                    </MudTabs>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    }
+</MudStack>
+
+@code {
+    private UserDto? _currentUser;
+    private bool _isLoading = true;
+    private bool _isSaving = false;
+    private bool _isChangingPassword = false;
+
+    private ProfileModel _profileModel = new();
+    private PasswordModel _passwordModel = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProfile();
+    }
+
+    private async Task LoadProfile()
+    {
+        _isLoading = true;
+        try
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user.Identity?.IsAuthenticated == true)
+            {
+                var email = user.Identity.Name;
+                if (!string.IsNullOrEmpty(email))
+                {
+                    _currentUser = await UserService.GetUserByEmailAsync(email);
+                    
+                    if (_currentUser != null)
+                    {
+                        _profileModel = new ProfileModel
+                        {
+                            FirstName = _currentUser.FirstName,
+                            LastName = _currentUser.LastName,
+                            Email = _currentUser.Email,
+                            PhoneNumber = _currentUser.PhoneNumber,
+                            City = _currentUser.City,
+                            Country = _currentUser.Country,
+                            Street = _currentUser.Street,
+                            PostalCode = _currentUser.PostalCode,
+                            PreferredLanguage = _currentUser.PreferredLanguage ?? "en",
+                            Theme = _currentUser.Theme ?? "light",
+                            EmailNotificationsEnabled = _currentUser.EmailNotificationsEnabled,
+                            SMSNotificationsEnabled = _currentUser.SMSNotificationsEnabled
+                        };
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading profile: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task SaveProfile()
+    {
+        _isSaving = true;
+        try
+        {
+            if (_currentUser == null) return;
+
+            var updateDto = new UpdateUserDto
+            {
+                FirstName = _profileModel.FirstName,
+                LastName = _profileModel.LastName,
+                PhoneNumber = _profileModel.PhoneNumber,
+                City = _profileModel.City,
+                Country = _profileModel.Country,
+                Street = _profileModel.Street,
+                PostalCode = _profileModel.PostalCode,
+                PreferredLanguage = _profileModel.PreferredLanguage,
+                Theme = _profileModel.Theme,
+                EmailNotificationsEnabled = _profileModel.EmailNotificationsEnabled,
+                SMSNotificationsEnabled = _profileModel.SMSNotificationsEnabled
+            };
+
+            var success = await UserService.UpdateUserAsync(_currentUser.Id, updateDto);
+            
+            if (success)
+            {
+                Snackbar.Add("Profile updated successfully!", Severity.Success);
+                await LoadProfile(); // Reload to get updated data
+            }
+            else
+            {
+                Snackbar.Add("Failed to update profile.", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSaving = false;
+        }
+    }
+
+    private async Task ChangePassword()
+    {
+        if (_passwordModel.NewPassword != _passwordModel.ConfirmPassword)
+        {
+            Snackbar.Add("Passwords do not match!", Severity.Error);
+            return;
+        }
+
+        _isChangingPassword = true;
+        try
+        {
+            // TODO: Implement password change in UserService
+            // For now, just show a message
+            Snackbar.Add("Password change feature will be implemented soon!", Severity.Info);
+            _passwordModel = new PasswordModel();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isChangingPassword = false;
+        }
+    }
+
+    private async Task SavePreferences()
+    {
+        await SaveProfile(); // Preferences are part of the profile
+    }
+
+    private void UploadPhoto()
+    {
+        Snackbar.Add("Photo upload feature coming soon!", Severity.Info);
+    }
+
+    private Color GetRoleColor(string role) => role switch
+    {
+        "SuperRoot" => Color.Error,
+        "Admin" => Color.Primary,
+        "Manager" => Color.Info,
+        "Student" => Color.Success,
+        _ => Color.Default
+    };
+
+    private class ProfileModel
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string? PhoneNumber { get; set; }
+        public string? City { get; set; }
+        public string? Country { get; set; }
+        public string? Street { get; set; }
+        public string? PostalCode { get; set; }
+        public string? PreferredLanguage { get; set; }
+        public string? Theme { get; set; }
+        public bool EmailNotificationsEnabled { get; set; }
+        public bool SMSNotificationsEnabled { get; set; }
+    }
+
+    private class PasswordModel
+    {
+        public string CurrentPassword { get; set; } = string.Empty;
+        public string NewPassword { get; set; } = string.Empty;
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+}

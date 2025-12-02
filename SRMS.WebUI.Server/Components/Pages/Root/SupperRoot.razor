@@ -1,0 +1,310 @@
+﻿@page "/superroot"
+@attribute [Authorize(Roles = "SuperRoot")]
+@inject IUserService UserService
+@inject IRoleService RoleService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>SuperRoot Dashboard</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4" Color="Color.Primary">
+                    <MudIcon Icon="@Icons.Material.Filled.Shield" Class="mr-2" />
+                    SuperRoot Control Panel
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Full system access and control
+                </MudText>
+            </div>
+            <MudButton 
+                Variant="Variant.Filled" 
+                Color="Color.Error"
+                StartIcon="@Icons.Material.Filled.Warning"
+                OnClick="@ShowDangerZone">
+                Danger Zone
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+
+    <!-- Statistics Cards -->
+    <MudGrid Class="mb-4">
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Users</MudText>
+                            <MudText Typo="Typo.h4">@_stats.TotalUsers</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Primary" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Active Users</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Success">@_stats.ActiveUsers</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Success" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Roles</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Info">@_stats.TotalRoles</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Info" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">System Uptime</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Warning">@_stats.SystemUptime<small>d</small></MudText>
+                        </div>
+                        <MudAvatar Color="Color.Warning" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.Timer" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Quick Actions -->
+    <MudGrid Class="mb-4">
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.People" Class="mr-2" Size="Size.Small" />
+                            User Management
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudList T="string" Dense="true">
+                        <MudListItem Icon="@Icons.Material.Filled.PersonAdd" OnClick="@CreateNewUser">
+                            Create New User
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/users">
+                            View All Users
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Block" OnClick="@ManageInactiveUsers">
+                            Manage Inactive Users
+                        </MudListItem>
+                    </MudList>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" Size="Size.Small" />
+                            Role Management
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudList T="string" Dense="true">
+                        <MudListItem Icon="@Icons.Material.Filled.Add" OnClick="@CreateNewRole">
+                            Create New Role
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/roles">
+                            View All Roles
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Security" Href="/superroot/permissions">
+                            Manage Permissions
+                        </MudListItem>
+                    </MudList>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" Size="Size.Small" />
+                            System Settings
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudList T="string" Dense="true">
+                        <MudListItem Icon="@Icons.Material.Filled.Email" Href="/superroot/email-config">
+                            Email Configuration
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Sms" Href="/superroot/sms-config">
+                            SMS Configuration
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Dataset" OnClick="@ShowDatabaseTools">
+                            Database Tools
+                        </MudListItem>
+                    </MudList>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Recent Activity -->
+    <MudCard Elevation="4">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">
+                    <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
+                    Recent System Activity
+                </MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Href="/superroot/audit">
+                    View All
+                </MudButton>
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTimeline TimelineOrientation="TimelineOrientation.Vertical" TimelinePosition="TimelinePosition.Start">
+                <MudTimelineItem Color="Color.Success" Size="Size.Small">
+                    <ItemContent>
+                        <MudText Typo="Typo.body2">New user registered: john@example.com</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">2 minutes ago</MudText>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="Color.Info" Size="Size.Small">
+                    <ItemContent>
+                        <MudText Typo="Typo.body2">Manager role assigned to alice@example.com</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">15 minutes ago</MudText>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="Color.Warning" Size="Size.Small">
+                    <ItemContent>
+                        <MudText Typo="Typo.body2">System settings updated</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">1 hour ago</MudText>
+                    </ItemContent>
+                </MudTimelineItem>
+            </MudTimeline>
+        </MudCardContent>
+    </MudCard>
+</MudContainer>
+
+@code {
+    private bool _isLoading = true;
+    private (int TotalUsers, int ActiveUsers, int TotalRoles, int SystemUptime) _stats = (0, 0, 0, 0);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStatistics();
+        _isLoading = false;
+    }
+
+    private async Task LoadStatistics()
+    {
+        var totalUsers = (await UserService.GetAllUsersAsync(log: false)).Count;
+        var activeUsers = (await UserService.GetActiveUsersAsync(log: false)).Count;
+        var totalRoles = (await RoleService.GetAllRolesAsync(log: false)).Count;
+        
+        // Mock data - replace with real data
+        await Task.Delay(500);
+        _stats = (
+            totalUsers,
+            activeUsers,
+            totalRoles,
+            30);
+    }
+
+    private async Task CreateNewUser()
+    {
+        var parameters = new DialogParameters<CreateUserDialog>();
+        var dialog = await DialogService.ShowAsync<CreateUserDialog>("Create New User", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            Snackbar.Add("User created successfully!", Severity.Success);
+            await LoadStatistics();
+        }
+    }
+
+    private async Task CreateNewRole()
+    {
+        var parameters = new DialogParameters<CreateRoleDialog>();
+        var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<CreateRoleDialog>("Create New Role", parameters, options);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            Snackbar.Add("Role created successfully!", Severity.Success);
+            await LoadStatistics(); // تحديث الإحصائيات
+        }
+    }
+    
+
+    private void ManageInactiveUsers()
+    {
+        Navigation.NavigateTo("/superroot/users?filter=inactive");
+    }
+
+    private async Task ShowDatabaseTools()
+    {
+        var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true };
+        await DialogService.ShowAsync<DatabaseToolsDialog>("Database Management", options);
+    }
+
+    private async Task ShowDangerZone()
+    {
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = "You are about to enter the Danger Zone. Actions here are irreversible and can affect the entire system.",
+            ["ButtonText"] = "I Understand",
+            ["Color"] = Color.Error
+        };
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small };
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("⚠️ Warning", parameters, options);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            Navigation.NavigateTo("/superroot/danger-zone");
+        }
+    }
+}

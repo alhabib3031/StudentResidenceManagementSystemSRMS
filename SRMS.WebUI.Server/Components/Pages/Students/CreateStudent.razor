@@ -1,0 +1,100 @@
+@page "/students/create"
+@inject ISender Sender
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>Create Student</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
+    <MudPaper Elevation="3" Class="p-6">
+        <MudText Typo="Typo.h4" GutterBottom="true">Create New Student</MudText>
+
+        <EditForm Model="@_createStudentDto" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="First Name" @bind-Value="_createStudentDto.FirstName"
+                        For="@(() => _createStudentDto.FirstName)" Variant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Last Name" @bind-Value="_createStudentDto.LastName"
+                        For="@(() => _createStudentDto.LastName)" Variant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudTextField Label="Email" @bind-Value="_createStudentDto.Email"
+                        For="@(() => _createStudentDto.Email)" Variant="Variant.Outlined" InputType="InputType.Email" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudTextField Label="Phone Number" @bind-Value="_createStudentDto.PhoneNumber"
+                        For="@(() => _createStudentDto.PhoneNumber)" Variant="Variant.Outlined" />
+                </MudItem>
+
+                @* <MudItem xs="12"> *@
+                @* <MudTextField *@
+                @* Label="Address" *@
+                @* $1$ @bind-Value="_createStudentDto.Address" #1# *@
+                @* $1$ For="@(() => _createStudentDto.Address)" #1# *@
+                @* Variant="Variant.Outlined" *@
+                @* Lines="3" /> *@
+                @* </MudItem> *@
+
+                <MudItem xs="12" Class="flex gap-4">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                        Disabled="_isSubmitting">
+                        @if (_isSubmitting)
+                        {
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                            <MudText Class="ml-2">Creating...</MudText>
+                        }
+                        else
+                        {
+                            <MudText>Create Student</MudText>
+                        }
+                    </MudButton>
+
+                    <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Href="/students">
+                        Cancel
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+
+        @if (_errorMessage != null)
+        {
+            <MudAlert Severity="Severity.Error" Class="mt-4">@_errorMessage</MudAlert>
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private CreateStudentDto _createStudentDto = new();
+    private bool _isSubmitting = false;
+    private string? _errorMessage;
+
+    private async Task HandleSubmit()
+    {
+        _isSubmitting = true;
+        _errorMessage = null;
+
+        try
+        {
+            var command = new CreateStudentCommand { Student = _createStudentDto };
+            var result = await Sender.Send(command);
+
+            // Navigate to student list after success
+            Navigation.NavigateTo("/students");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Error creating student: {ex.Message}";
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+}

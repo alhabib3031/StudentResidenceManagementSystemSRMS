@@ -1,0 +1,93 @@
+@page "/student/complaints"
+@attribute [Authorize(Roles = "Student")]
+@rendermode InteractiveServer
+
+<PageTitle>My Complaints - SRMS</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <div Class="flex justify-between items-center mb-6">
+        <div>
+            <MudText Typo="Typo.h4" Class="text-gradient">My Complaints</MudText>
+            <MudText Typo="Typo.subtitle1" Color="Color.Secondary">Submit and track your maintenance requests</MudText>
+        </div>
+        <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Add"
+            Class="btn-modern" OnClick="@OpenNewComplaintDialog">
+            New Complaint
+        </MudButton>
+    </div>
+
+    <MudGrid>
+        <MudItem xs="12">
+            <MudTable Items="@_complaints" Hover="true" Breakpoint="Breakpoint.Sm" Class="glass-card" Elevation="0">
+                <HeaderContent>
+                    <MudTh>ID</MudTh>
+                    <MudTh>Subject</MudTh>
+                    <MudTh>Category</MudTh>
+                    <MudTh>Date</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Priority</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="ID">#@context.Id</MudTd>
+                    <MudTd DataLabel="Subject">@context.Subject</MudTd>
+                    <MudTd DataLabel="Category">@context.Category</MudTd>
+                    <MudTd DataLabel="Date">@context.Date.ToShortDateString()</MudTd>
+                    <MudTd DataLabel="Status">
+                        <MudChip T="string" Color="@GetStatusColor(context.Status)" Size="Size.Small">@context.Status
+                        </MudChip>
+                    </MudTd>
+                    <MudTd DataLabel="Priority">
+                        <MudChip T="string" Color="@GetPriorityColor(context.Priority)" Size="Size.Small"
+                            Variant="Variant.Outlined">@context.Priority</MudChip>
+                    </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private void OpenNewComplaintDialog()
+    {
+        // TODO: Open dialog
+    }
+
+    private Color GetStatusColor(string status) => status switch
+    {
+        "Pending" => Color.Warning,
+        "In Progress" => Color.Info,
+        "Resolved" => Color.Success,
+        _ => Color.Default
+    };
+
+    private Color GetPriorityColor(string priority) => priority switch
+    {
+        "High" => Color.Error,
+        "Medium" => Color.Warning,
+        "Low" => Color.Success,
+        _ => Color.Default
+    };
+
+    private List<ComplaintRecord> _complaints = new()
+{
+new ComplaintRecord { Id = 101, Subject = "Leaking Tap", Category = "Plumbing", Date = DateTime.Now.AddDays(-2), Status
+= "Pending", Priority = "Medium" },
+new ComplaintRecord { Id = 102, Subject = "Broken Chair", Category = "Furniture", Date = DateTime.Now.AddDays(-10),
+Status = "Resolved", Priority = "Low" },
+new ComplaintRecord { Id = 103, Subject = "No Internet", Category = "Network", Date = DateTime.Now.AddDays(-1), Status =
+"In Progress", Priority = "High" },
+};
+
+    public class ComplaintRecord
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; } = "";
+        public string Category { get; set; } = "";
+        public DateTime Date { get; set; }
+        public string Status { get; set; } = "";
+        public string Priority { get; set; } = "";
+    }
+}

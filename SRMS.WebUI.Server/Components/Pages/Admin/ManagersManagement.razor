@@ -1,0 +1,315 @@
+@page "/admin/managers"
+@using SRMS.Domain.Managers
+@using SRMS.Domain.Managers.Enums
+@using SRMS.Domain.Repositories
+@using SRMS.Domain.Residences
+@attribute [Authorize(Roles = "Admin,SuperRoot")]
+@inject IRepositories<Manager> ManagerRepo
+@inject IRepositories<Residence> ResidenceRepo
+@inject IRepositories<Student> StudentRepo
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>Managers Management</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4">
+                    <MudIcon Icon="@Icons.Material.Filled.SupervisedUserCircle" Class="mr-2" />
+                    Managers Management
+                </MudText>
+                <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
+            </div>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.PersonAdd"
+                Href="/admin/managers/create">
+                Add New Manager
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    <!-- Statistics Cards -->
+    <MudGrid Class="mb-4">
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="2">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Managers</MudText>
+                            <MudText Typo="Typo.h4">@_managers.Count</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Primary">
+                            <MudIcon Icon="@Icons.Material.Filled.Group" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="2">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Active Managers</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Success">
+                                @_managers.Count(m => m.Status == ManagerStatus.Active)
+                            </MudText>
+                        </div>
+                        <MudAvatar Color="Color.Success">
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="2">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">On Leave</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Warning">
+                                @_managers.Count(m => m.Status == ManagerStatus.OnLeave)
+                            </MudText>
+                        </div>
+                        <MudAvatar Color="Color.Warning">
+                            <MudIcon Icon="@Icons.Material.Filled.EventBusy" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="2">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Avg Workload</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Info">
+                                @GetAverageWorkload().ToString("F1")
+                            </MudText>
+                        </div>
+                        <MudAvatar Color="Color.Info">
+                            <MudIcon Icon="@Icons.Material.Filled.TrendingUp" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Search and Filter -->
+    <MudPaper Elevation="2" Class="pa-4 mb-4">
+        <MudGrid>
+            <MudItem xs="12" md="6">
+                <MudTextField @bind-Value="_searchString"
+                    Placeholder="Search managers by name, email, or employee number..." Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Outlined" Immediate="true" />
+            </MudItem>
+            <MudItem xs="12" md="3">
+                <MudSelect @bind-Value="_filterStatus" Label="Status" Variant="Variant.Outlined"
+                    AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem Value="@("all")">All Status</MudSelectItem>
+                    <MudSelectItem Value="@("active")">Active</MudSelectItem>
+                    <MudSelectItem Value="@("onleave")">On Leave</MudSelectItem>
+                    <MudSelectItem Value="@("suspended")">Suspended</MudSelectItem>
+                    <MudSelectItem Value="@("terminated")">Terminated</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" md="3">
+                <MudButton Variant="Variant.Outlined" Color="Color.Secondary" FullWidth="true"
+                    StartIcon="@Icons.Material.Filled.FilterAltOff" OnClick="@ClearFilters">
+                    Clear Filters
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <!-- Managers Table -->
+    <MudPaper Elevation="2">
+        <MudTable Items="@GetFilteredManagers()" Hover="true" Striped="true" Loading="@_isLoading"
+            LoadingProgressColor="Color.Primary">
+            <HeaderContent>
+                <MudTh>Manager</MudTh>
+                <MudTh>Contact</MudTh>
+                <MudTh>Employee #</MudTh>
+                <MudTh>Residences</MudTh>
+                <MudTh>Students</MudTh>
+                <MudTh>Hire Date</MudTh>
+                <MudTh>Status</MudTh>
+                <MudTh>Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Manager">
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                        @if (!string.IsNullOrEmpty(context.ImagePath))
+                        {
+                            <MudAvatar Image="@context.ImagePath" Size="Size.Medium" />
+                        }
+                        else
+                        {
+                            <MudAvatar Color="Color.Primary" Size="Size.Medium">
+                                @GetInitials(context.FirstName, context.LastName)
+                            </MudAvatar>
+                        }
+                        <div>
+                            <MudText Typo="Typo.body2"><strong>@context.FullName</strong></MudText>
+                            @if (context.WorkingHoursStart.HasValue && context.WorkingHoursEnd.HasValue)
+                            {
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                    <MudIcon Icon="@Icons.Material.Filled.Schedule" Size="Size.Small" />
+                                    @context.WorkingHoursStart?.ToString(@"hh\:mm") -
+                                    @context.WorkingHoursEnd?.ToString(@"hh\:mm")
+                                </MudText>
+                            }
+                        </div>
+                    </MudStack>
+                </MudTd>
+                <MudTd DataLabel="Contact">
+                    <MudStack Spacing="1">
+                        @if (context.Email != null)
+                        {
+                            <MudText Typo="Typo.caption">
+                                <MudIcon Icon="@Icons.Material.Filled.Email" Size="Size.Small" />
+                                @context.Email.Value
+                            </MudText>
+                        }
+                        @if (context.PhoneNumber != null)
+                        {
+                            <MudText Typo="Typo.caption">
+                                <MudIcon Icon="@Icons.Material.Filled.Phone" Size="Size.Small" />
+                                @context.PhoneNumber.GetFormatted()
+                            </MudText>
+                        }
+                    </MudStack>
+                </MudTd>
+                <MudTd DataLabel="Employee #">
+                    <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined">
+                        @(context.EmployeeNumber ?? "N/A")
+                    </MudChip>
+                </MudTd>
+                <MudTd DataLabel="Residences">
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
+                        <MudChip T="string" Size="Size.Small" Color="Color.Primary">
+                            @context.Residences.Count
+                        </MudChip>
+                        @if (context.Residences.Any())
+                        {
+                            <MudTooltip Text="@string.Join(", ", context.Residences.Select(r => r.Name))">
+                                <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Color="Color.Info" />
+                            </MudTooltip>
+                        }
+                    </MudStack>
+                </MudTd>
+                <MudTd DataLabel="Students">
+                    <MudChip T="string" Size="Size.Small" Color="Color.Info">
+                        @context.Students.Count
+                    </MudChip>
+                </MudTd>
+                <MudTd DataLabel="Hire Date">
+                    <MudText Typo="Typo.body2">
+                        @(context.HireDate?.ToString("MMM dd, yyyy") ?? "N/A")
+                    </MudText>
+                    @if (context.HireDate.HasValue)
+                    {
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">
+                            @GetTenure(context.HireDate.Value)
+                        </MudText>
+                    }
+                </MudTd>
+                <MudTd DataLabel="Status">
+                    <MudChip T="string" Color="@GetStatusColor(context.Status)" Size="Size.Small">
+                        @context.Status.ToString()
+                    </MudChip>
+                </MudTd>
+                <MudTd DataLabel="Actions">
+                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Visibility" OnClick="@(() => ViewDetails(context))">
+                            View Details
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditManager(context))">
+                            Edit
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Assignment"
+                            OnClick="@(() => AssignResidences(context))">
+                            Assign Residences
+                        </MudMenuItem>
+                        <MudDivider />
+                        @if (context.Status == ManagerStatus.Active)
+                        {
+                            <MudMenuItem Icon="@Icons.Material.Filled.EventBusy" OnClick="@(() => SetOnLeave(context))">
+                                Set On Leave
+                            </MudMenuItem>
+                        }
+                        else if (context.Status == ManagerStatus.OnLeave)
+                        {
+                            <MudMenuItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success"
+                                OnClick="@(() => SetActive(context))">
+                                Set Active
+                            </MudMenuItem>
+                        }
+                        <MudDivider />
+                        <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
+                            OnClick="@(() => DeleteManager(context))">
+                            Delete
+                        </MudMenuItem>
+                    </MudMenu>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new[] { 10, 25, 50, 100 }" />
+            </PagerContent>
+        </MudTable>
+    </MudPaper>
+
+    <!-- Performance Overview -->
+    <MudGrid Class="mt-4">
+        <MudItem xs="12">
+            <MudCard Elevation="2">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Leaderboard" Class="mr-2" Size="Size.Small" />
+                            Manager Performance Overview
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTable Items="@GetManagerPerformance()" Hover="true" Dense="true">
+                        <HeaderContent>
+                            <MudTh>Manager</MudTh>
+                            <MudTh>Residences</MudTh>
+                            <MudTh>Total Students</MudTh>
+                            <MudTh>Avg Occupancy</MudTh>
+                            <MudTh>Workload</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd>@context.Name</MudTd>
+                            <MudTd>@context.ResidenceCount</MudTd>
+                            <MudTd>@context.StudentCount</MudTd>
+                            <MudTd>
+                                <MudProgressLinear Value="@context.OccupancyRate"
+                                    Color="@GetWorkloadColor(context.OccupancyRate)" Size="Size.Small" Rounded="true">
+                                    <MudText Typo="Typo.caption">@context.OccupancyRate.ToString("F0")%</MudText>
+                                </MudProgressLinear>
+                            </MudTd>
+                            <MudTd>
+                                <MudChip T="string" Size="Size.Small"
+                                    Color="@GetWorkloadColorByLevel(context.StudentCount)">
+                                    @GetWorkloadLevel(context.StudentCount)
+                                </MudChip>
+                            </MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>

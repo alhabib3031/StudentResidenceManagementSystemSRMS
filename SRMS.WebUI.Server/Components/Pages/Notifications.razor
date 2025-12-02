@@ -1,0 +1,221 @@
+@page "/notifications"
+@inject NavigationManager Navigation
+@attribute [Authorize]
+@rendermode InteractiveServer
+
+<PageTitle>Notifications - SRMS</PageTitle>
+
+<MudStack Class="animate-fade-in w-full modern-card">
+    <!-- Header -->
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+        <MudStack Spacing="0">
+            <MudText Typo="Typo.h4" Class="text-gradient font-bold">
+                <MudIcon Icon="@Icons.Material.Filled.Notifications" Class="mr-2" />
+                Notifications
+            </MudText>
+            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                Stay updated with your latest activities
+            </MudText>
+        </MudStack>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="MarkAllAsRead"
+            StartIcon="@Icons.Material.Filled.DoneAll">
+            Mark All as Read
+        </MudButton>
+    </MudStack>
+
+    <!-- Notification Filters -->
+    <MudPaper Class="glass-card mb-4 p-4">
+        <MudChipSet T="string" @bind-SelectedChip="_selectedFilter" Filter="true" Mandatory="true">
+            <MudChip T="string" Text="All" Color="Color.Primary" Default="true">All</MudChip>
+            <MudChip T="string" Text="Unread" Color="Color.Error">Unread</MudChip>
+            <MudChip T="string" Text="System" Color="Color.Info">System</MudChip>
+            <MudChip T="string" Text="Payments" Color="Color.Success">Payments</MudChip>
+            <MudChip T="string" Text="Complaints" Color="Color.Warning">Complaints</MudChip>
+        </MudChipSet>
+    </MudPaper>
+
+    <!-- Notifications List -->
+    <MudPaper Class="glass-card pa-4">
+        @if (_notifications.Any())
+        {
+            <MudList T="string" Clickable="true">
+                @foreach (var notification in FilteredNotifications)
+                {
+                    <MudListItem T="string" Class="@GetNotificationClass(notification)"
+                        OnClick="() => HandleNotificationClick(notification)">
+                        <MudStack Row="true" AlignItems="AlignItems.Start">
+                            <MudAvatar Color="@GetNotificationColor(notification)" Class="mr-3">
+                                <MudIcon Icon="@GetNotificationIcon(notification)" />
+                            </MudAvatar>
+                            <MudStack Class="flex-grow-1" Spacing="1">
+                                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
+                                    <MudStack Spacing="0">
+                                        <MudText Typo="Typo.body1"
+                                            Class="@(notification.IsRead ? "font-normal" : "font-semibold")">
+                                            @notification.Title
+                                        </MudText>
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                            @notification.Message
+                                        </MudText>
+                                    </MudStack>
+                                    @if (!notification.IsRead)
+                                    {
+                                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" Size="Size.Small" />
+                                    }
+                                </MudStack>
+                                <MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mt-2">
+                                    <MudIcon Icon="@Icons.Material.Filled.AccessTime" Size="Size.Small" />
+                                    @notification.CreatedAt.ToString("MMM dd, yyyy - hh:mm tt")
+                                </MudText>
+                            </MudStack>
+                        </MudStack>
+                    </MudListItem>
+                    <MudDivider />
+                }
+            </MudList>
+        }
+        else
+        {
+            <MudStack AlignItems="AlignItems.Center" Class="py-8">
+                <MudIcon Icon="@Icons.Material.Filled.NotificationsNone" Size="Size.Large" Color="Color.Secondary"
+                    Class="text-[80px]" />
+                <MudText Typo="Typo.h6" Class="mt-4">No Notifications</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    You're all caught up! Check back later for updates.
+                </MudText>
+            </MudStack>
+        }
+    </MudPaper>
+</MudStack>
+
+@code {
+    private MudChip<string>? _selectedFilter;
+    private List<NotificationModel> _notifications = new();
+
+    protected override void OnInitialized()
+    {
+        LoadNotifications();
+    }
+
+    private void LoadNotifications()
+    {
+        // Sample notifications - Replace with actual service call
+        _notifications = new List<NotificationModel>
+{
+new NotificationModel
+{
+Id = 1,
+Title = "Payment Received",
+Message = "Your payment of $500 has been successfully processed.",
+Type = NotificationType.Payment,
+IsRead = false,
+CreatedAt = DateTime.Now.AddHours(-2)
+},
+new NotificationModel
+{
+Id = 2,
+Title = "Complaint Updated",
+Message = "Your complaint #1234 has been reviewed and resolved.",
+Type = NotificationType.Complaint,
+IsRead = false,
+CreatedAt = DateTime.Now.AddDays(-1)
+},
+new NotificationModel
+{
+Id = 3,
+Title = "System Maintenance",
+Message = "Scheduled maintenance on Dec 25, 2025 from 2:00 AM to 4:00 AM.",
+Type = NotificationType.System,
+IsRead = true,
+CreatedAt = DateTime.Now.AddDays(-2)
+},
+new NotificationModel
+{
+Id = 4,
+Title = "Welcome to SRMS",
+Message = "Thank you for joining the Student Residence Management System!",
+Type = NotificationType.System,
+IsRead = true,
+CreatedAt = DateTime.Now.AddDays(-7)
+}
+};
+    }
+
+    private IEnumerable<NotificationModel> FilteredNotifications
+    {
+        get
+        {
+            if (_selectedFilter == null) return _notifications;
+
+            return _selectedFilter.Text switch
+            {
+                "Unread" => _notifications.Where(n => !n.IsRead),
+                "System" => _notifications.Where(n => n.Type == NotificationType.System),
+                "Payments" => _notifications.Where(n => n.Type == NotificationType.Payment),
+                "Complaints" => _notifications.Where(n => n.Type == NotificationType.Complaint),
+                _ => _notifications
+            };
+        }
+    }
+
+    private void HandleNotificationClick(NotificationModel notification)
+    {
+        notification.IsRead = true;
+        StateHasChanged();
+    }
+
+    private void MarkAllAsRead()
+    {
+        foreach (var notification in _notifications)
+        {
+            notification.IsRead = true;
+        }
+        StateHasChanged();
+    }
+
+    private string GetNotificationClass(NotificationModel notification)
+    {
+        return notification.IsRead ? "py-3" : "py-3 modern-card hover-lift";
+    }
+
+    private Color GetNotificationColor(NotificationModel notification)
+    {
+        return notification.Type switch
+        {
+            NotificationType.System => Color.Info,
+            NotificationType.Payment => Color.Success,
+            NotificationType.Complaint => Color.Warning,
+            _ => Color.Primary
+        };
+    }
+
+    private string GetNotificationIcon(NotificationModel notification)
+    {
+        return notification.Type switch
+        {
+            NotificationType.System => Icons.Material.Filled.Info,
+            NotificationType.Payment => Icons.Material.Filled.Payment,
+            NotificationType.Complaint => Icons.Material.Filled.Report,
+            _ => Icons.Material.Filled.Notifications
+        };
+    }
+
+    // Models
+    private class NotificationModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+        public NotificationType Type { get; set; }
+        public bool IsRead { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
+
+    private enum NotificationType
+    {
+        System,
+        Payment,
+        Complaint,
+        General
+    }
+}

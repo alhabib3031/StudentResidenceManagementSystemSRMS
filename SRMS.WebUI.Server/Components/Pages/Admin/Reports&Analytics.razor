@@ -1,0 +1,515 @@
+@page "/admin/reports"
+@using SRMS.Application.AuditLogs.Interfaces
+@using SRMS.Domain.AuditLogs.Enums
+@using SRMS.Domain.Complaints
+@using SRMS.Domain.Payments
+@using SRMS.Domain.Repositories
+@using SRMS.Domain.Residences
+@attribute [Authorize(Roles = "Admin,SuperRoot")]
+@inject IRepositories<Student> StudentRepo
+@inject IRepositories<Payment> PaymentRepo
+@inject IRepositories<Complaint> ComplaintRepo
+@inject IRepositories<Residence> ResidenceRepo
+@inject IAuditService AuditService
+@rendermode InteractiveServer
+
+<PageTitle>Reports & Analytics</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4">
+                    <MudIcon Icon="@Icons.Material.Filled.Assessment" Class="mr-2" />
+                    Reports & Analytics
+                </MudText>
+                <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
+            </div>
+            <MudButtonGroup Variant="Variant.Outlined">
+                <MudButton StartIcon="@Icons.Material.Filled.Download">Export PDF</MudButton>
+                <MudButton StartIcon="@Icons.Material.Filled.TableChart">Export Excel</MudButton>
+            </MudButtonGroup>
+        </MudStack>
+    </MudPaper>
+
+    <!-- Date Range Selector -->
+    <MudPaper Elevation="2" Class="pa-4 mb-4">
+        <MudGrid>
+            <MudItem xs="12" md="4">
+                <MudDatePicker Date="_startDate"
+                    DateChanged="@((DateTime? date) => { _startDate = date; LoadReports(); })" Label="Start Date"
+                    Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="12" md="4">
+                <MudDatePicker Date="_endDate" DateChanged="@((DateTime? date) => { _endDate = date; LoadReports(); })"
+                    Label="End Date" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="12" md="4">
+                <MudSelect Value="_reportPeriod" ValueChanged="@((string value) => HandlePeriodChange(value))"
+                    Label="Quick Select" Variant="Variant.Outlined">
+                    <MudSelectItem Value="@("today")">Today</MudSelectItem>
+                    <MudSelectItem Value="@("week")">This Week</MudSelectItem>
+                    <MudSelectItem Value="@("month")">This Month</MudSelectItem>
+                    <MudSelectItem Value="@("quarter")">This Quarter</MudSelectItem>
+                    <MudSelectItem Value="@("year")">This Year</MudSelectItem>
+                    <MudSelectItem Value="@("custom")">Custom Range</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else
+    {
+        <!-- Summary Cards -->
+        <MudGrid Class="mb-4">
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Elevation="2">
+                    <MudCardContent>
+                        <MudStack Spacing="2">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Total Revenue</MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Color="Color.Success" />
+                            </MudStack>
+                            <MudText Typo="Typo.h4" Color="Color.Success">
+                                @_reportData.TotalRevenue.ToString("N0") LYD
+                            </MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                @_reportData.PaidPayments payments received
+                            </MudText>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Elevation="2">
+                    <MudCardContent>
+                        <MudStack Spacing="2">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Pending Payments</MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.HourglassEmpty" Color="Color.Warning" />
+                            </MudStack>
+                            <MudText Typo="Typo.h4" Color="Color.Warning">
+                                @_reportData.PendingAmount.ToString("N0") LYD
+                            </MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                @_reportData.PendingPayments payments pending
+                            </MudText>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Elevation="2">
+                    <MudCardContent>
+                        <MudStack Spacing="2">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">New Students</MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.PersonAdd" Color="Color.Primary" />
+                            </MudStack>
+                            <MudText Typo="Typo.h4" Color="Color.Primary">
+                                @_reportData.NewStudents
+                            </MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                in selected period
+                            </MudText>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Elevation="2">
+                    <MudCardContent>
+                        <MudStack Spacing="2">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Complaints</MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.ReportProblem" Color="Color.Error" />
+                            </MudStack>
+                            <MudText Typo="Typo.h4" Color="Color.Error">
+                                @_reportData.TotalComplaints
+                            </MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                @_reportData.ResolvedComplaints resolved
+                            </MudText>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+
+        <!-- Charts Row -->
+        <MudGrid Class="mb-4">
+            <!-- Revenue Chart -->
+            <MudItem xs="12" md="8" Style="margin-bottom: 20px">
+                <MudCard Elevation="2">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Revenue Trend</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent Style="height: 350px;">
+                        @if (_revenueChartData.Any())
+                        {
+                            <MudChart ChartType="ChartType.Line" ChartSeries="@_revenueSeries"
+                                XAxisLabels="@_revenueChartData.Select(x => x.Label).ToArray()" Width="100%" Height="320px"
+                                ChartOptions="@_chartOptions" />
+                        }
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <!-- Payment Status Pie Chart -->
+            <MudItem xs="12" md="4" Style="margin-bottom: 20px">
+                <MudCard Elevation="2">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Payment Status</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent Style="height: 350px;">
+                        <MudChart ChartType="ChartType.Donut" InputData="@_paymentStatusData"
+                            InputLabels="@_paymentStatusLabels" Width="100%" Height="320px" />
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+
+        <!-- Occupancy Analysis -->
+        <MudGrid Class="mb-4" Style="margin-bottom: 20px">
+            <MudItem xs="12" md="6">
+                <MudCard Elevation="2">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Occupancy by Residence</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent Class="max-h-[400px] overflow-y-auto">
+                        @foreach (var residence in _reportData.ResidenceOccupancy)
+                        {
+                            <MudStack Spacing="1" Class="mb-3">
+                                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                    <MudText Typo="Typo.body2">@residence.Name</MudText>
+                                    <MudText Typo="Typo.body2">@residence.Rate.ToString("F0")%</MudText>
+                                </MudStack>
+                                <MudProgressLinear Value="@residence.Rate" Color="@GetOccupancyColor(residence.Rate)"
+                                    Size="Size.Small" Rounded="true" />
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                    @residence.Occupied / @residence.Total occupied
+                                </MudText>
+                            </MudStack>
+                        }
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <!-- Complaint Categories -->
+            <MudItem xs="12" md="6" Style="margin-bottom: 20px">
+                <MudCard Elevation="2">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">Complaints by Category</MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent Class="h-[400px]">
+                        <MudChart ChartType="ChartType.Bar" ChartSeries="@_complaintSeries"
+                            XAxisLabels="@_complaintCategories" Width="100%" Height="370px"
+                            ChartOptions="@_barChartOptions" />
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+
+        <!-- Top Statistics Tables -->
+        <MudGrid>
+            <!-- Top Revenue Generators -->
+            <MudItem xs="12" md="6">
+                <MudCard Elevation="2">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">
+                                <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Size="Size.Small" Class="mr-2" />
+                                Top Revenue Generators
+                            </MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudTable Items="@_reportData.TopResidences" Hover="true" Dense="true">
+                            <HeaderContent>
+                                <MudTh>Residence</MudTh>
+                                <MudTh>Revenue</MudTh>
+                                <MudTh>Students</MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd>@context.Name</MudTd>
+                                <MudTd>@context.Revenue.ToString("N0") LYD</MudTd>
+                                <MudTd>@context.Students</MudTd>
+                            </RowTemplate>
+                        </MudTable>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <!-- Recent Activity Summary -->
+            <MudItem xs="12" md="6">
+                <MudCard Elevation="2">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">
+                                <MudIcon Icon="@Icons.Material.Filled.History" Size="Size.Small" Class="mr-2" />
+                                Activity Summary
+                            </MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudList T="string" Dense="true">
+                            <MudListItem T="string" Icon="@Icons.Material.Filled.Login" IconColor="Color.Primary">
+                                <MudText Typo="Typo.body2">@_reportData.LoginCount User Logins</MudText>
+                            </MudListItem>
+                            <MudListItem T="string" Icon="@Icons.Material.Filled.PersonAdd" IconColor="Color.Success">
+                                <MudText Typo="Typo.body2">@_reportData.NewStudents New Registrations</MudText>
+                            </MudListItem>
+                            <MudListItem T="string" Icon="@Icons.Material.Filled.Payment" IconColor="Color.Warning">
+                                <MudText Typo="Typo.body2">@_reportData.PaidPayments Payments Processed</MudText>
+                            </MudListItem>
+                            <MudListItem T="string" Icon="@Icons.Material.Filled.ReportProblem" IconColor="Color.Error">
+                                <MudText Typo="Typo.body2">@_reportData.TotalComplaints Complaints Filed</MudText>
+                            </MudListItem>
+                            <MudListItem T="string" Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Info">
+                                <MudText Typo="Typo.body2">@_reportData.ResolvedComplaints Complaints Resolved</MudText>
+                            </MudListItem>
+                        </MudList>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    }
+</MudContainer>
+
+@code {
+    private DateTime? _startDate = DateTime.Today.AddMonths(-1);
+    private DateTime? _endDate = DateTime.Today;
+    private string _reportPeriod = "month";
+    private bool _isLoading = true;
+
+    private ReportData _reportData = new();
+    private List<ChartDataPoint> _revenueChartData = new();
+    private List<ChartSeries> _revenueSeries = new();
+    private double[] _paymentStatusData = Array.Empty<double>();
+    private string[] _paymentStatusLabels = Array.Empty<string>();
+    private List<ChartSeries> _complaintSeries = new();
+    private string[] _complaintCategories = Array.Empty<string>();
+
+    private ChartOptions _chartOptions = new()
+        {
+            YAxisTicks = 10,
+            MaxNumYAxisTicks = 10,
+            YAxisLines = true,
+            XAxisLines = false
+        };
+
+    private ChartOptions _barChartOptions = new()
+        {
+            YAxisTicks = 5,
+            XAxisLines = false
+        };
+
+    private List<BreadcrumbItem> _breadcrumbs = new()
+{
+new BreadcrumbItem("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
+new BreadcrumbItem("Reports", href: null, disabled: true)
+};
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadReports();
+    }
+
+    private async Task HandlePeriodChange(string period)
+    {
+        _reportPeriod = period;
+        var now = DateTime.Today;
+
+        (_startDate, _endDate) = period switch
+        {
+            "today" => (now, now),
+            "week" => (now.AddDays(-7), now),
+            "month" => (now.AddMonths(-1), now),
+            "quarter" => (now.AddMonths(-3), now),
+            "year" => (now.AddYears(-1), now),
+            _ => (_startDate, _endDate)
+        };
+
+        await LoadReports();
+    }
+
+    private async Task LoadReports()
+    {
+        _isLoading = true;
+
+        try
+        {
+            var students = await StudentRepo.GetAllAsync();
+            var payments = await PaymentRepo.GetAllAsync();
+            var complaints = await ComplaintRepo.GetAllAsync();
+            var residences = await ResidenceRepo.GetAllAsync();
+            var auditLogs = await AuditService.GetAllAsync();
+
+            // Filter by date range
+            var filteredStudents = students.Where(s =>
+            s.CreatedAt >= _startDate && s.CreatedAt <= _endDate).ToList();
+            var filteredPayments = payments.Where(p =>
+            p.CreatedAt >= _startDate && p.CreatedAt <= _endDate).ToList();
+            var filteredComplaints = complaints.Where(c =>
+            c.CreatedAt >= _startDate && c.CreatedAt <= _endDate).ToList();
+
+            // Calculate statistics
+            _reportData = new ReportData
+                {
+                    TotalRevenue = filteredPayments
+                .Where(p => p.Status == PaymentStatus.Paid)
+                .Sum(p => p.Amount?.Amount ?? 0),
+                    PendingAmount = filteredPayments
+                .Where(p => p.Status == PaymentStatus.Pending)
+                .Sum(p => p.Amount?.Amount ?? 0),
+                    PaidPayments = filteredPayments.Count(p => p.Status == PaymentStatus.Paid),
+                    PendingPayments = filteredPayments.Count(p => p.Status == PaymentStatus.Pending),
+                    NewStudents = filteredStudents.Count,
+                    TotalComplaints = filteredComplaints.Count,
+                    ResolvedComplaints = filteredComplaints.Count(c => c.Status == ComplaintStatus.Resolved),
+                    LoginCount = auditLogs.Count(l => l.AuditAction == AuditAction.Login),
+
+                    // Occupancy by residence
+                    ResidenceOccupancy = residences.Select(r => new OccupancyData
+                    {
+                        Name = r.Name,
+                        Total = r.TotalCapacity,
+                        Occupied = r.TotalCapacity - r.AvailableCapacity,
+                        Rate = r.TotalCapacity > 0 ? ((double)(r.TotalCapacity - r.AvailableCapacity) / r.TotalCapacity) * 100 : 0
+                    }).ToList(),
+
+                    // Top residences
+                    TopResidences = residences.Select(r => new TopResidenceData
+                    {
+                        Name = r.Name,
+                        Revenue = filteredPayments
+                    .Where(p => p.Student?.Room?.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
+                    .Sum(p => p.Amount?.Amount ?? 0),
+                        Students = students.Count(s => s.Room?.ResidenceId == r.Id)
+                    }).OrderByDescending(r => r.Revenue).Take(5).ToList()
+                };
+
+            // Generate charts
+            GenerateRevenueChart(filteredPayments);
+            GeneratePaymentStatusChart(filteredPayments);
+            GenerateComplaintChart(filteredComplaints);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void GenerateRevenueChart(List<Payment> payments)
+    {
+        var days = (_endDate!.Value - _startDate!.Value).Days;
+        var interval = Math.Max(1, days / 10);
+
+        _revenueChartData = new List<ChartDataPoint>();
+
+        for (var date = _startDate.Value; date <= _endDate.Value; date = date.AddDays(interval))
+        {
+            var endRange = date.AddDays(interval);
+            var revenue = payments
+            .Where(p => p.CreatedAt.Date >= date && p.CreatedAt.Date < endRange && p.Status == PaymentStatus.Paid)
+            .Sum(p => p.Amount?.Amount ?? 0);
+
+            _revenueChartData.Add(new ChartDataPoint
+                {
+                    Label = date.ToString("MMM dd"),
+                    Value = (double)revenue
+                });
+        }
+
+        _revenueSeries = new List<ChartSeries>
+{
+new ChartSeries
+{
+Name = "Revenue (LYD)",
+Data = _revenueChartData.Select(x => x.Value).ToArray()
+}
+};
+    }
+
+    private void GeneratePaymentStatusChart(List<Payment> payments)
+    {
+        var paid = payments.Count(p => p.Status == PaymentStatus.Paid);
+        var pending = payments.Count(p => p.Status == PaymentStatus.Pending);
+        var overdue = payments.Count(p => p.Status == PaymentStatus.Overdue);
+
+        _paymentStatusData = new double[] { paid, pending, overdue };
+        _paymentStatusLabels = new[] { "Paid", "Pending", "Overdue" };
+    }
+
+    private void GenerateComplaintChart(List<Complaint> complaints)
+    {
+        var categories = Enum.GetValues<ComplaintCategory>();
+        var categoryCounts = categories.Select(c => complaints.Count(comp => comp.Category == c)).ToArray();
+
+        _complaintCategories = categories.Select(c => c.ToString()).ToArray();
+        _complaintSeries = new List<ChartSeries>
+{
+new ChartSeries
+{
+Name = "Complaints",
+Data = categoryCounts.Select(x => (double)x).ToArray()
+}
+};
+    }
+
+    private Color GetOccupancyColor(double rate)
+    {
+        return rate >= 90 ? Color.Error : rate >= 70 ? Color.Warning : Color.Success;
+    }
+
+    private class ReportData
+    {
+        public decimal TotalRevenue { get; set; }
+        public decimal PendingAmount { get; set; }
+        public int PaidPayments { get; set; }
+        public int PendingPayments { get; set; }
+        public int NewStudents { get; set; }
+        public int TotalComplaints { get; set; }
+        public int ResolvedComplaints { get; set; }
+        public int LoginCount { get; set; }
+        public List<OccupancyData> ResidenceOccupancy { get; set; } = new();
+        public List<TopResidenceData> TopResidences { get; set; } = new();
+    }
+
+    private class OccupancyData
+    {
+        public string Name { get; set; } = "";
+        public int Total { get; set; }
+        public int Occupied { get; set; }
+        public double Rate { get; set; }
+    }
+
+    private class TopResidenceData
+    {
+        public string Name { get; set; } = "";
+        public decimal Revenue { get; set; }
+        public int Students { get; set; }
+    }
+
+    private class ChartDataPoint
+    {
+        public string Label { get; set; } = "";
+        public double Value { get; set; }
+    }
+}

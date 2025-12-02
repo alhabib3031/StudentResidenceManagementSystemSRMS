@@ -1,0 +1,294 @@
+﻿@using SRMS.Application.SuperRoot.Interfaces
+@* Components/Dialogs/DatabaseToolsDialog.razor *@
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Storage" Class="mr-2" />
+            Database Management Tools
+        </MudText>
+    </TitleContent>
+    
+    <DialogContent>
+        <MudStack Spacing="3">
+            <!-- Warning Alert -->
+            <MudAlert Severity="Severity.Warning" Dense="true">
+                <strong>⚠️ Warning:</strong> These operations can affect your entire database. 
+                Use with extreme caution!
+            </MudAlert>
+
+            <!-- Backup Section -->
+            <MudPaper Elevation="2" Class="pa-3">
+                <MudStack Spacing="2">
+                    <MudText Typo="Typo.h6" Color="Color.Info">
+                        <MudIcon Icon="@Icons.Material.Filled.Backup" Size="Size.Small" Class="mr-2" />
+                        Backup Database
+                    </MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Create a complete backup of your database for safekeeping.
+                    </MudText>
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        Color="Color.Info"
+                        StartIcon="@Icons.Material.Filled.CloudDownload"
+                        OnClick="BackupDatabase"
+                        Disabled="_isProcessing">
+                        Create Backup
+                    </MudButton>
+                </MudStack>
+            </MudPaper>
+
+            <!-- Restore Section -->
+            <MudPaper Elevation="2" Class="pa-3">
+                <MudStack Spacing="2">
+                    <MudText Typo="Typo.h6" Color="Color.Primary">
+                        <MudIcon Icon="@Icons.Material.Filled.SettingsBackupRestore" Size="Size.Small" Class="mr-2" />
+                        Restore Database
+                    </MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Restore your database from a previous backup file.
+                    </MudText>
+                    <MudFileUpload T="IBrowserFile" Accept=".bak" OnFilesChanged="HandleFileUpload">
+                        <ActivatorContent>
+                            <MudButton 
+                                Variant="Variant.Filled" 
+                                Color="Color.Primary"
+                                StartIcon="@Icons.Material.Filled.CloudUpload"
+                                Disabled="_isProcessing">
+                                Select Backup File
+                            </MudButton>
+                        </ActivatorContent>
+                    </MudFileUpload>
+                    @if (_selectedFile != null)
+                    {
+                        <MudChip 
+                            T="string"
+                            Color="Color.Success" 
+                            Icon="@Icons.Material.Filled.AttachFile"
+                            OnClose="ClearFile">
+                            @_selectedFile.Name
+                        </MudChip>
+                        <MudButton 
+                            Variant="Variant.Filled" 
+                            Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.Restore"
+                            OnClick="RestoreDatabase"
+                            Disabled="_isProcessing">
+                            Restore Now
+                        </MudButton>
+                    }
+                </MudStack>
+            </MudPaper>
+
+            <!-- Danger Zone -->
+            <MudPaper Elevation="2" Class="pa-3" Style="border: 2px solid var(--mud-palette-error);">
+                <MudStack Spacing="2">
+                    <MudText Typo="Typo.h6" Color="Color.Error">
+                        <MudIcon Icon="@Icons.Material.Filled.Warning" Size="Size.Small" Class="mr-2" />
+                        Danger Zone
+                    </MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        <strong>⚠️ These actions are irreversible!</strong>
+                    </MudText>
+                    <MudButton 
+                        Variant="Variant.Filled" 
+                        Color="Color.Error"
+                        StartIcon="@Icons.Material.Filled.DeleteForever"
+                        OnClick="ResetDatabase"
+                        Disabled="_isProcessing">
+                        Reset Database to Defaults
+                    </MudButton>
+                </MudStack>
+            </MudPaper>
+
+            <!-- Progress Indicator -->
+            @if (_isProcessing)
+            {
+                <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+                <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Secondary">
+                    @_processingMessage
+                </MudText>
+            }
+        </MudStack>
+    </DialogContent>
+    
+    <DialogActions>
+        <MudButton OnClick="Close" Variant="Variant.Text">
+            Close
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Inject]
+    private ISuperRootService SuperRootService { get; set; } = null!;
+
+    [Inject]
+    private ISnackbar Snackbar { get; set; } = null!;
+
+    [Inject]
+    private IDialogService DialogService { get; set; } = null!;
+
+    private bool _isProcessing = false;
+    private string _processingMessage = "";
+    private IBrowserFile? _selectedFile;
+
+    private async Task BackupDatabase()
+    {
+        _isProcessing = true;
+        _processingMessage = "Creating database backup...";
+
+        try
+        {
+            var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            var backupPath = $"backup_{timestamp}.bak";
+            
+            var result = await SuperRootService.BackupDatabaseAsync(backupPath);
+
+            if (result)
+            {
+                Snackbar.Add($"✅ Database backup created successfully! Saved to: Backups/{backupPath}", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("❌ Failed to create backup.", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"❌ Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isProcessing = false;
+            _processingMessage = "";
+        }
+    }
+
+    private void HandleFileUpload(InputFileChangeEventArgs e)
+    {
+        _selectedFile = e.File;
+        StateHasChanged();
+    }
+
+    private void ClearFile()
+    {
+        _selectedFile = null;
+    }
+
+    private async Task RestoreDatabase()
+    {
+        if (_selectedFile == null)
+        {
+            Snackbar.Add("Please select a backup file first.", Severity.Warning);
+            return;
+        }
+
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = $"Are you sure you want to restore from '{_selectedFile.Name}'? This will overwrite all current data!",
+            ["ButtonText"] = "Restore",
+            ["Color"] = Color.Error
+        };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirm Restore", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            _isProcessing = true;
+            _processingMessage = "Restoring database...";
+
+            try
+            {
+                // Save uploaded file to temp location
+                var tempPath = Path.Combine(Path.GetTempPath(), _selectedFile.Name);
+                
+                await using (var stream = _selectedFile.OpenReadStream(maxAllowedSize: 1024 * 1024 * 100)) // 100MB max
+                {
+                    await using var fileStream = File.Create(tempPath);
+                    await stream.CopyToAsync(fileStream);
+                }
+                
+                // Restore from the backup file
+                var restoreResult = await SuperRootService.RestoreDatabaseAsync(tempPath);
+                
+                if (restoreResult)
+                {
+                    Snackbar.Add("✅ Database restored successfully!", Severity.Success);
+                    _selectedFile = null;
+                }
+                else
+                {
+                    Snackbar.Add("❌ Failed to restore database. Please check the backup file.", Severity.Error);
+                }
+                
+                // Clean up temp file
+                if (File.Exists(tempPath))
+                {
+                    File.Delete(tempPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"❌ Error: {ex.Message}", Severity.Error);
+            }
+            finally
+            {
+                _isProcessing = false;
+                _processingMessage = "";
+            }
+        }
+    }
+
+    private async Task ResetDatabase()
+    {
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = "⚠️ WARNING: This will DELETE ALL DATA and reset the database to factory defaults. Type 'RESET' to confirm.",
+            ["ExpectedText"] = "RESET",
+            ["ButtonText"] = "I Understand, Reset Now",
+            ["ButtonColor"] = Color.Error
+        };
+
+        var dialog = await DialogService.ShowAsync<ConfirmWithTextDialog>("⚠️ DANGER: Reset Database", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false } && result.Data?.ToString() == "RESET")
+        {
+            _isProcessing = true;
+            _processingMessage = "Resetting database...";
+
+            try
+            {
+                var resetResult = await SuperRootService.ResetDatabaseAsync();
+
+                if (resetResult)
+                {
+                    Snackbar.Add("✅ Database reset completed!", Severity.Success);
+                }
+                else
+                {
+                    Snackbar.Add("❌ Failed to reset database.", Severity.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"❌ Error: {ex.Message}", Severity.Error);
+            }
+            finally
+            {
+                _isProcessing = false;
+                _processingMessage = "";
+            }
+        }
+    }
+
+    private void Close()
+    {
+        MudDialog.Close();
+    }
+}

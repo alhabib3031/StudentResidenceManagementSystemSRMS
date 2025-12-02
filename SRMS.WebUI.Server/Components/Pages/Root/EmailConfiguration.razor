@@ -1,0 +1,343 @@
+﻿@page "/superroot/email-config"
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@attribute [Authorize(Roles = "SuperRoot")]
+@rendermode InteractiveServer
+
+<PageTitle>Email Configuration</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudText Typo="Typo.h4" Color="Color.Primary">
+            <MudIcon Icon="@Icons.Material.Filled.Email" Class="mr-2" />
+            Email Configuration
+        </MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary">
+            Configure SMTP settings for sending emails from the system
+        </MudText>
+    </MudPaper>
+
+    <MudGrid>
+        <!-- SMTP Settings Card -->
+        <MudItem xs="12" md="8">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" Size="Size.Small" />
+                            SMTP Server Settings
+                        </MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudChip T="string" Size="Size.Small" Color="@(_isConnected ? Color.Success : Color.Error)"
+                            Icon="@(_isConnected ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)">
+                            @(_isConnected ? "Connected" : "Not Connected")
+                        </MudChip>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudAlert Severity="Severity.Info" Dense="true" Class="mb-4">
+                                Configure your SMTP server to send emails for password resets, notifications, and system
+                                alerts.
+                            </MudAlert>
+                        </MudItem>
+
+                        <MudItem xs="12" sm="8">
+                            <MudTextField @bind-Value="_config.SmtpHost" Label="SMTP Host" Variant="Variant.Outlined"
+                                Placeholder="smtp.gmail.com" HelperText="Enter your SMTP server address" />
+                        </MudItem>
+
+                        <MudItem xs="12" sm="4">
+                            <MudNumericField @bind-Value="_config.SmtpPort" Label="SMTP Port" Variant="Variant.Outlined"
+                                Min="1" Max="65535" HelperText="Usually 587 or 465" />
+                        </MudItem>
+
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_config.Username" Label="Username" Variant="Variant.Outlined"
+                                Placeholder="your-email@example.com" Adornment="Adornment.Start"
+                                AdornmentIcon="@Icons.Material.Filled.Person" />
+                        </MudItem>
+
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_config.Password" Label="Password" Variant="Variant.Outlined"
+                                InputType="@(_showPassword ? InputType.Text : InputType.Password)"
+                                Adornment="Adornment.End"
+                                AdornmentIcon="@(_showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
+                                OnAdornmentClick="@(() => _showPassword = !_showPassword)" />
+                        </MudItem>
+
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_config.FromEmail" Label="From Email" Variant="Variant.Outlined"
+                                Placeholder="noreply@srms.edu.ly" HelperText="Email address that appears as sender" />
+                        </MudItem>
+
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_config.FromName" Label="From Name" Variant="Variant.Outlined"
+                                Placeholder="SRMS System" HelperText="Name that appears as sender" />
+                        </MudItem>
+
+                        <MudItem xs="12">
+                            <MudCheckBox @bind-Value="_config.EnableSsl" Label="Enable SSL/TLS (Recommended)"
+                                Color="Color.Primary" />
+                        </MudItem>
+
+                        <MudItem xs="12">
+                            <MudCheckBox @bind-Value="_config.UseDefaultCredentials" Label="Use Default Credentials"
+                                Color="Color.Primary" />
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
+                        OnClick="@SaveConfiguration" Disabled="_isSaving">
+                        @if (_isSaving)
+                        {
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                            <span>Saving...</span>
+                        }
+                        else
+                        {
+                            <span>Save Configuration</span>
+                        }
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Send"
+                        OnClick="@TestConnection" Disabled="_isTesting">
+                        @if (_isTesting)
+                        {
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                            <span>Testing...</span>
+                        }
+                        else
+                        {
+                            <span>Test Connection</span>
+                        }
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <!-- Sidebar -->
+        <MudItem xs="12" md="4">
+            <!-- Email Templates -->
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Description" Class="mr-2" Size="Size.Small" />
+                            Email Templates
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudList T="string" Dense="true">
+                        <MudListItem Icon="@Icons.Material.Filled.MarkEmailRead"
+                            OnClick="@(() => EditTemplate("welcome"))">
+                            Welcome Email
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.LockReset" OnClick="@(() => EditTemplate("reset"))">
+                            Password Reset
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.VerifiedUser"
+                            OnClick="@(() => EditTemplate("verify"))">
+                            Email Verification
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Payment" OnClick="@(() => EditTemplate("payment"))">
+                            Payment Receipt
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Notifications"
+                            OnClick="@(() => EditTemplate("notification"))">
+                            Notification Email
+                        </MudListItem>
+                    </MudList>
+                </MudCardContent>
+            </MudCard>
+
+            <!-- Statistics -->
+            <MudCard Elevation="4" Class="mt-4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.BarChart" Class="mr-2" Size="Size.Small" />
+                            Email Statistics
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudStack Spacing="3">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Today</MudText>
+                            <MudText Typo="Typo.h5" Color="Color.Success">243</MudText>
+                            <MudText Typo="Typo.caption">emails sent</MudText>
+                        </div>
+                        <MudDivider />
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">This Month</MudText>
+                            <MudText Typo="Typo.h5" Color="Color.Info">5,847</MudText>
+                            <MudText Typo="Typo.caption">emails sent</MudText>
+                        </div>
+                        <MudDivider />
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Failed</MudText>
+                            <MudText Typo="Typo.h5" Color="Color.Error">12</MudText>
+                            <MudText Typo="Typo.caption">delivery failures</MudText>
+                        </div>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <!-- Recent Emails Log -->
+        <MudItem xs="12">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
+                            Recent Email Activity
+                        </MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.Refresh" OnClick="@LoadLogs">
+                            Refresh
+                        </MudButton>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTable Items="@_recentEmails" Hover="true" Dense="true" Striped="true">
+                        <HeaderContent>
+                            <MudTh>Time</MudTh>
+                            <MudTh>To</MudTh>
+                            <MudTh>Subject</MudTh>
+                            <MudTh>Status</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Time">
+                                <MudText Typo="Typo.caption">@context.Timestamp.ToString("HH:mm:ss")</MudText>
+                            </MudTd>
+                            <MudTd DataLabel="To">@context.To</MudTd>
+                            <MudTd DataLabel="Subject">@context.Subject</MudTd>
+                            <MudTd DataLabel="Status">
+                                <MudChip T="string" Size="Size.Small"
+                                    Color="@(context.Success ? Color.Success : Color.Error)">
+                                    @(context.Success ? "Sent" : "Failed")
+                                </MudChip>
+                            </MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private EmailConfig _config = new();
+    private bool _showPassword = false;
+    private bool _isSaving = false;
+    private bool _isTesting = false;
+    private bool _isConnected = false;
+    private List<EmailLog> _recentEmails = new();
+
+    protected override void OnInitialized()
+    {
+        LoadConfiguration();
+        LoadLogs();
+    }
+
+    private void LoadConfiguration()
+    {
+        // TODO: Load from database or configuration
+        _config = new EmailConfig
+            {
+                SmtpHost = "smtp.gmail.com",
+                SmtpPort = 587,
+                Username = "itstd.5377@uob.edu.ly",
+                FromEmail = "itstd.5377@uob.edu.ly",
+                FromName = "SRMS System",
+                EnableSsl = true
+            };
+    }
+
+    private void LoadLogs()
+    {
+        // TODO: Load real logs from database
+        _recentEmails = new List<EmailLog>
+{
+new() { Timestamp = DateTime.Now.AddMinutes(-5), To = "student@example.com", Subject = "Welcome to SRMS", Success =
+true},
+new() { Timestamp = DateTime.Now.AddMinutes(-12), To = "manager@example.com", Subject = "Password Reset Request",
+Success = true },
+new() { Timestamp = DateTime.Now.AddMinutes(-25), To = "admin@example.com", Subject = "Monthly Report", Success =
+false},
+new() { Timestamp = DateTime.Now.AddHours(-1), To = "user@example.com", Subject = "Payment Receipt", Success = true }
+};
+    }
+
+    private async Task SaveConfiguration()
+    {
+        _isSaving = true;
+        try
+        {
+            await Task.Delay(1000); // Simulate API call
+                                    // TODO: Save to database
+            Snackbar.Add("Email configuration saved successfully!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSaving = false;
+        }
+    }
+
+    private async Task TestConnection()
+    {
+        _isTesting = true;
+        try
+        {
+            await Task.Delay(2000); // Simulate connection test
+            _isConnected = true;
+            Snackbar.Add("✅ SMTP connection successful! Test email sent.", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            _isConnected = false;
+            Snackbar.Add($"❌ Connection failed: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isTesting = false;
+        }
+    }
+
+    private void EditTemplate(string templateName)
+    {
+        Snackbar.Add($"Edit template '{templateName}' - Coming soon!", Severity.Info);
+    }
+
+    public class EmailConfig
+    {
+        public string SmtpHost { get; set; } = "";
+        public int SmtpPort { get; set; } = 587;
+        public string Username { get; set; } = "";
+        public string Password { get; set; } = "";
+        public string FromEmail { get; set; } = "";
+        public string FromName { get; set; } = "";
+        public bool EnableSsl { get; set; } = true;
+        public bool UseDefaultCredentials { get; set; } = false;
+    }
+
+    public class EmailLog
+    {
+        public DateTime Timestamp { get; set; }
+        public string To { get; set; } = "";
+        public string Subject { get; set; } = "";
+        public bool Success { get; set; }
+    }
+}

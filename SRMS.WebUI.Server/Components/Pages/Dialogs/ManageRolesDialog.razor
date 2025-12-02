@@ -1,0 +1,152 @@
+@using SRMS.Application.Identity.Interfaces
+@inject IUserService UserService
+@inject IRoleService RoleService
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <DialogContent>
+        @if (_isLoading)
+        {
+            <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            <MudText Typo="Typo.body1" Class="mb-4">
+                Manage roles for the selected user.
+            </MudText>
+
+            <MudGrid>
+                @foreach (var role in _allRoles)
+                {
+                    <MudItem xs="12" sm="6">
+                        <MudCheckBox T="bool" Value="@(_userRoles.Contains(role))"
+                            ValueChanged="@((bool isChecked) => ToggleRole(role, isChecked))" Label="@role"
+                            Color="Color.Primary" />
+                    </MudItem>
+                }
+            </MudGrid>
+        }
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="HandleSubmit"
+            Disabled="_isSubmitting || _isLoading">
+            @if (_isSubmitting)
+            {
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+            }
+            Save Roles
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public Guid UserId { get; set; }
+
+    private List<string> _allRoles = new();
+    private HashSet<string> _userRoles = new();
+    private HashSet<string> _originalUserRoles = new();
+
+    private bool _isLoading = true;
+    private bool _isSubmitting = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        try
+        {
+            // Load all roles
+            _allRoles = await RoleService.GetAllRolesAsync();
+
+            // Load user roles
+            var roles = await UserService.GetUserRolesAsync(UserId);
+            _userRoles = new HashSet<string>(roles);
+            _originalUserRoles = new HashSet<string>(roles);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading roles: {ex.Message}", Severity.Error);
+            MudDialog.Cancel();
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void ToggleRole(string role, bool isChecked)
+    {
+        if (isChecked)
+        {
+            _userRoles.Add(role);
+        }
+        else
+        {
+            _userRoles.Remove(role);
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        _isSubmitting = true;
+
+        try
+        {
+            // Determine roles to add and remove
+            var rolesToAdd = _userRoles.Except(_originalUserRoles).ToList();
+            var rolesToRemove = _originalUserRoles.Except(_userRoles).ToList();
+
+            bool success = true;
+
+            // Add new roles
+            foreach (var role in rolesToAdd)
+            {
+                if (!await UserService.AddToRoleAsync(UserId, role))
+                {
+                    success = false;
+                    Snackbar.Add($"Failed to add role: {role}", Severity.Error);
+                }
+            }
+
+            // Remove old roles
+            foreach (var role in rolesToRemove)
+            {
+                // Prevent removing SuperRoot from self if needed, but backend should handle safety
+                if (!await UserService.RemoveFromRoleAsync(UserId, role))
+                {
+                    success = false;
+                    Snackbar.Add($"Failed to remove role: {role}", Severity.Error);
+                }
+            }
+
+            if (success)
+            {
+                Snackbar.Add("Roles updated successfully!", Severity.Success);
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}

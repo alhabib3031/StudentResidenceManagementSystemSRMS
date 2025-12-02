@@ -1,0 +1,558 @@
+﻿@page "/admin"
+@using SRMS.Application.AuditLogs.Interfaces
+@using SRMS.Domain.AuditLogs
+@using SRMS.Domain.AuditLogs.Enums
+@using SRMS.Domain.Complaints
+@using SRMS.Domain.Managers
+@using SRMS.Domain.Managers.Enums
+@using SRMS.Domain.Payments
+@using SRMS.Domain.Repositories
+@using SRMS.Domain.Residences
+@attribute [Authorize(Roles = "Admin,SuperRoot")]
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IRepositories<Student> StudentRepo
+@inject IRepositories<Manager> ManagerRepo
+@inject IRepositories<Residence> ResidenceRepo
+@inject IRepositories<Payment> PaymentRepo
+@inject IRepositories<Complaint> ComplaintRepo
+@inject IAuditService AuditService
+
+<PageTitle>Admin Dashboard</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Welcome Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4"
+        Style="background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-info) 100%);">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.h4" Style="color: white;">
+                    <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" />
+                    Admin Dashboard
+                </MudText>
+                <MudText Typo="Typo.body2" Style="color: rgba(255,255,255,0.8);">
+                    Welcome back, @_adminName • @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+                </MudText>
+            </MudStack>
+            <MudChip T="string" Icon="@Icons.Material.Filled.Shield" Color="Color.Surface" Size="Size.Large">
+                Administrator
+            </MudChip>
+        </MudStack>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else
+    {
+        <!-- Key Metrics -->
+        <MudGrid Class="mb-4">
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Elevation="4" Class="cursor-pointer transition duration-200 hover:-translate-y-1"
+                    Href="/admin/residences">
+                    <MudCardContent>
+                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                            <MudStack Spacing="0">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Total Residences</MudText>
+                                <MudText Typo="Typo.h4">@_stats.TotalResidences</MudText>
+                                <MudText Typo="Typo.caption"
+                                    Color="@(_stats.ResidencesGrowth >= 0 ? Color.Success : Color.Error)">
+                                    @(_stats.ResidencesGrowth >= 0 ? "+" : "")@_stats.ResidencesGrowth this month
+                                </MudText>
+                            </MudStack>
+                            <MudAvatar Color="Color.Primary" Size="Size.Large">
+                                <MudIcon Icon="@Icons.Material.Filled.Apartment" Size="Size.Large" />
+                            </MudAvatar>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Elevation="4" Class="cursor-pointer transition duration-200 hover:-translate-y-1"
+                    Href="/admin/managers">
+                    <MudCardContent>
+                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                            <MudStack Spacing="0">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Active Managers</MudText>
+                                <MudText Typo="Typo.h4" Color="Color.Success">@_stats.ActiveManagers</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Success">
+                                    @_stats.ManagerAvailability.ToString("F0")% availability
+                                </MudText>
+                            </MudStack>
+                            <MudAvatar Color="Color.Success" Size="Size.Large">
+                                <MudIcon Icon="@Icons.Material.Filled.SupervisedUserCircle" Size="Size.Large" />
+                            </MudAvatar>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Elevation="4" Class="cursor-pointer transition duration-200 hover:-translate-y-1"
+                    Href="/admin/students">
+                    <MudCardContent>
+                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                            <MudStack Spacing="0">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Total Students</MudText>
+                                <MudText Typo="Typo.h4" Color="Color.Info">@_stats.TotalStudents</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Info">
+                                    @_stats.OccupancyRate.ToString("F0")% occupancy
+                                </MudText>
+                            </MudStack>
+                            <MudAvatar Color="Color.Info" Size="Size.Large">
+                                <MudIcon Icon="@Icons.Material.Filled.School" Size="Size.Large" />
+                            </MudAvatar>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Elevation="4" Class="cursor-pointer transition duration-200 hover:-translate-y-1">
+                    <MudCardContent>
+                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                            <MudStack Spacing="0">
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">Monthly Revenue</MudText>
+                                <MudText Typo="Typo.h5" Color="Color.Warning">@_stats.MonthlyRevenue.ToString("N0") LYD
+                                </MudText>
+                                <MudText Typo="Typo.caption"
+                                    Color="@(_stats.RevenueGrowth >= 0 ? Color.Success : Color.Error)">
+                                    @(_stats.RevenueGrowth >= 0 ? "+" : "")@_stats.RevenueGrowth.ToString("F1")% vs last
+                                    month
+                                </MudText>
+                            </MudStack>
+                            <MudAvatar Color="Color.Warning" Size="Size.Large">
+                                <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Size="Size.Large" />
+                            </MudAvatar>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <!-- Charts Row -->
+            <MudItem xs="12" md="8">
+                <MudCard Elevation="4">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">
+                                <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Class="mr-2" Size="Size.Small" />
+                                Student Registrations Trend
+                            </MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudSelect T="string" @bind-Value="_chartPeriod" Variant="Variant.Outlined"
+                                Margin="Margin.Dense">
+                                <MudSelectItem Value="@("week")">This Week</MudSelectItem>
+                                <MudSelectItem Value="@("month")">This Month</MudSelectItem>
+                                <MudSelectItem Value="@("year")">This Year</MudSelectItem>
+                            </MudSelect>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent Class="h-[300px]">
+                        @if (_chartData.Any())
+                        {
+                            <MudChart ChartType="ChartType.Line" ChartSeries="@_series"
+                                XAxisLabels="@_chartData.Select(x => x.Label).ToArray()" Width="100%" Height="280px"
+                                ChartOptions="@_chartOptions" />
+                        }
+                        else
+                        {
+                            <MudText Typo="Typo.body2" Color="Color.Secondary" Align="Align.Center" Class="mt-8">
+                                No data available for the selected period
+                            </MudText>
+                        }
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <!-- Recent Activity -->
+            <MudItem xs="12" md="4">
+                <MudCard Elevation="4">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">
+                                <MudIcon Icon="@Icons.Material.Filled.Notifications" Class="mr-2" Size="Size.Small" />
+                                Recent Activity
+                            </MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudIconButton Icon="@Icons.Material.Filled.Refresh" Size="Size.Small"
+                                OnClick="LoadRecentActivity" />
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent Class="max-h-[300px] overflow-y-auto">
+                        @if (_recentActivities.Any())
+                        {
+                            <MudTimeline TimelineOrientation="TimelineOrientation.Vertical">
+                                @foreach (var activity in _recentActivities.Take(5))
+                                {
+                                    <MudTimelineItem Color="@GetActivityColor(activity.AuditAction)" Size="Size.Small">
+                                        <ItemContent>
+                                            <MudText Typo="Typo.body2">@activity.Action</MudText>
+                                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                                @GetTimeAgo(activity.Timestamp) • @activity.UserName
+                                            </MudText>
+                                        </ItemContent>
+                                    </MudTimelineItem>
+                                }
+                            </MudTimeline>
+                        }
+                        else
+                        {
+                            <MudText Typo="Typo.body2" Color="Color.Secondary" Align="Align.Center" Class="mt-4">
+                                No recent activity
+                            </MudText>
+                        }
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <!-- Quick Actions -->
+            <MudItem xs="12" md="6">
+                <MudCard Elevation="4">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">
+                                <MudIcon Icon="@Icons.Material.Filled.Bolt" Class="mr-2" Size="Size.Small" />
+                                Quick Actions
+                            </MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid Spacing="2">
+                            <MudItem xs="12" sm="6">
+                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true"
+                                    StartIcon="@Icons.Material.Filled.Add" Href="/admin/residences/create">
+                                    Add Residence
+                                </MudButton>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudButton Variant="Variant.Outlined" Color="Color.Success" FullWidth="true"
+                                    StartIcon="@Icons.Material.Filled.PersonAdd" Href="/admin/managers/create">
+                                    Add Manager
+                                </MudButton>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudButton Variant="Variant.Outlined" Color="Color.Info" FullWidth="true"
+                                    StartIcon="@Icons.Material.Filled.Assessment" Href="/admin/reports">
+                                    View Reports
+                                </MudButton>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudButton Variant="Variant.Outlined" Color="Color.Warning" FullWidth="true"
+                                    StartIcon="@Icons.Material.Filled.Settings" Href="/superroot/settings">
+                                    System Settings
+                                </MudButton>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+
+            <!-- Complaints Overview -->
+            <MudItem xs="12" md="6">
+                <MudCard Elevation="4">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">
+                                <MudIcon Icon="@Icons.Material.Filled.ReportProblem" Class="mr-2" Size="Size.Small" />
+                                Complaints Overview
+                            </MudText>
+                        </CardHeaderContent>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem xs="6">
+                                <MudPaper Elevation="0" Class="pa-3 text-center" Style="background-color: #fff3e0;">
+                                    <MudText Typo="Typo.h4" Color="Color.Warning">@_stats.PendingComplaints</MudText>
+                                    <MudText Typo="Typo.caption">Pending</MudText>
+                                </MudPaper>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudPaper Elevation="0" Class="pa-3 text-center" Style="background-color: #e8f5e9;">
+                                    <MudText Typo="Typo.h4" Color="Color.Success">@_stats.ResolvedComplaints</MudText>
+                                    <MudText Typo="Typo.caption">Resolved</MudText>
+                                </MudPaper>
+                            </MudItem>
+                        </MudGrid>
+                        <MudDivider Class="my-3" />
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" FullWidth="true"
+                            EndIcon="@Icons.Material.Filled.ArrowForward" Href="/admin/complaints">
+                            View All Complaints
+                        </MudButton>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    }
+</MudContainer>
+
+
+@code {
+    private string _adminName = "Admin";
+    private string _chartPeriod = "month";
+    private bool _isLoading = true;
+
+    private DashboardStats _stats = new();
+    private List<AuditLog> _recentActivities = new();
+    private List<ChartDataPoint> _chartData = new();
+    private List<ChartSeries> _series = new();
+    private ChartOptions _chartOptions = new()
+        {
+            YAxisTicks = 10,
+            MaxNumYAxisTicks = 10,
+            YAxisLines = true,
+            XAxisLines = false
+        };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            _adminName = user.Identity.Name ?? "Admin";
+        }
+
+        await LoadDashboardData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task LoadDashboardData()
+    {
+        _isLoading = true;
+
+        try
+        {
+            await LoadStats();
+            await LoadChartData();
+            await LoadRecentActivity();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading dashboard: {ex.Message}");
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadStats()
+    {
+        try
+        {
+            var students = await StudentRepo.GetAllAsync();
+            var managers = await ManagerRepo.GetAllAsync();
+            var residences = await ResidenceRepo.GetAllAsync();
+            var payments = await PaymentRepo.GetAllAsync();
+            var complaints = await ComplaintRepo.GetAllAsync();
+
+            var now = DateTime.UtcNow;
+            var lastMonth = now.AddMonths(-1);
+
+            _stats = new DashboardStats
+                {
+                    TotalResidences = residences.Count(),
+                    ActiveManagers = managers.Count(m => m.Status == ManagerStatus.Active),
+                    TotalStudents = students.Count(),
+                    PendingComplaints = complaints.Count(c => c.Status == ComplaintStatus.Open || c.Status == ComplaintStatus.InProgress),
+                    ResolvedComplaints = complaints.Count(c => c.Status == ComplaintStatus.Resolved),
+                    ResidencesGrowth = residences.Count(r => r.CreatedAt >= lastMonth),
+                    ManagerAvailability = managers.Any() ?
+                (double)managers.Count(m => m.Status == ManagerStatus.Active) / managers.Count() * 100 : 0,
+                    OccupancyRate = residences.Any() && residences.Sum(r => r.TotalCapacity) > 0 ?
+                (double)students.Count() / residences.Sum(r => r.TotalCapacity) * 100 : 0,
+                    MonthlyRevenue = payments
+                .Where(p => p.CreatedAt.Month == now.Month && p.CreatedAt.Year == now.Year && p.Status == PaymentStatus.Paid)
+                .Sum(p => p.Amount?.Amount ?? 0),
+                    RevenueGrowth = CalculateRevenueGrowth(payments)
+                };
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading stats: {ex.Message}");
+        }
+    }
+
+    private double CalculateRevenueGrowth(IEnumerable<Payment> payments)
+    {
+        var now = DateTime.UtcNow;
+        var currentMonth = payments
+        .Where(p => p.CreatedAt.Month == now.Month && p.CreatedAt.Year == now.Year && p.Status == PaymentStatus.Paid)
+        .Sum(p => p.Amount?.Amount ?? 0);
+
+        var lastMonth = payments
+        .Where(p => p.CreatedAt.Month == now.AddMonths(-1).Month && p.CreatedAt.Year == now.AddMonths(-1).Year && p.Status ==
+        PaymentStatus.Paid)
+        .Sum(p => p.Amount?.Amount ?? 0);
+
+        if (lastMonth == 0) return 0;
+
+        return (double)((currentMonth - lastMonth) / lastMonth) * 100;
+    }
+
+    private async Task LoadChartData(string? period = null)
+    {
+        try
+        {
+            if (period != null)
+            {
+                _chartPeriod = period;
+            }
+
+            var students = await StudentRepo.GetAllAsync();
+            var now = DateTime.UtcNow;
+
+            _chartData = _chartPeriod switch
+            {
+                "week" => GetWeekData(students, now),
+                "month" => GetMonthData(students, now),
+                "year" => GetYearData(students, now),
+                _ => GetMonthData(students, now)
+            };
+
+            _series = new List<ChartSeries>
+{
+new ChartSeries
+{
+Name = "New Students",
+Data = _chartData.Select(x => (double)x.Value).ToArray()
+}
+};
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading chart: {ex.Message}");
+        }
+    }
+
+    private List<ChartDataPoint> GetWeekData(IEnumerable<Student> students, DateTime now)
+    {
+        var data = new List<ChartDataPoint>();
+
+        for (int i = 6; i >= 0; i--)
+        {
+            var date = now.AddDays(-i);
+            var count = students.Count(s => s.CreatedAt.Date == date.Date);
+            data.Add(new ChartDataPoint
+                {
+                    Label = date.ToString("ddd"),
+                    Value = count
+                });
+        }
+
+        return data;
+    }
+
+    private List<ChartDataPoint> GetMonthData(IEnumerable<Student> students, DateTime now)
+    {
+        var data = new List<ChartDataPoint>();
+        var daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
+        var interval = Math.Max(1, daysInMonth / 7);
+
+        for (int i = 1; i <= daysInMonth; i += interval)
+        {
+            var startDate = new DateTime(now.Year, now.Month, i);
+            var endDate = new DateTime(now.Year, now.Month, Math.Min(i + interval - 1, daysInMonth));
+            var count = students.Count(s => s.CreatedAt.Date >= startDate && s.CreatedAt.Date <= endDate);
+
+            data.Add(new ChartDataPoint
+                {
+                    Label = $"{i}-{Math.Min(i + interval - 1, daysInMonth)}",
+                    Value = count
+                });
+        }
+
+        return data;
+    }
+
+    private List<ChartDataPoint> GetYearData(IEnumerable<Student> students, DateTime now)
+    {
+        var data = new List<ChartDataPoint>();
+        var monthNames = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+        for (int i = 0; i < 12; i++)
+        {
+            var month = i + 1;
+            var count = students.Count(s => s.CreatedAt.Month == month && s.CreatedAt.Year == now.Year);
+            data.Add(new ChartDataPoint
+                {
+                    Label = monthNames[i],
+                    Value = count
+                });
+        }
+
+        return data;
+    }
+
+    private async Task LoadRecentActivity()
+    {
+        try
+        {
+            _recentActivities = await AuditService.GetTodayLogsUtcAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading activity: {ex.Message}");
+            _recentActivities = new List<AuditLog>();
+        }
+    }
+
+    private Color GetActivityColor(AuditAction action)
+    {
+        return action switch
+        {
+            AuditAction.Create or AuditAction.StudentRegistered => Color.Success,
+            AuditAction.Update => Color.Info,
+            AuditAction.Delete => Color.Error,
+            AuditAction.Login => Color.Primary,
+            AuditAction.ComplaintSubmitted => Color.Warning,
+            _ => Color.Default
+        };
+    }
+
+    private string GetTimeAgo(DateTime timestamp)
+    {
+        var span = DateTime.UtcNow - timestamp;
+
+        if (span.TotalMinutes < 1) return "just now";
+        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes}m ago";
+        if (span.TotalHours < 24) return $"{(int)span.TotalHours}h ago";
+        return $"{(int)span.TotalDays}d ago";
+    }
+
+    private class DashboardStats
+    {
+        public int TotalResidences { get; set; }
+        public int ActiveManagers { get; set; }
+        public int TotalStudents { get; set; }
+        public int PendingComplaints { get; set; }
+        public int ResolvedComplaints { get; set; }
+        public int ResidencesGrowth { get; set; }
+        public double ManagerAvailability { get; set; }
+        public double OccupancyRate { get; set; }
+        public decimal MonthlyRevenue { get; set; }
+        public double RevenueGrowth { get; set; }
+    }
+
+    private class ChartDataPoint
+    {
+        public string Label { get; set; } = "";
+        public int Value { get; set; }
+    }
+}

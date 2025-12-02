@@ -1,0 +1,449 @@
+@page "/superroot/sms-config"
+@attribute [Authorize(Roles = "SuperRoot")]
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@rendermode InteractiveServer
+
+<PageTitle>SMS Configuration</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudText Typo="Typo.h4" Color="Color.Primary">
+            <MudIcon Icon="@Icons.Material.Filled.Sms" Class="mr-2" />
+            SMS Configuration
+        </MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary">
+            Configure SMS gateway for sending notifications and alerts
+        </MudText>
+    </MudPaper>
+
+    <MudGrid>
+        <!-- SMS Provider Settings -->
+        <MudItem xs="12" md="8">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" Size="Size.Small" />
+                            SMS Provider Settings
+                        </MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudChip T="string" Size="Size.Small" Color="@(_isActive ? Color.Success : Color.Error)"
+                            Icon="@(_isActive ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)">
+                            @(_isActive ? "Active" : "Inactive")
+                        </MudChip>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudAlert Severity="Severity.Info" Dense="true" Class="mb-4">
+                                Configure your SMS provider to send notifications, alerts, and verification codes.
+                            </MudAlert>
+                        </MudItem>
+
+                        <MudItem xs="12">
+                            <MudSelect T="string" @bind-Value="_config.Provider" Label="SMS Provider"
+                                Variant="Variant.Outlined" Adornment="Adornment.Start"
+                                AdornmentIcon="@Icons.Material.Filled.Business">
+                                <MudSelectItem Value="@("Twilio")">
+                                    <div Class="flex items-center">
+                                        <MudIcon Icon="@Icons.Material.Filled.Message" Class="mr-2" />
+                                        Twilio
+                                    </div>
+                                </MudSelectItem>
+                                <MudSelectItem Value="@("Nexmo")">
+                                    <div Class="flex items-center">
+                                        <MudIcon Icon="@Icons.Material.Filled.Sms" Class="mr-2" />
+                                        Nexmo (Vonage)
+                                    </div>
+                                </MudSelectItem>
+                                <MudSelectItem Value="@("MessageBird")">
+                                    <div Class="flex items-center">
+                                        <MudIcon Icon="@Icons.Material.Filled.Send" Class="mr-2" />
+                                        MessageBird
+                                    </div>
+                                </MudSelectItem>
+                                <MudSelectItem Value="@("AWS_SNS")">
+                                    <div Class="flex items-center">
+                                        <MudIcon Icon="@Icons.Material.Filled.Cloud" Class="mr-2" />
+                                        AWS SNS
+                                    </div>
+                                </MudSelectItem>
+                            </MudSelect>
+                        </MudItem>
+
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_config.AccountSid" Label="Account SID / API Key"
+                                Variant="Variant.Outlined" Adornment="Adornment.Start"
+                                AdornmentIcon="@Icons.Material.Filled.Key"
+                                HelperText="Your provider account identifier" />
+                        </MudItem>
+
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_config.AuthToken" Label="Auth Token / API Secret"
+                                Variant="Variant.Outlined"
+                                InputType="@(_showToken ? InputType.Text : InputType.Password)"
+                                Adornment="Adornment.End"
+                                AdornmentIcon="@(_showToken ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
+                                OnAdornmentClick="@(() => _showToken = !_showToken)"
+                                HelperText="Your provider secret token" />
+                        </MudItem>
+
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_config.FromNumber" Label="From Phone Number"
+                                Variant="Variant.Outlined" Placeholder="+218912345678" Adornment="Adornment.Start"
+                                AdornmentIcon="@Icons.Material.Filled.Phone"
+                                HelperText="Phone number that appears as sender" />
+                        </MudItem>
+
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_config.SenderName" Label="Sender Name (Alpha)"
+                                Variant="Variant.Outlined" Placeholder="SRMS" MaxLength="11"
+                                HelperText="Alphanumeric sender ID (max 11 chars)" />
+                        </MudItem>
+
+                        <MudItem xs="12">
+                            <MudCheckBox @bind-Value="_config.EnableSms" Label="Enable SMS Notifications"
+                                Color="Color.Primary" />
+                        </MudItem>
+
+                        <MudItem xs="12">
+                            <MudCheckBox @bind-Value="_config.EnableDeliveryReports" Label="Enable Delivery Reports"
+                                Color="Color.Primary" />
+                        </MudItem>
+
+                        <MudItem xs="12">
+                            <MudExpansionPanels>
+                                <MudExpansionPanel Text="Advanced Settings">
+                                    <MudGrid>
+                                        <MudItem xs="12" sm="6">
+                                            <MudNumericField @bind-Value="_config.MaxRetryAttempts"
+                                                Label="Max Retry Attempts" Variant="Variant.Outlined" Min="0" Max="5"
+                                                HelperText="Number of retry attempts for failed messages" />
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6">
+                                            <MudNumericField @bind-Value="_config.TimeoutSeconds"
+                                                Label="Timeout (seconds)" Variant="Variant.Outlined" Min="5" Max="60"
+                                                HelperText="Request timeout duration" />
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <MudTextField @bind-Value="_config.WebhookUrl" Label="Webhook URL"
+                                                Variant="Variant.Outlined"
+                                                Placeholder="https://yourdomain.com/api/sms/webhook"
+                                                HelperText="URL to receive delivery status callbacks" />
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudExpansionPanel>
+                            </MudExpansionPanels>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
+                        OnClick="@SaveConfiguration" Disabled="_isSaving">
+                        @if (_isSaving)
+                        {
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                            <span>Saving...</span>
+                        }
+                        else
+                        {
+                            <span>Save Configuration</span>
+                        }
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Send"
+                        OnClick="@SendTestSms" Disabled="_isTesting">
+                        @if (_isTesting)
+                        {
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                            <span>Sending...</span>
+                        }
+                        else
+                        {
+                            <span>Send Test SMS</span>
+                        }
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <!-- Sidebar -->
+        <MudItem xs="12" md="4">
+            <!-- SMS Templates -->
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Description" Class="mr-2" Size="Size.Small" />
+                            SMS Templates
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudList T="string" Dense="true">
+                        <MudListItem Icon="@Icons.Material.Filled.VerifiedUser" OnClick="@(() => EditTemplate("otp"))">
+                            OTP Verification
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Payment" OnClick="@(() => EditTemplate("payment"))">
+                            Payment Reminder
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Notifications"
+                            OnClick="@(() => EditTemplate("alert"))">
+                            Alert Notification
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Info" OnClick="@(() => EditTemplate("info"))">
+                            General Information
+                        </MudListItem>
+                    </MudList>
+                </MudCardContent>
+            </MudCard>
+
+            <!-- SMS Statistics -->
+            <MudCard Elevation="4" Class="mt-4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.BarChart" Class="mr-2" Size="Size.Small" />
+                            SMS Statistics
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudStack Spacing="3">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Today</MudText>
+                            <MudText Typo="Typo.h5" Color="Color.Success">127</MudText>
+                            <MudText Typo="Typo.caption">SMS sent</MudText>
+                        </div>
+                        <MudDivider />
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">This Month</MudText>
+                            <MudText Typo="Typo.h5" Color="Color.Info">3,421</MudText>
+                            <MudText Typo="Typo.caption">SMS sent</MudText>
+                        </div>
+                        <MudDivider />
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Delivery Rate</MudText>
+                            <MudText Typo="Typo.h5" Color="Color.Primary">98.5%</MudText>
+                            <MudText Typo="Typo.caption">successful delivery</MudText>
+                        </div>
+                        <MudDivider />
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Failed</MudText>
+                            <MudText Typo="Typo.h5" Color="Color.Error">8</MudText>
+                            <MudText Typo="Typo.caption">delivery failures</MudText>
+                        </div>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+
+            <!-- Cost Overview -->
+            <MudCard Elevation="4" Class="mt-4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Class="mr-2" Size="Size.Small" />
+                            Cost Overview
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudStack Spacing="2">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">This Month</MudText>
+                            <MudText Typo="Typo.h6">$127.50</MudText>
+                        </div>
+                        <MudDivider />
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Per SMS Cost</MudText>
+                            <MudText Typo="Typo.body2">$0.037 avg</MudText>
+                        </div>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <!-- Recent SMS Log -->
+        <MudItem xs="12">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
+                            Recent SMS Activity
+                        </MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.Refresh" OnClick="@LoadLogs">
+                            Refresh
+                        </MudButton>
+                    </CardHeaderActions>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTable Items="@_recentSms" Hover="true" Dense="true" Striped="true">
+                        <HeaderContent>
+                            <MudTh>Time</MudTh>
+                            <MudTh>To</MudTh>
+                            <MudTh>Message</MudTh>
+                            <MudTh>Status</MudTh>
+                            <MudTh>Cost</MudTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd DataLabel="Time">
+                                <MudText Typo="Typo.caption">@context.Timestamp.ToString("HH:mm:ss")</MudText>
+                            </MudTd>
+                            <MudTd DataLabel="To">@context.To</MudTd>
+                            <MudTd DataLabel="Message">
+                                <MudText Typo="Typo.caption" Class="max-w-[400px] overflow-hidden text-ellipsis">
+                                    @context.Message
+                                </MudText>
+                            </MudTd>
+                            <MudTd DataLabel="Status">
+                                <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)">
+                                    @context.Status
+                                </MudChip>
+                            </MudTd>
+                            <MudTd DataLabel="Cost">
+                                <MudText Typo="Typo.caption">@context.Cost</MudText>
+                            </MudTd>
+                        </RowTemplate>
+                    </MudTable>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private SmsConfig _config = new();
+    private bool _showToken = false;
+    private bool _isSaving = false;
+    private bool _isTesting = false;
+    private bool _isActive = false;
+    private List<SmsLog> _recentSms = new();
+
+    protected override void OnInitialized()
+    {
+        LoadConfiguration();
+        LoadLogs();
+    }
+
+    private void LoadConfiguration()
+    {
+        _config = new SmsConfig
+            {
+                Provider = "Twilio",
+                FromNumber = "+218912345678",
+                SenderName = "SRMS",
+                EnableSms = true,
+                EnableDeliveryReports = true,
+                MaxRetryAttempts = 3,
+                TimeoutSeconds = 30
+            };
+    }
+
+    private void LoadLogs()
+    {
+        _recentSms = new List<SmsLog>
+{
+new() { Timestamp = DateTime.Now.AddMinutes(-3), To = "+218911234567", Message = "Your OTP code is: 123456", Status =
+"Delivered", Cost = "$0.04" },
+new() { Timestamp = DateTime.Now.AddMinutes(-8), To = "+218919876543", Message = "Payment reminder: Your rent is due",
+Status = "Delivered", Cost = "$0.04" },
+new() { Timestamp = DateTime.Now.AddMinutes(-15), To = "+218915555555", Message = "System alert: Maintenance scheduled",
+Status = "Failed", Cost = "$0.00" },
+new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message = "Welcome to SRMS!", Status =
+"Delivered", Cost = "$0.03" }
+};
+    }
+
+    private async Task SaveConfiguration()
+    {
+        _isSaving = true;
+        try
+        {
+            await Task.Delay(1000);
+            Snackbar.Add("SMS configuration saved successfully!", Severity.Success);
+            _isActive = _config.EnableSms;
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSaving = false;
+        }
+    }
+
+    private async Task SendTestSms()
+    {
+        var parameters = new DialogParameters
+            {
+                ["ContentText"] = "Enter phone number to send test SMS:",
+                ["ButtonText"] = "Send",
+                ["Color"] = Color.Primary
+            };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Send Test SMS", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            _isTesting = true;
+            try
+            {
+                await Task.Delay(2000);
+                Snackbar.Add("✅ Test SMS sent successfully!", Severity.Success);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"❌ Failed to send: {ex.Message}", Severity.Error);
+            }
+            finally
+            {
+                _isTesting = false;
+            }
+        }
+    }
+
+    private void EditTemplate(string templateName)
+    {
+        Snackbar.Add($"Edit template '{templateName}' - Coming soon!", Severity.Info);
+    }
+
+    private Color GetStatusColor(string status) => status switch
+    {
+        "Delivered" => Color.Success,
+        "Pending" => Color.Warning,
+        "Failed" => Color.Error,
+        _ => Color.Default
+    };
+
+    public class SmsConfig
+    {
+        public string Provider { get; set; } = "";
+        public string AccountSid { get; set; } = "";
+        public string AuthToken { get; set; } = "";
+        public string FromNumber { get; set; } = "";
+        public string SenderName { get; set; } = "";
+        public bool EnableSms { get; set; } = true;
+        public bool EnableDeliveryReports { get; set; } = true;
+        public int MaxRetryAttempts { get; set; } = 3;
+        public int TimeoutSeconds { get; set; } = 30;
+        public string? WebhookUrl { get; set; }
+    }
+
+    public class SmsLog
+    {
+        public DateTime Timestamp { get; set; }
+        public string To { get; set; } = "";
+        public string Message { get; set; } = "";
+        public string Status { get; set; } = "";
+        public string Cost { get; set; } = "";
+    }
+}

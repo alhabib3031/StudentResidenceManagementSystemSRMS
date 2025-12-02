@@ -1,0 +1,230 @@
+﻿@page "/superroot/roles"
+@attribute [Authorize(Roles = "SuperRoot")]
+@inject IRoleService RoleService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Roles Management</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4" Color="Color.Primary">
+                    <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" />
+                    Roles Management
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Manage system roles and permissions
+                </MudText>
+            </div>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
+                OnClick="@CreateNewRole">
+                Create New Role
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+
+    <!-- System Roles (Read-Only) -->
+    <MudText Typo="Typo.h6" Class="mb-3">
+        <MudIcon Icon="@Icons.Material.Filled.Shield" Size="Size.Small" Class="mr-2" />
+        System Roles (Cannot be deleted)
+    </MudText>
+
+    <MudGrid Class="mb-6">
+        @foreach (var role in _systemRoles)
+        {
+            <MudItem xs="12" sm="6" md="3">
+                <MudCard Elevation="4">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">
+                                <MudIcon Icon="@GetRoleIcon(role)" Size="Size.Small" Class="mr-2" />
+                                @role
+                            </MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudChip T="string" Size="Size.Small" Color="@GetRoleColor(role)">
+                                System
+                            </MudChip>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">
+                            @GetRoleDescription(role)
+                        </MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+
+    <!-- Custom Roles -->
+    @if (_customRoles.Any())
+    {
+        <MudDivider Class="my-6" />
+
+        <MudText Typo="Typo.h6" Class="mb-3">
+            <MudIcon Icon="@Icons.Material.Filled.Badge" Size="Size.Small" Class="mr-2" />
+            Custom Roles
+        </MudText>
+
+        <MudGrid>
+            @foreach (var role in _customRoles)
+            {
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Elevation="4">
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">
+                                    <MudIcon Icon="@Icons.Material.Filled.Badge" Size="Size.Small" Class="mr-2" />
+                                    @role
+                                </MudText>
+                            </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+                                    <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRole(role))">
+                                        Edit
+                                    </MudMenuItem>
+                                    <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
+                                        OnClick="@(() => DeleteRole(role))">
+                                        Delete
+                                    </MudMenuItem>
+                                </MudMenu>
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                        <MudCardContent>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                Custom role created by administrator
+                            </MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
+                                StartIcon="@Icons.Material.Filled.Security" OnClick="@(() => ManagePermissions(role))">
+                                Manage Permissions
+                            </MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Info" Class="mt-4">
+            <strong>No custom roles found.</strong> Click "Create New Role" to add one.
+        </MudAlert>
+    }
+</MudContainer>
+
+@code {
+    private List<string> _roles = new();
+    private List<string> _systemRoles = new() { "SuperRoot", "Admin", "Manager", "Student" };
+    private List<string> _customRoles => _roles.Except(_systemRoles).ToList();
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRoles();
+    }
+
+    private async Task LoadRoles()
+    {
+        _isLoading = true;
+        try
+        {
+            _roles = await RoleService.GetAllRolesAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading roles: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task CreateNewRole()
+    {
+        var dialog = await DialogService.ShowAsync<CreateRoleDialog>("Create New Role");
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            await LoadRoles();
+        }
+    }
+
+    private void EditRole(string role)
+    {
+        Snackbar.Add($"Edit role '{role}' - Coming soon!", Severity.Info);
+    }
+
+    private async Task DeleteRole(string role)
+    {
+        var parameters = new DialogParameters
+            {
+                ["ContentText"] = $"Are you sure you want to delete the role '{role}'? Users with this role will lose access!",
+                ["ButtonText"] = "Delete",
+                ["Color"] = Color.Error
+            };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete Role", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            var success = await RoleService.DeleteRoleAsync(role);
+            if (success)
+            {
+                Snackbar.Add($"Role '{role}' deleted successfully!", Severity.Success);
+                await LoadRoles();
+            }
+            else
+            {
+                Snackbar.Add($"Failed to delete role '{role}'!", Severity.Error);
+            }
+        }
+    }
+
+    private void ManagePermissions(string role)
+    {
+        NavigationManager.NavigateTo($"/superroot/permissions?role={role}");
+    }
+
+    private string GetRoleIcon(string role) => role switch
+    {
+        "SuperRoot" => Icons.Material.Filled.Shield,
+        "Admin" => Icons.Material.Filled.AdminPanelSettings,
+        "Manager" => Icons.Material.Filled.ManageAccounts,
+        "Student" => Icons.Material.Filled.School,
+        _ => Icons.Material.Filled.Badge
+    };
+
+    private Color GetRoleColor(string role) => role switch
+    {
+        "SuperRoot" => Color.Error,
+        "Admin" => Color.Primary,
+        "Manager" => Color.Info,
+        "Student" => Color.Success,
+        _ => Color.Default
+    };
+
+    private string GetRoleDescription(string role) => role switch
+    {
+        "SuperRoot" => "Full system access with all administrative privileges",
+        "Admin" => "Administrative access to manage residences and managers",
+        "Manager" => "Manage students, rooms, complaints, and payments",
+        "Student" => "Access to personal dashboard and submit complaints",
+        _ => "Custom role"
+    };
+}

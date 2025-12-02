@@ -1,0 +1,286 @@
+﻿@page "/student"
+@attribute [Authorize(Roles = "Student")]
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ISnackbar Snackbar
+@rendermode InteractiveServer
+
+<PageTitle>My Dashboard</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Welcome Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4 bg-gradient-to-br from-primary to-secondary">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.h4" Class="text-white">
+                    <MudIcon Icon="@Icons.Material.Filled.WavingHand" Class="mr-2" />
+                    Welcome back, @_userName!
+                </MudText>
+                <MudText Typo="Typo.body2" Class="text-white/80">
+                    Here's your residence overview
+                </MudText>
+            </MudStack>
+            <MudAvatar Size="Size.Large" Color="Color.Surface">
+                <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" />
+            </MudAvatar>
+        </MudStack>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+
+    <MudGrid>
+        <!-- Quick Stats -->
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <MudStack Spacing="0">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">My Room</MudText>
+                            <MudText Typo="Typo.h5">Room 201</MudText>
+                            <MudText Typo="Typo.caption">Floor 2 - Building A</MudText>
+                        </MudStack>
+                        <MudAvatar Color="Color.Primary" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Href="/student/room">
+                        View Details
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <MudStack Spacing="0">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Next Payment</MudText>
+                            <MudText Typo="Typo.h5" Color="Color.Warning">Due Soon</MudText>
+                            <MudText Typo="Typo.caption">500 LYD - Jan 2025</MudText>
+                        </MudStack>
+                        <MudAvatar Color="Color.Warning" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.Payment" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Href="/student/payments">
+                        Pay Now
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <MudStack Spacing="0">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">My Complaints</MudText>
+                            <MudText Typo="Typo.h5">2 Active</MudText>
+                            <MudText Typo="Typo.caption">1 Resolved</MudText>
+                        </MudStack>
+                        <MudAvatar Color="Color.Info" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.Report" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
+                        Href="/student/complaints">
+                        View All
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <MudStack Spacing="0">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Notifications</MudText>
+                            <MudText Typo="Typo.h5" Color="Color.Error">5 New</MudText>
+                            <MudText Typo="Typo.caption">3 Unread messages</MudText>
+                        </MudStack>
+                        <MudAvatar Color="Color.Error" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.Notifications" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Href="/notifications">
+                        View All
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+
+        <!-- Quick Actions -->
+        <MudItem xs="12" md="8">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Bolt" Class="mr-2" Size="Size.Small" />
+                            Quick Actions
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudGrid Spacing="3">
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true"
+                                StartIcon="@Icons.Material.Filled.Report" Href="/student/complaints/create">
+                                Submit Complaint
+                            </MudButton>
+                        </MudItem>
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Success" FullWidth="true"
+                                StartIcon="@Icons.Material.Filled.Payment" Href="/student/payments">
+                                Make Payment
+                            </MudButton>
+                        </MudItem>
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Info" FullWidth="true"
+                                StartIcon="@Icons.Material.Filled.Person" Href="/profile">
+                                Update Profile
+                            </MudButton>
+                        </MudItem>
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" FullWidth="true"
+                                StartIcon="@Icons.Material.Filled.MeetingRoom" Href="/student/room">
+                                View Room
+                            </MudButton>
+                        </MudItem>
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Warning" FullWidth="true"
+                                StartIcon="@Icons.Material.Filled.Receipt" OnClick="@DownloadReceipts">
+                                Download Receipts
+                            </MudButton>
+                        </MudItem>
+                        <MudItem xs="12" sm="6" md="4">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Error" FullWidth="true"
+                                StartIcon="@Icons.Material.Filled.Help" Href="/help">
+                                Get Help
+                            </MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <!-- Recent Activity -->
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
+                            Recent Activity
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent Class="max-h-[400px] overflow-y-auto">
+                    <MudTimeline TimelineOrientation="TimelineOrientation.Vertical">
+                        <MudTimelineItem Color="Color.Success" Size="Size.Small">
+                            <ItemContent>
+                                <MudText Typo="Typo.body2">Payment received</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">2 hours ago</MudText>
+                            </ItemContent>
+                        </MudTimelineItem>
+                        <MudTimelineItem Color="Color.Info" Size="Size.Small">
+                            <ItemContent>
+                                <MudText Typo="Typo.body2">Complaint resolved</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">1 day ago</MudText>
+                            </ItemContent>
+                        </MudTimelineItem>
+                        <MudTimelineItem Color="Color.Warning" Size="Size.Small">
+                            <ItemContent>
+                                <MudText Typo="Typo.body2">New complaint submitted</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">3 days ago</MudText>
+                            </ItemContent>
+                        </MudTimelineItem>
+                        <MudTimelineItem Color="Color.Primary" Size="Size.Small">
+                            <ItemContent>
+                                <MudText Typo="Typo.body2">Profile updated</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">1 week ago</MudText>
+                            </ItemContent>
+                        </MudTimelineItem>
+                    </MudTimeline>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <!-- Announcements -->
+        <MudItem xs="12">
+            <MudCard Elevation="4">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Campaign" Class="mr-2" Size="Size.Small" />
+                            Important Announcements
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudStack Spacing="3">
+                        <MudAlert Severity="Severity.Warning" Dense="true">
+                            <strong>Payment Reminder:</strong> January rent is due on the 15th. Please ensure timely
+                            payment to avoid late fees.
+                        </MudAlert>
+                        <MudAlert Severity="Severity.Info" Dense="true">
+                            <strong>Maintenance Notice:</strong> Building A will undergo maintenance on Saturday, 10 AM
+                            - 2 PM.
+                        </MudAlert>
+                        <MudAlert Severity="Severity.Success" Dense="true">
+                            <strong>New Feature:</strong> You can now track your complaint status in real-time!
+                        </MudAlert>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private string _userName = "Student";
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            _userName = user.Identity.Name ?? "Student";
+        }
+
+        await LoadDashboardData();
+    }
+
+    private async Task LoadDashboardData()
+    {
+        _isLoading = true;
+        try
+        {
+            // TODO: Load real data
+            await Task.Delay(500);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void DownloadReceipts()
+    {
+        Snackbar.Add("Downloading receipts...", Severity.Info);
+    }
+}

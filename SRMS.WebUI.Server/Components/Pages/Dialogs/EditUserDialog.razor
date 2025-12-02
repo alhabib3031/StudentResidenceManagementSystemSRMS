@@ -1,0 +1,179 @@
+@using SRMS.Application.Identity.DTOs
+@using SRMS.Application.Identity.Interfaces
+@inject IUserService UserService
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <DialogContent>
+        @if (_isLoading)
+        {
+            <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            <EditForm Model="@_model" OnValidSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+
+                <MudGrid>
+                    <!-- Personal Info -->
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="_model.FirstName" Label="First Name" Variant="Variant.Outlined"
+                            For="@(() => _model.FirstName)" Required="true" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="_model.LastName" Label="Last Name" Variant="Variant.Outlined"
+                            For="@(() => _model.LastName)" Required="true" />
+                    </MudItem>
+
+                    <!-- Contact Info -->
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="_model.PhoneNumber" Label="Phone Number" Variant="Variant.Outlined"
+                            Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Phone"
+                            For="@(() => _model.PhoneNumber)" Placeholder="+218 91 234 5678" />
+                    </MudItem>
+
+                    <!-- Address Info -->
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="_model.City" Label="City" Variant="Variant.Outlined"
+                            For="@(() => _model.City)" />
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="_model.Country" Label="Country" Variant="Variant.Outlined"
+                            For="@(() => _model.Country)" />
+                    </MudItem>
+
+                    <!-- Preferences -->
+                    <MudItem xs="12" sm="6">
+                        <MudSelect T="string" Label="Language" @bind-Value="_model.PreferredLanguage"
+                            Variant="Variant.Outlined">
+                            <MudSelectItem Value="@("ar-LY")">Arabic (Libya)</MudSelectItem>
+                            <MudSelectItem Value="@("en-US")">English (US)</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudSelect T="string" Label="Theme" @bind-Value="_model.Theme" Variant="Variant.Outlined">
+                            <MudSelectItem Value="@("Light")">Light</MudSelectItem>
+                            <MudSelectItem Value="@("Dark")">Dark</MudSelectItem>
+                            <MudSelectItem Value="@("System")">System</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+
+                    <!-- Notifications -->
+                    <MudItem xs="12">
+                        <MudSwitch @bind-Value="_model.EmailNotificationsEnabled" Color="Color.Primary"
+                            Label="Enable Email Notifications" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudSwitch @bind-Value="_model.SMSNotificationsEnabled" Color="Color.Primary"
+                            Label="Enable SMS Notifications" />
+                    </MudItem>
+                </MudGrid>
+            </EditForm>
+        }
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="HandleSubmit"
+            Disabled="_isSubmitting || _isLoading">
+            @if (_isSubmitting)
+            {
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+            }
+            Save Changes
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public Guid UserId { get; set; }
+
+    private UpdateUserDto _model = new();
+    private bool _isLoading = true;
+    private bool _isSubmitting = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUserData();
+    }
+
+    private async Task LoadUserData()
+    {
+        _isLoading = true;
+        try
+        {
+            var user = await UserService.GetUserByIdAsync(UserId);
+            if (user != null)
+            {
+                _model = new UpdateUserDto
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        PhoneNumber = user.PhoneNumber,
+                        City = user.City,
+                        Country = user.Country,
+                        PreferredLanguage = user.PreferredLanguage,
+                        Theme = user.Theme,
+                        EmailNotificationsEnabled = user.EmailNotificationsEnabled,
+                        SMSNotificationsEnabled = user.SMSNotificationsEnabled
+                        // Note: Street and PostalCode might be missing in UserDto, check if needed
+                    };
+            }
+            else
+            {
+                Snackbar.Add("User not found", Severity.Error);
+                MudDialog.Cancel();
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading user: {ex.Message}", Severity.Error);
+            MudDialog.Cancel();
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        _isSubmitting = true;
+
+        try
+        {
+            var success = await UserService.UpdateUserAsync(UserId, _model);
+
+            if (success)
+            {
+                Snackbar.Add("User updated successfully!", Severity.Success);
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            else
+            {
+                Snackbar.Add("Failed to update user", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}

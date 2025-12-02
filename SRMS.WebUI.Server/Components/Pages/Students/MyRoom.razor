@@ -1,0 +1,93 @@
+@page "/student/room"
+@attribute [Authorize(Roles = "Student")]
+@inject ISnackbar Snackbar
+@rendermode InteractiveServer
+
+<PageTitle>My Room - SRMS</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <MudText Typo="Typo.h4" Class="text-gradient">My Room</MudText>
+            <MudText Typo="Typo.subtitle1" Color="Color.Secondary">View your room details and roommates</MudText>
+        </div>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Report"
+            Class="btn-modern btn-primary-modern" Href="/student/complaints">
+            Report Issue
+        </MudButton>
+    </div>
+
+    <MudGrid>
+        <!-- Room Details Card -->
+        <MudItem xs="12" md="8">
+            <MudPaper Class="glass-card p-4" Elevation="0">
+                <div class="flex items-center mb-4">
+                    <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Large" Color="Color.Primary"
+                        Class="mr-3" />
+                    <MudText Typo="Typo.h5">Room A-101</MudText>
+                    <MudChip T="string" Color="Color.Success" Class="ml-4" Size="Size.Small">Occupied</MudChip>
+                </div>
+
+                <MudDivider Class="mb-4" />
+
+                <MudGrid>
+                    <MudItem xs="6" sm="4">
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Building</MudText>
+                        <MudText Typo="Typo.body1">Block A</MudText>
+                    </MudItem>
+                    <MudItem xs="6" sm="4">
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Floor</MudText>
+                        <MudText Typo="Typo.body1">1st Floor</MudText>
+                    </MudItem>
+                    <MudItem xs="6" sm="4">
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Type</MudText>
+                        <MudText Typo="Typo.body1">Double Room</MudText>
+                    </MudItem>
+                    <MudItem xs="6" sm="4">
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Capacity</MudText>
+                        <MudText Typo="Typo.body1">2 Students</MudText>
+                    </MudItem>
+                    <MudItem xs="6" sm="4">
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Price/Month</MudText>
+                        <MudText Typo="Typo.body1" Color="Color.Success" Class="font-bold">$150.00</MudText>
+                    </MudItem>
+                </MudGrid>
+
+                <MudText Typo="Typo.h6" Class="mt-6 mb-3">Amenities</MudText>
+                <div class="flex gap-2 flex-wrap">
+                    <MudChip T="string" Icon="@Icons.Material.Filled.Wifi" Variant="Variant.Outlined"
+                        Color="Color.Info">Free Wi-Fi</MudChip>
+                    <MudChip T="string" Icon="@Icons.Material.Filled.AcUnit" Variant="Variant.Outlined"
+                        Color="Color.Info">Air Conditioning</MudChip>
+                    <MudChip T="string" Icon="@Icons.Material.Filled.Desk" Variant="Variant.Outlined"
+                        Color="Color.Info">Study Desk</MudChip>
+                    <MudChip T="string" Icon="@Icons.Material.Filled.Bed" Variant="Variant.Outlined" Color="Color.Info">
+                        Single Bed</MudChip>
+                </div>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Roommates Card -->
+        <MudItem xs="12" md="4">
+            <MudPaper Class="glass-card p-4 h-full" Elevation="0">
+                <MudText Typo="Typo.h6" Class="mb-4">Roommates</MudText>
+
+                <MudList T="string" Clickable="true">
+                    <MudListItem Avatar="@Icons.Material.Filled.Person" Text="John Doe"
+                        SecondaryText="Computer Science" />
+                    <MudDivider />
+                    <MudListItem Avatar="@Icons.Material.Filled.Person" Text="You" SecondaryText="Engineering"
+                        Class="mud-theme-primary-light" />
+                </MudList>
+
+                <MudAlert Severity="Severity.Info" Class="mt-4" Variant="Variant.Outlined">
+                    Respect your roommates' privacy and keep the room clean.
+                </MudAlert>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    // TODO: Implement logic to fetch room details
+}

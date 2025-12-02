@@ -1,0 +1,336 @@
+@page "/rooms"
+@inject ISender Sender
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
+@rendermode InteractiveServer   
+
+<PageTitle>Rooms Management</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4" Color="Color.Primary">
+                    <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Class="mr-2" />
+                    Rooms Management
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Manage residence rooms and bed assignments
+                </MudText>
+            </div>
+            <MudButton 
+                Variant="Variant.Filled" 
+                Color="Color.Primary"
+                StartIcon="@Icons.Material.Filled.Add"
+                OnClick="@CreateRoom">
+                Add New Room
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+
+    <!-- Statistics Cards -->
+    <MudGrid Class="mb-4">
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Rooms</MudText>
+                            <MudText Typo="Typo.h4">@_rooms.Count</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Primary" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Available Rooms</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Success">
+                                @_rooms.Count(r => !r.IsFull)
+                            </MudText>
+                        </div>
+                        <MudAvatar Color="Color.Success" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Beds</MudText>
+                            <MudText Typo="Typo.h4">@_rooms.Sum(r => r.TotalBeds)</MudText>
+                        </div>
+                        <MudAvatar Color="Color.Info" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.Hotel" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="4">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Occupancy Rate</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Warning">
+                                @GetOccupancyRate()%
+                            </MudText>
+                        </div>
+                        <MudAvatar Color="Color.Warning" Size="Size.Large">
+                            <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Size="Size.Large" />
+                        </MudAvatar>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Rooms Grid/List Toggle -->
+    <MudPaper Elevation="2" Class="pa-3 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <MudTextField 
+                @bind-Value="_searchString"
+                Label="Search rooms..."
+                Variant="Variant.Outlined"
+                Adornment="Adornment.Start"
+                AdornmentIcon="@Icons.Material.Filled.Search"
+                Margin="Margin.Dense"
+                Class="max-w-[300px]" />
+            
+            <MudButtonGroup Variant="Variant.Outlined">
+                <MudButton 
+                    Color="@(_viewMode == "grid" ? Color.Primary : Color.Default)"
+                    OnClick="@(() => _viewMode = "grid")"
+                    StartIcon="@Icons.Material.Filled.GridView">
+                    Grid
+                </MudButton>
+                <MudButton 
+                    Color="@(_viewMode == "list" ? Color.Primary : Color.Default)"
+                    OnClick="@(() => _viewMode = "list")"
+                    StartIcon="@Icons.Material.Filled.ViewList">
+                    List
+                </MudButton>
+            </MudButtonGroup>
+        </MudStack>
+    </MudPaper>
+
+    @if (_viewMode == "grid")
+    {
+        <!-- Grid View -->
+        <MudGrid>
+            @foreach (var room in FilteredRooms)
+            {
+                <MudItem xs="12" sm="6" md="4" lg="3">
+                    <MudCard Elevation="4" Class="room-card">
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">
+                                    <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Small" Class="mr-2" />
+                                    Room @room.RoomNumber
+                                </MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                    Floor @room.Floor | @room.RoomType
+                                </MudText>
+                            </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MudChip 
+                                    T="bool"
+                                    Size="Size.Small" 
+                                    Color="@(room.IsFull ? Color.Error : Color.Success)">
+                                    @(room.IsFull ? "Full" : "Available")
+                                </MudChip>
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                        
+                        <MudCardContent>
+                            <!-- Beds Info -->
+                            <MudStack Spacing="2">
+                                <MudProgressLinear 
+                                    Value="@GetOccupancyPercentage(room)" 
+                                    Color="@GetOccupancyColor(room)"
+                                    Size="Size.Medium"
+                                    Class="mb-2" />
+                                
+                                <MudText Typo="Typo.body2">
+                                    <MudIcon Icon="@Icons.Material.Filled.Hotel" Size="Size.Small" Class="mr-1" />
+                                    <strong>@room.OccupiedBeds/@room.TotalBeds</strong> beds occupied
+                                </MudText>
+                                
+                                <MudText Typo="Typo.body2">
+                                    <MudIcon Icon="@Icons.Material.Filled.Home" Size="Size.Small" Class="mr-1" />
+                                    @room.ResidenceName
+                                </MudText>
+                            </MudStack>
+                        </MudCardContent>
+                        
+                        <MudCardActions>
+                            <MudButton 
+                                Size="Size.Small" 
+                                Variant="Variant.Text"
+                                Color="Color.Primary"
+                                Href="@($"/rooms/{room.Id}")">
+                                View Details
+                            </MudButton>
+                            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+                                <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRoom(room.Id))">
+                                    Edit
+                                </MudMenuItem>
+                                <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error" OnClick="@(() => DeleteRoom(room.Id))">
+                                    Delete
+                                </MudMenuItem>
+                            </MudMenu>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    }
+    else
+    {
+        <!-- List View -->
+        <MudPaper Elevation="4">
+            <MudTable Items="@FilteredRooms" Hover="true" Striped="true" Dense="true">
+                <HeaderContent>
+                    <MudTh>Room</MudTh>
+                    <MudTh>Residence</MudTh>
+                    <MudTh>Type</MudTh>
+                    <MudTh>Beds</MudTh>
+                    <MudTh>Occupancy</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh Class="text-right">Actions</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Room">
+                        <MudStack Spacing="0">
+                            <MudText Typo="Typo.body2"><strong>Room @context.RoomNumber</strong></MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Floor @context.Floor</MudText>
+                        </MudStack>
+                    </MudTd>
+                    <MudTd DataLabel="Residence">@context.ResidenceName</MudTd>
+                    <MudTd DataLabel="Type">@context.RoomType</MudTd>
+                    <MudTd DataLabel="Beds">@context.OccupiedBeds/@context.TotalBeds</MudTd>
+                    <MudTd DataLabel="Occupancy">
+                        <MudProgressLinear Value="@GetOccupancyPercentage(context)" Color="@GetOccupancyColor(context)" Size="Size.Small" />
+                    </MudTd>
+                    <MudTd DataLabel="Status">
+                        <MudChip T="bool" Size="Size.Small" Color="@(context.IsFull ? Color.Error : Color.Success)">
+                            @(context.IsFull ? "Full" : "Available")
+                        </MudChip>
+                    </MudTd>
+                    <MudTd DataLabel="Actions" Class="text-right">
+                        <MudButtonGroup Variant="Variant.Outlined" Size="Size.Small">
+                            <MudIconButton Icon="@Icons.Material.Filled.Visibility" Color="Color.Info" Size="Size.Small" Href="@($"/rooms/{context.Id}")" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(() => EditRoom(context.Id))" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => DeleteRoom(context.Id))" />
+                        </MudButtonGroup>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudPaper>
+    }
+</MudContainer>
+
+@code {
+    private List<RoomDto> _rooms = new();
+    private IEnumerable<RoomDto> FilteredRooms => _rooms.Where(r => 
+        string.IsNullOrWhiteSpace(_searchString) || 
+        r.RoomNumber.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+        r.ResidenceName.Contains(_searchString, StringComparison.OrdinalIgnoreCase));
+    
+    private bool _isLoading = true;
+    private string _searchString = "";
+    private string _viewMode = "grid";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRooms();
+    }
+
+    private async Task LoadRooms()
+    {
+        _isLoading = true;
+        try
+        {
+            // TODO: Implement GetAllRoomsQuery
+            await Task.Delay(500);
+            _rooms = new List<RoomDto>(); // Replace with actual query
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void CreateRoom()
+    {
+        Snackbar.Add("Create room functionality - Coming soon!", Severity.Info);
+    }
+
+    private void EditRoom(Guid roomId)
+    {
+        Snackbar.Add("Edit room functionality - Coming soon!", Severity.Info);
+    }
+
+    private async Task DeleteRoom(Guid roomId)
+    {
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = "Are you sure you want to delete this room? Students assigned to this room will need to be reassigned!",
+            ["ButtonText"] = "Delete",
+            ["Color"] = Color.Error
+        };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete Room", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            Snackbar.Add("Room deleted successfully!", Severity.Success);
+            await LoadRooms();
+        }
+    }
+
+    private double GetOccupancyPercentage(RoomDto room)
+    {
+        if (room.TotalBeds == 0) return 0;
+        return (double)room.OccupiedBeds / room.TotalBeds * 100;
+    }
+
+    private Color GetOccupancyColor(RoomDto room)
+    {
+        var percentage = GetOccupancyPercentage(room);
+        if (percentage >= 100) return Color.Error;
+        if (percentage >= 75) return Color.Warning;
+        if (percentage >= 50) return Color.Info;
+        return Color.Success;
+    }
+
+    private int GetOccupancyRate()
+    {
+        var totalBeds = _rooms.Sum(r => r.TotalBeds);
+        var occupiedBeds = _rooms.Sum(r => r.OccupiedBeds);
+        if (totalBeds == 0) return 0;
+        return (int)((double)occupiedBeds / totalBeds * 100);
+    }
+}

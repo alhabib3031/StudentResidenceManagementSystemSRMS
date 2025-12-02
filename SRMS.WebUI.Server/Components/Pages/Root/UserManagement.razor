@@ -1,0 +1,369 @@
+@page "/superroot/users"
+@attribute [Authorize(Roles = "SuperRoot")]
+@inject IUserService UserService
+@inject IRoleService RoleService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@using SRMS.WebUI.Server.Components.Pages.Dialogs
+@rendermode InteractiveServer
+
+<PageTitle>Users Management</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4" Color="Color.Primary">
+                    <MudIcon Icon="@Icons.Material.Filled.People" Class="mr-2" />
+                    Users Management
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Manage all system users and their roles
+                </MudText>
+            </div>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.PersonAdd"
+                OnClick="@CreateUser">
+                Create New User
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+
+    <!-- Filters -->
+    <MudPaper Elevation="2" Class="pa-4 mb-4">
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="3">
+                <MudTextField @bind-Value="_searchString" Label="Search" Variant="Variant.Outlined"
+                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Immediate="true"
+                    OnAdornmentClick="@LoadUsers" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudSelect T="string" @bind-Value="_selectedRole" Label="Filter by Role" Variant="Variant.Outlined"
+                    Clearable="true" OnClearButtonClick="@(() => { _selectedRole = null; LoadUsers(); })">
+                    <MudSelectItem Value="@("SuperRoot")">SuperRoot</MudSelectItem>
+                    <MudSelectItem Value="@("Admin")">Admin</MudSelectItem>
+                    <MudSelectItem Value="@("Manager")">Manager</MudSelectItem>
+                    <MudSelectItem Value="@("Student")">Student</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudSelect T="string" @bind-Value="_statusFilter" Label="Filter by Status" Variant="Variant.Outlined"
+                    Clearable="true">
+                    <MudSelectItem Value="@("Active")">Active Only</MudSelectItem>
+                    <MudSelectItem Value="@("Inactive")">Inactive Only</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="@LoadUsers"
+                    StartIcon="@Icons.Material.Filled.FilterList">
+                    Apply Filters
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <!-- Users Table -->
+    <MudPaper Elevation="4">
+        <MudTable Items="@_filteredUsers" Hover="true" Striped="true" Dense="@_dense" Loading="@_isLoading"
+            LoadingProgressColor="Color.Primary">
+
+            <HeaderContent>
+                <MudTh>Avatar</MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.FullName)">Full Name</MudTableSortLabel>
+                </MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.Email)">Email</MudTableSortLabel>
+                </MudTh>
+                <MudTh>Roles</MudTh>
+                <MudTh>Status</MudTh>
+                <MudTh>
+                    <MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.CreatedAt)">Created</MudTableSortLabel>
+                </MudTh>
+                <MudTh>Last Login</MudTh>
+                <MudTh Class="text-right">Actions</MudTh>
+            </HeaderContent>
+
+            <RowTemplate>
+                <MudTd DataLabel="Avatar">
+                    @if (!string.IsNullOrEmpty(context.ProfilePicture))
+                    {
+                        <MudAvatar Image="@context.ProfilePicture" Size="Size.Small" />
+                    }
+                    else
+                    {
+                        <MudAvatar Color="Color.Primary" Size="Size.Small">
+                            @context.FirstName[0]@context.LastName[0]
+                        </MudAvatar>
+                    }
+                </MudTd>
+
+                <MudTd DataLabel="Name">
+                    <MudStack Spacing="0">
+                        <MudText Typo="Typo.body2"><strong>@context.FullName</strong></MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">
+                            ID: @context.Id.ToString().Substring(0, 8)...
+                        </MudText>
+                    </MudStack>
+                </MudTd>
+
+                <MudTd DataLabel="Email">
+                    <MudText Typo="Typo.body2">@context.Email</MudText>
+                </MudTd>
+
+                <MudTd DataLabel="Roles">
+                    <MudStack Row="true" Spacing="1">
+                        @foreach (var role in context.Roles)
+                        {
+                            <MudChip T="string" Size="Size.Small" Color="@GetRoleColor(role)">
+                                @role
+                            </MudChip>
+                        }
+                    </MudStack>
+                </MudTd>
+
+                <MudTd DataLabel="Status">
+                    <MudChip T="bool" Size="Size.Small" Color="@(context.IsActive ? Color.Success : Color.Error)"
+                        Icon="@(context.IsActive ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)">
+                        @(context.IsActive ? "Active" : "Inactive")
+                    </MudChip>
+                </MudTd>
+
+                <MudTd DataLabel="Created">
+                    <MudText Typo="Typo.caption">
+                        @context.CreatedAt.ToString("MMM dd, yyyy")
+                    </MudText>
+                </MudTd>
+
+                <MudTd DataLabel="Last Login">
+                    @if (context.LastLoginAt.HasValue)
+                    {
+                        <MudText Typo="Typo.caption">
+                            @context.LastLoginAt.Value.ToString("MMM dd, HH:mm")
+                        </MudText>
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">Never</MudText>
+                    }
+                </MudTd>
+
+                <MudTd DataLabel="Actions" Class="text-right">
+                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditUser(context.Id))">
+                            Edit User
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Security" OnClick="@(() => ManageRoles(context.Id))">
+                            Manage Roles
+                        </MudMenuItem>
+                        <MudDivider />
+                        @if (context.IsActive)
+                        {
+                            <MudMenuItem Icon="@Icons.Material.Filled.Block" IconColor="Color.Warning"
+                                OnClick="@(() => DeactivateUser(context.Id))">
+                                Deactivate
+                            </MudMenuItem>
+                        }
+                        else
+                        {
+                            <MudMenuItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success"
+                                OnClick="@(() => ActivateUser(context.Id))">
+                                Activate
+                            </MudMenuItem>
+                        }
+                        <MudDivider />
+                        <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
+                            OnClick="@(() => DeleteUser(context.Id))">
+                            Delete User
+                        </MudMenuItem>
+                    </MudMenu>
+                </MudTd>
+            </RowTemplate>
+
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new[] { 10, 25, 50, 100 }" />
+            </PagerContent>
+        </MudTable>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private List<UserDto> _users = new();
+    private IEnumerable<UserDto> _filteredUsers => FilterUsers();
+    private bool _isLoading = true;
+    private bool _dense = false;
+
+    private string _searchString = "";
+    private string? _selectedRole;
+    private string? _statusFilter;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsers();
+    }
+
+    private async Task LoadUsers()
+    {
+        _isLoading = true;
+        try
+        {
+            _users = await UserService.GetAllUsersAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading users: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private IEnumerable<UserDto> FilterUsers()
+    {
+        var filtered = _users.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(_searchString))
+        {
+            filtered = filtered.Where(u =>
+            u.FullName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            u.Email.Contains(_searchString, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!string.IsNullOrWhiteSpace(_selectedRole))
+        {
+            filtered = filtered.Where(u => u.Roles.Contains(_selectedRole));
+        }
+
+        if (_statusFilter == "Active")
+        {
+            filtered = filtered.Where(u => u.IsActive);
+        }
+        else if (_statusFilter == "Inactive")
+        {
+            filtered = filtered.Where(u => !u.IsActive);
+        }
+
+        return filtered;
+    }
+
+    private Color GetRoleColor(string role) => role switch
+    {
+        "SuperRoot" => Color.Error,
+        "Admin" => Color.Primary,
+        "Manager" => Color.Info,
+        "Student" => Color.Success,
+        _ => Color.Default
+    };
+
+    private async Task CreateUser()
+    {
+        var dialog = await DialogService.ShowAsync<CreateUserDialog>("Create New User");
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            await LoadUsers();
+        }
+    }
+
+    private async Task EditUser(Guid userId)
+    {
+        var parameters = new DialogParameters { ["UserId"] = userId };
+        var dialog = await DialogService.ShowAsync<EditUserDialog>("Edit User", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            await LoadUsers();
+        }
+    }
+
+    private async Task ManageRoles(Guid userId)
+    {
+        var parameters = new DialogParameters { ["UserId"] = userId };
+        var dialog = await DialogService.ShowAsync<ManageRolesDialog>("Manage Roles", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            await LoadUsers();
+        }
+    }
+
+    private async Task DeactivateUser(Guid userId)
+    {
+        var parameters = new DialogParameters
+            {
+                ["ContentText"] = "Are you sure you want to deactivate this user?",
+                ["ButtonText"] = "Deactivate",
+                ["Color"] = Color.Warning
+            };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Deactivate User", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            var success = await UserService.DeactivateUserAsync(userId);
+            if (success)
+            {
+                Snackbar.Add("User deactivated successfully!", Severity.Success);
+                await LoadUsers();
+            }
+            else
+            {
+                Snackbar.Add("Failed to deactivate user!", Severity.Error);
+            }
+        }
+    }
+
+    private async Task ActivateUser(Guid userId)
+    {
+        var success = await UserService.ActivateUserAsync(userId);
+        if (success)
+        {
+            Snackbar.Add("User activated successfully!", Severity.Success);
+            await LoadUsers();
+        }
+        else
+        {
+            Snackbar.Add("Failed to activate user!", Severity.Error);
+        }
+    }
+
+    private async Task DeleteUser(Guid userId)
+    {
+        var parameters = new DialogParameters
+            {
+                ["ContentText"] = "⚠️ WARNING: This will permanently delete the user. This action cannot be undone!",
+                ["ButtonText"] = "Delete",
+                ["Color"] = Color.Error
+            };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete User", parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            var success = await UserService.DeleteUserAsync(userId);
+            if (success)
+            {
+                Snackbar.Add("User deleted successfully!", Severity.Success);
+                await LoadUsers();
+            }
+            else
+            {
+                Snackbar.Add("Failed to delete user!", Severity.Error);
+            }
+        }
+    }
+}

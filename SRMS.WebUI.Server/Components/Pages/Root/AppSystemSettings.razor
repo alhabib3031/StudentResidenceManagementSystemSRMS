@@ -1,0 +1,399 @@
+@page "/superroot/settings"
+@attribute [Authorize(Roles = "SuperRoot")]
+@inject ISnackbar Snackbar
+@rendermode InteractiveServer
+
+<PageTitle>System Settings</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudText Typo="Typo.h4" Color="Color.Primary">
+            <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" />
+            System Settings
+        </MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary">
+            Configure system-wide settings and preferences
+        </MudText>
+    </MudPaper>
+
+    <MudTabs Elevation="4" Rounded="true" ApplyEffectsToContainer="true" PanelClass="p-6">
+        <!-- General Settings -->
+        <MudTabPanel Text="General" Icon="@Icons.Material.Filled.Tune">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h6" Class="mb-3">General Settings</MudText>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_settings.SystemName" Label="System Name" Variant="Variant.Outlined"
+                        HelperText="The name displayed throughout the system" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_settings.SystemEmail" Label="System Email" Variant="Variant.Outlined"
+                        InputType="InputType.Email" HelperText="Default email for system notifications" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_settings.SystemPhone" Label="System Phone" Variant="Variant.Outlined"
+                        HelperText="Contact phone number" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect T="string" @bind-Value="_settings.DefaultLanguage" Label="Default Language"
+                        Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("en")">English</MudSelectItem>
+                        <MudSelectItem Value="@("ar")">Arabic</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect T="string" @bind-Value="_settings.DefaultCurrency" Label="Default Currency"
+                        Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("LYD")">Libyan Dinar (LYD)</MudSelectItem>
+                        <MudSelectItem Value="@("USD")">US Dollar (USD)</MudSelectItem>
+                        <MudSelectItem Value="@("EUR")">Euro (EUR)</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect T="string" @bind-Value="_settings.DateFormat" Label="Date Format"
+                        Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("MM/dd/yyyy")">MM/DD/YYYY</MudSelectItem>
+                        <MudSelectItem Value="@("dd/MM/yyyy")">DD/MM/YYYY</MudSelectItem>
+                        <MudSelectItem Value="@("yyyy-MM-dd")">YYYY-MM-DD</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
+                        OnClick="SaveSettings">
+                        Save Changes
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+
+        <!-- Email Settings -->
+        <MudTabPanel Text="Email" Icon="@Icons.Material.Filled.Email">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h6" Class="mb-3">Email Configuration</MudText>
+                    <MudAlert Severity="Severity.Info" Dense="true" Class="mb-4">
+                        Configure SMTP settings for sending emails from the system
+                    </MudAlert>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_settings.SmtpHost" Label="SMTP Host" Variant="Variant.Outlined"
+                        Placeholder="smtp.gmail.com" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_settings.SmtpPort" Label="SMTP Port" Variant="Variant.Outlined"
+                        Placeholder="587" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_settings.SmtpUsername" Label="Username" Variant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_settings.SmtpPassword" Label="Password" Variant="Variant.Outlined"
+                        InputType="InputType.Password" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudCheckBox @bind-Value="_settings.EnableSsl" Label="Enable SSL/TLS" Color="Color.Primary" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.Save" OnClick="SaveSettings">
+                            Save Email Settings
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Send"
+                            OnClick="TestEmail">
+                            Send Test Email
+                        </MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+
+        <!-- SMS Settings -->
+        <MudTabPanel Text="SMS" Icon="@Icons.Material.Filled.Sms">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h6" Class="mb-3">SMS Configuration</MudText>
+                    <MudAlert Severity="Severity.Info" Dense="true" Class="mb-4">
+                        Configure SMS gateway for sending notifications
+                    </MudAlert>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect T="string" @bind-Value="_settings.SmsProvider" Label="SMS Provider"
+                        Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("Twilio")">Twilio</MudSelectItem>
+                        <MudSelectItem Value="@("Nexmo")">Nexmo</MudSelectItem>
+                        <MudSelectItem Value="@("MessageBird")">MessageBird</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_settings.SmsApiKey" Label="API Key" Variant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_settings.SmsApiSecret" Label="API Secret" Variant="Variant.Outlined"
+                        InputType="InputType.Password" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_settings.SmsSenderName" Label="Sender Name" Variant="Variant.Outlined"
+                        Placeholder="SRMS" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudCheckBox @bind-Value="_settings.EnableSmsNotifications" Label="Enable SMS Notifications"
+                        Color="Color.Primary" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudStack Row="true" Spacing="2">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.Save" OnClick="SaveSettings">
+                            Save SMS Settings
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Send"
+                            OnClick="TestSms">
+                            Send Test SMS
+                        </MudButton>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+
+        <!-- Security Settings -->
+        <MudTabPanel Text="Security" Icon="@Icons.Material.Filled.Security">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h6" Class="mb-3">Security Settings</MudText>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_settings.PasswordMinLength" Label="Minimum Password Length"
+                        Variant="Variant.Outlined" Min="6" Max="20" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_settings.SessionTimeout" Label="Session Timeout (minutes)"
+                        Variant="Variant.Outlined" Min="5" Max="1440" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_settings.MaxLoginAttempts" Label="Max Login Attempts"
+                        Variant="Variant.Outlined" Min="3" Max="10" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_settings.LockoutDuration" Label="Lockout Duration (minutes)"
+                        Variant="Variant.Outlined" Min="5" Max="60" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudCheckBox @bind-Value="_settings.RequireEmailConfirmation" Label="Require Email Confirmation"
+                        Color="Color.Primary" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudCheckBox @bind-Value="_settings.EnableTwoFactorAuth" Label="Enable Two-Factor Authentication"
+                        Color="Color.Primary" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudCheckBox @bind-Value="_settings.LogAllUserActions" Label="Log All User Actions"
+                        Color="Color.Primary" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
+                        OnClick="SaveSettings">
+                        Save Security Settings
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+
+        <!-- Payment Settings -->
+        <MudTabPanel Text="Payment" Icon="@Icons.Material.Filled.Payment">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h6" Class="mb-3">Payment Settings</MudText>
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_settings.DefaultMonthlyRent" Label="Default Monthly Rent (LYD)"
+                        Variant="Variant.Outlined" Format="N2" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_settings.LateFeePercentage" Label="Late Fee Percentage (%)"
+                        Variant="Variant.Outlined" Min="0" Max="100" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_settings.PaymentDueDays" Label="Payment Due Days"
+                        Variant="Variant.Outlined" Min="1" Max="31" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_settings.PaymentReminderDays" Label="Payment Reminder (days before)"
+                        Variant="Variant.Outlined" Min="1" Max="15" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudCheckBox @bind-Value="_settings.AllowOnlinePayment" Label="Allow Online Payment"
+                        Color="Color.Primary" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudCheckBox @bind-Value="_settings.AutoGenerateInvoices" Label="Auto-Generate Invoices"
+                        Color="Color.Primary" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
+                        OnClick="SaveSettings">
+                        Save Payment Settings
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+
+        <!-- Maintenance Mode -->
+        <MudTabPanel Text="Maintenance" Icon="@Icons.Material.Filled.Build">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.h6" Class="mb-3">Maintenance Mode</MudText>
+                    <MudAlert Severity="Severity.Warning" Dense="true" Class="mb-4">
+                        <strong>Warning:</strong> Enabling maintenance mode will prevent all users (except SuperRoot)
+                        from accessing the system.
+                    </MudAlert>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudSwitch @bind-Value="_settings.MaintenanceMode" Label="Enable Maintenance Mode"
+                        Color="Color.Warning" Size="Size.Large" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_settings.MaintenanceMessage" Label="Maintenance Message"
+                        Variant="Variant.Outlined" Lines="3"
+                        Placeholder="The system is currently under maintenance. Please check back later." />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudButton Variant="Variant.Filled"
+                        Color="@(_settings.MaintenanceMode ? Color.Error : Color.Primary)"
+                        StartIcon="@Icons.Material.Filled.Save" OnClick="SaveSettings">
+                        @(_settings.MaintenanceMode ? "Enable Maintenance Mode" : "Save Settings")
+                    </MudButton>
+                </MudItem>
+            </MudGrid>
+        </MudTabPanel>
+    </MudTabs>
+</MudContainer>
+
+@code {
+    private SystemSettings _settings = new();
+
+    protected override void OnInitialized()
+    {
+        LoadSettings();
+    }
+
+    private void LoadSettings()
+    {
+        // TODO: Load from database
+        _settings = new SystemSettings
+            {
+                SystemName = "SRMS",
+                SystemEmail = "admin@srms.edu.ly",
+                SystemPhone = "+218 91 234 5678",
+                DefaultLanguage = "en",
+                DefaultCurrency = "LYD",
+                DateFormat = "dd/MM/yyyy",
+                SmtpHost = "smtp.gmail.com",
+                SmtpPort = 587,
+                EnableSsl = true,
+                PasswordMinLength = 8,
+                SessionTimeout = 30,
+                MaxLoginAttempts = 5,
+                LockoutDuration = 15,
+                RequireEmailConfirmation = true,
+                DefaultMonthlyRent = 500,
+                LateFeePercentage = 5,
+                PaymentDueDays = 15,
+                PaymentReminderDays = 3
+            };
+    }
+
+    private void SaveSettings()
+    {
+        // TODO: Save to database
+        Snackbar.Add("Settings saved successfully!", Severity.Success);
+    }
+
+    private void TestEmail()
+    {
+        Snackbar.Add("Sending test email...", Severity.Info);
+    }
+
+    private void TestSms()
+    {
+        Snackbar.Add("Sending test SMS...", Severity.Info);
+    }
+
+    public class SystemSettings
+    {
+        public string SystemName { get; set; } = "SRMS";
+        public string SystemEmail { get; set; } = "";
+        public string? SystemPhone { get; set; }
+        public string DefaultLanguage { get; set; } = "en";
+        public string DefaultCurrency { get; set; } = "LYD";
+        public string DateFormat { get; set; } = "dd/MM/yyyy";
+
+        public string? SmtpHost { get; set; }
+        public int SmtpPort { get; set; }
+        public string? SmtpUsername { get; set; }
+        public string? SmtpPassword { get; set; }
+        public bool EnableSsl { get; set; }
+
+        public string? SmsProvider { get; set; }
+        public string? SmsApiKey { get; set; }
+        public string? SmsApiSecret { get; set; }
+        public string? SmsSenderName { get; set; }
+        public bool EnableSmsNotifications { get; set; }
+
+        public int PasswordMinLength { get; set; } = 8;
+        public int SessionTimeout { get; set; } = 30;
+        public int MaxLoginAttempts { get; set; } = 5;
+        public int LockoutDuration { get; set; } = 15;
+        public bool RequireEmailConfirmation { get; set; }
+        public bool EnableTwoFactorAuth { get; set; }
+        public bool LogAllUserActions { get; set; }
+
+        public decimal DefaultMonthlyRent { get; set; }
+        public decimal LateFeePercentage { get; set; }
+        public int PaymentDueDays { get; set; }
+        public int PaymentReminderDays { get; set; }
+        public bool AllowOnlinePayment { get; set; }
+        public bool AutoGenerateInvoices { get; set; }
+
+        public bool MaintenanceMode { get; set; }
+        public string MaintenanceMessage { get; set; } = "";
+    }
+}
