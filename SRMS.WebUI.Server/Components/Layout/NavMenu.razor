@@ -1,4 +1,8 @@
-﻿@rendermode InteractiveServer
+﻿@using SRMS.Application.Notifications.Interfaces
+@using System.Security.Claims
+@inject INotificationService NotificationService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@rendermode InteractiveServer
 
 <!-- Modern Sidebar Header -->
 <MudPaper class="pa-5 text-center" style="border-bottom: 1px solid var(--border-color);">
@@ -108,14 +112,14 @@
             </AuthorizeView>
 
             <!-- Common Links -->
-            <MudDivider Class="my-3" Style="border-color: var(--border-color);" />
-
-            <MudNavLink Href="/notifications" Icon="@Icons.Material.Filled.Notifications" Class="modern-nav-link">
-                <MudPaper Class="flex align-items-center justify-space-between w-100">
-                    <span>Notifications</span>
-                    <MudBadge Content="3" Color="Color.Error" Overlap="false" Class="animate-pulse" />
-                </MudPaper>
-            </MudNavLink>
+            @* <MudDivider Class="my-3" Style="border-color: var(--border-color);" /> *@
+            @* *@
+            @* <MudNavLink Href="/notifications" Icon="@Icons.Material.Filled.Notifications" Class="modern-nav-link"> *@
+            @*     <MudPaper Class="flex align-items-center justify-space-between w-100"> *@
+            @*         <span>Notifications</span> *@
+            @*         <MudBadge Content="@_notificationCount" Color="Color.Error" Overlap="false" Class="animate-pulse" Visible="@(_notificationCount > 0)" /> *@
+            @*     </MudPaper> *@
+            @* </MudNavLink> *@
 
             <MudNavLink Href="/help" Icon="@Icons.Material.Filled.Help" Class="modern-nav-link">
                 Help & Support
@@ -199,6 +203,26 @@
 @code {
     [CascadingParameter]
     private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+
+    private int _notificationCount = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //if (AuthenticationStateTask != null)
+        //{
+         //   var authState = await AuthenticationStateTask;
+          //  var user = authState.User;
+
+           // if (user.Identity?.IsAuthenticated == true)
+           // {
+               // var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+             //   if (Guid.TryParse(userIdStr, out var userId))
+              //  {
+                    // _notificationCount = await NotificationService.GetUnreadCountAsync(userId);
+           //     }
+           // }
+        }
+    }
 
     private bool IsAdmin()
     {

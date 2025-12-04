@@ -10,14 +10,11 @@ namespace SRMS.Application.Rooms.CreateRoom;
 public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomDto>
 {
     private readonly IRepositories<Room> _roomRepository;
-    private readonly IAuditService _audit;
-    
+
     public CreateRoomCommandHandler(
-        IRepositories<Room> roomRepository,
-        IAuditService audit)
+        IRepositories<Room> roomRepository)
     {
         _roomRepository = roomRepository;
-        _audit = audit;
     }
 
     public async Task<RoomDto> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
@@ -43,24 +40,9 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
             IsActive = true,
             IsDeleted = false
         };
-        
+
         var created = await _roomRepository.CreateAsync(room);
-        
-        // ✅ Log room creation
-        await _audit.LogCrudAsync(
-            action: AuditAction.Create,
-            newEntity: new
-            {
-                created.Id,
-                created.RoomNumber,
-                created.Floor,
-                created.RoomType,
-                created.TotalBeds,
-                created.ResidenceId
-            },
-            additionalInfo: $"New room created: {created.RoomNumber} on Floor {created.Floor}"
-        );
-        
+
         return new RoomDto
         {
             Id = created.Id,

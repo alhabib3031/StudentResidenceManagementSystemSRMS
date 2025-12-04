@@ -33,10 +33,10 @@ public static class DependencyInjection
                         errorNumbersToAdd: null);
                 });
 
-#if DEBUG
-            options.EnableSensitiveDataLogging();
-            options.EnableDetailedErrors();
-#endif
+                #if DEBUG
+                    options.EnableSensitiveDataLogging();
+                    options.EnableDetailedErrors();
+                #endif
         });
 
         // ════════════════════════════════════════════════════════════

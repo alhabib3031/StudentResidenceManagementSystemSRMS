@@ -1,4 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using SRMS.Application.Notifications.Interfaces
+@using Microsoft.EntityFrameworkCore
+@using SRMS.Infrastructure
+@using System.Security.Claims
+@inherits LayoutComponentBase
+@inject INotificationService NotificationService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
@@ -87,7 +92,8 @@
                             <MudText>Settings</MudText>
                         </MudMenuItem>
                         <MudDivider />
-                        <MudMenuItem Icon="@Icons.Material.Filled.Logout" Href="/api/auth/logout" IconColor="Color.Error" Class="hover-brightness">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Logout" Href="/api/auth/logout"
+                            IconColor="Color.Error" Class="hover-brightness">
                             <MudText Color="Color.Error">Logout</MudText>
                         </MudMenuItem>
                     </ChildContent>
@@ -110,7 +116,8 @@
 
     <!-- Main Content with Modern Background -->
     <MudMainContent Style="background: var(--bg-primary); min-height: 100vh;">
-        <MudPaper Class="gradient-mesh" Elevation="0" Style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.3; pointer-events: none; z-index: 0;" />
+        <MudPaper Class="gradient-mesh" Elevation="0"
+            Style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.3; pointer-events: none; z-index: 0;" />
         <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="py-6" Style="position: relative; z-index: 1;">
             <AuthorizeView>
                 <Authorized>
@@ -154,16 +161,28 @@
     private bool _isDarkMode = true;
     private MudTheme? _theme = null;
     private string _searchString = "";
-    private int _notificationCount = 3;
+    private int _notificationCount = 0;
 
     protected override async Task OnInitializedAsync()
     {
         _theme = new()
+        {
+            PaletteLight = _lightPalette,
+            PaletteDark = _darkPalette,
+            LayoutProperties = new LayoutProperties()
+        };
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (Guid.TryParse(userIdStr, out var userId))
             {
-                PaletteLight = _lightPalette,
-                PaletteDark = _darkPalette,
-                LayoutProperties = new LayoutProperties()
-            };
+                _notificationCount = await NotificationService.GetUnreadCountAsync(userId);
+            }
+        }
     }
 
     private void ToggleDrawer()
@@ -201,64 +220,68 @@
 
         if (string.IsNullOrEmpty(path)) path = "/";
 
-        var publicPages = new[] { "/", "/login", "/register", "/forgot-password", "/verify-email", "/reset-password", "/about",
-"/contact", "/help" };
+        var publicPages = new[]
+        {
+            "/", "/login", "/register", "/forgot-password", "/verify-email", "/reset-password", "/about",
+            "/contact", "/help"
+        };
         return publicPages.Contains(path);
     }
 
     // Enhanced Light Theme Palette - Softer for eyes
     private readonly PaletteLight _lightPalette = new()
-        {
-            Black = "#0f172a",
-            AppbarText = "#1e293b",
-            AppbarBackground = "rgba(248,250,252,0.95)",
-            DrawerBackground = "rgba(248,250,252,0.95)",
-            DrawerText = "#334155",
-            DrawerIcon = "#64748b",
-            Surface = "#ffffff",
-            Background = "#f8fafc",
-            BackgroundGray = "#f1f5f9",
-            TextPrimary = "#0f172a",
-            TextSecondary = "#475569",
-            Primary = "#8b5cf6",
-            PrimaryContrastText = "#ffffff",
-            Secondary = "#d946ef",
-            Info = "#3b82f6",
-            Success = "#10b981",
-            Warning = "#f59e0b",
-            Error = "#ef4444",
-            Dark = "#1e293b",
-            GrayLight = "#e2e8f0",
-            GrayLighter = "#f1f5f9",
-        };
+    {
+        Black = "#0f172a",
+        AppbarText = "#1e293b",
+        AppbarBackground = "rgba(248,250,252,0.95)",
+        DrawerBackground = "rgba(248,250,252,0.95)",
+        DrawerText = "#334155",
+        DrawerIcon = "#64748b",
+        Surface = "#ffffff",
+        Background = "#f8fafc",
+        BackgroundGray = "#f1f5f9",
+        TextPrimary = "#0f172a",
+        TextSecondary = "#475569",
+        Primary = "#8b5cf6",
+        PrimaryContrastText = "#ffffff",
+        Secondary = "#d946ef",
+        Info = "#3b82f6",
+        Success = "#10b981",
+        Warning = "#f59e0b",
+        Error = "#ef4444",
+        Dark = "#1e293b",
+        GrayLight = "#e2e8f0",
+        GrayLighter = "#f1f5f9",
+    };
 
     // Enhanced Dark Theme Palette - More comfortable for eyes
     private readonly PaletteDark _darkPalette = new()
-        {
-            Primary = "#8b5cf6",
-            Secondary = "#d946ef",
-            Surface = "#151b2e",
-            Background = "#0a0f1e",
-            BackgroundGray = "#151b2e",
-            AppbarText = "#f1f5f9",
-            AppbarBackground = "rgba(10,15,30,0.95)",
-            DrawerBackground = "rgba(10,15,30,0.95)",
-            DrawerText = "#cbd5e1",
-            DrawerIcon = "#94a3b8",
-            ActionDefault = "#94a3b8",
-            ActionDisabled = "#475569",
-            ActionDisabledBackground = "#1f2937",
-            TextPrimary = "#f1f5f9",
-            TextSecondary = "#cbd5e1",
-            TextDisabled = "#64748b",
-            Info = "#60a5fa",
-            Success = "#34d399",
-            Warning = "#fbbf24",
-            Error = "#f87171",
-            Dark = "#0a0f1e",
-            LinesDefault = "rgba(139,92,246,0.15)",
-            TableLines = "rgba(139,92,246,0.15)",
-            Divider = "rgba(255,255,255,0.06)",
-            OverlayLight = "rgba(10,15,30,0.5)",
-        };
+    {
+        Primary = "#8b5cf6",
+        Secondary = "#d946ef",
+        Surface = "#151b2e",
+        Background = "#0a0f1e",
+        BackgroundGray = "#151b2e",
+        AppbarText = "#f1f5f9",
+        AppbarBackground = "rgba(10,15,30,0.95)",
+        DrawerBackground = "rgba(10,15,30,0.95)",
+        DrawerText = "#cbd5e1",
+        DrawerIcon = "#94a3b8",
+        ActionDefault = "#94a3b8",
+        ActionDisabled = "#475569",
+        ActionDisabledBackground = "#1f2937",
+        TextPrimary = "#f1f5f9",
+        TextSecondary = "#cbd5e1",
+        TextDisabled = "#64748b",
+        Info = "#60a5fa",
+        Success = "#34d399",
+        Warning = "#fbbf24",
+        Error = "#f87171",
+        Dark = "#0a0f1e",
+        LinesDefault = "rgba(139,92,246,0.15)",
+        TableLines = "rgba(139,92,246,0.15)",
+        Divider = "rgba(255,255,255,0.06)",
+        OverlayLight = "rgba(10,15,30,0.5)",
+    };
+
 }

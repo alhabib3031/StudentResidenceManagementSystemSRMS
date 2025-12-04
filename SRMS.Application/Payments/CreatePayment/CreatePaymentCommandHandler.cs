@@ -13,12 +13,10 @@ namespace SRMS.Application.Payments.CreatePayment;
 public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand, PaymentDto>
 {
     private readonly IRepositories<Payment> _paymentRepository;
-    private readonly IAuditService _audit;
-    
-    public CreatePaymentCommandHandler(IRepositories<Payment> paymentRepository, IAuditService audit)
+
+    public CreatePaymentCommandHandler(IRepositories<Payment> paymentRepository)
     {
         _paymentRepository = paymentRepository;
-        _audit = audit;
     }
 
     public async Task<PaymentDto> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
@@ -34,13 +32,13 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             DueDate = request.Payment.DueDate,
             PaymentReference = $"PAY-{DateTime.UtcNow:yyyyMMddHHmmss}",
             Notes = request.Payment.Notes,
-            
+
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             IsActive = true,
             IsDeleted = false
         };
-        
+
         // Amount (Value Object)
         try
         {
@@ -48,14 +46,9 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
         }
         catch (ArgumentException ex)
         {
-            await _audit.LogAsync(
-                AuditAction.Error,
-                "Payment",
-                additionalInfo: $"Invalid amount during payment creation: {ex.Message}"
-            );
             throw new InvalidOperationException($"Invalid amount: {ex.Message}");
         }
-        
+
         // Late Fee (Value Object)
         if (request.Payment.LateFeeAmount.HasValue && request.Payment.LateFeeAmount.Value > 0)
         {
@@ -68,25 +61,12 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             }
             catch (ArgumentException ex)
             {
-                await _audit.LogAsync(
-                    AuditAction.Error,
-                    "Payment",
-                    additionalInfo: $"Invalid late fee during payment creation: {ex.Message}"
-                );
                 throw new InvalidOperationException($"Invalid late fee: {ex.Message}");
             }
         }
-        
+
         var created = await _paymentRepository.CreateAsync(payment);
-        
-        // ✅ Log payment creation
-        await _audit.LogPaymentAsync(
-            paymentId: created.Id,
-            status: "Created",
-            amount: created.Amount?.Amount ?? 0,
-            additionalInfo: $"Payment created: {created.PaymentReference} for student {created.StudentId} - Amount: {created.Amount}"
-        );
-        
+
         return new PaymentDto
         {
             Id = created.Id,

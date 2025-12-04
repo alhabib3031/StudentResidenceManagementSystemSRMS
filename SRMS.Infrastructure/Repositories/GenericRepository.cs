@@ -23,7 +23,7 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     // ═══════════════════════════════════════════════════════════
     // Query Operations (القراءة)
     // ═══════════════════════════════════════════════════════════
-    
+
     /// <summary>
     /// الحصول على كل السجلات
     /// </summary>
@@ -75,7 +75,7 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     // ═══════════════════════════════════════════════════════════
     // Command Operations (الكتابة)
     // ═══════════════════════════════════════════════════════════
-    
+
     /// <summary>
     /// إنشاء سجل جديد
     /// </summary>
@@ -85,10 +85,10 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
         entity.UpdatedAt = DateTime.UtcNow;
         entity.IsDeleted = false;
         entity.IsActive = true;
-        
+
         await _dbSet.AddAsync(entity);
         await SaveChangesAsync();
-        
+
         return entity;
     }
 
@@ -98,10 +98,10 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     public virtual async Task<T> UpdateAsync(T entity)
     {
         entity.UpdatedAt = DateTime.UtcNow;
-        
+
         _dbSet.Update(entity);
         await SaveChangesAsync();
-        
+
         return entity;
     }
 
@@ -113,14 +113,14 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
         var entity = await GetByIdAsync(id);
         if (entity == null)
             return false;
-        
+
         // Soft Delete
         entity.IsDeleted = true;
         entity.DeletedAt = DateTime.UtcNow;
         entity.IsActive = false;
-        
+
         await UpdateAsync(entity);
-        
+
         return true;
     }
 
@@ -131,11 +131,11 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     {
         await _context.SaveChangesAsync();
     }
-    
+
     // ═══════════════════════════════════════════════════════════
     // Additional Helper Methods
     // ═══════════════════════════════════════════════════════════
-    
+
     /// <summary>
     /// عد السجلات
     /// </summary>
@@ -143,7 +143,7 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     {
         return await _dbSet.CountAsync(e => !e.IsDeleted);
     }
-    
+
     /// <summary>
     /// عد السجلات بشرط
     /// </summary>
@@ -151,7 +151,7 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     {
         return await _dbSet.CountAsync(e => !e.IsDeleted && predicate.Compile()(e));
     }
-    
+
     /// <summary>
     /// التحقق من وجود سجل
     /// </summary>
@@ -159,7 +159,7 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     {
         return await _dbSet.AnyAsync(e => e.Id == id && !e.IsDeleted);
     }
-    
+
     /// <summary>
     /// التحقق من وجود سجل بشرط
     /// </summary>
@@ -167,7 +167,7 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     {
         return await _dbSet.AnyAsync(e => !e.IsDeleted && predicate.Compile()(e));
     }
-    
+
     /// <summary>
     /// الحصول على سجلات مع Pagination
     /// </summary>
@@ -178,23 +178,23 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
     {
         IQueryable<T> query = _dbSet.Where(e => !e.IsDeleted);
-        
+
         if (filter != null)
             query = query.Where(filter);
-        
+
         var totalCount = await query.CountAsync();
-        
+
         if (orderBy != null)
             query = orderBy(query);
-        
+
         var items = await query
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
-        
+
         return (items, totalCount);
     }
-    
+
     /// <summary>
     /// Hard Delete - حذف نهائي (استخدم بحذر!)
     /// </summary>
@@ -203,13 +203,13 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
         var entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
         if (entity == null)
             return false;
-        
+
         _dbSet.Remove(entity);
         await SaveChangesAsync();
-        
+
         return true;
     }
-    
+
     /// <summary>
     /// استرجاع سجل محذوف (Soft Delete)
     /// </summary>
@@ -218,17 +218,17 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
         var entity = await _dbSet
             .IgnoreQueryFilters()  // تجاهل Query Filter
             .FirstOrDefaultAsync(e => e.Id == id && e.IsDeleted);
-        
+
         if (entity == null)
             return false;
-        
+
         entity.IsDeleted = false;
         entity.DeletedAt = null;
         entity.IsActive = true;
         entity.UpdatedAt = DateTime.UtcNow;
-        
+
         await SaveChangesAsync();
-        
+
         return true;
     }
 }

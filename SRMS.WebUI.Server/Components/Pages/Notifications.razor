@@ -47,9 +47,12 @@
         <MudChipSet T="string" @bind-SelectedChip="_selectedFilter" Filter="true" Mandatory="true">
             <MudChip T="string" Text="All" Color="Color.Primary" Default="true">All</MudChip>
             <MudChip T="string" Text="Unread" Color="Color.Error">Unread</MudChip>
-            <MudChip T="string" Text="System" Color="Color.Info">System</MudChip>
+            <MudChip T="string" Text="Announcement" Color="Color.Secondary">Announcement</MudChip>
+            <MudChip T="string" Text="Info" Color="Color.Info">Info</MudChip>
+            <MudChip T="string" Text="Warning" Color="Color.Warning">Warning</MudChip>
+            <MudChip T="string" Text="System" Color="Color.Dark">System</MudChip>
             <MudChip T="string" Text="Payments" Color="Color.Success">Payments</MudChip>
-            <MudChip T="string" Text="Complaints" Color="Color.Warning">Complaints</MudChip>
+            <MudChip T="string" Text="Complaints" Color="Color.Surface">Complaints</MudChip>
         </MudChipSet>
     </MudPaper>
 
@@ -143,6 +146,9 @@
             return _selectedFilter.Text switch
             {
                 "Unread" => _notifications.Where(n => !n.IsRead),
+                "Announcement" => _notifications.Where(n => n.Type == NotificationType.Announcement),
+                "Info" => _notifications.Where(n => n.Type == NotificationType.Info),
+                "Warning" => _notifications.Where(n => n.Type == NotificationType.Warning),
                 "System" => _notifications.Where(n => n.Type == NotificationType.System),
                 "Payments" => _notifications.Where(n => n.Type == NotificationType.Payment),
                 "Complaints" => _notifications.Where(n => n.Type == NotificationType.Complaint),

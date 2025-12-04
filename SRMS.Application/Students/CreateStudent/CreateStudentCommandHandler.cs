@@ -13,45 +13,43 @@ namespace SRMS.Application.Students.CreateStudent;
 public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, StudentDto>
 {
     private readonly IRepositories<Student> _studentRepository;
-    private readonly IAuditService _audit;
-    
-    public CreateStudentCommandHandler(IRepositories<Student> studentRepository, IAuditService audit)
+
+    public CreateStudentCommandHandler(IRepositories<Student> studentRepository)
     {
         _studentRepository = studentRepository;
-        _audit = audit;
     }
-    
+
     public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
     {
         // ✅ إنشاء Student جديد
         var student = new Student
         {
             Id = Guid.NewGuid(),
-            
+
             // Personal Information
             FirstName = request.Student.FirstName,
             LastName = request.Student.LastName,
             NationalId = request.Student.NationalId,
             DateOfBirth = request.Student.DateOfBirth,
             Gender = request.Student.Gender,
-            
+
             // Academic Information
             UniversityName = request.Student.UniversityName,
             StudentNumber = request.Student.StudentNumber,
             Major = request.Student.Major,
             AcademicYear = request.Student.AcademicYear,
-            
+
             // Emergency Contact
             EmergencyContactName = request.Student.EmergencyContactName,
             EmergencyContactRelation = request.Student.EmergencyContactRelation,
-            
+
             // Audit
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             IsActive = true,
             IsDeleted = false
         };
-        
+
         // ✅ إنشاء Email (Value Object)
         try
         {
@@ -61,14 +59,9 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         }
         catch (ArgumentException ex)
         {
-            await _audit.LogAsync(
-                AuditAction.Error,
-                "Student",
-                additionalInfo: $"Invalid email during student creation: {ex.Message}"
-            );
             throw new InvalidOperationException($"Invalid email: {ex.Message}");
         }
-        
+
         // ✅ إنشاء PhoneNumber (Value Object)
         try
         {
@@ -80,14 +73,9 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         }
         catch (ArgumentException ex)
         {
-            await _audit.LogAsync(
-                AuditAction.Error,
-                "Student",
-                additionalInfo: $"Invalid phone number during student creation: {ex.Message}"
-            );
             throw new InvalidOperationException($"Invalid phone number: {ex.Message}");
         }
-        
+
         // ✅ إنشاء Emergency Contact Phone (Value Object)
         try
         {
@@ -99,14 +87,9 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         }
         catch (ArgumentException ex)
         {
-            await _audit.LogAsync(
-                AuditAction.Error,
-                "Student",
-                additionalInfo: $"Invalid emergency contact phone during student creation: {ex.Message}"
-            );
             throw new InvalidOperationException($"Invalid emergency contact phone: {ex.Message}");
         }
-        
+
         // ✅ إنشاء Address (Value Object)
         try
         {
@@ -123,33 +106,12 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         }
         catch (ArgumentException ex)
         {
-            await _audit.LogAsync(
-                AuditAction.Error,
-                "Student",
-                additionalInfo: $"Invalid address during student creation: {ex.Message}"
-            );
             throw new InvalidOperationException($"Invalid address: {ex.Message}");
         }
-        
+
         // ✅ حفظ في قاعدة البيانات
         var created = await _studentRepository.CreateAsync(student);
-        
-        // ✅ Log student registration
-        await _audit.LogCrudAsync(
-            action: AuditAction.StudentRegistered,
-            newEntity: new
-            {
-                created.Id,
-                created.FullName,
-                created.StudentNumber,
-                Email = created.Email?.Value,
-                created.UniversityName,
-                created.Major,
-                created.Status
-            },
-            additionalInfo: $"New student registered: {created.FullName} (Student #: {created.StudentNumber})"
-        );
-        
+
         // ✅ إرجاع DTO
         return new StudentDto
         {

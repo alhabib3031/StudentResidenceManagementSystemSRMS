@@ -303,9 +303,9 @@ public class AuthService : IAuthService
             );
             return false;
         }
-        
+
         string decodedToken;
-        try 
+        try
         {
             var decodedBytes = WebEncoders.Base64UrlDecode(dto.Token);
             decodedToken = Encoding.UTF8.GetString(decodedBytes);

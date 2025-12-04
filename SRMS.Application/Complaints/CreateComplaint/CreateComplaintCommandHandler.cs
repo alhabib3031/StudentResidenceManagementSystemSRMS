@@ -12,12 +12,10 @@ namespace SRMS.Application.Complaints.CreateComplaint;
 public class CreateComplaintCommandHandler : IRequestHandler<CreateComplaintCommand, ComplaintDto>
 {
     private readonly IRepositories<Complaint> _complaintRepository;
-    private readonly IAuditService _audit;
-    
-    public CreateComplaintCommandHandler(IRepositories<Complaint> complaintRepository, IAuditService audit)
+
+    public CreateComplaintCommandHandler(IRepositories<Complaint> complaintRepository)
     {
         _complaintRepository = complaintRepository;
-        _audit = audit;
     }
 
     public async Task<ComplaintDto> Handle(CreateComplaintCommand request, CancellationToken cancellationToken)
@@ -33,31 +31,15 @@ public class CreateComplaintCommandHandler : IRequestHandler<CreateComplaintComm
             Status = ComplaintStatus.Open,
             ComplaintNumber = $"CMP-{DateTime.UtcNow:yyyyMMddHHmmss}",
             AttachmentsJson = request.Complaint.AttachmentsJson,
-            
+
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             IsActive = true,
             IsDeleted = false
         };
-        
+
         var created = await _complaintRepository.CreateAsync(complaint);
-        
-        // ✅ Log complaint submission
-        await _audit.LogAsync(
-            action: AuditAction.ComplaintSubmitted,
-            entityName: "Complaint",
-            entityId: created.Id.ToString(),
-            newValues: new
-            {
-                created.ComplaintNumber,
-                created.Title,
-                created.Category,
-                created.Priority,
-                created.StudentId
-            },
-            additionalInfo: $"Complaint submitted: {created.ComplaintNumber} - {created.Title} (Priority: {created.Priority}, Category: {created.Category})"
-        );
-        
+
         // return new ComplaintDto
         // {
         //     Id = created.Id,

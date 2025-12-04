@@ -43,32 +43,32 @@ public class AuditService : IAuditService
         {
             var httpContext = _http.HttpContext;
             var currentUser = await GetCurrentUserAsync();
-            
+
             var log = new AuditLog
             {
                 Id = Guid.NewGuid(),
-                
+
                 // What happened
                 Action = GetActionDescription(action, entityName),
                 AuditAction = action,
                 EntityName = entityName,
                 EntityId = entityId,
-                
+
                 // Who did it
                 UserId = currentUser?.Id.ToString(),
                 UserName = currentUser?.Email ?? "System",
-                
+
                 // When
                 Timestamp = DateTime.UtcNow,
-                
+
                 // Changes
                 OldValues = oldValues != null ? SerializeObject(oldValues) : null,
                 NewValues = newValues != null ? SerializeObject(newValues) : null,
-                
+
                 // Context
                 IpAddress = GetIpAddress(httpContext),
                 UserAgent = httpContext?.Request?.Headers["User-Agent"].ToString(),
-                
+
                 // Additional
                 AdditionalInfo = additionalInfo
             };
@@ -89,10 +89,10 @@ public class AuditService : IAuditService
     public async Task LogLoginAttemptAsync(string email, bool success, string? reason = null)
     {
         var action = success ? AuditAction.Login : AuditAction.LoginFailed;
-        var info = success 
-            ? "Login successful" 
+        var info = success
+            ? "Login successful"
             : $"Login failed: {reason ?? "Invalid credentials"}";
-        
+
         await LogAsync(
             action: action,
             entityName: "Authentication",
@@ -112,7 +112,7 @@ public class AuditService : IAuditService
     {
         var entityName = typeof(T).Name;
         string? entityId = null;
-        
+
         // Try to get entity ID
         var idProperty = typeof(T).GetProperty("Id");
         if (idProperty != null)
@@ -139,7 +139,7 @@ public class AuditService : IAuditService
     {
         var action = isAdded ? AuditAction.RoleAssigned : AuditAction.RoleRemoved;
         var info = isAdded ? $"Role '{role}' assigned" : $"Role '{role}' removed";
-        
+
         await LogAsync(
             action: action,
             entityName: "UserRole",
@@ -164,9 +164,9 @@ public class AuditService : IAuditService
     /// تسجيل تغيير حالة الطالب
     /// </summary>
     public async Task LogStudentStatusChangeAsync(
-        Guid studentId, 
-        string oldStatus, 
-        string newStatus, 
+        Guid studentId,
+        string oldStatus,
+        string newStatus,
         string reason)
     {
         var action = newStatus switch
@@ -218,7 +218,7 @@ public class AuditService : IAuditService
     /// تسجيل محاولة وصول غير مصرح
     /// </summary>
     public async Task LogUnauthorizedAccessAsync(
-        string resource, 
+        string resource,
         string attemptedAction)
     {
         await LogAsync(
@@ -257,8 +257,8 @@ public class AuditService : IAuditService
     }
 
     public async Task<List<AuditLog>> GetEntityLogsAsync(
-        string entityName, 
-        string entityId, 
+        string entityName,
+        string entityId,
         int take = 100)
     {
         return await _db.AuditLogs
@@ -271,7 +271,7 @@ public class AuditService : IAuditService
     public async Task<Dictionary<string, int>> GetActionStatisticsAsync(DateTime? fromDate = null)
     {
         var query = _db.AuditLogs.AsQueryable();
-        
+
         if (fromDate.HasValue)
             query = query.Where(log => log.Timestamp >= fromDate.Value);
 
