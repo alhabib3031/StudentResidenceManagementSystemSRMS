@@ -1,0 +1,101 @@
+@using SRMS.Application.Complaints.DTOs
+@using SRMS.Domain.Complaints.Enums
+@using MudBlazor
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.ReportProblem" Class="mr-2" />
+            New Complaint
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm @ref="_form" @bind-IsValid="@_success">
+            <MudTextField T="string" Label="Title" @bind-Value="Model.Title" Required="true"
+                RequiredError="Title is required" Counter="200" MaxLength="200" Variant="Variant.Outlined"
+                Class="mb-3" />
+
+            <MudTextField T="string" Label="Description" @bind-Value="Model.Description" Required="true"
+                RequiredError="Description is required" Lines="4" Counter="2000" MaxLength="2000"
+                Variant="Variant.Outlined" HelperText="Describe your complaint in detail" Class="mb-3" />
+
+            <MudSelect T="ComplaintCategory" Label="Category" @bind-Value="Model.Category" Required="true"
+                Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" Class="mb-3">
+                <MudSelectItem Value="ComplaintCategory.Maintenance">🔧 Maintenance</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Cleanliness">🧹 Cleanliness</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Noise">🔊 Noise</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Security">🔒 Security</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.RoommateIssue">👥 Roommate Issue</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Facilities">🏢 Facilities</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Internet">📶 Internet</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Utilities">💡 Utilities</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Management">📋 Management</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Other">📝 Other</MudSelectItem>
+            </MudSelect>
+
+            <MudSelect T="ComplaintPriority" Label="Priority" @bind-Value="Model.Priority" Variant="Variant.Outlined"
+                AnchorOrigin="Origin.BottomCenter" Class="mb-3">
+                <MudSelectItem Value="ComplaintPriority.Low">
+                    <MudStack Row="true" AlignItems="AlignItems.Center">
+                        <MudIcon Icon="@Icons.Material.Filled.ArrowDownward" Color="Color.Success" Size="Size.Small" />
+                        <span>Low - Not urgent</span>
+                    </MudStack>
+                </MudSelectItem>
+                <MudSelectItem Value="ComplaintPriority.Medium">
+                    <MudStack Row="true" AlignItems="AlignItems.Center">
+                        <MudIcon Icon="@Icons.Material.Filled.Remove" Color="Color.Info" Size="Size.Small" />
+                        <span>Medium - Normal priority</span>
+                    </MudStack>
+                </MudSelectItem>
+                <MudSelectItem Value="ComplaintPriority.High">
+                    <MudStack Row="true" AlignItems="AlignItems.Center">
+                        <MudIcon Icon="@Icons.Material.Filled.ArrowUpward" Color="Color.Warning" Size="Size.Small" />
+                        <span>High - Need attention soon</span>
+                    </MudStack>
+                </MudSelectItem>
+                <MudSelectItem Value="ComplaintPriority.Critical">
+                    <MudStack Row="true" AlignItems="AlignItems.Center">
+                        <MudIcon Icon="@Icons.Material.Filled.PriorityHigh" Color="Color.Error" Size="Size.Small" />
+                        <span>Critical - Immediate action required</span>
+                    </MudStack>
+                </MudSelectItem>
+            </MudSelect>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Variant="Variant.Text">Cancel</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Disabled="@(!_success)"
+            StartIcon="@Icons.Material.Filled.Send">
+            Submit Complaint
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
+    [Parameter] public Guid StudentId { get; set; }
+
+    private MudForm? _form;
+    private bool _success;
+
+    public CreateComplaintDto Model { get; set; } = new()
+        {
+            Priority = ComplaintPriority.Medium,
+            Category = ComplaintCategory.Maintenance
+        };
+
+    protected override void OnInitialized()
+    {
+        Model.StudentId = StudentId;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private void Submit()
+    {
+        if (_success)
+        {
+            MudDialog.Close(DialogResult.Ok(Model));
+        }
+    }
+}

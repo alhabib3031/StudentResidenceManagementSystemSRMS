@@ -1,17 +1,23 @@
 ﻿@page "/superroot"
+@using SRMS.Application.Common.Interfaces
+@using SRMS.Domain.AuditLogs
+@using SRMS.Infrastructure
+@using Microsoft.EntityFrameworkCore
 @attribute [Authorize(Roles = "SuperRoot")]
-@inject IUserService UserService
-@inject IRoleService RoleService
+@* @inject IUserService UserService
+@inject IRoleService RoleService *@
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject NavigationManager Navigation
+@inject IServiceScopeFactory ScopeFactory
+@inject IApplicationInfoService AppInfo
 @rendermode InteractiveServer
 
 <PageTitle>SuperRoot Dashboard</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="pa-4 mb-4 glass-card">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
                 <MudText Typo="Typo.h4" Color="Color.Primary">
@@ -26,7 +32,8 @@
                 Variant="Variant.Filled" 
                 Color="Color.Error"
                 StartIcon="@Icons.Material.Filled.Warning"
-                OnClick="@ShowDangerZone">
+                OnClick="@ShowDangerZone"
+                Class="btn-modern h-12 rounded-xl font-semibold">
                 Danger Zone
             </MudButton>
         </MudStack>
@@ -40,7 +47,7 @@
     <!-- Statistics Cards -->
     <MudGrid Class="mb-4">
         <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="glass-card">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
@@ -56,7 +63,7 @@
         </MudItem>
 
         <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="glass-card">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
@@ -72,7 +79,7 @@
         </MudItem>
 
         <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="glass-card">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
@@ -88,7 +95,7 @@
         </MudItem>
 
         <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="glass-card">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
@@ -107,7 +114,7 @@
     <!-- Quick Actions -->
     <MudGrid Class="mb-4">
         <MudItem xs="12" md="4">
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="glass-card">
                 <MudCardHeader>
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
@@ -118,13 +125,13 @@
                 </MudCardHeader>
                 <MudCardContent>
                     <MudList T="string" Dense="true">
-                        <MudListItem Icon="@Icons.Material.Filled.PersonAdd" OnClick="@CreateNewUser">
+                        <MudListItem Icon="@Icons.Material.Filled.PersonAdd" OnClick="@CreateNewUser" Class="btn-modern h-12 rounded-xl font-semibold">
                             Create New User
                         </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/users">
+                        <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/users" Class="btn-modern h-12 rounded-xl font-semibold">
                             View All Users
                         </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.Block" OnClick="@ManageInactiveUsers">
+                        <MudListItem Icon="@Icons.Material.Filled.Block" OnClick="@ManageInactiveUsers" Class="btn-modern h-12 rounded-xl font-semibold">
                             Manage Inactive Users
                         </MudListItem>
                     </MudList>
@@ -133,7 +140,7 @@
         </MudItem>
 
         <MudItem xs="12" md="4">
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="glass-card">
                 <MudCardHeader>
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
@@ -144,13 +151,13 @@
                 </MudCardHeader>
                 <MudCardContent>
                     <MudList T="string" Dense="true">
-                        <MudListItem Icon="@Icons.Material.Filled.Add" OnClick="@CreateNewRole">
+                        <MudListItem Icon="@Icons.Material.Filled.Add" OnClick="@CreateNewRole" Class="btn-modern h-12 rounded-xl font-semibold">
                             Create New Role
                         </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/roles">
+                        <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/roles" Class="btn-modern h-12 rounded-xl font-semibold">
                             View All Roles
                         </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.Security" Href="/superroot/permissions">
+                        <MudListItem Icon="@Icons.Material.Filled.Security" Href="/superroot/permissions" Class="btn-modern h-12 rounded-xl font-semibold">
                             Manage Permissions
                         </MudListItem>
                     </MudList>
@@ -159,7 +166,7 @@
         </MudItem>
 
         <MudItem xs="12" md="4">
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="glass-card">
                 <MudCardHeader>
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
@@ -170,13 +177,13 @@
                 </MudCardHeader>
                 <MudCardContent>
                     <MudList T="string" Dense="true">
-                        <MudListItem Icon="@Icons.Material.Filled.Email" Href="/superroot/email-config">
+                        <MudListItem Icon="@Icons.Material.Filled.Email" Href="/superroot/email-config" Class="btn-modern h-12 rounded-xl font-semibold">
                             Email Configuration
                         </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.Sms" Href="/superroot/sms-config">
+                        <MudListItem Icon="@Icons.Material.Filled.Sms" Href="/superroot/sms-config" Class="btn-modern h-12 rounded-xl font-semibold">
                             SMS Configuration
                         </MudListItem>
-                        <MudListItem Icon="@Icons.Material.Filled.Dataset" OnClick="@ShowDatabaseTools">
+                        <MudListItem Icon="@Icons.Material.Filled.Dataset" OnClick="@ShowDatabaseTools" Class="btn-modern h-12 rounded-xl font-semibold">
                             Database Tools
                         </MudListItem>
                     </MudList>
@@ -186,61 +193,35 @@
     </MudGrid>
 
     <!-- Recent Activity -->
-    <MudCard Elevation="4">
-        <MudCardHeader>
-            <CardHeaderContent>
-                <MudText Typo="Typo.h6">
-                    <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
-                    Recent System Activity
-                </MudText>
-            </CardHeaderContent>
-            <CardHeaderActions>
-                <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Href="/superroot/audit">
-                    View All
-                </MudButton>
-            </CardHeaderActions>
-        </MudCardHeader>
-        <MudCardContent>
-            <MudTimeline TimelineOrientation="TimelineOrientation.Vertical" TimelinePosition="TimelinePosition.Start">
-                <MudTimelineItem Color="Color.Success" Size="Size.Small">
-                    <ItemContent>
-                        <MudText Typo="Typo.body2">New user registered: john@example.com</MudText>
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">2 minutes ago</MudText>
-                    </ItemContent>
-                </MudTimelineItem>
-                <MudTimelineItem Color="Color.Info" Size="Size.Small">
-                    <ItemContent>
-                        <MudText Typo="Typo.body2">Manager role assigned to alice@example.com</MudText>
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">15 minutes ago</MudText>
-                    </ItemContent>
-                </MudTimelineItem>
-                <MudTimelineItem Color="Color.Warning" Size="Size.Small">
-                    <ItemContent>
-                        <MudText Typo="Typo.body2">System settings updated</MudText>
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">1 hour ago</MudText>
-                    </ItemContent>
-                </MudTimelineItem>
-            </MudTimeline>
-        </MudCardContent>
-    </MudCard>
+    <CascadingValue Value="_recentActivities" IsFixed="true">
+        <RecentActivityTimeLine />
+    </CascadingValue>
+    
 </MudContainer>
 
 @code {
+    private readonly List<AuditLog> _recentActivities = new();
     private bool _isLoading = true;
     private (int TotalUsers, int ActiveUsers, int TotalRoles, int SystemUptime) _stats = (0, 0, 0, 0);
 
     protected override async Task OnInitializedAsync()
     {
-        LoadStatistics();
+        await LoadStatistics();
         _isLoading = false;
-        await Task.CompletedTask;
+        // await Task.CompletedTask;
     }
 
     private async Task LoadStatistics()
     {
-        var totalUsers = (await UserService.GetAllUsersAsync(log: false)).Count;
-        var activeUsers = (await UserService.GetActiveUsersAsync(log: false)).Count;
-        var totalRoles = (await RoleService.GetAllRolesAsync(log: false)).Count;
+         // إنشاء Scope جديد ومعزول (كما فعلنا سابقاً)
+        using var scope = ScopeFactory.CreateScope();
+        // بدلاً من UserService، نستخدم الـ Context مباشرة للسرعة
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        
+        // حساب الأعداد مباشرة من قاعدة البيانات (أسرع وأكثر أماناً)
+        var totalUsers = await context.Users.CountAsync();
+        var activeUsers = await context.Users.CountAsync(u => u.IsActive);
+        var totalRoles = await context.Roles.CountAsync();
         
         // Mock data - replace with real data
         await Task.Delay(500);
@@ -248,7 +229,7 @@
             totalUsers,
             activeUsers,
             totalRoles,
-            30);
+            AppInfo.UptimeDays);
     }
 
     private async Task CreateNewUser()

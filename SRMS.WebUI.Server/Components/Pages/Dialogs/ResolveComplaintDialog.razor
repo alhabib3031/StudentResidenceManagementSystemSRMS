@@ -1,0 +1,52 @@
+@* Components/Dialogs/ResolveComplaintDialog.razor *@
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6" Color="Color.Success">
+            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Class="mr-2" />
+            Resolve Complaint
+        </MudText>
+    </TitleContent>
+
+    <DialogContent>
+        <MudStack Spacing="3">
+            <MudAlert Severity="Severity.Info" Dense="false">
+                Please provide details about how this complaint was resolved.
+            </MudAlert>
+
+            <MudTextField @bind-Value="_resolutionNotes" Label="Resolution Notes" Variant="Variant.Outlined"
+                Placeholder="Enter resolution details..." Lines="4" Required="true"
+                RequiredError="Please provide resolution notes" Counter="500" MaxLength="500" />
+        </MudStack>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel" Variant="Variant.Text">
+            Cancel
+        </MudButton>
+        <MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="Submit"
+            Disabled="@(string.IsNullOrWhiteSpace(_resolutionNotes))" StartIcon="@Icons.Material.Filled.CheckCircle">
+            Mark as Resolved
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    private string _resolutionNotes = "";
+
+    private void Submit()
+    {
+        if (!string.IsNullOrWhiteSpace(_resolutionNotes))
+        {
+            MudDialog.Close(DialogResult.Ok(_resolutionNotes));
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}

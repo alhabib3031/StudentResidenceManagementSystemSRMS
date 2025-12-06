@@ -35,6 +35,16 @@ public class NotificationService : INotificationService
 
     public async Task<bool> SendNotificationAsync(CreateNotificationDto dto)
     {
+        // ✅ Auto-resolve UserId from Email if not provided
+        if (dto.UserId == null && !string.IsNullOrEmpty(dto.UserEmail))
+        {
+            var user = await _userManager.FindByEmailAsync(dto.UserEmail);
+            if (user != null)
+            {
+                dto.UserId = user.Id;
+            }
+        }
+
         var notification = new Notification
         {
             Id = Guid.NewGuid(),

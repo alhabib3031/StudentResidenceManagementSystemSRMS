@@ -10,19 +10,40 @@ namespace SRMS.Application.Rooms.UpdateRoom;
 public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomDto?>
 {
     private readonly IRepositories<Room> _roomRepository;
+    private readonly IAuditService _audit;
 
     public UpdateRoomCommandHandler(
-        IRepositories<Room> roomRepository)
+        IRepositories<Room> roomRepository,
+        IAuditService audit)
     {
         _roomRepository = roomRepository;
+        _audit = audit;
     }
 
     public async Task<RoomDto?> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
     {
         var existing = await _roomRepository.GetByIdAsync(request.Room.Id);
-
-        if (existing == null) return null;
-
+        
+        if (existing == null)
+        {
+            await _audit.LogAsync(
+                AuditAction.Failure,
+                "Room",
+                request.Room.Id.ToString(),
+                additionalInfo: "Attempted to update non-existent room"
+            );
+            return null;
+        }
+        
+        var oldValues = new
+        {
+            existing.RoomNumber,
+            existing.Floor,
+            existing.RoomType,
+            existing.TotalBeds,
+            existing.OccupiedBeds
+        };
+        
         existing.RoomNumber = request.Room.RoomNumber;
         existing.Floor = request.Room.Floor;
         existing.RoomType = request.Room.RoomType;
@@ -36,9 +57,25 @@ public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomD
         existing.HasWardrobe = request.Room.HasWardrobe;
         existing.HasBalcony = request.Room.HasBalcony;
         existing.UpdatedAt = DateTime.UtcNow;
-
+        
         var updated = await _roomRepository.UpdateAsync(existing);
-
+        
+        var newValues = new
+        {
+            updated.RoomNumber,
+            updated.Floor,
+            updated.RoomType,
+            updated.TotalBeds,
+            updated.OccupiedBeds
+        };
+        
+        await _audit.LogCrudAsync(
+            action: AuditAction.Update,
+            oldEntity: oldValues,
+            newEntity: newValues,
+            additionalInfo: $"Room updated: {updated.RoomNumber}"
+        );
+        
         return new RoomDto
         {
             Id = updated.Id,

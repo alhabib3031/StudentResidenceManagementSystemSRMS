@@ -1,10 +1,14 @@
-﻿using Mapster;
+using Mapster;
 using MediatR;
 using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Complaints.DTOs;
+using SRMS.Application.Notifications.DTOs;
+using SRMS.Application.Notifications.Interfaces;
 using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Complaints;
 using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Identity.Constants;
+using SRMS.Domain.Notifications.Enums;
 using SRMS.Domain.Repositories;
 
 namespace SRMS.Application.Complaints.CreateComplaint;
@@ -12,10 +16,17 @@ namespace SRMS.Application.Complaints.CreateComplaint;
 public class CreateComplaintCommandHandler : IRequestHandler<CreateComplaintCommand, ComplaintDto>
 {
     private readonly IRepositories<Complaint> _complaintRepository;
+    private readonly IAuditService _audit;
+    private readonly INotificationService _notificationService;
 
-    public CreateComplaintCommandHandler(IRepositories<Complaint> complaintRepository)
+    public CreateComplaintCommandHandler(
+        IRepositories<Complaint> complaintRepository,
+        IAuditService audit,
+        INotificationService notificationService)
     {
         _complaintRepository = complaintRepository;
+        _audit = audit;
+        _notificationService = notificationService;
     }
 
     public async Task<ComplaintDto> Handle(CreateComplaintCommand request, CancellationToken cancellationToken)
@@ -40,19 +51,46 @@ public class CreateComplaintCommandHandler : IRequestHandler<CreateComplaintComm
 
         var created = await _complaintRepository.CreateAsync(complaint);
 
-        // return new ComplaintDto
-        // {
-        //     Id = created.Id,
-        //     ComplaintNumber = created.ComplaintNumber,
-        //     Title = created.Title,
-        //     Category = created.Category,
-        //     Priority = created.Priority,
-        //     Status = created.Status,
-        //     StudentId = created.StudentId,
-        //     StudentName = created.Student?.FullName ?? "",
-        //     CreatedAt = created.CreatedAt,
-        //     IsResolved = created.Status == ComplaintStatus.Resolved
-        // };
+        // ✅ Log complaint submission
+        await _audit.LogAsync(
+            action: AuditAction.ComplaintSubmitted,
+            entityName: "Complaint",
+            entityId: created.Id.ToString(),
+            newValues: new
+            {
+                created.ComplaintNumber,
+                created.Title,
+                created.Category,
+                created.Priority,
+                created.StudentId
+            },
+            additionalInfo: $"Complaint submitted: {created.ComplaintNumber} - {created.Title} (Priority: {created.Priority}, Category: {created.Category})"
+        );
+
+        // ✅ Send notification to Managers
+        var notification = new CreateNotificationDto
+        {
+            Title = "New Complaint Submitted",
+            Message = $"New complaint from student [{created.ComplaintNumber}]: {created.Title}",
+            Type = NotificationType.Complaint,
+            Priority = MapPriority(created.Priority),
+            SendInApp = true,
+            SendEmail = true, // Optional: Send email as well
+            RelatedEntityType = "Complaint",
+            RelatedEntityId = created.Id,
+            ActionUrl = $"/complaints/{created.Id}" // Link to manager's view
+        };
+
+        // Send to "Manager" Role
+        await _notificationService.SendNotificationToRoleAsync("Manager", notification);
+
         return complaint.Adapt<ComplaintDto>();
     }
+
+    private NotificationPriority MapPriority(ComplaintPriority priority) => priority switch
+    {
+        ComplaintPriority.Critical => NotificationPriority.High,
+        ComplaintPriority.High => NotificationPriority.Low,
+        _ => NotificationPriority.Low
+    };
 }

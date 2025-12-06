@@ -1,4 +1,5 @@
 @page "/notifications"
+@using Microsoft.Extensions.DependencyInjection
 @using SRMS.Application.Notifications.Interfaces
 @using SRMS.Application.Notifications.DTOs
 @using SRMS.Domain.Notifications.Enums
@@ -6,7 +7,7 @@
 @using SRMS.Domain.Identity.Constants
 @using SRMS.WebUI.Server.Components.Pages.Dialogs
 @inject NavigationManager Navigation
-@inject INotificationService NotificationService
+@inject IServiceScopeFactory ScopeFactory
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
@@ -134,7 +135,11 @@
 
     private async Task LoadNotifications()
     {
-        _notifications = await NotificationService.GetUserNotificationsAsync(_currentUserId, 0, 100);
+        // Use ScopeFactory to avoid DbContext threading issues
+        using var scope = ScopeFactory.CreateScope();
+        var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+
+        _notifications = await notificationService.GetUserNotificationsAsync(_currentUserId, 0, 100);
     }
 
     private IEnumerable<NotificationDto> FilteredNotifications
@@ -161,7 +166,10 @@
     {
         if (!notification.IsRead)
         {
-            await NotificationService.MarkAsReadAsync(notification.Id, _currentUserId);
+            using var scope = ScopeFactory.CreateScope();
+            var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+
+            await notificationService.MarkAsReadAsync(notification.Id, _currentUserId);
             notification.IsRead = true;
             StateHasChanged();
         }
@@ -169,7 +177,10 @@
 
     private async Task MarkAllAsRead()
     {
-        await NotificationService.MarkAllAsReadAsync(_currentUserId);
+        using var scope = ScopeFactory.CreateScope();
+        var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+
+        await notificationService.MarkAllAsReadAsync(_currentUserId);
         foreach (var notification in _notifications)
         {
             notification.IsRead = true;
@@ -184,7 +195,7 @@
 { "CurrentUserRole", _currentUserRole }
 };
 
-        var dialog = DialogService.Show<CreateNotificationDialog>("Create Notification", parameters);
+        var dialog = await DialogService.ShowAsync<CreateNotificationDialog>("Create Notification", parameters);
         var result = await dialog.Result;
 
         if (!result.Canceled)
@@ -193,14 +204,17 @@
             CreateNotificationDto notification = data.Notification;
             string audience = data.Audience;
 
+            using var scope = ScopeFactory.CreateScope();
+            var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+
             bool success = false;
             if (audience == "All")
             {
-                success = await NotificationService.SendNotificationToAllAsync(notification);
+                success = await notificationService.SendNotificationToAllAsync(notification);
             }
             else
             {
-                success = await NotificationService.SendNotificationToRoleAsync(audience, notification);
+                success = await notificationService.SendNotificationToRoleAsync(audience, notification);
             }
 
             if (success)

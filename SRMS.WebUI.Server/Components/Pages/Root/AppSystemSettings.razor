@@ -7,7 +7,7 @@
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="pa-4 mb-4 glass-card">
         <MudText Typo="Typo.h4" Color="Color.Primary">
             <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" />
             System Settings
@@ -17,9 +17,9 @@
         </MudText>
     </MudPaper>
 
-    <MudTabs Elevation="4" Rounded="true" ApplyEffectsToContainer="true" PanelClass="p-6">
+    <MudTabs Elevation="4" Rounded="true" ApplyEffectsToContainer="true" PanelClass="p-6" Class="glass-card">
         <!-- General Settings -->
-        <MudTabPanel Text="General" Icon="@Icons.Material.Filled.Tune">
+        <MudTabPanel Text="General" Icon="@Icons.Material.Filled.Tune" >
             <MudGrid>
                 <MudItem xs="12">
                     <MudText Typo="Typo.h6" Class="mb-3">General Settings</MudText>
@@ -68,7 +68,7 @@
 
                 <MudItem xs="12">
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
-                        OnClick="SaveSettings">
+                        OnClick="SaveSettings" Class="btn-modern h-12 rounded-xl font-semibold">
                         Save Changes
                     </MudButton>
                 </MudItem>
@@ -111,11 +111,11 @@
                 <MudItem xs="12">
                     <MudStack Row="true" Spacing="2">
                         <MudButton Variant="Variant.Filled" Color="Color.Primary"
-                            StartIcon="@Icons.Material.Filled.Save" OnClick="SaveSettings">
+                            StartIcon="@Icons.Material.Filled.Save" OnClick="SaveSettings" Class="btn-modern h-12 rounded-xl font-semibold">
                             Save Email Settings
                         </MudButton>
                         <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Send"
-                            OnClick="TestEmail">
+                            OnClick="TestEmail" Class="btn-modern h-12 rounded-xl font-semibold">
                             Send Test Email
                         </MudButton>
                     </MudStack>
@@ -136,9 +136,9 @@
                 <MudItem xs="12" sm="6">
                     <MudSelect T="string" @bind-Value="_settings.SmsProvider" Label="SMS Provider"
                         Variant="Variant.Outlined">
-                        <MudSelectItem Value="@("Twilio")">Twilio</MudSelectItem>
-                        <MudSelectItem Value="@("Nexmo")">Nexmo</MudSelectItem>
-                        <MudSelectItem Value="@("MessageBird")">MessageBird</MudSelectItem>
+                        <MudSelectItem Value="@("Libyana")">Libyana</MudSelectItem>
+                        <MudSelectItem Value="@("Almadar")">Almadar</MudSelectItem>
+                        <MudSelectItem Value="@("LibyaTelecom")">LibyaTelecom</MudSelectItem>
                     </MudSelect>
                 </MudItem>
 
@@ -164,11 +164,11 @@
                 <MudItem xs="12">
                     <MudStack Row="true" Spacing="2">
                         <MudButton Variant="Variant.Filled" Color="Color.Primary"
-                            StartIcon="@Icons.Material.Filled.Save" OnClick="SaveSettings">
+                            StartIcon="@Icons.Material.Filled.Save" OnClick="SaveSettings" Class="btn-modern h-12 rounded-xl font-semibold">
                             Save SMS Settings
                         </MudButton>
                         <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Send"
-                            OnClick="TestSms">
+                            OnClick="TestSms" Class="btn-modern h-12 rounded-xl font-semibold">
                             Send Test SMS
                         </MudButton>
                     </MudStack>
@@ -220,7 +220,7 @@
 
                 <MudItem xs="12">
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
-                        OnClick="SaveSettings">
+                        OnClick="SaveSettings" Class="btn-modern h-12 rounded-xl font-semibold">
                         Save Security Settings
                     </MudButton>
                 </MudItem>
@@ -266,7 +266,7 @@
 
                 <MudItem xs="12">
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
-                        OnClick="SaveSettings">
+                        OnClick="SaveSettings" Class="btn-modern h-12 rounded-xl font-semibold">
                         Save Payment Settings
                     </MudButton>
                 </MudItem>
@@ -298,7 +298,8 @@
                 <MudItem xs="12">
                     <MudButton Variant="Variant.Filled"
                         Color="@(_settings.MaintenanceMode ? Color.Error : Color.Primary)"
-                        StartIcon="@Icons.Material.Filled.Save" OnClick="SaveSettings">
+                        StartIcon="@Icons.Material.Filled.Save" OnClick="SaveSettings" 
+                        Class="btn-modern h-12 rounded-xl font-semibold">
                         @(_settings.MaintenanceMode ? "Enable Maintenance Mode" : "Save Settings")
                     </MudButton>
                 </MudItem>

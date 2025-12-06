@@ -1,24 +1,102 @@
 @page "/student/complaints"
+@using MediatR
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@using SRMS.Application.Complaints.CreateComplaint
+@using SRMS.Application.Complaints.DTOs
+@using SRMS.Domain.Complaints.Enums
+@using SRMS.Domain.Students
+@using SRMS.Domain.Students.Enums
+@using SRMS.Domain.Identity
+@using SRMS.Domain.ValueObjects
+@using SRMS.Infrastructure
+@using System.Security.Claims
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IServiceScopeFactory ScopeFactory
 @attribute [Authorize(Roles = "Student")]
 @rendermode InteractiveServer
 
 <PageTitle>My Complaints - SRMS</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
-    <div Class="flex justify-between items-center mb-6">
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="py-4">
+    @* Header Section *@
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-6">
         <div>
-            <MudText Typo="Typo.h4" Class="text-gradient">My Complaints</MudText>
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                <MudIcon Icon="@Icons.Material.Filled.ReportProblem" Size="Size.Large" Color="Color.Primary" />
+                <MudText Typo="Typo.h4" Class="text-gradient">My Complaints</MudText>
+            </MudStack>
             <MudText Typo="Typo.subtitle1" Color="Color.Secondary">Submit and track your maintenance requests</MudText>
         </div>
         <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Add"
-            Class="btn-modern" OnClick="@OpenNewComplaintDialog">
-            New Complaint
+            Class="btn-modern" OnClick="@OpenNewComplaintDialog" Size="Size.Large">
+            NEW COMPLAINT
         </MudButton>
-    </div>
+    </MudStack>
 
-    <MudGrid>
-        <MudItem xs="12">
-            <MudTable Items="@_complaints" Hover="true" Breakpoint="Breakpoint.Sm" Class="glass-card" Elevation="0">
+    @if (_isLoading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+    }
+
+    @* Statistics Cards *@
+    <MudGrid Spacing="4" Class="mb-6">
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Class="glass-card pa-4 text-center" Elevation="0" Style="border-radius: 16px;">
+                <MudIcon Icon="@Icons.Material.Filled.Assignment" Size="Size.Large"
+                    Style="color: #9c7cf4; font-size: 2.5rem;" Class="mb-2" />
+                <MudText Typo="Typo.h3" Style="color: white; font-weight: 600;">@_complaints.Count</MudText>
+                <MudText Typo="Typo.body2" Style="color: #9c7cf4;">Total</MudText>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Class="glass-card pa-4 text-center" Elevation="0" Style="border-radius: 16px;">
+                <MudIcon Icon="@Icons.Material.Filled.FolderOpen" Size="Size.Large"
+                    Style="color: #f4a62a; font-size: 2.5rem;" Class="mb-2" />
+                <MudText Typo="Typo.h3" Style="color: white; font-weight: 600;">@_openCount</MudText>
+                <MudText Typo="Typo.body2" Style="color: #f4a62a;">Open</MudText>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Class="glass-card pa-4 text-center" Elevation="0" Style="border-radius: 16px;">
+                <MudIcon Icon="@Icons.Material.Filled.Autorenew" Size="Size.Large"
+                    Style="color: #64b5f6; font-size: 2.5rem;" Class="mb-2" />
+                <MudText Typo="Typo.h3" Style="color: white; font-weight: 600;">@_inProgressCount</MudText>
+                <MudText Typo="Typo.body2" Style="color: #64b5f6;">In Progress</MudText>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Class="glass-card pa-4 text-center" Elevation="0" Style="border-radius: 16px;">
+                <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large"
+                    Style="color: #4caf50; font-size: 2.5rem;" Class="mb-2" />
+                <MudText Typo="Typo.h3" Style="color: white; font-weight: 600;">@_resolvedCount</MudText>
+                <MudText Typo="Typo.body2" Style="color: #4caf50;">Resolved</MudText>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
+    @* Complaints Table *@
+    <MudPaper Class="glass-card" Elevation="0" Style="border-radius: 16px;">
+        @if (!_complaints.Any() && !_isLoading)
+        {
+            <MudStack AlignItems="AlignItems.Center" Class="pa-12">
+                <MudIcon Icon="@Icons.Material.Outlined.Inbox" Size="Size.Large" Style="color: #64b5f6; font-size: 4rem;"
+                    Class="mb-4" />
+                <MudText Typo="Typo.h5" Style="color: white;">No complaints yet</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Click 'New Complaint' to submit your first complaint
+                </MudText>
+            </MudStack>
+        }
+        else
+        {
+            <MudTable Items="@_complaints" Hover="true" Breakpoint="Breakpoint.Sm" Class="glass-table" Elevation="0"
+                Loading="@_isLoading">
                 <HeaderContent>
                     <MudTh>ID</MudTh>
                     <MudTh>Subject</MudTh>
@@ -28,12 +106,17 @@
                     <MudTh>Priority</MudTh>
                 </HeaderContent>
                 <RowTemplate>
-                    <MudTd DataLabel="ID">#@context.Id</MudTd>
-                    <MudTd DataLabel="Subject">@context.Subject</MudTd>
-                    <MudTd DataLabel="Category">@context.Category</MudTd>
-                    <MudTd DataLabel="Date">@context.Date.ToShortDateString()</MudTd>
+                    <MudTd DataLabel="ID">
+                        <MudText Typo="Typo.caption" Color="Color.Primary">@context.ComplaintNumber</MudText>
+                    </MudTd>
+                    <MudTd DataLabel="Subject">@context.Title</MudTd>
+                    <MudTd DataLabel="Category">
+                        <MudChip T="string" Size="Size.Small" Variant="Variant.Text">@context.Category</MudChip>
+                    </MudTd>
+                    <MudTd DataLabel="Date">@context.CreatedAt.ToShortDateString()</MudTd>
                     <MudTd DataLabel="Status">
-                        <MudChip T="string" Color="@GetStatusColor(context.Status)" Size="Size.Small">@context.Status
+                        <MudChip T="string" Color="@GetStatusColor(context.Status)" Size="Size.Small">
+                            @context.Status
                         </MudChip>
                     </MudTd>
                     <MudTd DataLabel="Priority">
@@ -45,49 +128,206 @@
                     <MudTablePager />
                 </PagerContent>
             </MudTable>
-        </MudItem>
-    </MudGrid>
+        }
+    </MudPaper>
 </MudContainer>
 
 @code {
-    private void OpenNewComplaintDialog()
+    private List<ComplaintDto> _complaints = new();
+    private bool _isLoading = true;
+    private Guid _currentStudentId;
+
+    private int _openCount => _complaints.Count(c => c.Status == ComplaintStatus.Open);
+    private int _inProgressCount => _complaints.Count(c => c.Status == ComplaintStatus.InProgress);
+    private int _resolvedCount => _complaints.Count(c => c.Status == ComplaintStatus.Resolved);
+
+    protected override async Task OnInitializedAsync()
     {
-        // TODO: Open dialog
+        await LoadOrCreateStudent();
+        await LoadComplaints();
     }
 
-    private Color GetStatusColor(string status) => status switch
+    private async Task LoadOrCreateStudent()
     {
-        "Pending" => Color.Warning,
-        "In Progress" => Color.Info,
-        "Resolved" => Color.Success,
-        _ => Color.Default
-    };
+        try
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
 
-    private Color GetPriorityColor(string priority) => priority switch
+            if (user.Identity?.IsAuthenticated != true)
+            {
+                Snackbar.Add("Please login to view your complaints.", Severity.Warning);
+                return;
+            }
+
+            // Get email from claims
+            var email = user.FindFirst(ClaimTypes.Email)?.Value
+            ?? user.FindFirst("email")?.Value;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                Snackbar.Add("Could not get your email. Please contact support.", Severity.Error);
+                return;
+            }
+
+            // Use scoped DbContext to avoid threading issues
+            using var scope = ScopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            // Try to find student by email
+            var student = await context.Students
+            .FirstOrDefaultAsync(s => s.Email != null && s.Email.Value == email);
+
+            if (student != null)
+            {
+                _currentStudentId = student.Id;
+                return;
+            }
+
+            // Student not found - create one automatically
+            var appUser = await userManager.FindByEmailAsync(email);
+            if (appUser == null)
+            {
+                Snackbar.Add("Could not find your user account. Please contact support.", Severity.Error);
+                return;
+            }
+
+            // Create new student record linked to the user
+            var newStudent = new Student
+                {
+                    Id = Guid.NewGuid(),
+                    FirstName = appUser.FirstName ?? "Unknown",
+                    LastName = appUser.LastName ?? "User",
+                    Email = Email.Create(email),
+                    PhoneNumber = !string.IsNullOrEmpty(appUser.PhoneNumber) ? PhoneNumber.Create(appUser.PhoneNumber) : null,
+                    NationalId = appUser.NationalId,
+                    DateOfBirth = appUser.DateOfBirth,
+                    Gender = Gender.Male, // Default
+                    Status = StudentStatus.Active,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow,
+                    IsActive = true,
+                    IsDeleted = false
+                };
+
+            context.Students.Add(newStudent);
+            await context.SaveChangesAsync();
+            _currentStudentId = newStudent.Id;
+
+            Snackbar.Add("Your student profile has been created successfully!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading student data: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task LoadComplaints()
     {
-        "High" => Color.Error,
-        "Medium" => Color.Warning,
-        "Low" => Color.Success,
-        _ => Color.Default
-    };
+        if (_currentStudentId == Guid.Empty)
+        {
+            _isLoading = false;
+            return;
+        }
 
-    private List<ComplaintRecord> _complaints = new()
+        _isLoading = true;
+        try
+        {
+            // Use scoped DbContext to avoid threading issues
+            using var scope = ScopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+            var complaints = await context.Complaints
+            .Where(c => c.StudentId == _currentStudentId && !c.IsDeleted)
+            .OrderByDescending(c => c.CreatedAt)
+            .ToListAsync();
+
+            var student = await context.Students.FindAsync(_currentStudentId);
+            var studentName = student?.FullName ?? "Unknown";
+
+            _complaints = complaints.Select(c => new ComplaintDto
+                {
+                    Id = c.Id,
+                    ComplaintNumber = c.ComplaintNumber,
+                    Title = c.Title,
+                    Category = c.Category,
+                    Priority = c.Priority,
+                    Status = c.Status,
+                    StudentId = c.StudentId,
+                    StudentName = studentName,
+                    CreatedAt = c.CreatedAt,
+                    IsResolved = c.Status == ComplaintStatus.Resolved
+                }).ToList();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading complaints: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task OpenNewComplaintDialog()
+    {
+        if (_currentStudentId == Guid.Empty)
+        {
+            Snackbar.Add("Unable to identify your student account. Please refresh the page.", Severity.Warning);
+            return;
+        }
+
+        var parameters = new DialogParameters<CreateComplaintDialog>
 {
-new ComplaintRecord { Id = 101, Subject = "Leaking Tap", Category = "Plumbing", Date = DateTime.Now.AddDays(-2), Status
-= "Pending", Priority = "Medium" },
-new ComplaintRecord { Id = 102, Subject = "Broken Chair", Category = "Furniture", Date = DateTime.Now.AddDays(-10),
-Status = "Resolved", Priority = "Low" },
-new ComplaintRecord { Id = 103, Subject = "No Internet", Category = "Network", Date = DateTime.Now.AddDays(-1), Status =
-"In Progress", Priority = "High" },
+{ x => x.StudentId, _currentStudentId }
 };
 
-    public class ComplaintRecord
-    {
-        public int Id { get; set; }
-        public string Subject { get; set; } = "";
-        public string Category { get; set; } = "";
-        public DateTime Date { get; set; }
-        public string Status { get; set; } = "";
-        public string Priority { get; set; } = "";
+        var options = new DialogOptions
+            {
+                CloseOnEscapeKey = true,
+                MaxWidth = MaxWidth.Small,
+                FullWidth = true
+            };
+
+        var dialog = await DialogService.ShowAsync<CreateComplaintDialog>("New Complaint", parameters, options);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false, Data: CreateComplaintDto complaintDto })
+        {
+            try
+            {
+                // Use scoped services to avoid threading issues
+                using var scope = ScopeFactory.CreateScope();
+                var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+
+                var command = new CreateComplaintCommand(complaintDto);
+                await sender.Send(command);
+                Snackbar.Add("Complaint submitted successfully! Managers have been notified.", Severity.Success);
+                await LoadComplaints();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error submitting complaint: {ex.Message}", Severity.Error);
+            }
+        }
     }
+
+    private Color GetPriorityColor(ComplaintPriority priority) => priority switch
+    {
+        ComplaintPriority.Critical => Color.Error,
+        ComplaintPriority.High => Color.Warning,
+        ComplaintPriority.Medium => Color.Info,
+        ComplaintPriority.Low => Color.Success,
+        _ => Color.Default
+    };
+
+    private Color GetStatusColor(ComplaintStatus status) => status switch
+    {
+        ComplaintStatus.Open => Color.Warning,
+        ComplaintStatus.InProgress => Color.Info,
+        ComplaintStatus.Resolved => Color.Success,
+        ComplaintStatus.Closed => Color.Default,
+        _ => Color.Default
+    };
 }

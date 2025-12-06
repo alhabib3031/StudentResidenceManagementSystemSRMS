@@ -10,7 +10,7 @@
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="pa-4 mb-4 glass-card">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
                 <MudText Typo="Typo.h4" Color="Color.Primary">
@@ -22,7 +22,7 @@
                 </MudText>
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-                OnClick="@CreateNewRole">
+                OnClick="@CreateNewRole" Class="btn-modern h-12 rounded-xl font-semibold">
                 Create New Role
             </MudButton>
         </MudStack>
@@ -43,7 +43,7 @@
         @foreach (var role in _systemRoles)
         {
             <MudItem xs="12" sm="6" md="3">
-                <MudCard Elevation="4">
+                <MudCard Elevation="4" Class="glass-card">
                     <MudCardHeader>
                         <CardHeaderContent>
                             <MudText Typo="Typo.h6">
@@ -81,7 +81,7 @@
             @foreach (var role in _customRoles)
             {
                 <MudItem xs="12" sm="6" md="4">
-                    <MudCard Elevation="4">
+                    <MudCard Elevation="4" Class="glass-card">
                         <MudCardHeader>
                             <CardHeaderContent>
                                 <MudText Typo="Typo.h6">
@@ -91,13 +91,16 @@
                             </CardHeaderContent>
                             <CardHeaderActions>
                                 <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
-                                    <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRole(role))">
-                                        Edit
-                                    </MudMenuItem>
-                                    <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
-                                        OnClick="@(() => DeleteRole(role))">
-                                        Delete
-                                    </MudMenuItem>
+                                    <MudPaper Class="glass-card w-full h-full">
+                                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRole(role))" Class="btn-modern h-12 rounded-xl font-semibold">
+                                            Edit
+                                        </MudMenuItem>
+                                        <MudDivider/>
+                                        <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
+                                                     OnClick="@(() => DeleteRole(role))" Class="btn-modern h-12 rounded-xl font-semibold">
+                                            Delete
+                                        </MudMenuItem>
+                                    </MudPaper>
                                 </MudMenu>
                             </CardHeaderActions>
                         </MudCardHeader>
@@ -108,7 +111,7 @@
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
-                                StartIcon="@Icons.Material.Filled.Security" OnClick="@(() => ManagePermissions(role))">
+                                StartIcon="@Icons.Material.Filled.Security" OnClick="@(() => ManagePermissions(role))" Class="btn-modern h-12 rounded-xl font-semibold">
                                 Manage Permissions
                             </MudButton>
                         </MudCardActions>

@@ -11,7 +11,7 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="pa-4 mb-4 glass-card">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
                 <MudText Typo="Typo.h4" Color="Color.Primary">
@@ -23,7 +23,7 @@
                 </MudText>
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.PersonAdd"
-                OnClick="@CreateUser">
+                OnClick="@CreateUser" Class="btn-modern h-12 rounded-xl font-semibold">
                 Create New User
             </MudButton>
         </MudStack>
@@ -35,7 +35,7 @@
     }
 
     <!-- Filters -->
-    <MudPaper Elevation="2" Class="pa-4 mb-4">
+    <MudPaper Elevation="2" Class="pa-4 mb-4 glass-card">
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
                 <MudTextField @bind-Value="_searchString" Label="Search" Variant="Variant.Outlined"
@@ -63,7 +63,7 @@
 
             <MudItem xs="12" sm="6" md="3">
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="@LoadUsers"
-                    StartIcon="@Icons.Material.Filled.FilterList">
+                    StartIcon="@Icons.Material.Filled.FilterList" Class="btn-modern h-12 rounded-xl font-semibold">
                     Apply Filters
                 </MudButton>
             </MudItem>
@@ -73,7 +73,7 @@
     <!-- Users Table -->
     <MudPaper Elevation="4">
         <MudTable Items="@_filteredUsers" Hover="true" Striped="true" Dense="@_dense" Loading="@_isLoading"
-            LoadingProgressColor="Color.Primary">
+            LoadingProgressColor="Color.Primary" Class="glass-card">
 
             <HeaderContent>
                 <MudTh>Avatar</MudTh>
@@ -158,30 +158,30 @@
 
                 <MudTd DataLabel="Actions" Class="text-right">
                     <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
-                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditUser(context.Id))">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditUser(context.Id))" Class="btn-modern h-12 rounded-xl font-semibold">
                             Edit User
                         </MudMenuItem>
-                        <MudMenuItem Icon="@Icons.Material.Filled.Security" OnClick="@(() => ManageRoles(context.Id))">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Security" OnClick="@(() => ManageRoles(context.Id))" Class="btn-modern h-12 rounded-xl font-semibold">
                             Manage Roles
                         </MudMenuItem>
                         <MudDivider />
                         @if (context.IsActive)
                         {
                             <MudMenuItem Icon="@Icons.Material.Filled.Block" IconColor="Color.Warning"
-                                OnClick="@(() => DeactivateUser(context.Id))">
+                                OnClick="@(() => DeactivateUser(context.Id))" Class="btn-modern h-12 rounded-xl font-semibold">
                                 Deactivate
                             </MudMenuItem>
                         }
                         else
                         {
                             <MudMenuItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success"
-                                OnClick="@(() => ActivateUser(context.Id))">
+                                OnClick="@(() => ActivateUser(context.Id))" Class="btn-modern h-12 rounded-xl font-semibold">
                                 Activate
                             </MudMenuItem>
                         }
                         <MudDivider />
                         <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
-                            OnClick="@(() => DeleteUser(context.Id))">
+                            OnClick="@(() => DeleteUser(context.Id))" Class="btn-modern h-12 rounded-xl font-semibold">
                             Delete User
                         </MudMenuItem>
                     </MudMenu>

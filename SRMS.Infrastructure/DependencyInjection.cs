@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SRMS.Application.AuditLogs.Interfaces;
+using SRMS.Application.Common.Interfaces;
 using SRMS.Application.Identity.Interfaces;
 using SRMS.Application.Notifications.Interfaces;
 using SRMS.Application.SuperRoot.Interfaces;
@@ -33,10 +34,10 @@ public static class DependencyInjection
                         errorNumbersToAdd: null);
                 });
 
-                #if DEBUG
-                    options.EnableSensitiveDataLogging();
-                    options.EnableDetailedErrors();
-                #endif
+#if DEBUG
+            options.EnableSensitiveDataLogging();
+            options.EnableDetailedErrors();
+#endif
         });
 
         // ════════════════════════════════════════════════════════════
@@ -55,6 +56,11 @@ public static class DependencyInjection
         services.AddTransient<IEmailService, EmailService>();
         services.AddScoped<ISMSService, SMSService>();
         services.AddScoped<ISuperRootService, SuperRootService>();
+
+        // ════════════════════════════════════════════════════════════
+        // Singleton Services (نسخة واحدة طوال عمر التطبيق)
+        // ════════════════════════════════════════════════════════════
+        services.AddSingleton<IApplicationInfoService, ApplicationInfoService>();
 
         services.AddHttpContextAccessor();
 

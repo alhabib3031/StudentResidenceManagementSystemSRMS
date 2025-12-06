@@ -1,0 +1,171 @@
+@page "/complaints/{Id:guid}"
+@using MediatR
+@using Microsoft.Extensions.DependencyInjection
+@using SRMS.Application.Complaints.DTOs
+@using SRMS.Application.Complaints.GetComplaintById
+@using SRMS.Domain.Complaints.Enums
+@inject IServiceScopeFactory ScopeFactory
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
+@rendermode InteractiveServer
+
+<PageTitle>Complaint Details</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-4">
+    <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Default" OnClick="GoBack" Class="mb-4">
+        Back to List
+    </MudButton>
+
+    @if (_isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" Class="d-block mx-auto my-8" />
+    }
+    else if (_complaint == null)
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Filled">
+            Complaint not found or you do not have permission to view it.
+        </MudAlert>
+    }
+    else
+    {
+        <MudPaper Elevation="3" Class="pa-6">
+            <MudStack Spacing="4">
+                <!-- Header: Status and ID -->
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
+                    <div>
+                        <MudText Typo="Typo.h5" Color="Color.Primary" Class="mb-1">@_complaint.Title</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">#@_complaint.ComplaintNumber</MudText>
+                    </div>
+                    <MudChip T="string" Color="@GetStatusColor(_complaint.Status)" Variant="Variant.Filled"
+                        Size="Size.Large">
+                        @_complaint.Status
+                    </MudChip>
+                </MudStack>
+
+                <MudDivider />
+
+                <!-- Main Details -->
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Category</MudText>
+                            <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined">@_complaint.Category</MudChip>
+                        </MudStack>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Priority</MudText>
+                            <MudChip T="string" Size="Size.Small" Color="@GetPriorityColor(_complaint.Priority)">
+                                @_complaint.Priority
+                            </MudChip>
+                        </MudStack>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Student</MudText>
+                            <MudStack Row="true" AlignItems="AlignItems.Center">
+                                <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Small" Color="Color.Primary" />
+                                <MudText Typo="Typo.body1">@_complaint.StudentName</MudText>
+                            </MudStack>
+                        </MudStack>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Description</MudText>
+                            <MudPaper Class="pa-4" Style="background-color: var(--mud-palette-background-grey);"
+                                Elevation="0">
+                                <MudText Typo="Typo.body1" Style="white-space: pre-wrap;">@_complaint.Description</MudText>
+                            </MudPaper>
+                        </MudStack>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Created On</MudText>
+                            <MudText Typo="Typo.body1">@_complaint.CreatedAt.ToString("f")</MudText>
+                        </MudStack>
+                    </MudItem>
+                </MudGrid>
+
+                <!-- Resolution Section (if resolved) -->
+                @if (_complaint.Status == ComplaintStatus.Resolved || _complaint.Status == ComplaintStatus.Closed)
+                {
+                    <MudDivider />
+                    <MudText Typo="Typo.h6" Color="Color.Success" Class="mt-2">
+                        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Class="mr-2" /> Resolution
+                    </MudText>
+
+                    <MudPaper Class="pa-4"
+                        Style="background-color: rgba(0, 200, 83, 0.05); border: 1px solid rgba(0, 200, 83, 0.2);"
+                        Elevation="0">
+                        <MudText Typo="Typo.subtitle2" Color="Color.Success" Class="mb-1">Manager Notes:</MudText>
+                        <MudText Typo="Typo.body1">@_complaint.ResolutionNotes</MudText>
+                        @if (_complaint.ResolvedAt.HasValue)
+                        {
+                            <MudText Typo="Typo.caption" Class="mt-2 d-block" Color="Color.Secondary">
+                                Resolved on: @_complaint.ResolvedAt.Value.ToString("f")
+                            </MudText>
+                        }
+                    </MudPaper>
+                }
+            </MudStack>
+        </MudPaper>
+    }
+</MudContainer>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+
+    private ComplaintDto? _complaint;
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadComplaintDetails();
+    }
+
+    private async Task LoadComplaintDetails()
+    {
+        _isLoading = true;
+        try
+        {
+            using var scope = ScopeFactory.CreateScope();
+            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+            _complaint = await sender.Send(new GetComplaintByIdQuery(Id));
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading complaint: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void GoBack()
+    {
+        Navigation.NavigateTo("/complaints");
+    }
+
+    private Color GetPriorityColor(ComplaintPriority priority) => priority switch
+    {
+        ComplaintPriority.Critical => Color.Error,
+        ComplaintPriority.High => Color.Warning,
+        ComplaintPriority.Medium => Color.Info,
+        ComplaintPriority.Low => Color.Success,
+        _ => Color.Default
+    };
+
+    private Color GetStatusColor(ComplaintStatus status) => status switch
+    {
+        ComplaintStatus.Open => Color.Warning,
+        ComplaintStatus.InProgress => Color.Info,
+        ComplaintStatus.Resolved => Color.Success,
+        ComplaintStatus.Closed => Color.Default,
+        _ => Color.Default
+    };
+}

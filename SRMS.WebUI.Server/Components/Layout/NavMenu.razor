@@ -5,16 +5,16 @@
 @rendermode InteractiveServer
 
 <!-- Modern Sidebar Header -->
-<MudPaper class="pa-5 text-center" style="border-bottom: 1px solid var(--border-color);">
+<MudPaper class="pa-5" style="border-bottom: 1px solid var(--border-color);">
     <MudPaper
         style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; box-shadow: var(--shadow-glow); animation: float 3s ease-in-out infinite;">
         <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Surface" Size="Size.Large" />
     </MudPaper>
-    <MudText Typo="Typo.h6"
+    <MudText Typo="Typo.h6" Align="Align.Center"
         Style="font-weight: 700; background: linear-gradient(135deg, var(--primary-400) 0%, var(--secondary-500) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         SRMS
     </MudText>
-    <MudText Typo="Typo.caption" Color="Color.Secondary">
+    <MudText Typo="Typo.caption" Align="Align.Center"  Color="Color.Secondary">
         Student Residence Management
     </MudText>
 </MudPaper>
@@ -157,10 +157,10 @@
 <MudSpacer />
 <MudPaper class="pa-4 text-center" style="border-top: 1px solid var(--border-color);">
     <MudStack Spacing="2">
-        <MudText Typo="Typo.caption" Color="Color.Secondary">
+        <MudText Typo="Typo.caption" Color="Color.Secondary" Align="Align.Center">
             <MudIcon Icon="@Icons.Material.Filled.Code" Size="Size.Small" /> Version 1.0.0
         </MudText>
-        <MudText Typo="Typo.caption" Color="Color.Tertiary">
+        <MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
             © 2025 SRMS. All rights reserved.
         </MudText>
     </MudStack>
@@ -204,7 +204,7 @@
     [CascadingParameter]
     private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
 
-    private int _notificationCount = 0;
+    // private int _notificationCount = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -221,7 +221,8 @@
                     // _notificationCount = await NotificationService.GetUnreadCountAsync(userId);
            //     }
            // }
-        }
+        //}
+        await Task.CompletedTask;
     }
 
     private bool IsAdmin()

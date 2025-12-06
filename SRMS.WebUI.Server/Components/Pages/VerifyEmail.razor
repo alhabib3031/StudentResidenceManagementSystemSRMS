@@ -1,8 +1,9 @@
 @page "/verify-email"
-@inject IAuthService AuthService
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.DependencyInjection
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar
-@using Microsoft.AspNetCore.WebUtilities
+@inject IServiceScopeFactory ScopeFactory
 @rendermode InteractiveServer
 
 <PageTitle>Email Verification - SRMS</PageTitle>
@@ -71,7 +72,7 @@
             }
             else
             {
-                <!-- Error State (matching the image design) -->
+                <!-- Error State -->
                 <MudCard Elevation="4"
                     Class="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-12 text-center animate-[fadeIn_0.5s_ease-out]">
                     <MudCardContent>
@@ -128,7 +129,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Parse the URL to get userId and code
         var uri = new Uri(Navigation.Uri);
         var queryParams = QueryHelpers.ParseQuery(uri.Query);
 
@@ -136,7 +136,6 @@
         {
             try
             {
-                // Decode the token since it was URL-encoded when sent via email
                 var decodedToken = System.Net.WebUtility.UrlDecode(code!);
 
                 var dto = new VerifyEmailDto
@@ -145,8 +144,11 @@
                         Token = decodedToken
                     };
 
-                // Call the authentication service to verify email
-                var result = await AuthService.VerifyEmailAsync(dto);
+                // Create a new scope for the authentication service to avoid threading issues
+                using var scope = ScopeFactory.CreateScope();
+                var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+
+                var result = await authService.VerifyEmailAsync(dto);
 
                 if (result)
                 {

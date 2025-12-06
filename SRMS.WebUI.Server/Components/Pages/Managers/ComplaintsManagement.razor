@@ -1,7 +1,16 @@
 @page "/complaints"
-@inject ISender Sender
+@using MediatR
+@using Microsoft.Extensions.DependencyInjection
+@using SRMS.Application.Complaints.AssignComplaint
+@using SRMS.Application.Complaints.DTOs
+@using SRMS.Application.Complaints.GetAllComplaints
+@using SRMS.Application.Complaints.ResolveComplaint
+@using SRMS.Domain.Complaints.Enums
+@using System.Security.Claims
+@inject IServiceScopeFactory ScopeFactory
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
+@inject AuthenticationStateProvider AuthStateProvider
 @attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
 @rendermode InteractiveServer
 
@@ -20,6 +29,10 @@
                     Track and resolve student complaints
                 </MudText>
             </div>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Refresh"
+                OnClick="@LoadComplaints">
+                Refresh
+            </MudButton>
         </MudStack>
     </MudPaper>
 
@@ -31,12 +44,12 @@
     <!-- Statistics Cards -->
     <MudGrid Class="mb-4">
         <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4" Class="cursor-pointer" @onclick="@(() => FilterByStatus("Open"))">
+            <MudCard Elevation="4" Class="cursor-pointer" @onclick="@(() => FilterByStatus(ComplaintStatus.Open))">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">Open</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Warning">12</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Warning">@_openCount</MudText>
                         </div>
                         <MudAvatar Color="Color.Warning" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.FolderOpen" Size="Size.Large" />
@@ -47,12 +60,13 @@
         </MudItem>
 
         <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4" Class="cursor-pointer" @onclick="@(() => FilterByStatus("InProgress"))">
+            <MudCard Elevation="4" Class="cursor-pointer"
+            @onclick="@(() => FilterByStatus(ComplaintStatus.InProgress))">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">In Progress</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Info">8</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Info">@_inProgressCount</MudText>
                         </div>
                         <MudAvatar Color="Color.Info" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.Autorenew" Size="Size.Large" />
@@ -63,12 +77,12 @@
         </MudItem>
 
         <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4" Class="cursor-pointer" @onclick="@(() => FilterByStatus("Resolved"))">
+            <MudCard Elevation="4" Class="cursor-pointer" @onclick="@(() => FilterByStatus(ComplaintStatus.Resolved))">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">Resolved</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Success">45</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Success">@_resolvedCount</MudText>
                         </div>
                         <MudAvatar Color="Color.Success" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large" />
@@ -79,15 +93,15 @@
         </MudItem>
 
         <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="cursor-pointer" @onclick="@ClearFilters">
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Avg Resolution Time</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Primary">2.5<small>d</small></MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Primary">@_allComplaints.Count</MudText>
                         </div>
                         <MudAvatar Color="Color.Primary" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.Timer" Size="Size.Large" />
+                            <MudIcon Icon="@Icons.Material.Filled.Assignment" Size="Size.Large" />
                         </MudAvatar>
                     </MudStack>
                 </MudCardContent>
@@ -100,37 +114,46 @@
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
                 <MudTextField @bind-Value="_searchString" Label="Search" Variant="Variant.Outlined"
-                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Margin="Margin.Dense" />
+                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Margin="Margin.Dense"
+                    Immediate="true" DebounceInterval="300" />
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_statusFilter" Label="Status" Variant="Variant.Outlined"
+                <MudSelect T="ComplaintStatus?" @bind-Value="_statusFilter" Label="Status" Variant="Variant.Outlined"
                     Margin="Margin.Dense" Clearable="true">
-                    <MudSelectItem Value="@("Open")">Open</MudSelectItem>
-                    <MudSelectItem Value="@("InProgress")">In Progress</MudSelectItem>
-                    <MudSelectItem Value="@("Resolved")">Resolved</MudSelectItem>
-                    <MudSelectItem Value="@("Closed")">Closed</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.Open)">Open</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.InProgress)">In Progress</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.Resolved)">Resolved</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.Closed)">Closed</MudSelectItem>
                 </MudSelect>
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_priorityFilter" Label="Priority" Variant="Variant.Outlined"
-                    Margin="Margin.Dense" Clearable="true">
-                    <MudSelectItem Value="@("Critical")">Critical</MudSelectItem>
-                    <MudSelectItem Value="@("High")">High</MudSelectItem>
-                    <MudSelectItem Value="@("Medium")">Medium</MudSelectItem>
-                    <MudSelectItem Value="@("Low")">Low</MudSelectItem>
+                <MudSelect T="ComplaintPriority?" @bind-Value="_priorityFilter" Label="Priority"
+                    Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true">
+                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.Critical)">Critical</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.High)">High</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.Medium)">Medium</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.Low)">Low</MudSelectItem>
                 </MudSelect>
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_categoryFilter" Label="Category" Variant="Variant.Outlined"
-                    Margin="Margin.Dense" Clearable="true">
-                    <MudSelectItem Value="@("Maintenance")">Maintenance</MudSelectItem>
-                    <MudSelectItem Value="@("Cleanliness")">Cleanliness</MudSelectItem>
-                    <MudSelectItem Value="@("Noise")">Noise</MudSelectItem>
-                    <MudSelectItem Value="@("Security")">Security</MudSelectItem>
-                    <MudSelectItem Value="@("Other")">Other</MudSelectItem>
+                <MudSelect T="ComplaintCategory?" @bind-Value="_categoryFilter" Label="Category"
+                    Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true">
+                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Maintenance)">Maintenance
+                    </MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Cleanliness)">Cleanliness
+                    </MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Noise)">Noise</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Security)">Security</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.RoommateIssue)">Roommate Issue
+                    </MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Facilities)">Facilities
+                    </MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Internet)">Internet</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Utilities)">Utilities</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Other)">Other</MudSelectItem>
                 </MudSelect>
             </MudItem>
         </MudGrid>
@@ -138,87 +161,135 @@
 
     <!-- Complaints Table -->
     <MudPaper Elevation="4">
-        <MudTable Items="@_complaints" Hover="true" Striped="true" Dense="true" Loading="@_isLoading">
-            <HeaderContent>
-                <MudTh>ID</MudTh>
-                <MudTh>Student</MudTh>
-                <MudTh>Title</MudTh>
-                <MudTh>Category</MudTh>
-                <MudTh>Priority</MudTh>
-                <MudTh>Status</MudTh>
-                <MudTh>Created</MudTh>
-                <MudTh Class="text-right">Actions</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd DataLabel="ID">
-                    <MudText Typo="Typo.caption">@context.ComplaintNumber</MudText>
-                </MudTd>
-                <MudTd DataLabel="Student">
-                    <MudStack Spacing="0">
-                        <MudText Typo="Typo.body2"><strong>@context.StudentName</strong></MudText>
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">ID:
-                            @context.StudentId.ToString().Substring(0, 8)...</MudText>
-                    </MudStack>
-                </MudTd>
-                <MudTd DataLabel="Title">
-                    <MudText Typo="Typo.body2">@context.Title</MudText>
-                </MudTd>
-                <MudTd DataLabel="Category">
-                    <MudChip T="string" Size="Size.Small" Color="Color.Default">
-                        @context.Category
-                    </MudChip>
-                </MudTd>
-                <MudTd DataLabel="Priority">
-                    <MudChip T="string" Size="Size.Small" Color="@GetPriorityColor(context.Priority)">
-                        @context.Priority
-                    </MudChip>
-                </MudTd>
-                <MudTd DataLabel="Status">
-                    <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)">
-                        @context.Status
-                    </MudChip>
-                </MudTd>
-                <MudTd DataLabel="Created">
-                    <MudText Typo="Typo.caption">
-                        @context.CreatedAt.ToString("MMM dd, yyyy")
-                    </MudText>
-                </MudTd>
-                <MudTd DataLabel="Actions" Class="text-right">
-                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
-                        <MudMenuItem Icon="@Icons.Material.Filled.Visibility" Href="@($"/complaints/{context.Id}")">
-                            View Details
-                        </MudMenuItem>
-                        <MudMenuItem Icon="@Icons.Material.Filled.PersonAdd"
-                            OnClick="@(() => AssignComplaint(context.Id))">
-                            Assign to Me
-                        </MudMenuItem>
-                        <MudDivider />
-                        <MudMenuItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success"
-                            OnClick="@(() => ResolveComplaint(context.Id))">
-                            Mark as Resolved
-                        </MudMenuItem>
-                    </MudMenu>
-                </MudTd>
-            </RowTemplate>
-            <PagerContent>
-                <MudTablePager PageSizeOptions="new[] { 10, 25, 50 }" />
-            </PagerContent>
-        </MudTable>
+        @if (!FilteredComplaints.Any() && !_isLoading)
+        {
+            <MudStack AlignItems="AlignItems.Center" Class="pa-8">
+                <MudIcon Icon="@Icons.Material.Filled.Inbox" Size="Size.Large" Color="Color.Secondary" />
+                <MudText Typo="Typo.h6" Color="Color.Secondary">No complaints found</MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Try adjusting your filters</MudText>
+            </MudStack>
+        }
+        else
+        {
+            <MudTable Items="@FilteredComplaints" Hover="true" Striped="true" Dense="true" Loading="@_isLoading">
+                <HeaderContent>
+                    <MudTh>ID</MudTh>
+                    <MudTh>Student</MudTh>
+                    <MudTh>Title</MudTh>
+                    <MudTh>Category</MudTh>
+                    <MudTh>Priority</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Created</MudTh>
+                    <MudTh Class="text-right">Actions</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="ID">
+                        <MudText Typo="Typo.caption" Color="Color.Primary">@context.ComplaintNumber</MudText>
+                    </MudTd>
+                    <MudTd DataLabel="Student">
+                        <MudStack Spacing="0">
+                            <MudText Typo="Typo.body2"><strong>@context.StudentName</strong></MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                ID: @context.StudentId.ToString().Substring(0, 8)...
+                            </MudText>
+                        </MudStack>
+                    </MudTd>
+                    <MudTd DataLabel="Title">
+                        <MudText Typo="Typo.body2">@context.Title</MudText>
+                    </MudTd>
+                    <MudTd DataLabel="Category">
+                        <MudChip T="string" Size="Size.Small" Color="Color.Default">
+                            @context.Category
+                        </MudChip>
+                    </MudTd>
+                    <MudTd DataLabel="Priority">
+                        <MudChip T="string" Size="Size.Small" Color="@GetPriorityColor(context.Priority)">
+                            @context.Priority
+                        </MudChip>
+                    </MudTd>
+                    <MudTd DataLabel="Status">
+                        <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)">
+                            @context.Status
+                        </MudChip>
+                    </MudTd>
+                    <MudTd DataLabel="Created">
+                        <MudText Typo="Typo.caption">
+                            @context.CreatedAt.ToString("MMM dd, yyyy")
+                        </MudText>
+                    </MudTd>
+                    <MudTd DataLabel="Actions" Class="text-right">
+                        <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+                            <MudMenuItem Icon="@Icons.Material.Filled.Visibility" Href="@($"/complaints/{context.Id}")">
+                                View Details
+                            </MudMenuItem>
+                            @if (context.Status == ComplaintStatus.Open)
+                            {
+                                <MudMenuItem Icon="@Icons.Material.Filled.PersonAdd"
+                                    OnClick="@(() => AssignComplaint(context.Id))">
+                                    Assign to Me
+                                </MudMenuItem>
+                            }
+                            @if (context.Status != ComplaintStatus.Resolved && context.Status != ComplaintStatus.Closed)
+                            {
+                                <MudDivider />
+                                <MudMenuItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success"
+                                    OnClick="@(() => ResolveComplaint(context.Id))">
+                                    Mark as Resolved
+                                </MudMenuItem>
+                            }
+                        </MudMenu>
+                    </MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager PageSizeOptions="new[] { 10, 25, 50 }" />
+                </PagerContent>
+            </MudTable>
+        }
     </MudPaper>
 </MudContainer>
 
 @code {
-    private List<ComplaintDto> _complaints = new();
+    private List<ComplaintDto> _allComplaints = new();
     private bool _isLoading = true;
+    private Guid _currentUserId;
 
     private string _searchString = "";
-    private string? _statusFilter;
-    private string? _priorityFilter;
-    private string? _categoryFilter;
+    private ComplaintStatus? _statusFilter;
+    private ComplaintPriority? _priorityFilter;
+    private ComplaintCategory? _categoryFilter;
+
+    private int _openCount => _allComplaints.Count(c => c.Status == ComplaintStatus.Open);
+    private int _inProgressCount => _allComplaints.Count(c => c.Status == ComplaintStatus.InProgress);
+    private int _resolvedCount => _allComplaints.Count(c => c.Status == ComplaintStatus.Resolved);
+
+    private IEnumerable<ComplaintDto> FilteredComplaints => _allComplaints
+    .Where(c => string.IsNullOrEmpty(_searchString) ||
+    c.Title.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+    c.ComplaintNumber.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+    c.StudentName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+    .Where(c => _statusFilter == null || c.Status == _statusFilter)
+    .Where(c => _priorityFilter == null || c.Priority == _priorityFilter)
+    .Where(c => _categoryFilter == null || c.Category == _categoryFilter);
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadCurrentUserId();
         await LoadComplaints();
+    }
+
+    private async Task LoadCurrentUserId()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (Guid.TryParse(userId, out var id))
+            {
+                _currentUserId = id;
+            }
+        }
     }
 
     private async Task LoadComplaints()
@@ -226,9 +297,15 @@
         _isLoading = true;
         try
         {
-            // TODO: Implement GetAllComplaintsQuery
-            await Task.Delay(500);
-            _complaints = new List<ComplaintDto>();
+            // ✅ Use ScopeFactory to create a fresh scope for this operation
+            using var scope = ScopeFactory.CreateScope();
+            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+
+            _allComplaints = await sender.Send(new GetAllComplaintsQuery());
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading complaints: {ex.Message}", Severity.Error);
         }
         finally
         {
@@ -236,9 +313,18 @@
         }
     }
 
-    private void FilterByStatus(string status)
+    private void FilterByStatus(ComplaintStatus status)
     {
         _statusFilter = status;
+        StateHasChanged();
+    }
+
+    private void ClearFilters()
+    {
+        _searchString = "";
+        _statusFilter = null;
+        _priorityFilter = null;
+        _categoryFilter = null;
         StateHasChanged();
     }
 
@@ -262,26 +348,46 @@
 
     private async Task AssignComplaint(Guid complaintId)
     {
-        Snackbar.Add("Complaint assigned to you!", Severity.Success);
-        await LoadComplaints();
+        try
+        {
+            // ✅ Use ScopeFactory for command execution
+            using var scope = ScopeFactory.CreateScope();
+            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+
+            var command = new AssignComplaintCommand(complaintId, _currentUserId);
+            await sender.Send(command);
+            Snackbar.Add("Complaint assigned to you!", Severity.Success);
+            await LoadComplaints();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
     }
 
     private async Task ResolveComplaint(Guid complaintId)
     {
-        var parameters = new DialogParameters
-            {
-                ["ContentText"] = "Mark this complaint as resolved? Please provide resolution details.",
-                ["ButtonText"] = "Resolve",
-                ["Color"] = Color.Success
-            };
-
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Resolve Complaint", parameters);
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<ResolveComplaintDialog>("Resolve Complaint", options);
         var result = await dialog.Result;
 
-        if (result is { Canceled: false })
+        if (result is { Canceled: false, Data: string resolutionNotes })
         {
-            Snackbar.Add("Complaint marked as resolved!", Severity.Success);
-            await LoadComplaints();
+            try
+            {
+                // ✅ Use ScopeFactory for command execution
+                using var scope = ScopeFactory.CreateScope();
+                var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+
+                var command = new ResolveComplaintCommand(complaintId, resolutionNotes);
+                await sender.Send(command);
+                Snackbar.Add("Complaint marked as resolved!", Severity.Success);
+                await LoadComplaints();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            }
         }
     }
 }
