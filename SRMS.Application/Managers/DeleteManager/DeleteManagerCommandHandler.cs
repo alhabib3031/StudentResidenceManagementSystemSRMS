@@ -10,7 +10,7 @@ public class DeleteManagerCommandHandler : IRequestHandler<DeleteManagerCommand,
 {
     private readonly IRepositories<Manager> _managerRepository;
     private readonly IAuditService _audit;
-    
+
     public DeleteManagerCommandHandler(IRepositories<Manager> managerRepository, IAuditService audit)
     {
         _managerRepository = managerRepository;
@@ -20,7 +20,7 @@ public class DeleteManagerCommandHandler : IRequestHandler<DeleteManagerCommand,
     public async Task<bool> Handle(DeleteManagerCommand request, CancellationToken cancellationToken)
     {
         var manager = await _managerRepository.GetByIdAsync(request.Id);
-        
+
         if (manager == null)
         {
             await _audit.LogAsync(
@@ -31,7 +31,7 @@ public class DeleteManagerCommandHandler : IRequestHandler<DeleteManagerCommand,
             );
             return false;
         }
-        
+
         var managerInfo = new
         {
             manager.Id,
@@ -40,9 +40,9 @@ public class DeleteManagerCommandHandler : IRequestHandler<DeleteManagerCommand,
             manager.EmployeeNumber,
             manager.Status
         };
-        
+
         var result = await _managerRepository.DeleteAsync(request.Id);
-        
+
         if (result)
         {
             // ✅ Log manager deletion
@@ -61,7 +61,7 @@ public class DeleteManagerCommandHandler : IRequestHandler<DeleteManagerCommand,
                 additionalInfo: $"Failed to delete manager: {managerInfo.FullName}"
             );
         }
-        
+
         return result;
     }
 }

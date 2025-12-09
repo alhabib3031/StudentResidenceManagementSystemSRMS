@@ -1,6 +1,8 @@
-﻿using MudBlazor;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MudBlazor;
 using SRMS.Domain.Managers;
 using SRMS.Domain.Managers.Enums;
+using SRMS.Domain.Repositories;
 using SRMS.Domain.Residences;
 using SRMS.Domain.Students;
 using SRMS.WebUI.Server.Components.Pages.Dialogs;
@@ -32,9 +34,14 @@ public partial class ManagersManagement
         _isLoading = true;
         try
         {
-            _managers = (await ManagerRepo.GetAllAsync()).ToList();
-            _residences = (await ResidenceRepo.GetAllAsync()).ToList();
-            _students = (await StudentRepo.GetAllAsync()).ToList();
+            using var scope = ScopeFactory.CreateScope();
+            var managerRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Manager>>();
+            var residenceRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Residence>>();
+            var studentRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Student>>();
+
+            _managers = (await managerRepo.GetAllAsync()).ToList();
+            _residences = (await residenceRepo.GetAllAsync()).ToList();
+            _students = (await studentRepo.GetAllAsync()).ToList();
         }
         finally
         {
@@ -187,8 +194,11 @@ public partial class ManagersManagement
 
         if (result != null && !result.Canceled)
         {
+            using var scope = ScopeFactory.CreateScope();
+            var managerRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Manager>>();
+
             manager.Status = ManagerStatus.OnLeave;
-            await ManagerRepo.UpdateAsync(manager);
+            await managerRepo.UpdateAsync(manager);
             Snackbar.Add($"{manager.FullName} is now on leave", Severity.Info);
             await LoadData();
         }
@@ -196,8 +206,11 @@ public partial class ManagersManagement
 
     private async Task SetActive(Manager manager)
     {
+        using var scope = ScopeFactory.CreateScope();
+        var managerRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Manager>>();
+
         manager.Status = ManagerStatus.Active;
-        await ManagerRepo.UpdateAsync(manager);
+        await managerRepo.UpdateAsync(manager);
         Snackbar.Add($"{manager.FullName} is now active", Severity.Success);
         await LoadData();
     }
@@ -221,7 +234,10 @@ public partial class ManagersManagement
         {
             try
             {
-                await ManagerRepo.DeleteAsync(manager.Id);
+                using var scope = ScopeFactory.CreateScope();
+                var managerRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Manager>>();
+
+                await managerRepo.DeleteAsync(manager.Id);
                 Snackbar.Add($"Manager '{manager.FullName}' deleted successfully", Severity.Success);
                 await LoadData();
             }

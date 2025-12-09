@@ -19,10 +19,14 @@
 
 <body>
     <CascadingAuthenticationState>
+
         <Routes @rendermode="InteractiveServer" />
     </CascadingAuthenticationState>
     <script src="_framework/blazor.web.js"></script>
     <script src=@Assets["_content/MudBlazor/MudBlazor.min.js"]></script>
 </body>
 
+@code {
+    [Inject] NavigationManager NavigationManager { get; set; } = default!;
+}
 </html>

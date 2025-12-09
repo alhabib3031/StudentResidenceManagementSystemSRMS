@@ -48,6 +48,12 @@
                 Color="Color.Inherit" OnClick="@ToggleDarkMode" Class="hover-scale" />
         </MudTooltip>
 
+        <!-- Language Menu -->
+        <MudMenu Icon="@Icons.Material.Filled.Language" Color="Color.Primary" AnchorOrigin="Origin.TopRight" TransformOrigin="Origin.TopRight" Class="language-menu">
+            <MudMenuItem OnClick="@(() => SetCulture("en"))">English</MudMenuItem>
+            <MudMenuItem OnClick="@(() => SetCulture("ar"))">العربية</MudMenuItem>
+        </MudMenu>
+
         <!-- User Menu -->
         <AuthorizeView>
             <Authorized>
@@ -157,6 +163,7 @@
 
 
 @code {
+
     private bool _drawerOpen = true;
     private bool _isDarkMode = true;
     private MudTheme? _theme = null;
@@ -184,6 +191,15 @@
             }
         }
     }
+    
+    private void SetCulture(string culture)
+    {
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        var pathAndQuery = uri.PathAndQuery;
+
+        Navigation.NavigateTo($"/set-culture/{culture}?redirect={pathAndQuery}", forceLoad: true);
+    }
+
 
     private void ToggleDrawer()
     {

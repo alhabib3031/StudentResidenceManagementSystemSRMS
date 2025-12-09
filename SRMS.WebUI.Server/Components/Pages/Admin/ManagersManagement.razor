@@ -4,9 +4,8 @@
 @using SRMS.Domain.Repositories
 @using SRMS.Domain.Residences
 @attribute [Authorize(Roles = "Admin,SuperRoot")]
-@inject IRepositories<Manager> ManagerRepo
-@inject IRepositories<Residence> ResidenceRepo
-@inject IRepositories<Student> StudentRepo
+@using Microsoft.Extensions.DependencyInjection
+@inject IServiceScopeFactory ScopeFactory
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject NavigationManager Navigation

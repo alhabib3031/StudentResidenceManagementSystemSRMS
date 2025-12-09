@@ -23,7 +23,7 @@ public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomD
     public async Task<RoomDto?> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
     {
         var existing = await _roomRepository.GetByIdAsync(request.Room.Id);
-        
+
         if (existing == null)
         {
             await _audit.LogAsync(
@@ -34,7 +34,7 @@ public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomD
             );
             return null;
         }
-        
+
         var oldValues = new
         {
             existing.RoomNumber,
@@ -43,7 +43,7 @@ public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomD
             existing.TotalBeds,
             existing.OccupiedBeds
         };
-        
+
         existing.RoomNumber = request.Room.RoomNumber;
         existing.Floor = request.Room.Floor;
         existing.RoomType = request.Room.RoomType;
@@ -57,9 +57,9 @@ public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomD
         existing.HasWardrobe = request.Room.HasWardrobe;
         existing.HasBalcony = request.Room.HasBalcony;
         existing.UpdatedAt = DateTime.UtcNow;
-        
+
         var updated = await _roomRepository.UpdateAsync(existing);
-        
+
         var newValues = new
         {
             updated.RoomNumber,
@@ -68,14 +68,14 @@ public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomD
             updated.TotalBeds,
             updated.OccupiedBeds
         };
-        
+
         await _audit.LogCrudAsync(
             action: AuditAction.Update,
             oldEntity: oldValues,
             newEntity: newValues,
             additionalInfo: $"Room updated: {updated.RoomNumber}"
         );
-        
+
         return new RoomDto
         {
             Id = updated.Id,

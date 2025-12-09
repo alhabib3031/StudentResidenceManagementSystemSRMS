@@ -11,13 +11,13 @@ namespace SRMS.Infrastructure.Repositories;
 /// <typeparam name="T">نوع الكيان (يجب أن يرث من Entity)</typeparam>
 public class GenericRepository<T> : IRepositories<T> where T : Entity
 {
-    protected readonly ApplicationDbContext _context;
+    protected readonly IDbContextFactory<ApplicationDbContext> _context;
     protected readonly DbSet<T> _dbSet;
 
-    public GenericRepository(ApplicationDbContext context)
+    public GenericRepository(IDbContextFactory<ApplicationDbContext> context)
     {
         _context = context;
-        _dbSet = context.Set<T>();
+        _dbSet = context.CreateDbContext().Set<T>();
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -129,7 +129,7 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task SaveChangesAsync()
     {
-        await _context.SaveChangesAsync();
+        await _context.CreateDbContext().SaveChangesAsync();
     }
 
     // ═══════════════════════════════════════════════════════════

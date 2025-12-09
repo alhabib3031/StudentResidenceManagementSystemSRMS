@@ -21,7 +21,7 @@ public class MarkNotificationAsReadCommandHandler : IRequestHandler<MarkNotifica
     public async Task<bool> Handle(MarkNotificationAsReadCommand request, CancellationToken cancellationToken)
     {
         var notification = await _notificationRepository.GetByIdAsync(request.NotificationId);
-        
+
         if (notification == null || notification.UserId != request.UserId)
         {
             await _audit.LogAsync(
@@ -32,19 +32,19 @@ public class MarkNotificationAsReadCommandHandler : IRequestHandler<MarkNotifica
             );
             return false;
         }
-        
+
         if (notification.IsRead)
         {
             // Already read, no need to update
             return true;
         }
-        
+
         notification.IsRead = true;
         notification.ReadAt = DateTime.UtcNow;
         notification.Status = NotificationStatus.Read;
-        
+
         await _notificationRepository.UpdateAsync(notification);
-        
+
         // ✅ Log notification marked as read
         await _audit.LogAsync(
             action: AuditAction.Read,
@@ -52,7 +52,7 @@ public class MarkNotificationAsReadCommandHandler : IRequestHandler<MarkNotifica
             entityId: notification.Id.ToString(),
             additionalInfo: $"Notification marked as read: {notification.Title}"
         );
-        
+
         return true;
     }
 }
