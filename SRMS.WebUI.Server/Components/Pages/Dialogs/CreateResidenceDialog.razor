@@ -1,0 +1,121 @@
+@using SRMS.Domain.Residences
+@using SRMS.Domain.ValueObjects
+@using SRMS.Domain.Repositories
+@using Microsoft.Extensions.DependencyInjection
+@using MudBlazor
+@inject ISnackbar Snackbar
+@inject IServiceScopeFactory ScopeFactory
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="_form" @bind-IsValid="_success">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_residence.Name" Label="Residence Name" Required="true"
+                        RequiredError="Name is required" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_description" Label="Description" Variant="Variant.Outlined" Lines="3" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudText Typo="Typo.subtitle2" Class="mb-2">Address</MudText>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="_street" Label="Street" Required="true" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="_city" Label="City" Required="true" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField @bind-Value="_state" Label="State" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField @bind-Value="_country" Label="Country" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField @bind-Value="_zipCode" Label="Zip Code" Variant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="6">
+                    <MudNumericField @bind-Value="_residence.TotalCapacity" Label="Total Capacity" Min="1"
+                        Required="true" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudNumericField @bind-Value="_monthlyRentAmount" Label="Monthly Rent" Min="0"
+                        Variant="Variant.Outlined" Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.AttachMoney" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudText Typo="Typo.subtitle2" Class="mb-2">Facilities</MudText>
+                    <MudStack Row="true" Wrap="Wrap.Wrap">
+                        <MudCheckBox @bind-Value="@_residence.HasWifi" Label="WiFi" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasParking" Label="Parking" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasLaundry" Label="Laundry" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasGym" Label="Gym" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasSwimmingPool" Label="Pool" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasSecurity" Label="Security" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasKitchen" Label="Kitchen" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasStudyRoom" Label="Study Room" Color="Color.Primary" />
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(!_success)">Create</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    private MudForm _form;
+    private bool _success;
+    private Residence _residence = new();
+
+    // Address fields
+    private string _street = "";
+    private string _city = "";
+    private string _state = "";
+    private string _country = "";
+    private string _zipCode = "";
+    private string _description = "";
+
+    // Money
+    private decimal _monthlyRentAmount;
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Submit()
+    {
+        await _form.Validate();
+        if (_form.IsValid)
+        {
+            try
+            {
+                // Create Value Objects
+                var address = Address.Create(_street, _city, _state, _country, _zipCode);
+                var rent = Money.Create(_monthlyRentAmount, "USD"); // Default currency
+
+                _residence.Id = Guid.NewGuid();
+                _residence.Address = address;
+                _residence.MonthlyRent = rent;
+                _residence.Description = _description;
+                _residence.AvailableCapacity = _residence.TotalCapacity; // Initially available = total
+
+                using var scope = ScopeFactory.CreateScope();
+                var repo = scope.ServiceProvider.GetRequiredService<IRepositories<Residence>>();
+
+                await repo.CreateAsync(_residence);
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error creating residence: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+}
