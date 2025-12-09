@@ -1,8 +1,11 @@
 ﻿@page "/admin/residences"
+@using Microsoft.EntityFrameworkCore
 @using SRMS.Domain.Repositories
 @using SRMS.Domain.Residences
+@using SRMS.Infrastructure
+@using SRMS.WebUI.Server.Components.Pages.Dialogs
 @attribute [Authorize(Roles = "Admin,SuperRoot")]
-@inject IRepositories<Residence> ResidenceRepo
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject NavigationManager Navigation
@@ -22,7 +25,7 @@
                 <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-                Href="/admin/residences/create">
+                OnClick="OpenCreateDialog">
                 Add New Residence
             </MudButton>
         </MudStack>
@@ -275,12 +278,30 @@ new BreadcrumbItem("Residences", href: null, disabled: true)
 
         try
         {
-            var residences = await ResidenceRepo.GetAllAsync();
-            _residences = residences.ToList();
+            // Create a fresh DbContext for this operation using Factory
+            using var context = DbFactory.CreateDbContext();
+
+            // Fetch residences with Manager included
+            _residences = await context.Residences
+            .Include(r => r.Manager)
+            .Where(r => !r.IsDeleted)
+            .ToListAsync();
         }
         finally
         {
             _isLoading = false;
+        }
+    }
+
+    private async Task OpenCreateDialog()
+    {
+        var dialog = await DialogService.ShowAsync<CreateResidenceDialog>("Add New Residence");
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled)
+        {
+            Snackbar.Add("Residence created successfully", Severity.Success);
+            await LoadResidences();
         }
     }
 
@@ -362,9 +383,19 @@ new BreadcrumbItem("Residences", href: null, disabled: true)
         {
             try
             {
-                await ResidenceRepo.DeleteAsync(residence.Id);
-                Snackbar.Add($"Residence '{residence.Name}' deleted successfully", Severity.Success);
-                await LoadResidences();
+                using var context = DbFactory.CreateDbContext();
+                // Attach entity to delete it, or find it first
+                var entity = await context.Residences.FindAsync(residence.Id);
+                if (entity != null)
+                {
+                    entity.IsDeleted = true; // Soft delete
+                    entity.DeletedAt = DateTime.UtcNow;
+                    entity.IsActive = false;
+                    await context.SaveChangesAsync();
+
+                    Snackbar.Add($"Residence '{residence.Name}' deleted successfully", Severity.Success);
+                    await LoadResidences();
+                }
             }
             catch (Exception ex)
             {

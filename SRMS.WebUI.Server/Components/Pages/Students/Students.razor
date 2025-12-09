@@ -1,5 +1,6 @@
 ﻿@page "/students"
-@inject ISender Sender
+@using Microsoft.Extensions.DependencyInjection
+@inject IServiceScopeFactory ScopeFactory
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @rendermode InteractiveServer
@@ -94,8 +95,11 @@
         _isLoading = true;
         try
         {
+            using var scope = ScopeFactory.CreateScope();
+            var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+
             var query = new GetStudentQuery();
-            var result = await Sender.Send(query);
+            var result = await sender.Send(query);
             _students = result.ToList();
         }
         finally
@@ -121,8 +125,11 @@
         {
             try
             {
+                using var scope = ScopeFactory.CreateScope();
+                var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+
                 var command = new DeleteStudentCommand { Id = id };
-                var success = await Sender.Send(command);
+                var success = await sender.Send(command);
                 Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
 
                 if (success)

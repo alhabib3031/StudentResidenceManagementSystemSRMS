@@ -14,7 +14,7 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
 {
     private readonly IRepositories<Payment> _paymentRepository;
     private readonly IAuditService _audit;
-    
+
     public CreatePaymentCommandHandler(IRepositories<Payment> paymentRepository, IAuditService audit)
     {
         _paymentRepository = paymentRepository;
@@ -34,13 +34,13 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             DueDate = request.Payment.DueDate,
             PaymentReference = $"PAY-{DateTime.UtcNow:yyyyMMddHHmmss}",
             Notes = request.Payment.Notes,
-            
+
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             IsActive = true,
             IsDeleted = false
         };
-        
+
         // Amount (Value Object)
         try
         {
@@ -55,7 +55,7 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             );
             throw new InvalidOperationException($"Invalid amount: {ex.Message}");
         }
-        
+
         // Late Fee (Value Object)
         if (request.Payment.LateFeeAmount.HasValue && request.Payment.LateFeeAmount.Value > 0)
         {
@@ -76,9 +76,9 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
                 throw new InvalidOperationException($"Invalid late fee: {ex.Message}");
             }
         }
-        
+
         var created = await _paymentRepository.CreateAsync(payment);
-        
+
         // ✅ Log payment creation
         await _audit.LogPaymentAsync(
             paymentId: created.Id,
@@ -86,7 +86,7 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             amount: created.Amount?.Amount ?? 0,
             additionalInfo: $"Payment created: {created.PaymentReference} for student {created.StudentId} - Amount: {created.Amount}"
         );
-        
+
         return new PaymentDto
         {
             Id = created.Id,

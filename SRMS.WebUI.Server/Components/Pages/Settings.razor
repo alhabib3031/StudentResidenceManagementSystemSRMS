@@ -1,9 +1,10 @@
 @page "/settings"
 @inject ISnackbar Snackbar
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SRMS.WebUI.Server.Resources.Resources> L
 @attribute [Authorize]
 @rendermode InteractiveServer
 
-<PageTitle>Settings - SRMS</PageTitle>
+<PageTitle>@L["Settings"] - SRMS</PageTitle>
 
 <MudStack Class="animate-fade-in w-full modern-card">
     <!-- Header -->
@@ -44,7 +45,7 @@
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
                         StartIcon="@Icons.Material.Filled.Save" OnClick="SaveGeneralSettings"
                         Class="btn-modern btn-primary">
-                        Save General Settings
+                        @L["SaveGeneralSettings"]
                     </MudButton>
                 </MudStack>
             </MudPaper>
@@ -109,7 +110,7 @@
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
                         StartIcon="@Icons.Material.Filled.Save" OnClick="SaveNotificationSettings"
                         Class="btn-modern btn-primary">
-                        Save Notification Settings
+                        @L["SaveNotificationSettings"]
                     </MudButton>
                 </MudStack>
             </MudPaper>
@@ -152,7 +153,7 @@
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
                         StartIcon="@Icons.Material.Filled.Save" OnClick="SaveAppearanceSettings"
                         Class="btn-modern btn-primary">
-                        Save Appearance Settings
+                        @L["SaveAppearanceSettings"]
                     </MudButton>
                 </MudStack>
             </MudPaper>
@@ -221,19 +222,19 @@
                     <MudItem xs="12" md="4">
                         <MudButton Variant="Variant.Outlined" Color="Color.Info" FullWidth="true"
                             StartIcon="@Icons.Material.Filled.Download" OnClick="ExportData">
-                            Export My Data
+                            @L["ExportMyData"]
                         </MudButton>
                     </MudItem>
                     <MudItem xs="12" md="4">
                         <MudButton Variant="Variant.Outlined" Color="Color.Warning" FullWidth="true"
                             StartIcon="@Icons.Material.Filled.CleaningServices" OnClick="ClearCache">
-                            Clear Cache
+                            @L["ClearCache"]
                         </MudButton>
                     </MudItem>
                     <MudItem xs="12" md="4">
                         <MudButton Variant="Variant.Outlined" Color="Color.Error" FullWidth="true"
                             StartIcon="@Icons.Material.Filled.DeleteForever" OnClick="DeleteAccount">
-                            Delete Account
+                            @L["DeleteAccount"]
                         </MudButton>
                     </MudItem>
                 </MudGrid>

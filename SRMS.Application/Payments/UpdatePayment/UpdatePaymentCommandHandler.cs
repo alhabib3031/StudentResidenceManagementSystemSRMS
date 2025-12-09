@@ -14,7 +14,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
 {
     private readonly IRepositories<Payment> _paymentRepository;
     private readonly IAuditService _audit;
-    
+
     public UpdatePaymentCommandHandler(IRepositories<Payment> paymentRepository, IAuditService audit)
     {
         _paymentRepository = paymentRepository;
@@ -24,7 +24,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
     public async Task<PaymentDto?> Handle(UpdatePaymentCommand request, CancellationToken cancellationToken)
     {
         var existing = await _paymentRepository.GetByIdAsync(request.Payment.Id);
-        
+
         if (existing == null)
         {
             await _audit.LogAsync(
@@ -35,7 +35,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
             );
             return null;
         }
-        
+
         var oldStatus = existing.Status;
         var oldAmount = existing.Amount?.Amount ?? 0;
         var oldValues = new
@@ -46,7 +46,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
             existing.TransactionId,
             existing.PaymentMethod
         };
-        
+
         // Update properties
         existing.Description = request.Payment.Description;
         existing.Status = request.Payment.Status;
@@ -54,7 +54,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
         existing.TransactionId = request.Payment.TransactionId;
         existing.PaymentMethod = request.Payment.PaymentMethod;
         existing.Notes = request.Payment.Notes;
-        
+
         // Amount (Value Object)
         try
         {
@@ -70,7 +70,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
             );
             throw new InvalidOperationException($"Invalid amount: {ex.Message}");
         }
-        
+
         // Late Fee (Value Object)
         if (request.Payment.LateFeeAmount.HasValue && request.Payment.LateFeeAmount.Value > 0)
         {
@@ -96,11 +96,11 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
         {
             existing.LateFee = null;
         }
-        
+
         existing.UpdatedAt = DateTime.UtcNow;
-        
+
         var updated = await _paymentRepository.UpdateAsync(existing);
-        
+
         // Store new values
         var newValues = new
         {
@@ -110,8 +110,8 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
             updated.TransactionId,
             updated.PaymentMethod
         };
-        
-        
+
+
         // ✅ Log payment update based on status change
         if (oldStatus != updated.Status)
         {
@@ -125,7 +125,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
                         additionalInfo: $"Payment completed - Reference: {updated.PaymentReference}, Method: {updated.PaymentMethod}, Transaction: {updated.TransactionId}"
                     );
                     break;
-                    
+
                 case PaymentStatus.Cancelled:
                     await _audit.LogPaymentAsync(
                         paymentId: updated.Id,
@@ -134,7 +134,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
                         additionalInfo: $"Payment cancelled - Reference: {updated.PaymentReference}, Reason: {updated.Notes}"
                     );
                     break;
-                    
+
                 case PaymentStatus.Refunded:
                     await _audit.LogPaymentAsync(
                         paymentId: updated.Id,
@@ -143,7 +143,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
                         additionalInfo: $"Payment refunded - Reference: {updated.PaymentReference}, Reason: {updated.Notes}"
                     );
                     break;
-                    
+
                 case PaymentStatus.Overdue:
                     await _audit.LogPaymentAsync(
                         paymentId: updated.Id,
@@ -152,7 +152,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
                         additionalInfo: $"Payment marked as overdue - Reference: {updated.PaymentReference}"
                     );
                     break;
-                    
+
                 default:
                     await _audit.LogCrudAsync(
                         action: AuditAction.Update,
@@ -173,7 +173,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
                 additionalInfo: $"Payment updated: {updated.PaymentReference}"
             );
         }
-        
+
         return new PaymentDto
         {
             Id = updated.Id,

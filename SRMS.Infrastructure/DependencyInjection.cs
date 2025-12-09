@@ -21,7 +21,9 @@ public static class DependencyInjection
         // ════════════════════════════════════════════════════════════
         // Database Configuration
         // ════════════════════════════════════════════════════════════
-        services.AddDbContext<ApplicationDbContext>(options =>
+        // Database Configuration - Use Factory for Blazor Server Concurrency
+        // ════════════════════════════════════════════════════════════
+        services.AddDbContextFactory<ApplicationDbContext>(options =>
         {
             options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection"),

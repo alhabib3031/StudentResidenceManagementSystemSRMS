@@ -11,7 +11,7 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
 {
     private readonly IRepositories<Room> _roomRepository;
     private readonly IAuditService _audit;
-    
+
     public CreateRoomCommandHandler(
         IRepositories<Room> roomRepository,
         IAuditService audit)
@@ -43,9 +43,9 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
             IsActive = true,
             IsDeleted = false
         };
-        
+
         var created = await _roomRepository.CreateAsync(room);
-        
+
         // ✅ Log room creation
         await _audit.LogCrudAsync(
             action: AuditAction.Create,
@@ -60,7 +60,7 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
             },
             additionalInfo: $"New room created: {created.RoomNumber} on Floor {created.Floor}"
         );
-        
+
         return new RoomDto
         {
             Id = created.Id,

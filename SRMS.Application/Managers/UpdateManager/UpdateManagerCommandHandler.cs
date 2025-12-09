@@ -23,7 +23,7 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
     public async Task<ManagerDto?> Handle(UpdateManagerCommand request, CancellationToken cancellationToken)
     {
         var existing = await _managerRepository.GetByIdAsync(request.Manager.Id);
-        
+
         if (existing == null)
         {
             await _audit.LogAsync(
@@ -34,7 +34,7 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
             );
             return null;
         }
-        
+
         // Store old values
         var oldValues = new
         {
@@ -48,7 +48,7 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
             existing.WorkingHoursEnd,
             existing.Status
         };
-        
+
         // ✅ تحديث الخصائص البسيطة
         existing.FirstName = request.Manager.FirstName;
         existing.LastName = request.Manager.LastName;
@@ -57,7 +57,7 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
         existing.WorkingHoursStart = request.Manager.WorkingHoursStart;
         existing.WorkingHoursEnd = request.Manager.WorkingHoursEnd;
         existing.Status = request.Manager.Status;
-        
+
         // ✅ تحديث Email (Value Object)
         try
         {
@@ -75,7 +75,7 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
             );
             throw new InvalidOperationException($"Invalid email: {ex.Message}");
         }
-        
+
         // ✅ تحديث PhoneNumber (Value Object)
         try
         {
@@ -95,7 +95,7 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
             );
             throw new InvalidOperationException($"Invalid phone number: {ex.Message}");
         }
-        
+
         // ✅ تحديث Address (Value Object) - بالقيم الجديدة من DTO
         try
         {
@@ -124,13 +124,13 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
             );
             throw new InvalidOperationException($"Invalid address: {ex.Message}");
         }
-        
+
         // ✅ تحديث Audit fields
         existing.UpdatedAt = DateTime.UtcNow;
-        
+
         // ✅ حفظ التغييرات
         var updated = await _managerRepository.UpdateAsync(existing);
-        
+
         // Store new values
         var newValues = new
         {
@@ -144,7 +144,7 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
             updated.WorkingHoursEnd,
             updated.Status
         };
-        
+
         // ✅ Log manager update
         await _audit.LogCrudAsync(
             action: AuditAction.Update,
@@ -152,7 +152,7 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
             newEntity: newValues,
             additionalInfo: $"Manager updated: {updated.FullName}"
         );
-        
+
         // ✅ Log status change if changed
         if (oldValues.Status != newValues.Status)
         {
@@ -165,7 +165,7 @@ public class UpdateManagerCommandHandler : IRequestHandler<UpdateManagerCommand,
                 additionalInfo: $"Manager status changed from {oldValues.Status} to {newValues.Status}"
             );
         }
-        
+
         // ✅ إرجاع DTO
         return new ManagerDto
         {

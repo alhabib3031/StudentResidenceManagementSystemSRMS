@@ -1,9 +1,12 @@
 @page "/superroot/settings"
 @attribute [Authorize(Roles = "SuperRoot")]
 @inject ISnackbar Snackbar
+@using SRMS.WebUI.Server.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resources> L
 @rendermode InteractiveServer
 
-<PageTitle>System Settings</PageTitle>
+<PageTitle>@L["SystemSettings"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->

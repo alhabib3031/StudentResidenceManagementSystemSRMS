@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MudBlazor.Services;
@@ -15,6 +16,9 @@ using SRMS.WebUI.Server.Components;
 using SRMS.WebUI.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Localization services
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 // ═══════════════════════════════════════════════════════════
 // 1️⃣ MudBlazor Services
@@ -138,6 +142,30 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+// ═══════════════════════════════════════════════════════════
+// Supported cultures
+// ═══════════════════════════════════════════════════════════
+var supportedCultures = new[] { "en", "ar" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture("en")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
+
+//Endpoint 
+app.MapGet("/set-culture/{culture}", (string culture, HttpContext context, string? redirect) =>
+{
+    context.Response.Cookies.Append(
+        CookieRequestCultureProvider.DefaultCookieName,
+        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+    );
+
+    return Results.Redirect(redirect ?? "/");
+});
+
 
 // ═══════════════════════════════════════════════════════════
 // 9️⃣ Database Seeding
