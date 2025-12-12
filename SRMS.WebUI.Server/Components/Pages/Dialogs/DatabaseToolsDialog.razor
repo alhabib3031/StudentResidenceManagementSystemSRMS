@@ -1,11 +1,14 @@
 ﻿@using SRMS.Application.SuperRoot.Interfaces
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
 @* Components/Dialogs/DatabaseToolsDialog.razor *@
 
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
             <MudIcon Icon="@Icons.Material.Filled.Storage" Class="mr-2" />
-            Database Management Tools
+            @L["DatabaseToolsDialog_Title"]
         </MudText>
     </TitleContent>
     
@@ -13,8 +16,7 @@
         <MudStack Spacing="3">
             <!-- Warning Alert -->
             <MudAlert Severity="Severity.Warning" Dense="true">
-                <strong>⚠️ Warning:</strong> These operations can affect your entire database. 
-                Use with extreme caution!
+                @((MarkupString)L["DatabaseToolsDialog_Warning"].Value)
             </MudAlert>
 
             <!-- Backup Section -->
@@ -22,10 +24,10 @@
                 <MudStack Spacing="2">
                     <MudText Typo="Typo.h6" Color="Color.Info">
                         <MudIcon Icon="@Icons.Material.Filled.Backup" Size="Size.Small" Class="mr-2" />
-                        Backup Database
+                        @L["DatabaseToolsDialog_Backup_Header"]
                     </MudText>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        Create a complete backup of your database for safekeeping.
+                        @L["DatabaseToolsDialog_Backup_Description"]
                     </MudText>
                     <MudButton 
                         Variant="Variant.Filled" 
@@ -33,7 +35,7 @@
                         StartIcon="@Icons.Material.Filled.CloudDownload"
                         OnClick="BackupDatabase"
                         Disabled="_isProcessing">
-                        Create Backup
+                        @L["DatabaseToolsDialog_Backup_Button"]
                     </MudButton>
                 </MudStack>
             </MudPaper>
@@ -43,10 +45,10 @@
                 <MudStack Spacing="2">
                     <MudText Typo="Typo.h6" Color="Color.Primary">
                         <MudIcon Icon="@Icons.Material.Filled.SettingsBackupRestore" Size="Size.Small" Class="mr-2" />
-                        Restore Database
+                        @L["DatabaseToolsDialog_Restore_Header"]
                     </MudText>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        Restore your database from a previous backup file.
+                        @L["DatabaseToolsDialog_Restore_Description"]
                     </MudText>
                     <MudFileUpload T="IBrowserFile" Accept=".bak" OnFilesChanged="HandleFileUpload">
                         <ActivatorContent>
@@ -55,7 +57,7 @@
                                 Color="Color.Primary"
                                 StartIcon="@Icons.Material.Filled.CloudUpload"
                                 Disabled="_isProcessing">
-                                Select Backup File
+                                @L["DatabaseToolsDialog_Restore_Button_Select"]
                             </MudButton>
                         </ActivatorContent>
                     </MudFileUpload>
@@ -74,7 +76,7 @@
                             StartIcon="@Icons.Material.Filled.Restore"
                             OnClick="RestoreDatabase"
                             Disabled="_isProcessing">
-                            Restore Now
+                            @L["DatabaseToolsDialog_Restore_Button_Restore"]
                         </MudButton>
                     }
                 </MudStack>
@@ -85,10 +87,10 @@
                 <MudStack Spacing="2">
                     <MudText Typo="Typo.h6" Color="Color.Error">
                         <MudIcon Icon="@Icons.Material.Filled.Warning" Size="Size.Small" Class="mr-2" />
-                        Danger Zone
+                        @L["DatabaseToolsDialog_DangerZone_Header"]
                     </MudText>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        <strong>⚠️ These actions are irreversible!</strong>
+                        @((MarkupString)L["DatabaseToolsDialog_DangerZone_Description"].Value)
                     </MudText>
                     <MudButton 
                         Variant="Variant.Filled" 
@@ -96,7 +98,7 @@
                         StartIcon="@Icons.Material.Filled.DeleteForever"
                         OnClick="ResetDatabase"
                         Disabled="_isProcessing">
-                        Reset Database to Defaults
+                        @L["DatabaseToolsDialog_DangerZone_Button_Reset"]
                     </MudButton>
                 </MudStack>
             </MudPaper>
@@ -114,7 +116,7 @@
     
     <DialogActions>
         <MudButton OnClick="Close" Variant="Variant.Text">
-            Close
+            @L["DatabaseToolsDialog_Button_Close"]
         </MudButton>
     </DialogActions>
 </MudDialog>
@@ -139,7 +141,7 @@
     private async Task BackupDatabase()
     {
         _isProcessing = true;
-        _processingMessage = "Creating database backup...";
+        _processingMessage = L["DatabaseToolsDialog_Snackbar_BackupCreating"];
 
         try
         {
@@ -150,11 +152,11 @@
 
             if (result)
             {
-                Snackbar.Add($"✅ Database backup created successfully! Saved to: Backups/{backupPath}", Severity.Success);
+                Snackbar.Add(string.Format(L["DatabaseToolsDialog_Snackbar_BackupSuccess"], backupPath), Severity.Success);
             }
             else
             {
-                Snackbar.Add("❌ Failed to create backup.", Severity.Error);
+                Snackbar.Add(L["DatabaseToolsDialog_Snackbar_BackupFailed"], Severity.Error);
             }
         }
         catch (Exception ex)
@@ -183,14 +185,14 @@
     {
         if (_selectedFile == null)
         {
-            Snackbar.Add("Please select a backup file first.", Severity.Warning);
+            Snackbar.Add(L["DatabaseToolsDialog_Snackbar_SelectFile"], Severity.Warning);
             return;
         }
 
         var parameters = new DialogParameters
         {
-            ["ContentText"] = $"Are you sure you want to restore from '{_selectedFile.Name}'? This will overwrite all current data!",
-            ["ButtonText"] = "Restore",
+            ["ContentText"] = string.Format(L["DatabaseToolsDialog_Snackbar_RestoreConfirm"], _selectedFile.Name),
+            ["ButtonText"] = L["DatabaseToolsDialog_Snackbar_RestoreConfirm_Button"],
             ["Color"] = Color.Error
         };
 
@@ -200,7 +202,7 @@
         if (result is { Canceled: false })
         {
             _isProcessing = true;
-            _processingMessage = "Restoring database...";
+            _processingMessage = L["DatabaseToolsDialog_Snackbar_Restoring"];
 
             try
             {
@@ -218,12 +220,12 @@
                 
                 if (restoreResult)
                 {
-                    Snackbar.Add("✅ Database restored successfully!", Severity.Success);
+                    Snackbar.Add(L["DatabaseToolsDialog_Snackbar_RestoreSuccess"], Severity.Success);
                     _selectedFile = null;
                 }
                 else
                 {
-                    Snackbar.Add("❌ Failed to restore database. Please check the backup file.", Severity.Error);
+                    Snackbar.Add(L["DatabaseToolsDialog_Snackbar_RestoreFailed"], Severity.Error);
                 }
                 
                 // Clean up temp file
@@ -248,9 +250,9 @@
     {
         var parameters = new DialogParameters
         {
-            ["ContentText"] = "⚠️ WARNING: This will DELETE ALL DATA and reset the database to factory defaults. Type 'RESET' to confirm.",
+            ["ContentText"] = L["DatabaseToolsDialog_Snackbar_ResetConfirm"],
             ["ExpectedText"] = "RESET",
-            ["ButtonText"] = "I Understand, Reset Now",
+            ["ButtonText"] = L["DatabaseToolsDialog_Snackbar_ResetConfirm_Button"],
             ["ButtonColor"] = Color.Error
         };
 
@@ -260,7 +262,7 @@
         if (result is { Canceled: false } && result.Data?.ToString() == "RESET")
         {
             _isProcessing = true;
-            _processingMessage = "Resetting database...";
+            _processingMessage = L["DatabaseToolsDialog_Snackbar_Resetting"];
 
             try
             {
@@ -268,11 +270,11 @@
 
                 if (resetResult)
                 {
-                    Snackbar.Add("✅ Database reset completed!", Severity.Success);
+                    Snackbar.Add(L["DatabaseToolsDialog_Snackbar_ResetSuccess"], Severity.Success);
                 }
                 else
                 {
-                    Snackbar.Add("❌ Failed to reset database.", Severity.Error);
+                    Snackbar.Add(L["DatabaseToolsDialog_Snackbar_ResetFailed"], Severity.Error);
                 }
             }
             catch (Exception ex)

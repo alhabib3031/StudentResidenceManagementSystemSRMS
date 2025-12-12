@@ -1,20 +1,22 @@
 @page "/superroot/sms-config"
+@using Microsoft.Extensions.Localization
 @attribute [Authorize(Roles = "SuperRoot")]
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
+@inject IStringLocalizer<Resource> Localizer
 @rendermode InteractiveServer
 
-<PageTitle>SMS Configuration</PageTitle>
+<PageTitle>@Localizer["SmsConfiguration"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->
     <MudPaper Elevation="0" Class="pa-4 mb-4">
         <MudText Typo="Typo.h4" Color="Color.Primary">
             <MudIcon Icon="@Icons.Material.Filled.Sms" Class="mr-2" />
-            SMS Configuration
+            @Localizer["SmsConfiguration"]
         </MudText>
         <MudText Typo="Typo.body2" Color="Color.Secondary">
-            Configure SMS gateway for sending notifications and alerts
+            @Localizer["ConfigureSmsGateway"]
         </MudText>
     </MudPaper>
 
@@ -26,13 +28,13 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" Size="Size.Small" />
-                            SMS Provider Settings
+                            @Localizer["SmsProviderSettings"]
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
                         <MudChip T="string" Size="Size.Small" Color="@(_isActive ? Color.Success : Color.Error)"
-                            Icon="@(_isActive ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)">
-                            @(_isActive ? "Active" : "Inactive")
+                                 Icon="@(_isActive ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)">
+                            @(_isActive ? Localizer["Active"] : Localizer["Inactive"])
                         </MudChip>
                     </CardHeaderActions>
                 </MudCardHeader>
@@ -40,14 +42,14 @@
                     <MudGrid>
                         <MudItem xs="12">
                             <MudAlert Severity="Severity.Info" Dense="true" Class="mb-4">
-                                Configure your SMS provider to send notifications, alerts, and verification codes.
+                                @Localizer["ConfigureSmsProvider"]
                             </MudAlert>
                         </MudItem>
 
                         <MudItem xs="12">
-                            <MudSelect T="string" @bind-Value="_config.Provider" Label="SMS Provider"
-                                Variant="Variant.Outlined" Adornment="Adornment.Start"
-                                AdornmentIcon="@Icons.Material.Filled.Business">
+                            <MudSelect T="string" @bind-Value="_config.Provider" Label="@Localizer["SmsProvider"]"
+                                       Variant="Variant.Outlined" Adornment="Adornment.Start"
+                                       AdornmentIcon="@Icons.Material.Filled.Business">
                                 <MudSelectItem Value="@("Twilio")">
                                     <div Class="flex items-center">
                                         <MudIcon Icon="@Icons.Material.Filled.Message" Class="mr-2" />
@@ -76,64 +78,64 @@
                         </MudItem>
 
                         <MudItem xs="12" sm="6">
-                            <MudTextField @bind-Value="_config.AccountSid" Label="Account SID / API Key"
-                                Variant="Variant.Outlined" Adornment="Adornment.Start"
-                                AdornmentIcon="@Icons.Material.Filled.Key"
-                                HelperText="Your provider account identifier" />
+                            <MudTextField @bind-Value="_config.AccountSid" Label="@Localizer["AccountSidApiKey"]"
+                                          Variant="Variant.Outlined" Adornment="Adornment.Start"
+                                          AdornmentIcon="@Icons.Material.Filled.Key"
+                                          HelperText="@Localizer["ProviderAccountIdentifier"]" />
                         </MudItem>
 
                         <MudItem xs="12" sm="6">
-                            <MudTextField @bind-Value="_config.AuthToken" Label="Auth Token / API Secret"
-                                Variant="Variant.Outlined"
-                                InputType="@(_showToken ? InputType.Text : InputType.Password)"
-                                Adornment="Adornment.End"
-                                AdornmentIcon="@(_showToken ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
-                                OnAdornmentClick="@(() => _showToken = !_showToken)"
-                                HelperText="Your provider secret token" />
+                            <MudTextField @bind-Value="_config.AuthToken" Label="@Localizer["AuthTokenApiSecret"]"
+                                          Variant="Variant.Outlined"
+                                          InputType="@(_showToken ? InputType.Text : InputType.Password)"
+                                          Adornment="Adornment.End"
+                                          AdornmentIcon="@(_showToken ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
+                                          OnAdornmentClick="@(() => _showToken = !_showToken)"
+                                          HelperText="@Localizer["ProviderSecretToken"]" />
                         </MudItem>
 
                         <MudItem xs="12" sm="6">
-                            <MudTextField @bind-Value="_config.FromNumber" Label="From Phone Number"
-                                Variant="Variant.Outlined" Placeholder="+218912345678" Adornment="Adornment.Start"
-                                AdornmentIcon="@Icons.Material.Filled.Phone"
-                                HelperText="Phone number that appears as sender" />
+                            <MudTextField @bind-Value="_config.FromNumber" Label="@Localizer["FromPhoneNumber"]"
+                                          Variant="Variant.Outlined" Placeholder="+218912345678" Adornment="Adornment.Start"
+                                          AdornmentIcon="@Icons.Material.Filled.Phone"
+                                          HelperText="@Localizer["PhoneNumberAsSender"]" />
                         </MudItem>
 
                         <MudItem xs="12" sm="6">
-                            <MudTextField @bind-Value="_config.SenderName" Label="Sender Name (Alpha)"
-                                Variant="Variant.Outlined" Placeholder="SRMS" MaxLength="11"
-                                HelperText="Alphanumeric sender ID (max 11 chars)" />
+                            <MudTextField @bind-Value="_config.SenderName" Label="@Localizer["SenderNameAlpha"]"
+                                          Variant="Variant.Outlined" Placeholder="SRMS" MaxLength="11"
+                                          HelperText="@Localizer["AlphanumericSenderId"]" />
                         </MudItem>
 
                         <MudItem xs="12">
-                            <MudCheckBox @bind-Value="_config.EnableSms" Label="Enable SMS Notifications"
-                                Color="Color.Primary" />
+                            <MudCheckBox @bind-Value="_config.EnableSms" Label="@Localizer["EnableSmsNotifications"]"
+                                         Color="Color.Primary" />
                         </MudItem>
 
                         <MudItem xs="12">
-                            <MudCheckBox @bind-Value="_config.EnableDeliveryReports" Label="Enable Delivery Reports"
-                                Color="Color.Primary" />
+                            <MudCheckBox @bind-Value="_config.EnableDeliveryReports" Label="@Localizer["EnableDeliveryReports"]"
+                                         Color="Color.Primary" />
                         </MudItem>
 
                         <MudItem xs="12">
                             <MudExpansionPanels>
-                                <MudExpansionPanel Text="Advanced Settings">
+                                <MudExpansionPanel Text="@Localizer["AdvancedSettings"]">
                                     <MudGrid>
                                         <MudItem xs="12" sm="6">
                                             <MudNumericField @bind-Value="_config.MaxRetryAttempts"
-                                                Label="Max Retry Attempts" Variant="Variant.Outlined" Min="0" Max="5"
-                                                HelperText="Number of retry attempts for failed messages" />
+                                                             Label="@Localizer["MaxRetryAttempts"]" Variant="Variant.Outlined" Min="0" Max="5"
+                                                             HelperText="@Localizer["RetryAttemptsForFailedMessages"]" />
                                         </MudItem>
                                         <MudItem xs="12" sm="6">
                                             <MudNumericField @bind-Value="_config.TimeoutSeconds"
-                                                Label="Timeout (seconds)" Variant="Variant.Outlined" Min="5" Max="60"
-                                                HelperText="Request timeout duration" />
+                                                             Label="@Localizer["TimeoutSeconds"]" Variant="Variant.Outlined" Min="5" Max="60"
+                                                             HelperText="@Localizer["RequestTimeoutDuration"]" />
                                         </MudItem>
                                         <MudItem xs="12">
-                                            <MudTextField @bind-Value="_config.WebhookUrl" Label="Webhook URL"
-                                                Variant="Variant.Outlined"
-                                                Placeholder="https://yourdomain.com/api/sms/webhook"
-                                                HelperText="URL to receive delivery status callbacks" />
+                                            <MudTextField @bind-Value="_config.WebhookUrl" Label="@Localizer["WebhookUrl"]"
+                                                          Variant="Variant.Outlined"
+                                                          Placeholder="https://yourdomain.com/api/sms/webhook"
+                                                          HelperText="@Localizer["DeliveryStatusCallbacksUrl"]" />
                                         </MudItem>
                                     </MudGrid>
                                 </MudExpansionPanel>
@@ -143,27 +145,27 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
-                        OnClick="@SaveConfiguration" Disabled="_isSaving">
+                               OnClick="@SaveConfiguration" Disabled="_isSaving">
                         @if (_isSaving)
                         {
                             <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                            <span>Saving...</span>
+                            <span>@Localizer["Saving"]</span>
                         }
                         else
                         {
-                            <span>Save Configuration</span>
+                            <span>@Localizer["SaveConfiguration"]</span>
                         }
                     </MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Send"
-                        OnClick="@SendTestSms" Disabled="_isTesting">
+                               OnClick="@SendTestSms" Disabled="_isTesting">
                         @if (_isTesting)
                         {
                             <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                            <span>Sending...</span>
+                            <span>@Localizer["Sending"]</span>
                         }
                         else
                         {
-                            <span>Send Test SMS</span>
+                            <span>@Localizer["SendTestSms"]</span>
                         }
                     </MudButton>
                 </MudCardActions>
@@ -178,24 +180,24 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.Description" Class="mr-2" Size="Size.Small" />
-                            SMS Templates
+                            @Localizer["SmsTemplates"]
                         </MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudList T="string" Dense="true">
                         <MudListItem Icon="@Icons.Material.Filled.VerifiedUser" OnClick="@(() => EditTemplate("otp"))">
-                            OTP Verification
+                            @Localizer["OtpVerification"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Payment" OnClick="@(() => EditTemplate("payment"))">
-                            Payment Reminder
+                            @Localizer["PaymentReminder"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Notifications"
-                            OnClick="@(() => EditTemplate("alert"))">
-                            Alert Notification
+                                     OnClick="@(() => EditTemplate("alert"))">
+                            @Localizer["AlertNotification"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Info" OnClick="@(() => EditTemplate("info"))">
-                            General Information
+                            @Localizer["GeneralInformation"]
                         </MudListItem>
                     </MudList>
                 </MudCardContent>
@@ -207,34 +209,34 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.BarChart" Class="mr-2" Size="Size.Small" />
-                            SMS Statistics
+                            @Localizer["SmsStatistics"]
                         </MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudStack Spacing="3">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Today</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["Today"]</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Success">127</MudText>
-                            <MudText Typo="Typo.caption">SMS sent</MudText>
+                            <MudText Typo="Typo.caption">@Localizer["SmsSent"]</MudText>
                         </div>
                         <MudDivider />
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">This Month</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ThisMonth"]</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Info">3,421</MudText>
-                            <MudText Typo="Typo.caption">SMS sent</MudText>
+                            <MudText Typo="Typo.caption">@Localizer["SmsSent"]</MudText>
                         </div>
                         <MudDivider />
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Delivery Rate</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["DeliveryRate"]</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Primary">98.5%</MudText>
-                            <MudText Typo="Typo.caption">successful delivery</MudText>
+                            <MudText Typo="Typo.caption">@Localizer["SuccessfulDelivery"]</MudText>
                         </div>
                         <MudDivider />
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Failed</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["Failed"]</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Error">8</MudText>
-                            <MudText Typo="Typo.caption">delivery failures</MudText>
+                            <MudText Typo="Typo.caption">@Localizer["DeliveryFailures"]</MudText>
                         </div>
                     </MudStack>
                 </MudCardContent>
@@ -246,19 +248,19 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Class="mr-2" Size="Size.Small" />
-                            Cost Overview
+                            @Localizer["CostOverview"]
                         </MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudStack Spacing="2">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">This Month</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ThisMonth"]</MudText>
                             <MudText Typo="Typo.h6">$127.50</MudText>
                         </div>
                         <MudDivider />
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Per SMS Cost</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["PerSmsCost"]</MudText>
                             <MudText Typo="Typo.body2">$0.037 avg</MudText>
                         </div>
                     </MudStack>
@@ -273,41 +275,41 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
-                            Recent SMS Activity
+                            @Localizer["RecentSmsActivity"]
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
                         <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
-                            StartIcon="@Icons.Material.Filled.Refresh" OnClick="@LoadLogs">
-                            Refresh
+                                   StartIcon="@Icons.Material.Filled.Refresh" OnClick="@LoadLogs">
+                            @Localizer["Refresh"]
                         </MudButton>
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudTable Items="@_recentSms" Hover="true" Dense="true" Striped="true">
                         <HeaderContent>
-                            <MudTh>Time</MudTh>
-                            <MudTh>To</MudTh>
-                            <MudTh>Message</MudTh>
-                            <MudTh>Status</MudTh>
-                            <MudTh>Cost</MudTh>
+                            <MudTh>@Localizer["Time"]</MudTh>
+                            <MudTh>@Localizer["To"]</MudTh>
+                            <MudTh>@Localizer["Message"]</MudTh>
+                            <MudTh>@Localizer["Status"]</MudTh>
+                            <MudTh>@Localizer["Cost"]</MudTh>
                         </HeaderContent>
                         <RowTemplate>
-                            <MudTd DataLabel="Time">
+                            <MudTd DataLabel="@Localizer["Time"]">
                                 <MudText Typo="Typo.caption">@context.Timestamp.ToString("HH:mm:ss")</MudText>
                             </MudTd>
-                            <MudTd DataLabel="To">@context.To</MudTd>
-                            <MudTd DataLabel="Message">
+                            <MudTd DataLabel="@Localizer["To"]">@context.To</MudTd>
+                            <MudTd DataLabel="@Localizer["Message"]">
                                 <MudText Typo="Typo.caption" Class="max-w-[400px] overflow-hidden text-ellipsis">
                                     @context.Message
                                 </MudText>
                             </MudTd>
-                            <MudTd DataLabel="Status">
+                            <MudTd DataLabel="@Localizer["Status"]">
                                 <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)">
                                     @context.Status
                                 </MudChip>
                             </MudTd>
-                            <MudTd DataLabel="Cost">
+                            <MudTd DataLabel="@Localizer["Cost"]">
                                 <MudText Typo="Typo.caption">@context.Cost</MudText>
                             </MudTd>
                         </RowTemplate>
@@ -367,12 +369,12 @@ new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message 
         try
         {
             await Task.Delay(1000);
-            Snackbar.Add("SMS configuration saved successfully!", Severity.Success);
+            Snackbar.Add(Localizer["SmsConfigurationSaved"], Severity.Success);
             _isActive = _config.EnableSms;
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{Localizer["Error"]}: {ex.Message}", Severity.Error);
         }
         finally
         {
@@ -384,12 +386,12 @@ new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message 
     {
         var parameters = new DialogParameters
             {
-                ["ContentText"] = "Enter phone number to send test SMS:",
-                ["ButtonText"] = "Send",
+                ["ContentText"] = Localizer["EnterPhoneNumberForTestSms"],
+                ["ButtonText"] = Localizer["Send"],
                 ["Color"] = Color.Primary
             };
 
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Send Test SMS", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["SendTestSms"], parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
@@ -398,11 +400,11 @@ new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message 
             try
             {
                 await Task.Delay(2000);
-                Snackbar.Add("✅ Test SMS sent successfully!", Severity.Success);
+                Snackbar.Add(Localizer["TestSmsSentSuccessfully"], Severity.Success);
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"❌ Failed to send: {ex.Message}", Severity.Error);
+                Snackbar.Add($"{Localizer["FailedToSend"]}: {ex.Message}", Severity.Error);
             }
             finally
             {
@@ -413,7 +415,7 @@ new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message 
 
     private void EditTemplate(string templateName)
     {
-        Snackbar.Add($"Edit template '{templateName}' - Coming soon!", Severity.Info);
+        Snackbar.Add(string.Format(Localizer["EditTemplateComingSoon"], templateName), Severity.Info);
     }
 
     private Color GetStatusColor(string status) => status switch

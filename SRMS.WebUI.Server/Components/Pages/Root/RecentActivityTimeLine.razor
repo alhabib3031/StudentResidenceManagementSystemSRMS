@@ -1,7 +1,9 @@
-﻿@using SRMS.Application.AuditLogs.Interfaces
+﻿@using Microsoft.Extensions.Localization
+@using SRMS.Application.AuditLogs.Interfaces
 @using SRMS.Domain.AuditLogs
 @using SRMS.Domain.AuditLogs.Enums
 @inject IAuditService AuditService
+@inject IStringLocalizer<Resource> Localizer
 
 <!-- Recent Activity -->
 <MudCard Elevation="4" Class="glass-card">
@@ -9,7 +11,7 @@
         <CardHeaderContent>
             <MudText Typo="Typo.h6">
                 <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
-                Recent System Activity
+                @Localizer["RecentSystemActivity"]
             </MudText>
         </CardHeaderContent>
         <CardHeaderActions>
@@ -19,7 +21,7 @@
                  @* @if () // filtering superroot or not  *@
                  @* {  *@
                  @*     <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Href="/superroot/audit">  *@
-                 @*         View All  *@
+                 @*         @Localizer["ViewAll"]  *@
                  @*     </MudButton>  *@
                  @* *@
                  @* }  *@
@@ -45,7 +47,7 @@
         else
         {
             <MudText Typo="Typo.body2" Color="Color.Secondary" Align="Align.Center" Class="mt-4">
-                No recent activity
+                @Localizer["NoRecentActivity"]
             </MudText>
         }
     </MudCardContent>
@@ -91,9 +93,9 @@
     {
         var span = DateTime.UtcNow - timestamp;
 
-        if (span.TotalMinutes < 1) return "just now";
-        if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes}m ago";
-        if (span.TotalHours < 24) return $"{(int)span.TotalHours}h ago";
-        return $"{(int)span.TotalDays}d ago";
+        if (span.TotalMinutes < 1) return Localizer["justNow"];
+        if (span.TotalMinutes < 60) return string.Format(Localizer["minutesAgo"], (int)span.TotalMinutes);
+        if (span.TotalHours < 24) return string.Format(Localizer["hoursAgo"], (int)span.TotalHours);
+        return string.Format(Localizer["daysAgo"], (int)span.TotalDays);
     }
 }

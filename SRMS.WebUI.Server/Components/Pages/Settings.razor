@@ -1,45 +1,44 @@
 @page "/settings"
+@using SRMS.WebUI.Server.Resources
+@using Microsoft.Extensions.Localization
 @inject ISnackbar Snackbar
-@inject Microsoft.Extensions.Localization.IStringLocalizer<SRMS.WebUI.Server.Resources.Resources> L
+@inject IStringLocalizer<Resource> L
 @attribute [Authorize]
 @rendermode InteractiveServer
 
 <PageTitle>@L["Settings"] - SRMS</PageTitle>
 
 <MudStack Class="animate-fade-in w-full modern-card">
-    <!-- Header -->
     <MudText Typo="Typo.h4" Class="text-gradient mb-4 font-bold">
         <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" />
-        Settings
+        @L["Settings"]
     </MudText>
 
     <MudGrid>
-        <!-- General Settings -->
         <MudItem xs="12" md="6">
             <MudPaper Class="glass-card pa-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Tune" Class="mr-2" />
-                    General Settings
+                    @L["GeneralSettings"]
                 </MudText>
 
                 <MudStack Spacing="4">
-                    <MudSelect @bind-Value="_language" Label="Language" Variant="Variant.Outlined">
-                        <MudSelectItem Value="@("en")">English</MudSelectItem>
-                        <MudSelectItem Value="@("ar")">العربية</MudSelectItem>
-                        <MudSelectItem Value="@("fr")">Français</MudSelectItem>
+                    <MudSelect @bind-Value="_language" Label="@L["Language"]" Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("en")">@L["English"]</MudSelectItem>
+                        <MudSelectItem Value="@("ar")">@L["Arabic"]</MudSelectItem>
                     </MudSelect>
 
-                    <MudSelect @bind-Value="_timezone" Label="Timezone" Variant="Variant.Outlined">
-                        <MudSelectItem Value="@("UTC")">UTC</MudSelectItem>
-                        <MudSelectItem Value="@("EST")">Eastern Time</MudSelectItem>
-                        <MudSelectItem Value="@("PST")">Pacific Time</MudSelectItem>
-                        <MudSelectItem Value="@("GMT")">GMT</MudSelectItem>
+                    <MudSelect @bind-Value="_timezone" Label="@L["Timezone"]" Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("UTC")">@L["UTC"]</MudSelectItem>
+                        <MudSelectItem Value="@("EST")">@L["EST"]</MudSelectItem>
+                        <MudSelectItem Value="@("PST")">@L["PST"]</MudSelectItem>
+                        <MudSelectItem Value="@("GMT")">@L["GMT"]</MudSelectItem>
                     </MudSelect>
 
-                    <MudSelect @bind-Value="_dateFormat" Label="Date Format" Variant="Variant.Outlined">
-                        <MudSelectItem Value="@("MM/DD/YYYY")">MM/DD/YYYY</MudSelectItem>
-                        <MudSelectItem Value="@("DD/MM/YYYY")">DD/MM/YYYY</MudSelectItem>
-                        <MudSelectItem Value="@("YYYY-MM-DD")">YYYY-MM-DD</MudSelectItem>
+                    <MudSelect @bind-Value="_dateFormat" Label="@L["DateFormat"]" Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("MM/DD/YYYY")">@L["MMDDYYYY"]</MudSelectItem>
+                        <MudSelectItem Value="@("DD/MM/YYYY")">@L["DDMMYYYY"]</MudSelectItem>
+                        <MudSelectItem Value="@("YYYY-MM-DD")">@L["YYYYMMDD"]</MudSelectItem>
                     </MudSelect>
 
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
@@ -51,39 +50,38 @@
             </MudPaper>
         </MudItem>
 
-        <!-- Notification Settings -->
         <MudItem xs="12" md="6">
             <MudPaper Class="glass-card pa-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Notifications" Class="mr-2" />
-                    Notification Settings
+                    @L["NotificationSettings"]
                 </MudText>
 
                 <MudStack Spacing="3">
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_emailNotifications" Color="Color.Primary">
-                            Email Notifications
+                            @L["EmailNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Receive notifications via email
+                            @L["Desc_EmailNotifications"]
                         </MudText>
                     </MudStack>
 
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_smsNotifications" Color="Color.Primary">
-                            SMS Notifications
+                            @L["SMSNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Receive notifications via SMS
+                            @L["Desc_SMSNotifications"]
                         </MudText>
                     </MudStack>
 
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_pushNotifications" Color="Color.Primary">
-                            Push Notifications
+                            @L["PushNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Receive browser push notifications
+                            @L["Desc_PushNotifications"]
                         </MudText>
                     </MudStack>
 
@@ -91,19 +89,19 @@
 
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_paymentNotifications" Color="Color.Success">
-                            Payment Notifications
+                            @L["PaymentNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Get notified about payment updates
+                            @L["Desc_PaymentNotifications"]
                         </MudText>
                     </MudStack>
 
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_complaintNotifications" Color="Color.Warning">
-                            Complaint Notifications
+                            @L["ComplaintNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Get notified about complaint updates
+                            @L["Desc_ComplaintNotifications"]
                         </MudText>
                     </MudStack>
 
@@ -116,38 +114,37 @@
             </MudPaper>
         </MudItem>
 
-        <!-- Appearance Settings -->
         <MudItem xs="12" md="6">
             <MudPaper Class="glass-card pa-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Palette" Class="mr-2" />
-                    Appearance
+                    @L["Appearance"]
                 </MudText>
 
                 <MudStack Spacing="3">
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_darkMode" Color="Color.Primary">
-                            Dark Mode
+                            @L["DarkMode"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Use dark theme for better viewing
+                            @L["Desc_DarkMode"]
                         </MudText>
                     </MudStack>
 
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_compactMode" Color="Color.Primary">
-                            Compact Mode
+                            @L["CompactMode"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Reduce spacing for more content
+                            @L["Desc_CompactMode"]
                         </MudText>
                     </MudStack>
 
-                    <MudSelect @bind-Value="_accentColor" Label="Accent Color" Variant="Variant.Outlined">
-                        <MudSelectItem Value="@("purple")">Purple</MudSelectItem>
-                        <MudSelectItem Value="@("blue")">Blue</MudSelectItem>
-                        <MudSelectItem Value="@("green")">Green</MudSelectItem>
-                        <MudSelectItem Value="@("red")">Red</MudSelectItem>
+                    <MudSelect @bind-Value="_accentColor" Label="@L["AccentColor"]" Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("purple")">@L["Purple"]</MudSelectItem>
+                        <MudSelectItem Value="@("blue")">@L["Blue"]</MudSelectItem>
+                        <MudSelectItem Value="@("green")">@L["Green"]</MudSelectItem>
+                        <MudSelectItem Value="@("red")">@L["Red"]</MudSelectItem>
                     </MudSelect>
 
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
@@ -159,39 +156,38 @@
             </MudPaper>
         </MudItem>
 
-        <!-- Privacy & Security -->
         <MudItem xs="12" md="6">
             <MudPaper Class="glass-card pa-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Security" Class="mr-2" />
-                    Privacy & Security
+                    @L["PrivacySecurity"]
                 </MudText>
 
                 <MudStack Spacing="3">
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_twoFactorAuth" Color="Color.Success">
-                            Two-Factor Authentication
+                            @L["TwoFactorAuthentication"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Add an extra layer of security
+                            @L["Desc_TwoFactorAuthentication"]
                         </MudText>
                     </MudStack>
 
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_loginAlerts" Color="Color.Warning">
-                            Login Alerts
+                            @L["LoginAlerts"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Get notified of new login attempts
+                            @L["Desc_LoginAlerts"]
                         </MudText>
                     </MudStack>
 
                     <MudStack Spacing="0">
                         <MudSwitch T="bool" @bind-Checked="_profileVisibility" Color="Color.Info">
-                            Public Profile
+                            @L["PublicProfile"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
-                            Make your profile visible to others
+                            @L["Desc_PublicProfile"]
                         </MudText>
                     </MudStack>
 
@@ -199,23 +195,22 @@
 
                     <MudButton Variant="Variant.Outlined" Color="Color.Warning" FullWidth="true"
                         StartIcon="@Icons.Material.Filled.History" OnClick="ViewLoginHistory">
-                        View Login History
+                        @L["ViewLoginHistory"]
                     </MudButton>
 
                     <MudButton Variant="Variant.Outlined" Color="Color.Error" FullWidth="true"
                         StartIcon="@Icons.Material.Filled.ExitToApp" OnClick="LogoutAllDevices">
-                        Logout All Devices
+                        @L["LogoutAllDevices"]
                     </MudButton>
                 </MudStack>
             </MudPaper>
         </MudItem>
 
-        <!-- Data Management -->
         <MudItem xs="12">
             <MudPaper Class="glass-card pa-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Storage" Class="mr-2" />
-                    Data Management
+                    @L["DataManagement"]
                 </MudText>
 
                 <MudGrid>
@@ -268,41 +263,41 @@
 
     private void SaveGeneralSettings()
     {
-        Snackbar.Add("General settings saved successfully!", Severity.Success);
+        Snackbar.Add(L["Snackbar_GeneralSettingsSaved"], Severity.Success);
     }
 
     private void SaveNotificationSettings()
     {
-        Snackbar.Add("Notification settings saved successfully!", Severity.Success);
+        Snackbar.Add(L["Snackbar_NotificationSettingsSaved"], Severity.Success);
     }
 
     private void SaveAppearanceSettings()
     {
-        Snackbar.Add("Appearance settings saved successfully!", Severity.Success);
+        Snackbar.Add(L["Snackbar_AppearanceSettingsSaved"], Severity.Success);
     }
 
     private void ViewLoginHistory()
     {
-        Snackbar.Add("Login history feature coming soon!", Severity.Info);
+        Snackbar.Add(L["Snackbar_LoginHistoryComingSoon"], Severity.Info);
     }
 
     private void LogoutAllDevices()
     {
-        Snackbar.Add("Logged out from all devices!", Severity.Success);
+        Snackbar.Add(L["Snackbar_LoggedOutAllDevices"], Severity.Success);
     }
 
     private void ExportData()
     {
-        Snackbar.Add("Data export started. You'll receive an email when ready.", Severity.Info);
+        Snackbar.Add(L["Snackbar_DataExportStarted"], Severity.Info);
     }
 
     private void ClearCache()
     {
-        Snackbar.Add("Cache cleared successfully!", Severity.Success);
+        Snackbar.Add(L["Snackbar_CacheCleared"], Severity.Success);
     }
 
     private void DeleteAccount()
     {
-        Snackbar.Add("Please contact support to delete your account.", Severity.Warning);
+        Snackbar.Add(L["Snackbar_DeleteAccount_ContactSupport"], Severity.Warning);
     }
 }

@@ -5,9 +5,11 @@
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @using SRMS.WebUI.Server.Components.Pages.Dialogs
+@using SRMS.WebUI.Server.Resources
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>Users Management</PageTitle>
+<PageTitle>@L["UserManagement.Title"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
@@ -16,15 +18,15 @@
             <div>
                 <MudText Typo="Typo.h4" Color="Color.Primary">
                     <MudIcon Icon="@Icons.Material.Filled.People" Class="mr-2" />
-                    Users Management
+                    @L["UserManagement.Title"]
                 </MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Manage all system users and their roles
+                    @L["UserManagement.Subtitle"]
                 </MudText>
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.PersonAdd"
                 OnClick="@CreateUser" Class="btn-modern h-12 rounded-xl font-semibold">
-                Create New User
+                @L["UserManagement.CreateNewUser"]
             </MudButton>
         </MudStack>
     </MudPaper>
@@ -38,33 +40,33 @@
     <MudPaper Elevation="2" Class="pa-4 mb-4 glass-card">
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
-                <MudTextField @bind-Value="_searchString" Label="Search" Variant="Variant.Outlined"
+                <MudTextField @bind-Value="_searchString" Label="@L["UserManagement.SearchPlaceholder"]" Variant="Variant.Outlined"
                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Immediate="true"
                     OnAdornmentClick="@LoadUsers" />
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_selectedRole" Label="Filter by Role" Variant="Variant.Outlined"
+                <MudSelect T="string" @bind-Value="_selectedRole" Label="@L["UserManagement.FilterByRole"]" Variant="Variant.Outlined"
                     Clearable="true" OnClearButtonClick="@(() => { _selectedRole = null; LoadUsers(); })">
-                    <MudSelectItem Value="@("SuperRoot")">SuperRoot</MudSelectItem>
-                    <MudSelectItem Value="@("Admin")">Admin</MudSelectItem>
-                    <MudSelectItem Value="@("Manager")">Manager</MudSelectItem>
-                    <MudSelectItem Value="@("Student")">Student</MudSelectItem>
+                    <MudSelectItem Value="@("SuperRoot")">@L["UserManagement.Role.SuperRoot"]</MudSelectItem>
+                    <MudSelectItem Value="@("Admin")">@L["UserManagement.Role.Admin"]</MudSelectItem>
+                    <MudSelectItem Value="@("Manager")">@L["UserManagement.Role.Manager"]</MudSelectItem>
+                    <MudSelectItem Value="@("Student")">@L["UserManagement.Role.Student"]</MudSelectItem>
                 </MudSelect>
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_statusFilter" Label="Filter by Status" Variant="Variant.Outlined"
+                <MudSelect T="string" @bind-Value="_statusFilter" Label="@L["UserManagement.FilterByStatus"]" Variant="Variant.Outlined"
                     Clearable="true">
-                    <MudSelectItem Value="@("Active")">Active Only</MudSelectItem>
-                    <MudSelectItem Value="@("Inactive")">Inactive Only</MudSelectItem>
+                    <MudSelectItem Value="@("Active")">@L["UserManagement.Status.ActiveOnly"]</MudSelectItem>
+                    <MudSelectItem Value="@("Inactive")">@L["UserManagement.Status.InactiveOnly"]</MudSelectItem>
                 </MudSelect>
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="@LoadUsers"
                     StartIcon="@Icons.Material.Filled.FilterList" Class="btn-modern h-12 rounded-xl font-semibold">
-                    Apply Filters
+                    @L["UserManagement.ApplyFilters"]
                 </MudButton>
             </MudItem>
         </MudGrid>
@@ -76,24 +78,24 @@
             LoadingProgressColor="Color.Primary" Class="glass-card">
 
             <HeaderContent>
-                <MudTh>Avatar</MudTh>
+                <MudTh>@L["UserManagement.Table.Header.Avatar"]</MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.FullName)">Full Name</MudTableSortLabel>
+                    <MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.FullName)">@L["UserManagement.Table.Header.FullName"]</MudTableSortLabel>
                 </MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.Email)">Email</MudTableSortLabel>
+                    <MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.Email)">@L["UserManagement.Table.Header.Email"]</MudTableSortLabel>
                 </MudTh>
-                <MudTh>Roles</MudTh>
-                <MudTh>Status</MudTh>
+                <MudTh>@L["UserManagement.Table.Header.Roles"]</MudTh>
+                <MudTh>@L["UserManagement.Table.Header.Status"]</MudTh>
                 <MudTh>
-                    <MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.CreatedAt)">Created</MudTableSortLabel>
+                    <MudTableSortLabel SortBy="new Func<UserDto, object>(x => x.CreatedAt)">@L["UserManagement.Table.Header.Created"]</MudTableSortLabel>
                 </MudTh>
-                <MudTh>Last Login</MudTh>
-                <MudTh Class="text-right">Actions</MudTh>
+                <MudTh>@L["UserManagement.Table.Header.LastLogin"]</MudTh>
+                <MudTh Class="text-right">@L["UserManagement.Table.Header.Actions"]</MudTh>
             </HeaderContent>
 
             <RowTemplate>
-                <MudTd DataLabel="Avatar">
+                <MudTd DataLabel="@L["UserManagement.Table.Header.Avatar"]">
                     @if (!string.IsNullOrEmpty(context.ProfilePicture))
                     {
                         <MudAvatar Image="@context.ProfilePicture" Size="Size.Small" />

@@ -1,8 +1,10 @@
 ﻿@using SRMS.Application.Notifications.Interfaces
 @using System.Security.Claims
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @inject INotificationService NotificationService
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@rendermode InteractiveServer
+@inject IStringLocalizer<Resource> L
 
 <!-- Modern Sidebar Header -->
 <MudPaper class="pa-5" style="border-bottom: 1px solid var(--border-color);">
@@ -12,10 +14,10 @@
     </MudPaper>
     <MudText Typo="Typo.h6" Align="Align.Center"
         Style="font-weight: 700; background: linear-gradient(135deg, var(--primary-400) 0%, var(--secondary-500) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-        SRMS
+        @L["Brand_Title"]
     </MudText>
     <MudText Typo="Typo.caption" Align="Align.Center"  Color="Color.Secondary">
-        Student Residence Management
+        @L["Brand_Subtitle"]
     </MudText>
 </MudPaper>
 
@@ -24,89 +26,89 @@
         <Authorized Context="auth">
             <!-- SuperRoot Menu -->
             <AuthorizeView Roles="SuperRoot">
-                <MudNavGroup Title="SuperRoot Panel" Icon="@Icons.Material.Filled.Shield" IconColor="Color.Error"
-                    Expanded="true" Class="modern-nav-group">
+                <MudNavGroup Title='@(L["SuperRootPanel"])' Icon="@Icons.Material.Filled.Shield" IconColor="Color.Error"
+                     Expanded="true" Class="modern-nav-group">
                     <MudNavLink Href="/superroot" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
-                        Dashboard
+                        @L["Dashboard"]
                     </MudNavLink>
                     <MudNavLink Href="/superroot/users" Icon="@Icons.Material.Filled.People" Class="modern-nav-link">
-                        Manage Users
+                        @L["ManageUsers"]
                     </MudNavLink>
                     <MudNavLink Href="/superroot/roles" Icon="@Icons.Material.Filled.AdminPanelSettings"
                         Class="modern-nav-link">
-                        Manage Roles
+                        @L["ManageRoles"]
                     </MudNavLink>
                     <MudNavLink Href="/superroot/settings" Icon="@Icons.Material.Filled.Settings"
                         Class="modern-nav-link">
-                        System Settings
+                        @L["SystemSettings"]
                     </MudNavLink>
                     <MudNavLink Href="/superroot/audit" Icon="@Icons.Material.Filled.History" Class="modern-nav-link">
-                        Audit Logs
+                        @L["AuditLogs"]
                     </MudNavLink>
                 </MudNavGroup>
             </AuthorizeView>
 
             <!-- Admin Menu -->
             <AuthorizeView Roles="Admin,SuperRoot">
-                <MudNavGroup Title="Administration" Icon="@Icons.Material.Filled.AdminPanelSettings"
-                    IconColor="Color.Primary" Expanded="@IsAdmin()" Class="modern-nav-group">
+                <MudNavGroup Title='@(L["Administration"])' Icon="@Icons.Material.Filled.AdminPanelSettings"
+                      IconColor="Color.Primary" Expanded="@IsAdmin()" Class="modern-nav-group">
                     <MudNavLink Href="/admin" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
-                        Admin Dashboard
+                        @L["AdminDashboard"]
                     </MudNavLink>
                     <MudNavLink Href="/admin/residences" Icon="@Icons.Material.Filled.Apartment"
                         Class="modern-nav-link">
-                        Residences
+                        @L["Residences"]
                     </MudNavLink>
                     <MudNavLink Href="/admin/managers" Icon="@Icons.Material.Filled.SupervisedUserCircle"
                         Class="modern-nav-link">
-                        Managers
+                        @L["ManagersLabel"]
                     </MudNavLink>
                     <MudNavLink Href="/admin/reports" Icon="@Icons.Material.Filled.Assessment" Class="modern-nav-link">
-                        Reports
+                        @L["Reports"]
                     </MudNavLink>
                 </MudNavGroup>
             </AuthorizeView>
 
             <!-- Manager Menu -->
             <AuthorizeView Roles="Manager,Admin,SuperRoot">
-                <MudNavGroup Title="Management" Icon="@Icons.Material.Filled.ManageAccounts" IconColor="Color.Info"
-                    Expanded="@IsManager()" Class="modern-nav-group">
+                <MudNavGroup Title='@(L["Management"])' Icon="@Icons.Material.Filled.ManageAccounts" IconColor="Color.Info"
+                      Expanded="@IsManager()" Class="modern-nav-group">
                     <MudNavLink Href="/manager" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
-                        Manager Dashboard
+                        @L["ManagerDashboard"]
                     </MudNavLink>
                     <MudNavLink Href="/students" Icon="@Icons.Material.Filled.School" Class="modern-nav-link">
-                        Students
+                        @L["StudentsLabel"]
                     </MudNavLink>
                     <MudNavLink Href="/rooms" Icon="@Icons.Material.Filled.MeetingRoom" Class="modern-nav-link">
-                        Rooms
+                        @L["RoomsLabel"]
                     </MudNavLink>
                     <MudNavLink Href="/complaints" Icon="@Icons.Material.Filled.Report" Class="modern-nav-link">
-                        Complaints
+                        @L["ComplaintsLabel"]
                     </MudNavLink>
                     <MudNavLink Href="/payments" Icon="@Icons.Material.Filled.Payment" Class="modern-nav-link">
-                        Payments
+                        @L["PaymentsLabel"]
                     </MudNavLink>
                 </MudNavGroup>
             </AuthorizeView>
 
             <!-- Student Menu -->
             <AuthorizeView Roles="Student">
-                <MudNavGroup Title="Student Portal" Icon="@Icons.Material.Filled.School" IconColor="Color.Success"
-                    Expanded="true" Class="modern-nav-group">
+                <MudNavGroup Title='@(L["StudentPortalLabel"])' Icon="@Icons.Material.Filled.School" IconColor="Color.Success"
+                      Expanded="true" Class="modern-nav-group">
                     <MudNavLink Href="/student" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
-                        My Dashboard
+                        @L["MyDashboard"]
                     </MudNavLink>
                     <MudNavLink Href="/student/profile" Icon="@Icons.Material.Filled.Person" Class="modern-nav-link">
-                        My Profile
+                        @L["MyProfile"]
                     </MudNavLink>
                     <MudNavLink Href="/student/room" Icon="@Icons.Material.Filled.MeetingRoom" Class="modern-nav-link">
-                        My Room
+                        @L["MyRoom"]
                     </MudNavLink>
                     <MudNavLink Href="/student/payments" Icon="@Icons.Material.Filled.Payment" Class="modern-nav-link">
-                        My Payments
+                        @L["MyPayments"]
                     </MudNavLink>
                     <MudNavLink Href="/student/complaints" Icon="@Icons.Material.Filled.Report" Class="modern-nav-link">
-                        My Complaints
+                        @L["MyComplaints"]
                     </MudNavLink>
                 </MudNavGroup>
             </AuthorizeView>
@@ -122,32 +124,32 @@
             @* </MudNavLink> *@
 
             <MudNavLink Href="/help" Icon="@Icons.Material.Filled.Help" Class="modern-nav-link">
-                Help & Support
+                @L["HelpSupport"]
             </MudNavLink>
         </Authorized>
 
         <NotAuthorized>
             <!-- Public Menu -->
             <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home" Class="modern-nav-link">
-                Home
+                @L["Home"]
             </MudNavLink>
             <MudNavLink Href="/about" Icon="@Icons.Material.Filled.Info" Class="modern-nav-link">
-                About Us
+                @L["AboutUs"]
             </MudNavLink>
             <MudNavLink Href="/contact" Icon="@Icons.Material.Filled.ContactMail" Class="modern-nav-link">
-                Contact
+                @L["Contact"]
             </MudNavLink>
             <MudNavLink Href="/help" Icon="@Icons.Material.Filled.Help" Class="modern-nav-link">
-                Help
+                @L["Help"]
             </MudNavLink>
 
             <MudDivider Class="my-3" Style="border-color: var(--border-color);" />
 
             <MudNavLink Href="/login" Icon="@Icons.Material.Filled.Login" Class="modern-nav-link">
-                <MudText Style="font-weight: 600;">Sign In</MudText>
+                <MudText Style="font-weight: 600;">@L["SignIn"]</MudText>
             </MudNavLink>
             <MudNavLink Href="/register" Icon="@Icons.Material.Filled.PersonAdd" Class="modern-nav-link">
-                <MudText Style="font-weight: 600;">Register</MudText>
+                <MudText Style="font-weight: 600;">@L["Register"]</MudText>
             </MudNavLink>
         </NotAuthorized>
     </AuthorizeView>
@@ -158,10 +160,10 @@
 <MudPaper class="pa-4 text-center" style="border-top: 1px solid var(--border-color);">
     <MudStack Spacing="2">
         <MudText Typo="Typo.caption" Color="Color.Secondary" Align="Align.Center">
-            <MudIcon Icon="@Icons.Material.Filled.Code" Size="Size.Small" /> Version 1.0.0
+            <MudIcon Icon="@Icons.Material.Filled.Code" Size="Size.Small" /> @L["VersionInfo"]
         </MudText>
         <MudText Typo="Typo.caption" Color="Color.Tertiary" Align="Align.Center">
-            © 2025 SRMS. All rights reserved.
+            @L["Copyright"]
         </MudText>
     </MudStack>
 </MudPaper>

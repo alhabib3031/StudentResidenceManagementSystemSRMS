@@ -6,15 +6,18 @@
 @using System.Security.Claims
 @using SRMS.Domain.Identity.Constants
 @using SRMS.WebUI.Server.Components.Pages.Dialogs
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @inject NavigationManager Navigation
 @inject IServiceScopeFactory ScopeFactory
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
+@inject IStringLocalizer<Resource> L
 @attribute [Authorize]
 @rendermode InteractiveServer
 
-<PageTitle>Notifications - SRMS</PageTitle>
+<PageTitle>@L["Notifications_PageTitle"]</PageTitle>
 
 <MudStack Class="animate-fade-in w-full modern-card">
     <!-- Header -->
@@ -22,10 +25,10 @@
         <MudStack Spacing="0">
             <MudText Typo="Typo.h4" Class="text-gradient font-bold">
                 <MudIcon Icon="@Icons.Material.Filled.Notifications" Class="mr-2" />
-                Notifications
+                @L["Notifications_Header"]
             </MudText>
             <MudText Typo="Typo.body2" Color="Color.Secondary">
-                Stay updated with your latest activities
+                @L["Notifications_Subheader"]
             </MudText>
         </MudStack>
         <MudStack Row="true" Spacing="2">
@@ -33,12 +36,12 @@
             {
                 <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OpenCreateDialog"
                     StartIcon="@Icons.Material.Filled.Add">
-                    Create Notification
+                    @L["Notifications_Button_Create"]
                 </MudButton>
             }
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="MarkAllAsRead"
                 StartIcon="@Icons.Material.Filled.DoneAll">
-                Mark All as Read
+                @L["Notifications_Button_MarkAllRead"]
             </MudButton>
         </MudStack>
     </MudStack>
@@ -46,14 +49,14 @@
     <!-- Notification Filters -->
     <MudPaper Class="glass-card mb-4 p-4">
         <MudChipSet T="string" @bind-SelectedChip="_selectedFilter" Filter="true" Mandatory="true">
-            <MudChip T="string" Text="All" Color="Color.Primary" Default="true">All</MudChip>
-            <MudChip T="string" Text="Unread" Color="Color.Error">Unread</MudChip>
-            <MudChip T="string" Text="Announcement" Color="Color.Secondary">Announcement</MudChip>
-            <MudChip T="string" Text="Info" Color="Color.Info">Info</MudChip>
-            <MudChip T="string" Text="Warning" Color="Color.Warning">Warning</MudChip>
-            <MudChip T="string" Text="System" Color="Color.Dark">System</MudChip>
-            <MudChip T="string" Text="Payments" Color="Color.Success">Payments</MudChip>
-            <MudChip T="string" Text="Complaints" Color="Color.Surface">Complaints</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_All"]' Color="Color.Primary" Default="true">@L["Notifications_Filter_All"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Unread"]' Color="Color.Error">@L["Notifications_Filter_Unread"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Announcement"]' Color="Color.Secondary">@L["Notifications_Filter_Announcement"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Info"]' Color="Color.Info">@L["Notifications_Filter_Info"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Warning"]' Color="Color.Warning">@L["Notifications_Filter_Warning"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_System"]' Color="Color.Dark">@L["Notifications_Filter_System"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Payments"]' Color="Color.Success">@L["Notifications_Filter_Payments"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Complaints"]' Color="Color.Surface">@L["Notifications_Filter_Complaints"]</MudChip>
         </MudChipSet>
     </MudPaper>
 
@@ -102,9 +105,9 @@
             <MudStack AlignItems="AlignItems.Center" Class="py-8">
                 <MudIcon Icon="@Icons.Material.Filled.NotificationsNone" Size="Size.Large" Color="Color.Secondary"
                     Class="text-[80px]" />
-                <MudText Typo="Typo.h6" Class="mt-4">No Notifications</MudText>
+                <MudText Typo="Typo.h6" Class="mt-4">@L["Notifications_NoNotifications_Header"]</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    You're all caught up! Check back later for updates.
+                    @L["Notifications_NoNotifications_Subheader"]
                 </MudText>
             </MudStack>
         }
@@ -191,11 +194,11 @@
     private async Task OpenCreateDialog()
     {
         var parameters = new DialogParameters
-{
-{ "CurrentUserRole", _currentUserRole }
-};
+        {
+            { "CurrentUserRole", _currentUserRole }
+        };
 
-        var dialog = await DialogService.ShowAsync<CreateNotificationDialog>("Create Notification", parameters);
+        var dialog = await DialogService.ShowAsync<CreateNotificationDialog>(L["Notifications_Button_Create"], parameters);
         var result = await dialog.Result;
 
         if (!result.Canceled)
@@ -219,12 +222,12 @@
 
             if (success)
             {
-                Snackbar.Add("Notification sent successfully", Severity.Success);
+                Snackbar.Add(L["Notifications_Snackbar_SentSuccess"], Severity.Success);
                 await LoadNotifications(); // Refresh list if I sent it to myself too
             }
             else
             {
-                Snackbar.Add("Failed to send notification", Severity.Error);
+                Snackbar.Add(L["Notifications_Snackbar_SentFailed"], Severity.Error);
             }
         }
     }

@@ -1,72 +1,75 @@
 @using SRMS.Application.Complaints.DTOs
 @using SRMS.Domain.Complaints.Enums
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
 @using MudBlazor
 
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6">
             <MudIcon Icon="@Icons.Material.Filled.ReportProblem" Class="mr-2" />
-            New Complaint
+            @L["CreateComplaintDialog_Title"]
         </MudText>
     </TitleContent>
     <DialogContent>
         <MudForm @ref="_form" @bind-IsValid="@_success">
-            <MudTextField T="string" Label="Title" @bind-Value="Model.Title" Required="true"
-                RequiredError="Title is required" Counter="200" MaxLength="200" Variant="Variant.Outlined"
+            <MudTextField T="string" Label='@L["CreateComplaintDialog_Label_Title"]' @bind-Value="Model.Title" Required="true"
+                RequiredError='@L["CreateComplaintDialog_Error_TitleRequired"]' Counter="200" MaxLength="200" Variant="Variant.Outlined"
                 Class="mb-3" />
 
-            <MudTextField T="string" Label="Description" @bind-Value="Model.Description" Required="true"
-                RequiredError="Description is required" Lines="4" Counter="2000" MaxLength="2000"
-                Variant="Variant.Outlined" HelperText="Describe your complaint in detail" Class="mb-3" />
+            <MudTextField T="string" Label='@L["CreateComplaintDialog_Label_Description"]' @bind-Value="Model.Description" Required="true"
+                RequiredError='@L["CreateComplaintDialog_Error_DescriptionRequired"]' Lines="4" Counter="2000" MaxLength="2000"
+                Variant="Variant.Outlined" HelperText='@L["CreateComplaintDialog_Helper_Description"]' Class="mb-3" />
 
-            <MudSelect T="ComplaintCategory" Label="Category" @bind-Value="Model.Category" Required="true"
+            <MudSelect T="ComplaintCategory" Label='@L["CreateComplaintDialog_Label_Category"]' @bind-Value="Model.Category" Required="true"
                 Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" Class="mb-3">
-                <MudSelectItem Value="ComplaintCategory.Maintenance">🔧 Maintenance</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Cleanliness">🧹 Cleanliness</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Noise">🔊 Noise</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Security">🔒 Security</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.RoommateIssue">👥 Roommate Issue</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Facilities">🏢 Facilities</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Internet">📶 Internet</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Utilities">💡 Utilities</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Management">📋 Management</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Other">📝 Other</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Maintenance">@L["CreateComplaintDialog_Category_Maintenance"]</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Cleanliness">@L["CreateComplaintDialog_Category_Cleanliness"]</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Noise">@L["CreateComplaintDialog_Category_Noise"]</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Security">@L["CreateComplaintDialog_Category_Security"]</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.RoommateIssue">@L["CreateComplaintDialog_Category_RoommateIssue"]</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Facilities">@L["CreateComplaintDialog_Category_Facilities"]</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Internet">@L["CreateComplaintDialog_Category_Internet"]</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Utilities">@L["CreateComplaintDialog_Category_Utilities"]</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Management">@L["CreateComplaintDialog_Category_Management"]</MudSelectItem>
+                <MudSelectItem Value="ComplaintCategory.Other">@L["CreateComplaintDialog_Category_Other"]</MudSelectItem>
             </MudSelect>
 
-            <MudSelect T="ComplaintPriority" Label="Priority" @bind-Value="Model.Priority" Variant="Variant.Outlined"
+            <MudSelect T="ComplaintPriority" Label='@L["CreateComplaintDialog_Label_Priority"]' @bind-Value="Model.Priority" Variant="Variant.Outlined"
                 AnchorOrigin="Origin.BottomCenter" Class="mb-3">
                 <MudSelectItem Value="ComplaintPriority.Low">
                     <MudStack Row="true" AlignItems="AlignItems.Center">
                         <MudIcon Icon="@Icons.Material.Filled.ArrowDownward" Color="Color.Success" Size="Size.Small" />
-                        <span>Low - Not urgent</span>
+                        <span>@L["CreateComplaintDialog_Priority_Low"]</span>
                     </MudStack>
                 </MudSelectItem>
                 <MudSelectItem Value="ComplaintPriority.Medium">
                     <MudStack Row="true" AlignItems="AlignItems.Center">
                         <MudIcon Icon="@Icons.Material.Filled.Remove" Color="Color.Info" Size="Size.Small" />
-                        <span>Medium - Normal priority</span>
+                        <span>@L["CreateComplaintDialog_Priority_Medium"]</span>
                     </MudStack>
                 </MudSelectItem>
                 <MudSelectItem Value="ComplaintPriority.High">
                     <MudStack Row="true" AlignItems="AlignItems.Center">
                         <MudIcon Icon="@Icons.Material.Filled.ArrowUpward" Color="Color.Warning" Size="Size.Small" />
-                        <span>High - Need attention soon</span>
+                        <span>@L["CreateComplaintDialog_Priority_High"]</span>
                     </MudStack>
                 </MudSelectItem>
                 <MudSelectItem Value="ComplaintPriority.Critical">
                     <MudStack Row="true" AlignItems="AlignItems.Center">
                         <MudIcon Icon="@Icons.Material.Filled.PriorityHigh" Color="Color.Error" Size="Size.Small" />
-                        <span>Critical - Immediate action required</span>
+                        <span>@L["CreateComplaintDialog_Priority_Critical"]</span>
                     </MudStack>
                 </MudSelectItem>
             </MudSelect>
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel" Variant="Variant.Text">Cancel</MudButton>
+        <MudButton OnClick="Cancel" Variant="Variant.Text">@L["CreateComplaintDialog_Button_Cancel"]</MudButton>
         <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Disabled="@(!_success)"
             StartIcon="@Icons.Material.Filled.Send">
-            Submit Complaint
+            @L["CreateComplaintDialog_Button_Submit"]
         </MudButton>
     </DialogActions>
 </MudDialog>

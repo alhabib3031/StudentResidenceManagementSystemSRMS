@@ -1,10 +1,13 @@
-﻿@* Components/Dialogs/ConfirmWithTextDialog.razor *@
+﻿@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
+@* Components/Dialogs/ConfirmWithTextDialog.razor *@
 
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6" Color="Color.Error">
             <MudIcon Icon="@Icons.Material.Filled.Warning" Class="mr-2" />
-            Confirmation Required
+            @L["ConfirmWithTextDialog_Title"]
         </MudText>
     </TitleContent>
     
@@ -16,23 +19,23 @@
 
             <MudTextField 
                 @bind-Value="_confirmationText"
-                Label="Type confirmation text"
+                Label='@L["ConfirmWithTextDialog_Label"]'
                 Variant="Variant.Outlined"
                 Placeholder="@ExpectedText"
-                HelperText="@($"Type '{ExpectedText}' exactly to confirm")"
+                HelperText="@(string.Format(L["ConfirmWithTextDialog_HelperText"], ExpectedText))"
                 Immediate="true"
                 OnKeyUp="ValidateInput" />
 
             @if (!string.IsNullOrEmpty(_confirmationText) && _confirmationText != ExpectedText)
             {
                 <MudText Typo="Typo.caption" Color="Color.Error">
-                    ❌ Text does not match. Please type exactly: <strong>@ExpectedText</strong>
+                    @((MarkupString)string.Format(L["ConfirmWithTextDialog_Validation_Mismatch"], ExpectedText))
                 </MudText>
             }
             else if (_confirmationText == ExpectedText)
             {
                 <MudText Typo="Typo.caption" Color="Color.Success">
-                    ✓ Confirmation text is correct
+                    @L["ConfirmWithTextDialog_Validation_Match"]
                 </MudText>
             }
         </MudStack>
@@ -40,7 +43,7 @@
     
     <DialogActions>
         <MudButton OnClick="Cancel" Variant="Variant.Text">
-            Cancel
+            @L["ConfirmWithTextDialog_Button_Cancel"]
         </MudButton>
         <MudButton 
             Color="@ButtonColor" 

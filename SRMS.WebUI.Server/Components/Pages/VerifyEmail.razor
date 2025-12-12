@@ -1,12 +1,15 @@
 @page "/verify-email"
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar
 @inject IServiceScopeFactory ScopeFactory
+@inject IStringLocalizer<Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>Email Verification - SRMS</PageTitle>
+<PageTitle>@L["VerifyEmail_PageTitle"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Small" Class="flex items-center justify-center min-h-screen p-5 modern-card">
     <MudPaper Elevation="0" Class="rounded-[20px] w-full bg-[#1e1b2e] p-10 relative overflow-hidden">
@@ -23,7 +26,7 @@
             <!-- Header -->
             <MudStack AlignItems="AlignItems.Center" Class="mb-6">
                 <MudText Typo="Typo.h3" Class="text-white font-bold mb-2">
-                    Email Verification
+                    @L["VerifyEmail_Header"]
                 </MudText>
             </MudStack>
 
@@ -35,10 +38,11 @@
                     <MudCardContent>
                         <MudProgressCircular Indeterminate="true" Size="Size.Large" Class="text-[#bb86fc] mb-6" />
                         <MudText Typo="Typo.h6" Class="text-white mb-2">
-                            Verifying Your Email
+                            @L["VerifyEmail_VerifyingTitle"]
                         </MudText>
+
                         <MudText Typo="Typo.body2" Class="text-white/70">
-                            Please wait while we verify your account...
+                            @L["VerifyEmail_VerifyingMessage"]
                         </MudText>
                     </MudCardContent>
                 </MudCard>
@@ -55,17 +59,17 @@
                         </MudPaper>
 
                         <MudText Typo="Typo.h4" Class="text-white font-bold mb-3">
-                            Verification Successful!
+                            @L["VerifyEmail_Success_Title"]
                         </MudText>
 
                         <MudText Typo="Typo.body1" Class="text-white/80 mb-8 leading-relaxed">
-                            Your email has been verified successfully. Welcome to the Student Residence Management System!
+                            @L["VerifyEmail_Success_Message"]
                         </MudText>
 
                         <MudButton Variant="Variant.Filled" Color="Color.Success" Size="Size.Large" OnClick="GoToLogin"
                             StartIcon="@Icons.Material.Filled.Login"
                             Class="rounded-xl normal-case font-semibold text-base px-8 py-3 bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-[0_4px_15px_rgba(16,185,129,0.4)]">
-                            Login Now
+                            @L["VerifyEmail_Button_LoginNow"]
                         </MudButton>
                     </MudCardContent>
                 </MudCard>
@@ -80,7 +84,7 @@
                         <MudAlert Severity="Severity.Error" Variant="Variant.Filled"
                             Icon="@Icons.Material.Filled.ErrorOutline"
                             Class="bg-red-500 rounded-xl mb-6 font-semibold text-base p-4">
-                            Verification Failed
+                            @L["VerifyEmail_Error_AlertTitle"]
                         </MudAlert>
 
                         <!-- Error Message -->
@@ -92,26 +96,26 @@
                         <MudButton Variant="Variant.Filled" Color="Color.Error" Size="Size.Large" FullWidth="true"
                             OnClick="GoToRegister"
                             Class="rounded-xl uppercase font-bold text-base p-4 bg-red-500 shadow-[0_4px_15px_rgba(239,68,68,0.4)] tracking-wide">
-                            TRY REGISTERING AGAIN
+                            @L["VerifyEmail_Button_TryRegister"]
                         </MudButton>
 
                         <!-- Additional Help -->
                         <MudStack Class="mt-8 pt-6 border-t border-white/10">
                             <MudText Typo="Typo.body2" Class="text-white/60 mb-4">
-                                Need help? Contact support or try these options:
+                                @L["VerifyEmail_NeedHelp_Text"]
                             </MudText>
 
                             <MudStack Row="true" Justify="Justify.Center" Spacing="2">
                                 <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="GoToLogin"
                                     StartIcon="@Icons.Material.Filled.Login"
                                     Class="rounded-lg normal-case border-white/30 text-white">
-                                    Back to Login
+                                    @L["VerifyEmail_Button_BackToLogin"]
                                 </MudButton>
 
                                 <MudButton Variant="Variant.Outlined" Color="Color.Default" Href="mailto:support@srms.com"
                                     StartIcon="@Icons.Material.Filled.Email"
                                     Class="rounded-lg normal-case border-white/30 text-white">
-                                    Contact Support
+                                    @L["VerifyEmail_Button_ContactSupport"]
                                 </MudButton>
                             </MudStack>
                         </MudStack>
@@ -154,14 +158,14 @@
                 {
                     _verificationSuccess = true;
                     Snackbar.Add(
-                    "Email verified successfully! Welcome to SRMS.",
-                    Severity.Success,
-                    config =>
-                    {
-                        config.VisibleStateDuration = 5000;
-                        config.ShowCloseIcon = true;
-                    }
-                    );
+                    L["VerifyEmail_Snackbar_Success"].Value,
+                     Severity.Success,
+                     config =>
+                     {
+                         config.VisibleStateDuration = 5000;
+                         config.ShowCloseIcon = true;
+                     }
+                     );
 
                     // Auto-redirect after 5 seconds
                     _ = Task.Delay(5000).ContinueWith(_ =>
@@ -171,21 +175,21 @@
                 }
                 else
                 {
-                    _errorMessage = "Email verification failed. The token might be invalid or expired.";
+                    _errorMessage = L["VerifyEmail_Error_DefaultMessage"].Value;
                 }
             }
             catch (FormatException)
             {
-                _errorMessage = "Invalid verification link format. Please check the link and try again.";
+                _errorMessage = L["VerifyEmail_Error_InvalidFormat"].Value;
             }
             catch (Exception ex)
             {
-                _errorMessage = $"An error occurred during verification: {ex.Message}";
+                _errorMessage = string.Format(L["VerifyEmail_Error_Exception"].Value, ex.Message);
             }
         }
         else
         {
-            _errorMessage = "Invalid verification link. Required information is missing from the URL.";
+            _errorMessage = L["VerifyEmail_Error_InvalidFormat"].Value;
         }
 
         _isLoading = false;

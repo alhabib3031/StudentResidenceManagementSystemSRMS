@@ -1,9 +1,18 @@
 @using SRMS.Application.Identity.Interfaces
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @inject IUserService UserService
 @inject IRoleService RoleService
 @inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> L
 
 <MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.ManageAccounts" Class="mr-2" />
+            @L["ManageRolesDialog_Title"]
+        </MudText>
+    </TitleContent>
     <DialogContent>
         @if (_isLoading)
         {
@@ -12,7 +21,7 @@
         else
         {
             <MudText Typo="Typo.body1" Class="mb-4">
-                Manage roles for the selected user.
+                @L["ManageRolesDialog_Description"]
             </MudText>
 
             <MudGrid>
@@ -29,14 +38,14 @@
     </DialogContent>
 
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Cancel">@L["ManageRolesDialog_Button_Cancel"]</MudButton>
         <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="HandleSubmit"
             Disabled="_isSubmitting || _isLoading">
             @if (_isSubmitting)
             {
                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
             }
-            Save Roles
+            @L["ManageRolesDialog_Button_Save"]
         </MudButton>
     </DialogActions>
 </MudDialog>
@@ -75,7 +84,7 @@
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Error loading roles: {ex.Message}", Severity.Error);
+            Snackbar.Add(string.Format(L["ManageRolesDialog_Snackbar_LoadError"], ex.Message), Severity.Error);
             MudDialog.Cancel();
         }
         finally
@@ -114,7 +123,7 @@
                 if (!await UserService.AddToRoleAsync(UserId, role))
                 {
                     success = false;
-                    Snackbar.Add($"Failed to add role: {role}", Severity.Error);
+                    Snackbar.Add(string.Format(L["ManageRolesDialog_Snackbar_AddRoleFailed"], role), Severity.Error);
                 }
             }
 
@@ -125,13 +134,13 @@
                 if (!await UserService.RemoveFromRoleAsync(UserId, role))
                 {
                     success = false;
-                    Snackbar.Add($"Failed to remove role: {role}", Severity.Error);
+                    Snackbar.Add(string.Format(L["ManageRolesDialog_Snackbar_RemoveRoleFailed"], role), Severity.Error);
                 }
             }
 
             if (success)
             {
-                Snackbar.Add("Roles updated successfully!", Severity.Success);
+                Snackbar.Add(L["ManageRolesDialog_Snackbar_UpdateSuccess"], Severity.Success);
                 MudDialog.Close(DialogResult.Ok(true));
             }
         }

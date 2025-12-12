@@ -2,10 +2,13 @@
 @inject ISender Sender
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
 @attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
 @rendermode InteractiveServer   
 
-<PageTitle>Rooms Management</PageTitle>
+<PageTitle>@L["RoomsManagement_PageTitle"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
@@ -14,10 +17,10 @@
             <div>
                 <MudText Typo="Typo.h4" Color="Color.Primary">
                     <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Class="mr-2" />
-                    Rooms Management
+                    @L["RoomsManagement_Header"]
                 </MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Manage residence rooms and bed assignments
+                    @L["RoomsManagement_Subheader"]
                 </MudText>
             </div>
             <MudButton 
@@ -25,7 +28,7 @@
                 Color="Color.Primary"
                 StartIcon="@Icons.Material.Filled.Add"
                 OnClick="@CreateRoom">
-                Add New Room
+                @L["RoomsManagement_Button_Add"]
             </MudButton>
         </MudStack>
     </MudPaper>
@@ -42,7 +45,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Rooms</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_Total"]</MudText>
                             <MudText Typo="Typo.h4">@_rooms.Count</MudText>
                         </div>
                         <MudAvatar Color="Color.Primary" Size="Size.Large">
@@ -58,7 +61,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Available Rooms</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_Available"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Success">
                                 @_rooms.Count(r => !r.IsFull)
                             </MudText>
@@ -76,7 +79,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Beds</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_TotalBeds"]</MudText>
                             <MudText Typo="Typo.h4">@_rooms.Sum(r => r.TotalBeds)</MudText>
                         </div>
                         <MudAvatar Color="Color.Info" Size="Size.Large">
@@ -92,7 +95,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Occupancy Rate</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_OccupancyRate"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Warning">
                                 @GetOccupancyRate()%
                             </MudText>
@@ -111,7 +114,7 @@
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <MudTextField 
                 @bind-Value="_searchString"
-                Label="Search rooms..."
+                Label='@L["RoomsManagement_SearchPlaceholder"]'
                 Variant="Variant.Outlined"
                 Adornment="Adornment.Start"
                 AdornmentIcon="@Icons.Material.Filled.Search"
@@ -123,13 +126,13 @@
                     Color="@(_viewMode == "grid" ? Color.Primary : Color.Default)"
                     OnClick="@(() => _viewMode = "grid")"
                     StartIcon="@Icons.Material.Filled.GridView">
-                    Grid
+                    @L["RoomsManagement_View_Grid"]
                 </MudButton>
                 <MudButton 
                     Color="@(_viewMode == "list" ? Color.Primary : Color.Default)"
                     OnClick="@(() => _viewMode = "list")"
                     StartIcon="@Icons.Material.Filled.ViewList">
-                    List
+                    @L["RoomsManagement_View_List"]
                 </MudButton>
             </MudButtonGroup>
         </MudStack>
@@ -147,10 +150,10 @@
                             <CardHeaderContent>
                                 <MudText Typo="Typo.h6">
                                     <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Small" Class="mr-2" />
-                                    Room @room.RoomNumber
+                                    @string.Format(L["RoomsManagement_Card_Room"], room.RoomNumber)
                                 </MudText>
                                 <MudText Typo="Typo.caption" Color="Color.Secondary">
-                                    Floor @room.Floor | @room.RoomType
+                                    @string.Format(L["RoomsManagement_Card_Floor"], room.Floor) | @room.RoomType
                                 </MudText>
                             </CardHeaderContent>
                             <CardHeaderActions>
@@ -158,7 +161,7 @@
                                     T="bool"
                                     Size="Size.Small" 
                                     Color="@(room.IsFull ? Color.Error : Color.Success)">
-                                    @(room.IsFull ? "Full" : "Available")
+                                    @(room.IsFull ? L["RoomsManagement_Card_Status_Full"] : L["RoomsManagement_Card_Status_Available"])
                                 </MudChip>
                             </CardHeaderActions>
                         </MudCardHeader>
@@ -174,7 +177,7 @@
                                 
                                 <MudText Typo="Typo.body2">
                                     <MudIcon Icon="@Icons.Material.Filled.Hotel" Size="Size.Small" Class="mr-1" />
-                                    <strong>@room.OccupiedBeds/@room.TotalBeds</strong> beds occupied
+                                    <strong>@room.OccupiedBeds/@room.TotalBeds</strong> @L["RoomsManagement_Card_BedsOccupied", room.OccupiedBeds, room.TotalBeds]
                                 </MudText>
                                 
                                 <MudText Typo="Typo.body2">
@@ -190,14 +193,14 @@
                                 Variant="Variant.Text"
                                 Color="Color.Primary"
                                 Href="@($"/rooms/{room.Id}")">
-                                View Details
+                                @L["RoomsManagement_Card_ViewDetails"]
                             </MudButton>
                             <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
                                 <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRoom(room.Id))">
-                                    Edit
+                                    @L["RoomsManagement_Card_Edit"]
                                 </MudMenuItem>
                                 <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error" OnClick="@(() => DeleteRoom(room.Id))">
-                                    Delete
+                                    @L["RoomsManagement_Card_Delete"]
                                 </MudMenuItem>
                             </MudMenu>
                         </MudCardActions>
@@ -212,19 +215,19 @@
         <MudPaper Elevation="4">
             <MudTable Items="@FilteredRooms" Hover="true" Striped="true" Dense="true">
                 <HeaderContent>
-                    <MudTh>Room</MudTh>
-                    <MudTh>Residence</MudTh>
-                    <MudTh>Type</MudTh>
-                    <MudTh>Beds</MudTh>
-                    <MudTh>Occupancy</MudTh>
-                    <MudTh>Status</MudTh>
-                    <MudTh Class="text-right">Actions</MudTh>
+                    <MudTh>@L["RoomsManagement_Table_Header_Room"]</MudTh>
+                    <MudTh>@L["RoomsManagement_Table_Header_Residence"]</MudTh>
+                    <MudTh>@L["RoomsManagement_Table_Header_Type"]</MudTh>
+                    <MudTh>@L["RoomsManagement_Table_Header_Beds"]</MudTh>
+                    <MudTh>@L["RoomsManagement_Table_Header_Occupancy"]</MudTh>
+                    <MudTh>@L["RoomsManagement_Table_Header_Status"]</MudTh>
+                    <MudTh Class="text-right">@L["RoomsManagement_Table_Header_Actions"]</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="Room">
                         <MudStack Spacing="0">
-                            <MudText Typo="Typo.body2"><strong>Room @context.RoomNumber</strong></MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Floor @context.Floor</MudText>
+                            <MudText Typo="Typo.body2"><strong>@string.Format(L["RoomsManagement_Card_Room"], context.RoomNumber)</strong></MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@string.Format(L["RoomsManagement_Card_Floor"], context.Floor)</MudText>
                         </MudStack>
                     </MudTd>
                     <MudTd DataLabel="Residence">@context.ResidenceName</MudTd>
@@ -235,7 +238,7 @@
                     </MudTd>
                     <MudTd DataLabel="Status">
                         <MudChip T="bool" Size="Size.Small" Color="@(context.IsFull ? Color.Error : Color.Success)">
-                            @(context.IsFull ? "Full" : "Available")
+                            @(context.IsFull ? L["RoomsManagement_Card_Status_Full"] : L["RoomsManagement_Card_Status_Available"])
                         </MudChip>
                     </MudTd>
                     <MudTd DataLabel="Actions" Class="text-right">
@@ -284,29 +287,29 @@
 
     private void CreateRoom()
     {
-        Snackbar.Add("Create room functionality - Coming soon!", Severity.Info);
+        Snackbar.Add(L["RoomsManagement_Snackbar_CreateNotImplemented"], Severity.Info);
     }
 
     private void EditRoom(Guid roomId)
     {
-        Snackbar.Add("Edit room functionality - Coming soon!", Severity.Info);
+        Snackbar.Add(L["RoomsManagement_Snackbar_EditNotImplemented"], Severity.Info);
     }
 
     private async Task DeleteRoom(Guid roomId)
     {
         var parameters = new DialogParameters
         {
-            ["ContentText"] = "Are you sure you want to delete this room? Students assigned to this room will need to be reassigned!",
-            ["ButtonText"] = "Delete",
+            ["ContentText"] = L["RoomsManagement_Dialog_ConfirmDelete_Content"],
+            ["ButtonText"] = L["RoomsManagement_Dialog_ConfirmDelete_Button"],
             ["Color"] = Color.Error
         };
 
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete Room", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(L["RoomsManagement_Dialog_ConfirmDelete_Title"], parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
         {
-            Snackbar.Add("Room deleted successfully!", Severity.Success);
+            Snackbar.Add(L["RoomsManagement_Snackbar_Deleted"], Severity.Success);
             await LoadRooms();
         }
     }

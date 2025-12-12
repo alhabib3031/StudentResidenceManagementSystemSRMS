@@ -1,4 +1,5 @@
 @page "/superroot/audit"
+@using Microsoft.Extensions.Localization
 @using SRMS.Application.AuditLogs.Interfaces
 @using SRMS.Domain.AuditLogs.Enums
 @using SRMS.Domain.AuditLogs
@@ -6,9 +7,10 @@
 @inject IUserService UserService
 @inject IAuditService AuditService
 @inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> Localizer
 @rendermode InteractiveServer
 
-<PageTitle>Audit Logs</PageTitle>
+<PageTitle>@Localizer["AuditLogs"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
@@ -17,20 +19,20 @@
             <div>
                 <MudText Typo="Typo.h4" Color="Color.Primary">
                     <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" />
-                    Audit Logs
+                    @Localizer["AuditLogs"]
                 </MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Track all system activities and changes
+                    @Localizer["TrackAllSystemActivitiesAndChanges"]
                 </MudText>
             </div>
             <MudStack Row="true" Spacing="2">
                 <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Refresh"
-                    OnClick="@LoadLogs" Disabled="@_isLoading">
-                    Refresh
+                           OnClick="@LoadLogs" Disabled="@_isLoading">
+                    @Localizer["Refresh"]
                 </MudButton>
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Download"
-                    OnClick="@ExportLogs">
-                    Export Logs
+                           OnClick="@ExportLogs">
+                    @Localizer["ExportLogs"]
                 </MudButton>
             </MudStack>
         </MudStack>
@@ -38,7 +40,7 @@
 
     @if (_isLoading)
     {
-            <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" Class="mb-4" />
     }
 
     <!-- Statistics -->
@@ -48,7 +50,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Actions</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["TotalActions"]</MudText>
                             <MudText Typo="Typo.h4">@_stats.TotalActions</MudText>
                         </div>
                         <MudAvatar Color="Color.Primary" Size="Size.Large">
@@ -64,7 +66,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Today</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["Today"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Success">@_stats.TodayActions</MudText>
                         </div>
                         <MudAvatar Color="Color.Success" Size="Size.Large">
@@ -80,7 +82,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Failed Actions</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["FailedActions"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Error">@_stats.FailedActions</MudText>
                         </div>
                         <MudAvatar Color="Color.Error" Size="Size.Large">
@@ -96,7 +98,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Active Users</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ActiveUsers"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Info">@_stats.activeUsers</MudText>
                         </div>
                         <MudAvatar Color="Color.Info" Size="Size.Large">
@@ -112,37 +114,37 @@
     <MudPaper Elevation="2" Class="pa-4 mb-4">
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
-                <MudTextField @bind-Value="_searchString" Label="Search" Variant="Variant.Outlined"
-                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Margin="Margin.Dense" />
+                <MudTextField @bind-Value="_searchString" Label="@Localizer["Search"]" Variant="Variant.Outlined"
+                              Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Margin="Margin.Dense" />
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_actionFilter" Label="Action Type" Variant="Variant.Outlined"
-                    Margin="Margin.Dense" Clearable="true">
-                    <MudSelectItem Value="@("Create")">Create</MudSelectItem>
-                    <MudSelectItem Value="@("Update")">Update</MudSelectItem>
-                    <MudSelectItem Value="@("Delete")">Delete</MudSelectItem>
-                    <MudSelectItem Value="@("Read User")">View</MudSelectItem>
-                    <MudSelectItem Value="@("Login")">Login</MudSelectItem>
-                    <MudSelectItem Value="@("Logout")">Logout</MudSelectItem>
+                <MudSelect T="string" @bind-Value="_actionFilter" Label="@Localizer["ActionType"]" Variant="Variant.Outlined"
+                           Margin="Margin.Dense" Clearable="true">
+                    <MudSelectItem Value="@("Create")">@Localizer["Create"]</MudSelectItem>
+                    <MudSelectItem Value="@("Update")">@Localizer["Update"]</MudSelectItem>
+                    <MudSelectItem Value="@("Delete")">@Localizer["Delete"]</MudSelectItem>
+                    <MudSelectItem Value="@("Read User")">@Localizer["View"]</MudSelectItem>
+                    <MudSelectItem Value="@("Login")">@Localizer["Login"]</MudSelectItem>
+                    <MudSelectItem Value="@("Logout")">@Localizer["Logout"]</MudSelectItem>
                 </MudSelect>
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_entityFilter" Label="Entity" Variant="Variant.Outlined"
-                    Margin="Margin.Dense" Clearable="true">
-                    <MudSelectItem Value="@("User")">User</MudSelectItem>
-                    <MudSelectItem Value="@("Student")">Student</MudSelectItem>
-                    <MudSelectItem Value="@("Manager")">Manager</MudSelectItem>
-                    <MudSelectItem Value="@("Room")">Room</MudSelectItem>
-                    <MudSelectItem Value="@("Payment")">Payment</MudSelectItem>
-                    <MudSelectItem Value="@("Complaint")">Complaint</MudSelectItem>
+                <MudSelect T="string" @bind-Value="_entityFilter" Label="@Localizer["Entity"]" Variant="Variant.Outlined"
+                           Margin="Margin.Dense" Clearable="true">
+                    <MudSelectItem Value="@("User")">@Localizer["User"]</MudSelectItem>
+                    <MudSelectItem Value="@("Student")">@Localizer["Student"]</MudSelectItem>
+                    <MudSelectItem Value="@("Manager")">@Localizer["Manager"]</MudSelectItem>
+                    <MudSelectItem Value="@("Room")">@Localizer["Room"]</MudSelectItem>
+                    <MudSelectItem Value="@("Payment")">@Localizer["Payment"]</MudSelectItem>
+                    <MudSelectItem Value="@("Complaint")">@Localizer["Complaint"]</MudSelectItem>
                 </MudSelect>
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudDateRangePicker @bind-DateRange="_dateRange" Label="Date Range" Variant="Variant.Outlined"
-                    Margin="Margin.Dense" />
+                <MudDateRangePicker @bind-DateRange="_dateRange" Label="@Localizer["DateRange"]" Variant="Variant.Outlined"
+                                    Margin="Margin.Dense" />
             </MudItem>
         </MudGrid>
     </MudPaper>
@@ -151,47 +153,47 @@
     <MudPaper Elevation="4">
         <MudTable Items="@_auditLog" Hover="true" Striped="true" Dense="true" Loading="@_isLoading">
             <HeaderContent>
-                <MudTh>Timestamp</MudTh>
-                <MudTh>User</MudTh>
-                <MudTh>Action</MudTh>
-                <MudTh>Entity</MudTh>
-                <MudTh>Details</MudTh>
-                <MudTh>IP Address</MudTh>
-                <MudTh Class="text-right">Actions</MudTh>
+                <MudTh>@Localizer["Timestamp"]</MudTh>
+                <MudTh>@Localizer["User"]</MudTh>
+                <MudTh>@Localizer["Action"]</MudTh>
+                <MudTh>@Localizer["Entity"]</MudTh>
+                <MudTh>@Localizer["Details"]</MudTh>
+                <MudTh>@Localizer["IpAddress"]</MudTh>
+                <MudTh Class="text-right">@Localizer["Actions"]</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Timestamp">
+                <MudTd DataLabel="@Localizer["Timestamp"]">
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.body2">@context.Timestamp.ToString("MMM dd, yyyy")</MudText>
                         <MudText Typo="Typo.caption" Color="Color.Secondary">@context.Timestamp.ToString("HH:mm:ss")
                         </MudText>
                     </MudStack>
                 </MudTd>
-                <MudTd DataLabel="User">
+                <MudTd DataLabel="@Localizer["User"]">
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.body2"><strong>@context.UserName</strong></MudText>
                         <MudText Typo="Typo.caption" Color="Color.Secondary">@context.UserId</MudText>
                     </MudStack>
                 </MudTd>
-                <MudTd DataLabel="Action">
+                <MudTd DataLabel="@Localizer["Action"]">
                     <MudChip T="string" Size="Size.Small" Color="@GetActionColor(context.Action)">
                         @context.Action
                     </MudChip>
                 </MudTd>
-                <MudTd DataLabel="Entity">
+                <MudTd DataLabel="@Localizer["Entity"]">
                     <MudText Typo="Typo.body2">@context.EntityName</MudText>
                 </MudTd>
-                <MudTd DataLabel="AdditionalInfo">
+                <MudTd DataLabel="@Localizer["AdditionalInfo"]">
                     <MudText Typo="Typo.caption" Class="max-w-[300px] overflow-hidden text-ellipsis">
                         @context.AdditionalInfo
                     </MudText>
                 </MudTd>
-                <MudTd DataLabel="IP">
+                <MudTd DataLabel="@Localizer["IpAddress"]">
                     <MudText Typo="Typo.caption">@context.IpAddress</MudText>
                 </MudTd>
-                <MudTd DataLabel="Actions" Class="text-right">
+                <MudTd DataLabel="@Localizer["Actions"]" Class="text-right">
                     <MudIconButton Icon="@Icons.Material.Filled.Visibility" Color="Color.Info" Size="Size.Small"
-                        OnClick="@(() => ViewDetails(context))" />
+                                 OnClick="@(() => ViewDetails(context))" />
                 </MudTd>
             </RowTemplate>
             <PagerContent>
@@ -235,11 +237,11 @@
             activeUsers
             );
 
-            Snackbar.Add("Logs refreshed successfully", Severity.Success);
+            Snackbar.Add(Localizer["LogsRefreshedSuccessfully"], Severity.Success);
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Failed to load logs: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{Localizer["FailedToLoadLogs"]}: {ex.Message}", Severity.Error);
         }
         finally
         {
@@ -261,11 +263,11 @@
 
     private void ViewDetails(AuditLog log)
     {
-        Snackbar.Add($"Viewing details for: {log.AdditionalInfo}", Severity.Info);
+        Snackbar.Add($"{Localizer["ViewingDetailsFor"]}: {log.AdditionalInfo}", Severity.Info);
     }
 
     private void ExportLogs()
     {
-        Snackbar.Add("Exporting logs...", Severity.Info);
+        Snackbar.Add(Localizer["ExportingLogs"], Severity.Info);
     }
 }

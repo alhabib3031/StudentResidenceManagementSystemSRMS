@@ -1,19 +1,22 @@
 @page "/register"
 @using System.Security.Claims
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @inject IAuthService AuthService
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>Register - SRMS</PageTitle>
+<PageTitle>@L["Register_PageTitle"]</PageTitle>
 
 @if (_isCheckingAuth)
 {
     <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
         <MudStack AlignItems="AlignItems.Center" Spacing="4">
             <MudProgressCircular Size="Size.Large" Indeterminate="true" Color="Color.Primary" />
-            <MudText Typo="Typo.h6" Color="Color.Secondary">Checking authentication...</MudText>
+            <MudText Typo="Typo.h6" Color="Color.Secondary">@L["Register_CheckingAuth"]</MudText>
         </MudStack>
     </MudContainer>
 }
@@ -31,10 +34,10 @@ else
                 
                 <MudStack Spacing="1" AlignItems="AlignItems.Center">
                     <MudText Typo="Typo.h4" Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                        Create Your Account
+                        @L["Register_Header_CreateAccount"]
                     </MudText>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        Join the Student Residence Management System
+                        @L["Register_Subtitle_Join"]
                     </MudText>
                 </MudStack>
             </MudStack>
@@ -48,7 +51,7 @@ else
                         <MudPaper Elevation="0" Class="bg-purple-500/10 dark:bg-purple-500/20 p-4 rounded-xl border border-purple-500/20">
                             <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
                                 <MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Primary" Size="Size.Medium" />
-                                <MudText Typo="Typo.h6" Class="font-semibold">Personal Information</MudText>
+                                <MudText Typo="Typo.h6" Class="font-semibold">@L["Register_PersonalInformation"]</MudText>
                             </MudStack>
                         </MudPaper>
                     </MudItem>
@@ -56,7 +59,7 @@ else
                     <MudItem xs="12" sm="6">
                         <MudTextField 
                             @bind-Value="_registerModel.FirstName" 
-                            Label="First Name"
+                            Label='@L["Register_Label_FirstName"]'
                             Variant="Variant.Outlined" 
                             For="@(() => _registerModel.FirstName)" 
                             Required="true"
@@ -69,7 +72,7 @@ else
                     <MudItem xs="12" sm="6">
                         <MudTextField 
                             @bind-Value="_registerModel.LastName" 
-                            Label="Last Name"
+                            Label='@L["Register_Label_LastName"]'
                             Variant="Variant.Outlined" 
                             For="@(() => _registerModel.LastName)" 
                             Required="true"
@@ -84,7 +87,7 @@ else
                         <MudPaper Elevation="0" Class="bg-pink-500/10 dark:bg-pink-500/20 p-4 rounded-xl border border-pink-500/20">
                             <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
                                 <MudIcon Icon="@Icons.Material.Filled.ContactMail" Color="Color.Secondary" Size="Size.Medium" />
-                                <MudText Typo="Typo.h6" Class="font-semibold">Contact Information</MudText>
+                                <MudText Typo="Typo.h6" Class="font-semibold">@L["Register_ContactInformation"]</MudText>
                             </MudStack>
                         </MudPaper>
                     </MudItem>
@@ -92,7 +95,7 @@ else
                     <MudItem xs="12" sm="6">
                         <MudTextField 
                             @bind-Value="_registerModel.Email" 
-                            Label="Email Address"
+                            Label='@L["Register_Label_Email"]'
                             Variant="Variant.Outlined" 
                             InputType="InputType.Email" 
                             Adornment="Adornment.Start"
@@ -100,14 +103,14 @@ else
                             For="@(() => _registerModel.Email)" 
                             Required="true" 
                             Disabled="_isLoading"
-                            HelperText="We'll send a verification link to this email"
+                            HelperText='@L["Register_Helper_EmailVerification"]'
                             Class="rounded-xl" />
                     </MudItem>
 
                     <MudItem xs="12" sm="6">
                         <MudTextField 
                             @bind-Value="_registerModel.PhoneNumber" 
-                            Label="Phone Number"
+                            Label='@L["Register_Label_Phone"]'
                             Variant="Variant.Outlined" 
                             Adornment="Adornment.Start"
                             AdornmentIcon="@Icons.Material.Filled.Phone"
@@ -123,7 +126,7 @@ else
                         <MudPaper Elevation="0" Class="bg-blue-500/10 dark:bg-blue-500/20 p-4 rounded-xl border border-blue-500/20">
                             <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
                                 <MudIcon Icon="@Icons.Material.Filled.Info" Color="Color.Info" Size="Size.Medium" />
-                                <MudText Typo="Typo.h6" Class="font-semibold">Additional Information</MudText>
+                                <MudText Typo="Typo.h6" Class="font-semibold">@L["Register_AdditionalInformation"]</MudText>
                                 <MudChip T="string" Size="Size.Small" Color="Color.Default" Text="Optional" Class="text-xs" />
                             </MudStack>
                         </MudPaper>
@@ -132,7 +135,7 @@ else
                     <MudItem xs="12" sm="6">
                         <MudTextField 
                             @bind-Value="_registerModel.NationalId" 
-                            Label="National ID"
+                            Label='@L["Register_Label_NationalId"]'
                             Variant="Variant.Outlined" 
                             Adornment="Adornment.Start"
                             AdornmentIcon="@Icons.Material.Filled.CreditCard"
@@ -144,7 +147,7 @@ else
                     <MudItem xs="12" sm="6">
                         <MudDatePicker 
                             @bind-Date="_registerModel.DateOfBirth" 
-                            Label="Date of Birth"
+                            Label='@L["Register_Label_DateOfBirth"]'
                             Variant="Variant.Outlined" 
                             MaxDate="DateTime.Today.AddYears(-16)"
                             Placeholder="Select your birth date" 
@@ -159,7 +162,7 @@ else
                         <MudPaper Elevation="0" Class="bg-red-500/10 dark:bg-red-500/20 p-4 rounded-xl border border-red-500/20">
                             <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
                                 <MudIcon Icon="@Icons.Material.Filled.Security" Color="Color.Error" Size="Size.Medium" />
-                                <MudText Typo="Typo.h6" Class="font-semibold">Security</MudText>
+                                <MudText Typo="Typo.h6" Class="font-semibold">@L["Register_Security"]</MudText>
                             </MudStack>
                         </MudPaper>
                     </MudItem>
@@ -167,14 +170,14 @@ else
                     <MudItem xs="12" sm="6">
                         <MudTextField 
                             @bind-Value="_registerModel.Password" 
-                            Label="Password"
+                            Label='@L["Register_Label_Password"]'
                             Variant="Variant.Outlined"
                             InputType="@(_showPassword ? InputType.Text : InputType.Password)"
                             Adornment="Adornment.End"
                             AdornmentIcon="@(_showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
                             OnAdornmentClick="TogglePasswordVisibility"
                             For="@(() => _registerModel.Password)"
-                            HelperText="Min 8 chars: uppercase, lowercase, number & special char"
+                            HelperText='@L["Register_Helper_PasswordRules"]'
                             Required="true" 
                             Disabled="_isLoading" 
                             @onkeyup="@(() => CalculatePasswordStrength())"
@@ -184,7 +187,7 @@ else
                     <MudItem xs="12" sm="6">
                         <MudTextField 
                             @bind-Value="_registerModel.ConfirmPassword" 
-                            Label="Confirm Password"
+                            Label='@L["Register_Label_ConfirmPassword"]'
                             Variant="Variant.Outlined"
                             InputType="@(_showPassword ? InputType.Text : InputType.Password)"
                             For="@(() => _registerModel.ConfirmPassword)"
@@ -199,7 +202,7 @@ else
                             <MudStack Spacing="2">
                                 <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                                     <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                        Password Strength:
+                                        @L["Register_PasswordStrength_Prefix"]
                                     </MudText>
                                     <MudChip T="string" Size="Size.Small" Color="@GetPasswordStrengthColor()" Text="@GetPasswordStrengthText()" />
                                 </MudStack>
@@ -221,14 +224,11 @@ else
                                 Required="true"
                                 Disabled="_isLoading">
                                 <MudText Typo="Typo.body2">
-                                    I agree to the 
-                                    <MudLink Href="/terms" Target="_blank" Class="text-purple-500 font-semibold hover:text-purple-600">
-                                        Terms & Conditions
-                                    </MudLink>
-                                    and 
-                                    <MudLink Href="/privacy" Target="_blank" Class="text-purple-500 font-semibold hover:text-purple-600">
-                                        Privacy Policy
-                                    </MudLink>
+                                    @((MarkupString)string.Format(
+                                        L["Register_TermsAndConditions"],
+                                        $"<MudLink Href=\"/terms\" Target=\"_blank\" Class=\"text-purple-500 font-semibold hover:text-purple-600\">{L["TermsOfService"]}</MudLink>",
+                                        $"<MudLink Href=\"/privacy\" Target=\"_blank\" Class=\"text-purple-500 font-semibold hover:text-purple-600\">{L["PrivacyPolicy"]}</MudLink>"
+                                    ))
                                 </MudText>
                             </MudCheckBox>
                         </MudPaper>
@@ -248,11 +248,11 @@ else
                             @if (_isLoading)
                             {
                                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                                <span>Creating Your Account...</span>
+                                <span>@L["Register_Button_CreatingAccount"]</span>
                             }
                             else
                             {
-                                <span>Create Account</span>
+                                <span>@L["Register_Button_CreateAccount"]</span>
                             }
                         </MudButton>
                     </MudItem>
@@ -261,7 +261,7 @@ else
                     <MudItem xs="12">
                         <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Class="my-2">
                             <MudDivider Class="flex-1" />
-                            <MudText Typo="Typo.body2" Color="Color.Secondary">OR</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">@L["Register_OR"]</MudText>
                             <MudDivider Class="flex-1" />
                         </MudStack>
                     </MudItem>
@@ -270,7 +270,7 @@ else
                     <MudItem xs="12">
                         <MudPaper Elevation="0" Class="bg-gray-100 dark:bg-gray-800/50 p-5 rounded-xl text-center">
                             <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">
-                                Already have an account?
+                                @L["Register_AlreadyHaveAccount"]
                             </MudText>
                             <MudButton 
                                 Href="/login" 
@@ -279,7 +279,7 @@ else
                                 StartIcon="@Icons.Material.Filled.Login" 
                                 Disabled="_isLoading"
                                 Class="rounded-xl font-semibold border-2 hover-lift">
-                                Sign In Instead
+                                @L["Register_Button_SignInInstead"]
                             </MudButton>
                         </MudPaper>
                     </MudItem>
@@ -366,12 +366,12 @@ else
     {
         return _passwordStrength switch
         {
-            0 => "Not Set",
-            <= 20 => "Very Weak",
-            <= 40 => "Weak",
-            <= 60 => "Fair",
-            <= 80 => "Good",
-            _ => "Strong"
+            0 => L["Register_PasswordStrength_NotSet"],
+            <= 20 => L["Register_PasswordStrength_VeryWeak"],
+            <= 40 => L["Register_PasswordStrength_Weak"],
+            <= 60 => L["Register_PasswordStrength_Fair"],
+            <= 80 => L["Register_PasswordStrength_Good"],
+            _ => L["Register_PasswordStrength_Strong"]
         };
     }
 
@@ -386,7 +386,7 @@ else
             if (result.Success)
             {
                 Snackbar.Add(
-                    "Registration successful! Please check your email to verify your account.",
+                    L["Register_Snackbar_Success"],
                     Severity.Success,
                     config =>
                     {
@@ -401,7 +401,7 @@ else
             else
             {
                 Snackbar.Add(
-                    result.Message ?? "Registration failed. Please try again.",
+                    result.Message ?? L["Register_Snackbar_Failure"],
                     Severity.Error,
                     config => { config.ShowCloseIcon = true; }
                 );
@@ -411,7 +411,7 @@ else
         {
             Console.WriteLine($"[REGISTER_ERROR] {ex}");
             Snackbar.Add(
-                $"Registration failed: {ex.Message}",
+                string.Format(L["Register_Snackbar_Error"], ex.Message),
                 Severity.Error,
                 config => { config.ShowCloseIcon = true; }
             );

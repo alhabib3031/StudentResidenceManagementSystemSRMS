@@ -4,9 +4,10 @@
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
+@inject Microsoft.Extensions.Localization.IStringLocalizer<SRMS.WebUI.Server.Resources.Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>Roles Management</PageTitle>
+<PageTitle>@L["RolesManagement.Title"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->
@@ -15,15 +16,15 @@
             <div>
                 <MudText Typo="Typo.h4" Color="Color.Primary">
                     <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" />
-                    Roles Management
+                    @L["RolesManagement.Title"]
                 </MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Manage system roles and permissions
+                    @L["RolesManagement.Subtitle"]
                 </MudText>
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
                 OnClick="@CreateNewRole" Class="btn-modern h-12 rounded-xl font-semibold">
-                Create New Role
+                @L["RolesManagement.CreateNewRole"]
             </MudButton>
         </MudStack>
     </MudPaper>
@@ -36,7 +37,7 @@
     <!-- System Roles (Read-Only) -->
     <MudText Typo="Typo.h6" Class="mb-3">
         <MudIcon Icon="@Icons.Material.Filled.Shield" Size="Size.Small" Class="mr-2" />
-        System Roles (Cannot be deleted)
+        @L["RolesManagement.SystemRolesHeader"]
     </MudText>
 
     <MudGrid Class="mb-6">
@@ -53,7 +54,7 @@
                         </CardHeaderContent>
                         <CardHeaderActions>
                             <MudChip T="string" Size="Size.Small" Color="@GetRoleColor(role)">
-                                System
+                                @L["RolesManagement.SystemChip"]
                             </MudChip>
                         </CardHeaderActions>
                     </MudCardHeader>
@@ -74,7 +75,7 @@
 
         <MudText Typo="Typo.h6" Class="mb-3">
             <MudIcon Icon="@Icons.Material.Filled.Badge" Size="Size.Small" Class="mr-2" />
-            Custom Roles
+            @L["RolesManagement.CustomRolesHeader"]
         </MudText>
 
         <MudGrid>
@@ -93,12 +94,12 @@
                                 <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
                                     <MudPaper Class="glass-card w-full h-full">
                                         <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRole(role))" Class="btn-modern h-12 rounded-xl font-semibold">
-                                            Edit
+                                            @L["RolesManagement.EditRole"]
                                         </MudMenuItem>
                                         <MudDivider/>
                                         <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
                                                      OnClick="@(() => DeleteRole(role))" Class="btn-modern h-12 rounded-xl font-semibold">
-                                            Delete
+                                            @L["RolesManagement.DeleteRole"]
                                         </MudMenuItem>
                                     </MudPaper>
                                 </MudMenu>
@@ -106,13 +107,13 @@
                         </MudCardHeader>
                         <MudCardContent>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                Custom role created by administrator
+                                @L["RolesManagement.CustomRoleDesc"]
                             </MudText>
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
                                 StartIcon="@Icons.Material.Filled.Security" OnClick="@(() => ManagePermissions(role))" Class="btn-modern h-12 rounded-xl font-semibold">
-                                Manage Permissions
+                                @L["RolesManagement.ManagePermissions"]
                             </MudButton>
                         </MudCardActions>
                     </MudCard>
@@ -123,7 +124,7 @@
     else
     {
         <MudAlert Severity="Severity.Info" Class="mt-4">
-            <strong>No custom roles found.</strong> Click "Create New Role" to add one.
+            <strong>@L["RolesManagement.NoCustomRoles"]</strong> @L["RolesManagement.CreateNewRole"]
         </MudAlert>
     }
 </MudContainer>
@@ -148,7 +149,7 @@
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Error loading roles: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{L["RolesManagement.ErrorLoadingRoles"]}: {ex.Message}", Severity.Error);
         }
         finally
         {
@@ -158,7 +159,7 @@
 
     private async Task CreateNewRole()
     {
-        var dialog = await DialogService.ShowAsync<CreateRoleDialog>("Create New Role");
+        var dialog = await DialogService.ShowAsync<CreateRoleDialog>(L["RolesManagement.CreateNewRole"].Value);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
@@ -169,19 +170,19 @@
 
     private void EditRole(string role)
     {
-        Snackbar.Add($"Edit role '{role}' - Coming soon!", Severity.Info);
+        Snackbar.Add(string.Format(L["RolesManagement.EditRoleToast"], role), Severity.Info);
     }
 
     private async Task DeleteRole(string role)
     {
         var parameters = new DialogParameters
             {
-                ["ContentText"] = $"Are you sure you want to delete the role '{role}'? Users with this role will lose access!",
-                ["ButtonText"] = "Delete",
+                ["ContentText"] = string.Format(L["RolesManagement.DeleteRoleConfirm"], role),
+                ["ButtonText"] = L["Dialog_Cancel"],
                 ["Color"] = Color.Error
             };
 
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete Role", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(L["RolesManagement.DeleteRole"].Value, parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
@@ -189,12 +190,12 @@
             var success = await RoleService.DeleteRoleAsync(role);
             if (success)
             {
-                Snackbar.Add($"Role '{role}' deleted successfully!", Severity.Success);
+                Snackbar.Add(string.Format(L["RolesManagement.DeleteRoleSuccess"], role), Severity.Success);
                 await LoadRoles();
             }
             else
             {
-                Snackbar.Add($"Failed to delete role '{role}'!", Severity.Error);
+                Snackbar.Add(string.Format(L["RolesManagement.DeleteRoleFailed"], role), Severity.Error);
             }
         }
     }
@@ -224,10 +225,10 @@
 
     private string GetRoleDescription(string role) => role switch
     {
-        "SuperRoot" => "Full system access with all administrative privileges",
-        "Admin" => "Administrative access to manage residences and managers",
-        "Manager" => "Manage students, rooms, complaints, and payments",
-        "Student" => "Access to personal dashboard and submit complaints",
-        _ => "Custom role"
+        "SuperRoot" => L["RolesManagement.Desc.SuperRoot"],
+        "Admin" => L["RolesManagement.Desc.Admin"],
+        "Manager" => L["RolesManagement.Desc.Manager"],
+        "Student" => L["RolesManagement.Desc.Student"],
+        _ => L["RolesManagement.Desc.Custom"]
     };
 }

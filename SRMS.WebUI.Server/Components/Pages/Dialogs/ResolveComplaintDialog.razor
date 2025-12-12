@@ -1,32 +1,35 @@
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
 @* Components/Dialogs/ResolveComplaintDialog.razor *@
 
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6" Color="Color.Success">
             <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Class="mr-2" />
-            Resolve Complaint
+            @L["ResolveComplaintDialog_Title"]
         </MudText>
     </TitleContent>
 
     <DialogContent>
         <MudStack Spacing="3">
             <MudAlert Severity="Severity.Info" Dense="false">
-                Please provide details about how this complaint was resolved.
+                @L["ResolveComplaintDialog_Description"]
             </MudAlert>
 
-            <MudTextField @bind-Value="_resolutionNotes" Label="Resolution Notes" Variant="Variant.Outlined"
-                Placeholder="Enter resolution details..." Lines="4" Required="true"
-                RequiredError="Please provide resolution notes" Counter="500" MaxLength="500" />
+            <MudTextField @bind-Value="_resolutionNotes" Label='@L["ResolveComplaintDialog_Label_ResolutionNotes"]' Variant="Variant.Outlined"
+                Placeholder='@L["ResolveComplaintDialog_Placeholder_ResolutionNotes"]' Lines="4" Required="true"
+                RequiredError='@L["ResolveComplaintDialog_Error_ResolutionNotesRequired"]' Counter="500" MaxLength="500" />
         </MudStack>
     </DialogContent>
 
     <DialogActions>
         <MudButton OnClick="Cancel" Variant="Variant.Text">
-            Cancel
+            @L["ResolveComplaintDialog_Button_Cancel"]
         </MudButton>
         <MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="Submit"
             Disabled="@(string.IsNullOrWhiteSpace(_resolutionNotes))" StartIcon="@Icons.Material.Filled.CheckCircle">
-            Mark as Resolved
+            @L["ResolveComplaintDialog_Button_MarkAsResolved"]
         </MudButton>
     </DialogActions>
 </MudDialog>

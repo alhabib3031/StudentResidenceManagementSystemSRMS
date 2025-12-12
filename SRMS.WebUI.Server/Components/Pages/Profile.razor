@@ -1,17 +1,20 @@
 @page "/profile"
 @attribute [Authorize]
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @inject ISnackbar Snackbar
 @inject IUserService UserService
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IStringLocalizer<Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>My Profile - SRMS</PageTitle>
+<PageTitle>@L["Profile_PageTitle"]</PageTitle>
 
 <MudStack Class="animate-fade-in w-full">
     <!-- Header -->
     <MudText Typo="Typo.h4" Class="text-gradient mb-4 font-bold">
         <MudIcon Icon="@Icons.Material.Filled.Person" Class="mr-2" />
-        My Profile
+        @L["Profile_Header"]
     </MudText>
 
     @if (_isLoading)
@@ -20,7 +23,7 @@
     }
     else if (_currentUser == null)
     {
-        <MudAlert Severity="Severity.Error">Unable to load profile data. Please try again.</MudAlert>
+        <MudAlert Severity="Severity.Error">@L["Profile_Error_Load"]</MudAlert>
     }
     else
     {
@@ -50,21 +53,21 @@
                     <MudChip T="string" Color="@(_currentUser.IsActive ? Color.Success : Color.Error)" Size="Size.Small">
                         <MudIcon Icon="@Icons.Material.Filled.Circle" Color="@(_currentUser.IsActive ? Color.Success : Color.Error)" Size="Size.Small"
                             Class="mr-2" />
-                        @(_currentUser.IsActive ? "Active" : "Inactive")
+                        @(_currentUser.IsActive ? L["Profile_Status_Active"] : L["Profile_Status_Inactive"])
                     </MudChip>
 
                     <MudDivider Class="my-4" />
 
                     <MudStack Class="text-left" Spacing="0">
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">Member Since</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">@L["Profile_MemberSince"]</MudText>
                         <MudText Typo="Typo.body2" Class="mb-3">@_currentUser.CreatedAt.ToString("MMMM dd, yyyy")</MudText>
 
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">Last Login</MudText>
-                        <MudText Typo="Typo.body2">@(_currentUser.LastLoginAt?.ToString("MMM dd, yyyy - hh:mm tt") ?? "Never")</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">@L["Profile_LastLogin"]</MudText>
+                        <MudText Typo="Typo.body2">@(_currentUser.LastLoginAt?.ToString("MMM dd, yyyy - hh:mm tt") ?? L["Profile_Never"])</MudText>
                         
                         @if (_currentUser.Roles.Any())
                         {
-                            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-3">Roles</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-3">@L["Profile_Roles"]</MudText>
                             <MudStack Row="true" Class="mt-1">
                                 @foreach (var role in _currentUser.Roles)
                                 {
@@ -81,51 +84,51 @@
                 <MudPaper Class="glass-card pa-6">
                     <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" PanelClass="p-6">
                         <!-- Personal Information Tab -->
-                        <MudTabPanel Text="Personal Info" Icon="@Icons.Material.Filled.Person">
+                        <MudTabPanel Text='@L["Profile_Tab_PersonalInfo"]' Icon="@Icons.Material.Filled.Person">
                             <EditForm Model="@_profileModel" OnValidSubmit="SaveProfile">
                                 <DataAnnotationsValidator />
 
                                 <MudGrid>
                                     <MudItem xs="12" sm="6">
-                                        <MudTextField @bind-Value="_profileModel.FirstName" Label="First Name"
+                                        <MudTextField @bind-Value="_profileModel.FirstName" Label='@L["Profile_Label_FirstName"]'
                                             Variant="Variant.Outlined" Required="true"
                                             For="@(() => _profileModel.FirstName)" />
                                     </MudItem>
                                     <MudItem xs="12" sm="6">
-                                        <MudTextField @bind-Value="_profileModel.LastName" Label="Last Name"
+                                        <MudTextField @bind-Value="_profileModel.LastName" Label='@L["Profile_Label_LastName"]'
                                             Variant="Variant.Outlined" Required="true"
                                             For="@(() => _profileModel.LastName)" />
                                     </MudItem>
                                     <MudItem xs="12" sm="6">
-                                        <MudTextField @bind-Value="_profileModel.Email" Label="Email"
+                                        <MudTextField @bind-Value="_profileModel.Email" Label='@L["Profile_Label_Email"]'
                                             Variant="Variant.Outlined" InputType="InputType.Email" Disabled="true"
                                             For="@(() => _profileModel.Email)" />
                                     </MudItem>
                                     <MudItem xs="12" sm="6">
-                                        <MudTextField @bind-Value="_profileModel.PhoneNumber" Label="Phone Number"
+                                        <MudTextField @bind-Value="_profileModel.PhoneNumber" Label='@L["Profile_Label_PhoneNumber"]'
                                             Variant="Variant.Outlined" For="@(() => _profileModel.PhoneNumber)" />
                                     </MudItem>
                                     <MudItem xs="12" sm="6">
-                                        <MudTextField @bind-Value="_profileModel.City" Label="City"
+                                        <MudTextField @bind-Value="_profileModel.City" Label='@L["Profile_Label_City"]'
                                             Variant="Variant.Outlined" For="@(() => _profileModel.City)" />
                                     </MudItem>
                                     <MudItem xs="12" sm="6">
-                                        <MudTextField @bind-Value="_profileModel.Country" Label="Country"
+                                        <MudTextField @bind-Value="_profileModel.Country" Label='@L["Profile_Label_Country"]'
                                             Variant="Variant.Outlined" For="@(() => _profileModel.Country)" />
                                     </MudItem>
                                     <MudItem xs="12">
-                                        <MudTextField @bind-Value="_profileModel.Street" Label="Street Address"
+                                        <MudTextField @bind-Value="_profileModel.Street" Label='@L["Profile_Label_Street"]'
                                             Variant="Variant.Outlined" For="@(() => _profileModel.Street)" />
                                     </MudItem>
                                     <MudItem xs="12" sm="6">
-                                        <MudTextField @bind-Value="_profileModel.PostalCode" Label="Postal Code"
+                                        <MudTextField @bind-Value="_profileModel.PostalCode" Label='@L["Profile_Label_PostalCode"]'
                                             Variant="Variant.Outlined" For="@(() => _profileModel.PostalCode)" />
                                     </MudItem>
                                     <MudItem xs="12" sm="6">
-                                        <MudSelect T="string" @bind-Value="_profileModel.PreferredLanguage" Label="Preferred Language"
+                                        <MudSelect T="string" @bind-Value="_profileModel.PreferredLanguage" Label='@L["Profile_Label_PreferredLanguage"]'
                                             Variant="Variant.Outlined">
-                                            <MudSelectItem Value="@("en")">English</MudSelectItem>
-                                            <MudSelectItem Value="@("ar")">العربية</MudSelectItem>
+                                            <MudSelectItem Value="@("en")">@L["English"]</MudSelectItem>
+                                            <MudSelectItem Value="@("ar")">@L["Arabic"]</MudSelectItem>
                                         </MudSelect>
                                     </MudItem>
                                     <MudItem xs="12" Class="flex justify-end">
@@ -135,11 +138,11 @@
                                             @if (_isSaving)
                                             {
                                                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                                                <span>Saving...</span>
+                                                <span>@L["Profile_Button_Saving"]</span>
                                             }
                                             else
                                             {
-                                                <span>Save Changes</span>
+                                                <span>@L["Profile_Button_SaveChanges"]</span>
                                             }
                                         </MudButton>
                                     </MudItem>
@@ -148,24 +151,24 @@
                         </MudTabPanel>
 
                         <!-- Security Tab -->
-                        <MudTabPanel Text="Security" Icon="@Icons.Material.Filled.Security">
+                        <MudTabPanel Text='@L["Profile_Tab_Security"]' Icon="@Icons.Material.Filled.Security">
                             <EditForm Model="@_passwordModel" OnValidSubmit="ChangePassword">
                                 <DataAnnotationsValidator />
 
                                 <MudGrid>
                                     <MudItem xs="12">
-                                        <MudTextField @bind-Value="_passwordModel.CurrentPassword" Label="Current Password"
+                                        <MudTextField @bind-Value="_passwordModel.CurrentPassword" Label='@L["Profile_Label_CurrentPassword"]'
                                             Variant="Variant.Outlined" InputType="InputType.Password" Required="true"
                                             For="@(() => _passwordModel.CurrentPassword)" />
                                     </MudItem>
                                     <MudItem xs="12">
-                                        <MudTextField @bind-Value="_passwordModel.NewPassword" Label="New Password"
+                                        <MudTextField @bind-Value="_passwordModel.NewPassword" Label='@L["Profile_Label_NewPassword"]'
                                             Variant="Variant.Outlined" InputType="InputType.Password" Required="true"
                                             For="@(() => _passwordModel.NewPassword)" />
                                     </MudItem>
                                     <MudItem xs="12">
                                         <MudTextField @bind-Value="_passwordModel.ConfirmPassword"
-                                            Label="Confirm New Password" Variant="Variant.Outlined"
+                                            Label='@L["Profile_Label_ConfirmNewPassword"]' Variant="Variant.Outlined"
                                             InputType="InputType.Password" Required="true"
                                             For="@(() => _passwordModel.ConfirmPassword)" />
                                     </MudItem>
@@ -176,11 +179,11 @@
                                             @if (_isChangingPassword)
                                             {
                                                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                                                <span>Changing...</span>
+                                                <span>@L["Profile_Button_Changing"]</span>
                                             }
                                             else
                                             {
-                                                <span>Change Password</span>
+                                                <span>@L["Profile_Button_ChangePassword"]</span>
                                             }
                                         </MudButton>
                                     </MudItem>
@@ -189,30 +192,30 @@
                         </MudTabPanel>
 
                         <!-- Preferences Tab -->
-                        <MudTabPanel Text="Preferences" Icon="@Icons.Material.Filled.Settings">
+                        <MudTabPanel Text='@L["Profile_Tab_Preferences"]' Icon="@Icons.Material.Filled.Settings">
                             <MudGrid>
                                 <MudItem xs="12">
                                     <MudSwitch T="bool" @bind-Value="_profileModel.EmailNotificationsEnabled" Color="Color.Primary">
-                                        Email Notifications
+                                        @L["Profile_Label_EmailNotifications"]
                                     </MudSwitch>
                                     <MudText Typo="Typo.caption" Color="Color.Secondary">
-                                        Receive email notifications for important updates
+                                        @L["Profile_Helper_EmailNotifications"]
                                     </MudText>
                                 </MudItem>
                                 <MudItem xs="12">
                                     <MudSwitch T="bool" @bind-Value="_profileModel.SMSNotificationsEnabled" Color="Color.Primary">
-                                        SMS Notifications
+                                        @L["Profile_Label_SMSNotifications"]
                                     </MudSwitch>
                                     <MudText Typo="Typo.caption" Color="Color.Secondary">
-                                        Receive SMS notifications for urgent matters
+                                        @L["Profile_Helper_SMSNotifications"]
                                     </MudText>
                                 </MudItem>
                                 <MudItem xs="12">
-                                    <MudSelect T="string" @bind-Value="_profileModel.Theme" Label="Theme"
+                                    <MudSelect T="string" @bind-Value="_profileModel.Theme" Label='@L["Profile_Label_Theme"]'
                                         Variant="Variant.Outlined">
-                                        <MudSelectItem Value="@("light")">Light</MudSelectItem>
-                                        <MudSelectItem Value="@("dark")">Dark</MudSelectItem>
-                                        <MudSelectItem Value="@("auto")">Auto</MudSelectItem>
+                                        <MudSelectItem Value="@("light")">@L["Profile_Theme_Light"]</MudSelectItem>
+                                        <MudSelectItem Value="@("dark")">@L["Profile_Theme_Dark"]</MudSelectItem>
+                                        <MudSelectItem Value="@("auto")">@L["Profile_Theme_Auto"]</MudSelectItem>
                                     </MudSelect>
                                 </MudItem>
                                 <MudItem xs="12" Class="flex justify-end">
@@ -222,11 +225,11 @@
                                         @if (_isSaving)
                                         {
                                             <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                                            <span>Saving...</span>
+                                            <span>@L["Profile_Button_Saving"]</span>
                                         }
                                         else
                                         {
-                                            <span>Save Preferences</span>
+                                            <span>@L["Profile_Button_SavePreferences"]</span>
                                         }
                                     </MudButton>
                                 </MudItem>
@@ -291,7 +294,7 @@
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Error loading profile: {ex.Message}", Severity.Error);
+            Snackbar.Add(string.Format(L["Profile_Error_Load"], ex.Message), Severity.Error);
         }
         finally
         {
@@ -325,12 +328,12 @@
             
             if (success)
             {
-                Snackbar.Add("Profile updated successfully!", Severity.Success);
+                Snackbar.Add(L["Profile_Snackbar_UpdateSuccess"], Severity.Success);
                 await LoadProfile(); // Reload to get updated data
             }
             else
             {
-                Snackbar.Add("Failed to update profile.", Severity.Error);
+                Snackbar.Add(L["Profile_Snackbar_UpdateFailed"], Severity.Error);
             }
         }
         catch (Exception ex)
@@ -347,7 +350,7 @@
     {
         if (_passwordModel.NewPassword != _passwordModel.ConfirmPassword)
         {
-            Snackbar.Add("Passwords do not match!", Severity.Error);
+            Snackbar.Add(L["Profile_Snackbar_PasswordMismatch"], Severity.Error);
             await Task.CompletedTask;
         }
 
@@ -356,7 +359,7 @@
         {
             // TODO: Implement password change in UserService
             // For now, just show a message
-            Snackbar.Add("Password change feature will be implemented soon!", Severity.Info);
+            Snackbar.Add(L["Profile_Snackbar_PasswordChangeNotImplemented"], Severity.Info);
             _passwordModel = new PasswordModel();
         }
         catch (Exception ex)
@@ -376,7 +379,7 @@
 
     private void UploadPhoto()
     {
-        Snackbar.Add("Photo upload feature coming soon!", Severity.Info);
+        Snackbar.Add(L["Profile_Snackbar_UploadNotImplemented"], Severity.Info);
     }
 
     private Color GetRoleColor(string role) => role switch

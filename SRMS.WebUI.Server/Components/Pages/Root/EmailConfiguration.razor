@@ -1,20 +1,22 @@
 ﻿@page "/superroot/email-config"
+@using Microsoft.Extensions.Localization
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
+@inject IStringLocalizer<Resource> Localizer
 @attribute [Authorize(Roles = "SuperRoot")]
 @rendermode InteractiveServer
 
-<PageTitle>Email Configuration</PageTitle>
+<PageTitle>@Localizer["EmailConfiguration"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->
     <MudPaper Elevation="0" Class="pa-4 mb-4">
         <MudText Typo="Typo.h4" Color="Color.Primary">
             <MudIcon Icon="@Icons.Material.Filled.Email" Class="mr-2" />
-            Email Configuration
+            @Localizer["EmailConfiguration"]
         </MudText>
         <MudText Typo="Typo.body2" Color="Color.Secondary">
-            Configure SMTP settings for sending emails from the system
+            @Localizer["ConfigureSmtpSettings"]
         </MudText>
     </MudPaper>
 
@@ -26,13 +28,13 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" Size="Size.Small" />
-                            SMTP Server Settings
+                            @Localizer["SmtpServerSettings"]
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
                         <MudChip T="string" Size="Size.Small" Color="@(_isConnected ? Color.Success : Color.Error)"
-                            Icon="@(_isConnected ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)">
-                            @(_isConnected ? "Connected" : "Not Connected")
+                                 Icon="@(_isConnected ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)">
+                            @(_isConnected ? Localizer["Connected"] : Localizer["NotConnected"])
                         </MudChip>
                     </CardHeaderActions>
                 </MudCardHeader>
@@ -40,79 +42,78 @@
                     <MudGrid>
                         <MudItem xs="12">
                             <MudAlert Severity="Severity.Info" Dense="true" Class="mb-4">
-                                Configure your SMTP server to send emails for password resets, notifications, and system
-                                alerts.
+                                @Localizer["ConfigureSmtpToSendeEmails"]
                             </MudAlert>
                         </MudItem>
 
                         <MudItem xs="12" sm="8">
-                            <MudTextField @bind-Value="_config.SmtpHost" Label="SMTP Host" Variant="Variant.Outlined"
-                                Placeholder="smtp.gmail.com" HelperText="Enter your SMTP server address" />
+                            <MudTextField @bind-Value="_config.SmtpHost" Label="@Localizer["SmtpHost"]" Variant="Variant.Outlined"
+                                          Placeholder="smtp.gmail.com" HelperText="@Localizer["EnterSmtpServerAddress"]" />
                         </MudItem>
 
                         <MudItem xs="12" sm="4">
-                            <MudNumericField @bind-Value="_config.SmtpPort" Label="SMTP Port" Variant="Variant.Outlined"
-                                Min="1" Max="65535" HelperText="Usually 587 or 465" />
+                            <MudNumericField @bind-Value="_config.SmtpPort" Label="@Localizer["SmtpPort"]" Variant="Variant.Outlined"
+                                             Min="1" Max="65535" HelperText="@Localizer["Usually587or465"]" />
                         </MudItem>
 
                         <MudItem xs="12" sm="6">
-                            <MudTextField @bind-Value="_config.Username" Label="Username" Variant="Variant.Outlined"
-                                Placeholder="your-email@example.com" Adornment="Adornment.Start"
-                                AdornmentIcon="@Icons.Material.Filled.Person" />
+                            <MudTextField @bind-Value="_config.Username" Label="@Localizer["Username"]" Variant="Variant.Outlined"
+                                          Placeholder="your-email@example.com" Adornment="Adornment.Start"
+                                          AdornmentIcon="@Icons.Material.Filled.Person" />
                         </MudItem>
 
                         <MudItem xs="12" sm="6">
-                            <MudTextField @bind-Value="_config.Password" Label="Password" Variant="Variant.Outlined"
-                                InputType="@(_showPassword ? InputType.Text : InputType.Password)"
-                                Adornment="Adornment.End"
-                                AdornmentIcon="@(_showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
-                                OnAdornmentClick="@(() => _showPassword = !_showPassword)" />
+                            <MudTextField @bind-Value="_config.Password" Label="@Localizer["Password"]" Variant="Variant.Outlined"
+                                          InputType="@(_showPassword ? InputType.Text : InputType.Password)"
+                                          Adornment="Adornment.End"
+                                          AdornmentIcon="@(_showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
+                                          OnAdornmentClick="@(() => _showPassword = !_showPassword)" />
                         </MudItem>
 
                         <MudItem xs="12" sm="6">
-                            <MudTextField @bind-Value="_config.FromEmail" Label="From Email" Variant="Variant.Outlined"
-                                Placeholder="noreply@srms.edu.ly" HelperText="Email address that appears as sender" />
+                            <MudTextField @bind-Value="_config.FromEmail" Label="@Localizer["FromEmail"]" Variant="Variant.Outlined"
+                                          Placeholder="noreply@srms.edu.ly" HelperText="@Localizer["EmailAddressAsSender"]" />
                         </MudItem>
 
                         <MudItem xs="12" sm="6">
-                            <MudTextField @bind-Value="_config.FromName" Label="From Name" Variant="Variant.Outlined"
-                                Placeholder="SRMS System" HelperText="Name that appears as sender" />
+                            <MudTextField @bind-Value="_config.FromName" Label="@Localizer["FromName"]" Variant="Variant.Outlined"
+                                          Placeholder="SRMS System" HelperText="@Localizer["NameAsSender"]" />
                         </MudItem>
 
                         <MudItem xs="12">
-                            <MudCheckBox @bind-Value="_config.EnableSsl" Label="Enable SSL/TLS (Recommended)"
-                                Color="Color.Primary" />
+                            <MudCheckBox @bind-Value="_config.EnableSsl" Label="@Localizer["EnableSslTls"]"
+                                         Color="Color.Primary" />
                         </MudItem>
 
                         <MudItem xs="12">
-                            <MudCheckBox @bind-Value="_config.UseDefaultCredentials" Label="Use Default Credentials"
-                                Color="Color.Primary" />
+                            <MudCheckBox @bind-Value="_config.UseDefaultCredentials" Label="@Localizer["UseDefaultCredentials"]"
+                                         Color="Color.Primary" />
                         </MudItem>
                     </MudGrid>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save"
-                        OnClick="@SaveConfiguration" Disabled="_isSaving">
+                               OnClick="@SaveConfiguration" Disabled="_isSaving">
                         @if (_isSaving)
                         {
                             <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                            <span>Saving...</span>
+                            <span>@Localizer["Saving"]</span>
                         }
                         else
                         {
-                            <span>Save Configuration</span>
+                            <span>@Localizer["SaveConfiguration"]</span>
                         }
                     </MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Send"
-                        OnClick="@TestConnection" Disabled="_isTesting">
+                               OnClick="@TestConnection" Disabled="_isTesting">
                         @if (_isTesting)
                         {
                             <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                            <span>Testing...</span>
+                            <span>@Localizer["Testing"]</span>
                         }
                         else
                         {
-                            <span>Test Connection</span>
+                            <span>@Localizer["TestConnection"]</span>
                         }
                     </MudButton>
                 </MudCardActions>
@@ -127,29 +128,29 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.Description" Class="mr-2" Size="Size.Small" />
-                            Email Templates
+                            @Localizer["EmailTemplates"]
                         </MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudList T="string" Dense="true">
                         <MudListItem Icon="@Icons.Material.Filled.MarkEmailRead"
-                            OnClick="@(() => EditTemplate("welcome"))">
-                            Welcome Email
+                                     OnClick="@(() => EditTemplate("welcome"))">
+                            @Localizer["WelcomeEmail"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.LockReset" OnClick="@(() => EditTemplate("reset"))">
-                            Password Reset
+                            @Localizer["PasswordReset"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.VerifiedUser"
-                            OnClick="@(() => EditTemplate("verify"))">
-                            Email Verification
+                                     OnClick="@(() => EditTemplate("verify"))">
+                            @Localizer["EmailVerification"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Payment" OnClick="@(() => EditTemplate("payment"))">
-                            Payment Receipt
+                            @Localizer["PaymentReceipt"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Notifications"
-                            OnClick="@(() => EditTemplate("notification"))">
-                            Notification Email
+                                     OnClick="@(() => EditTemplate("notification"))">
+                            @Localizer["NotificationEmail"]
                         </MudListItem>
                     </MudList>
                 </MudCardContent>
@@ -161,28 +162,28 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.BarChart" Class="mr-2" Size="Size.Small" />
-                            Email Statistics
+                            @Localizer["EmailStatistics"]
                         </MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudStack Spacing="3">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Today</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["Today"]</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Success">243</MudText>
-                            <MudText Typo="Typo.caption">emails sent</MudText>
+                            <MudText Typo="Typo.caption">@Localizer["emailsSent"]</MudText>
                         </div>
                         <MudDivider />
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">This Month</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ThisMonth"]</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Info">5,847</MudText>
-                            <MudText Typo="Typo.caption">emails sent</MudText>
+                            <MudText Typo="Typo.caption">@Localizer["emailsSent"]</MudText>
                         </div>
                         <MudDivider />
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Failed</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["Failed"]</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Error">12</MudText>
-                            <MudText Typo="Typo.caption">delivery failures</MudText>
+                            <MudText Typo="Typo.caption">@Localizer["deliveryFailures"]</MudText>
                         </div>
                     </MudStack>
                 </MudCardContent>
@@ -196,34 +197,34 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
-                            Recent Email Activity
+                            @Localizer["RecentEmailActivity"]
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
                         <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
-                            StartIcon="@Icons.Material.Filled.Refresh" OnClick="@LoadLogs">
-                            Refresh
+                                   StartIcon="@Icons.Material.Filled.Refresh" OnClick="@LoadLogs">
+                            @Localizer["Refresh"]
                         </MudButton>
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudTable Items="@_recentEmails" Hover="true" Dense="true" Striped="true">
                         <HeaderContent>
-                            <MudTh>Time</MudTh>
-                            <MudTh>To</MudTh>
-                            <MudTh>Subject</MudTh>
-                            <MudTh>Status</MudTh>
+                            <MudTh>@Localizer["Time"]</MudTh>
+                            <MudTh>@Localizer["To"]</MudTh>
+                            <MudTh>@Localizer["Subject"]</MudTh>
+                            <MudTh>@Localizer["Status"]</MudTh>
                         </HeaderContent>
                         <RowTemplate>
-                            <MudTd DataLabel="Time">
+                            <MudTd DataLabel="@Localizer["Time"]">
                                 <MudText Typo="Typo.caption">@context.Timestamp.ToString("HH:mm:ss")</MudText>
                             </MudTd>
-                            <MudTd DataLabel="To">@context.To</MudTd>
-                            <MudTd DataLabel="Subject">@context.Subject</MudTd>
-                            <MudTd DataLabel="Status">
+                            <MudTd DataLabel="@Localizer["To"]">@context.To</MudTd>
+                            <MudTd DataLabel="@Localizer["Subject"]">@context.Subject</MudTd>
+                            <MudTd DataLabel="@Localizer["Status"]">
                                 <MudChip T="string" Size="Size.Small"
-                                    Color="@(context.Success ? Color.Success : Color.Error)">
-                                    @(context.Success ? "Sent" : "Failed")
+                                         Color="@(context.Success ? Color.Success : Color.Error)">
+                                    @(context.Success ? Localizer["Sent"] : Localizer["Failed"])
                                 </MudChip>
                             </MudTd>
                         </RowTemplate>
@@ -284,11 +285,11 @@ new() { Timestamp = DateTime.Now.AddHours(-1), To = "user@example.com", Subject 
         {
             await Task.Delay(1000); // Simulate API call
                                     // TODO: Save to database
-            Snackbar.Add("Email configuration saved successfully!", Severity.Success);
+            Snackbar.Add(Localizer["EmailConfigurationSaved"], Severity.Success);
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{Localizer["Error"]}: {ex.Message}", Severity.Error);
         }
         finally
         {
@@ -303,12 +304,12 @@ new() { Timestamp = DateTime.Now.AddHours(-1), To = "user@example.com", Subject 
         {
             await Task.Delay(2000); // Simulate connection test
             _isConnected = true;
-            Snackbar.Add("✅ SMTP connection successful! Test email sent.", Severity.Success);
+            Snackbar.Add(Localizer["SmtpConnectionSuccessful"], Severity.Success);
         }
         catch (Exception ex)
         {
             _isConnected = false;
-            Snackbar.Add($"❌ Connection failed: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{Localizer["ConnectionFailed"]}: {ex.Message}", Severity.Error);
         }
         finally
         {
@@ -318,7 +319,7 @@ new() { Timestamp = DateTime.Now.AddHours(-1), To = "user@example.com", Subject 
 
     private void EditTemplate(string templateName)
     {
-        Snackbar.Add($"Edit template '{templateName}' - Coming soon!", Severity.Info);
+        Snackbar.Add(string.Format(Localizer["EditTemplateComingSoon"], templateName), Severity.Info);
     }
 
     public class EmailConfig

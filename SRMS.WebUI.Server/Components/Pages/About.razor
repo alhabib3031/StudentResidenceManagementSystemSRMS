@@ -1,17 +1,20 @@
 @page "/about"
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
 @* @attribute [Authorize] *@
 @rendermode InteractiveServer
 
-<PageTitle>About Us - SRMS</PageTitle>
+<PageTitle>@L["About_PageTitle"]</PageTitle>
 
 <MudPaper class="animate-fade-in pa-6">
     <!-- Hero Section -->
     <MudStack Class="text-center mb-8 animate-float glass-card">
         <MudText Typo="Typo.h2" Class="text-gradient mb-3" Style="font-weight: 800;">
-            About SRMS
+            @L["About_Header"]
         </MudText>
         <MudText Typo="Typo.h6" Color="Color.Secondary" Style="max-width: 800px; margin: 0 auto;">
-            Revolutionizing student residence management with cutting-edge technology and exceptional service
+            @L["About_Subtitle"]
         </MudText>
     </MudStack>
 
@@ -23,11 +26,9 @@
                     <MudIcon Icon="@Icons.Material.Filled.Visibility" Color="Color.Primary" Size="Size.Large"
                         Style="font-size: 60px;" />
                 </div>
-                <MudText Typo="Typo.h5" Class="text-center mb-3" Style="font-weight: 700;">Our Vision</MudText>
+                <MudText Typo="Typo.h5" Class="text-center mb-3" Style="font-weight: 700;">@L["About_Vision_Title"]</MudText>
                 <MudText Typo="Typo.body1" Color="Color.Secondary" Align="Align.Center">
-                    To be the leading platform for student residence management, providing seamless experiences
-                    for students, managers, and administrators worldwide through innovative technology and
-                    exceptional service delivery.
+                    @L["About_Vision_Description"]
                 </MudText>
             </MudPaper>
         </MudItem>
@@ -37,61 +38,59 @@
                     <MudIcon Icon="@Icons.Material.Filled.Flag" Color="Color.Success" Size="Size.Large"
                         Style="font-size: 60px;" />
                 </div>
-                <MudText Typo="Typo.h5" Class="text-center mb-3" Style="font-weight: 700;">Our Mission</MudText>
+                <MudText Typo="Typo.h5" Class="text-center mb-3" Style="font-weight: 700;">@L["About_Mission_Title"]</MudText>
                 <MudText Typo="Typo.body1" Color="Color.Secondary" Align="Align.Center">
-                    To simplify and enhance the student housing experience by providing a comprehensive,
-                    user-friendly platform that connects students with quality accommodation while empowering
-                    administrators with powerful management tools.
+                    @L["About_Mission_Description"]
                 </MudText>
             </MudPaper>
         </MudItem>
     </MudGrid>
 
     <!-- Features -->
-    <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">Why Choose SRMS?</MudText>
+    <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">@L["About_WhyChooseSRMS_Title"]</MudText>
     <MudGrid Class="mb-6">
         <MudItem xs="12" sm="6" md="4">
             <MudPaper Class="modern-card hover-lift pa-5 text-center h-100">
                 <MudIcon Icon="@Icons.Material.Filled.Speed" Color="Color.Primary" Size="Size.Large" Class="mb-3" />
-                <MudText Typo="Typo.h6" Class="mb-2">Fast & Efficient</MudText>
+                <MudText Typo="Typo.h6" Class="mb-2">@L["About_Feature_FastEfficient_Title"]</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Streamlined processes that save time and reduce administrative overhead
+                    @L["About_Feature_FastEfficient_Description"]
                 </MudText>
             </MudPaper>
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
             <MudPaper Class="modern-card hover-lift pa-5 text-center h-100">
                 <MudIcon Icon="@Icons.Material.Filled.Security" Color="Color.Success" Size="Size.Large" Class="mb-3" />
-                <MudText Typo="Typo.h6" Class="mb-2">Secure & Reliable</MudText>
+                <MudText Typo="Typo.h6" Class="mb-2">@L["Feature_Security_Title"]</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Enterprise-grade security to protect your data and privacy
+                    @L["Feature_Security_Desc"]
                 </MudText>
             </MudPaper>
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
             <MudPaper Class="modern-card hover-lift pa-5 text-center h-100">
                 <MudIcon Icon="@Icons.Material.Filled.Devices" Color="Color.Info" Size="Size.Large" Class="mb-3" />
-                <MudText Typo="Typo.h6" Class="mb-2">Multi-Platform</MudText>
+                <MudText Typo="Typo.h6" Class="mb-2">@L["About_Feature_MultiPlatform_Title"]</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Access from any device - desktop, tablet, or mobile
+                    @L["About_Feature_MultiPlatform_Description"]
                 </MudText>
             </MudPaper>
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
             <MudPaper Class="modern-card hover-lift pa-5 text-center h-100">
                 <MudIcon Icon="@Icons.Material.Filled.Support" Color="Color.Warning" Size="Size.Large" Class="mb-3" />
-                <MudText Typo="Typo.h6" Class="mb-2">24/7 Support</MudText>
+                <MudText Typo="Typo.h6" Class="mb-2">@L["About_Feature_247Support_Title"]</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Round-the-clock customer support to assist you anytime
+                    @L["About_Feature_247Support_Description"]
                 </MudText>
             </MudPaper>
         </MudItem>
         <MudItem xs="12" sm="6" md="4">
             <MudPaper Class="modern-card hover-lift pa-5 text-center h-100">
                 <MudIcon Icon="@Icons.Material.Filled.Analytics" Color="Color.Error" Size="Size.Large" Class="mb-3" />
-                <MudText Typo="Typo.h6" Class="mb-2">Advanced Analytics</MudText>
+                <MudText Typo="Typo.h6" Class="mb-2">@L["Feature_Analytics_Title"]</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Powerful insights and reporting for better decision making
+                    @L["Feature_Analytics_Desc"]
                 </MudText>
             </MudPaper>
         </MudItem>
@@ -99,9 +98,9 @@
             <MudPaper Class="modern-card hover-lift pa-5 text-center h-100">
                 <MudIcon Icon="@Icons.Material.Filled.CloudDone" Color="Color.Secondary" Size="Size.Large"
                     Class="mb-3" />
-                <MudText Typo="Typo.h6" Class="mb-2">Cloud-Based</MudText>
+                <MudText Typo="Typo.h6" Class="mb-2">@L["About_Feature_CloudBased_Title"]</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Scalable cloud infrastructure for optimal performance
+                    @L["About_Feature_CloudBased_Description"]
                 </MudText>
             </MudPaper>
         </MudItem>
@@ -109,29 +108,29 @@
 
     <!-- Statistics -->
     <MudPaper Class="glass-card pa-6 mb-6">
-        <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">Our Impact</MudText>
+        <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">@L["About_Impact_Title"]</MudText>
         <MudGrid>
             <MudItem xs="6" md="3" Class="text-center">
                 <MudText Typo="Typo.h3" Class="text-gradient" Style="font-weight: 800;">10K+</MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">Active Students</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_ActiveStudents"]</MudText>
             </MudItem>
             <MudItem xs="6" md="3" Class="text-center">
                 <MudText Typo="Typo.h3" Class="text-gradient" Style="font-weight: 800;">50+</MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">Residences</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_Residences"]</MudText>
             </MudItem>
             <MudItem xs="6" md="3" Class="text-center">
                 <MudText Typo="Typo.h3" Class="text-gradient" Style="font-weight: 800;">99.9%</MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">Uptime</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_Uptime"]</MudText>
             </MudItem>
             <MudItem xs="6" md="3" Class="text-center">
                 <MudText Typo="Typo.h3" Class="text-gradient" Style="font-weight: 800;">4.8/5</MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">User Rating</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">@L["About_Impact_UserRating"]</MudText>
             </MudItem>
         </MudGrid>
     </MudPaper>
 
     <!-- Team Section -->
-    <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">Meet Our Team</MudText>
+    <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">@L["About_Team_Title"]</MudText>
     <MudGrid Class="mb-6">
         @foreach (var member in _teamMembers)
         {
@@ -150,18 +149,18 @@
 
     <!-- Call to Action -->
     <MudPaper Class="glass-card pa-8 text-center">
-        <MudText Typo="Typo.h4" Class="mb-3" Style="font-weight: 700;">Ready to Get Started?</MudText>
+        <MudText Typo="Typo.h4" Class="mb-3" Style="font-weight: 700;">@L["CTA_Header"]</MudText>
         <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-4">
-            Join thousands of students and administrators who trust SRMS for their housing needs
+            @L["CTA_Body"]
         </MudText>
         <MudStack Row="true" Justify="Justify.Center" Spacing="3">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Href="/register"
                 StartIcon="@Icons.Material.Filled.PersonAdd" Class="btn-modern btn-primary">
-                Sign Up Now
+                @L["SignUpNow"]
             </MudButton>
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Href="/contact"
                 StartIcon="@Icons.Material.Filled.ContactMail">
-                Contact Us
+                @L["ContactUs"]
             </MudButton>
         </MudStack>
     </MudPaper>
@@ -173,32 +172,32 @@
     protected override void OnInitialized()
     {
         _teamMembers = new List<TeamMember>
-{
-new TeamMember
-{
-Name = "Dr. Sarah Johnson",
-Role = "Chief Executive Officer",
-Description = "Leading innovation in student housing"
-},
-new TeamMember
-{
-Name = "Michael Chen",
-Role = "Chief Technology Officer",
-Description = "Building cutting-edge solutions"
-},
-new TeamMember
-{
-Name = "Emily Rodriguez",
-Role = "Head of Operations",
-Description = "Ensuring seamless experiences"
-},
-new TeamMember
-{
-Name = "David Kim",
-Role = "Customer Success Manager",
-Description = "Dedicated to your satisfaction"
-}
-};
+        {
+            new TeamMember
+            {
+                Name = L["About_Team_Member1_Name"],
+                Role = L["About_Team_Member1_Role"],
+                Description = L["About_Team_Member1_Description"]
+            },
+            new TeamMember
+            {
+                Name = L["About_Team_Member2_Name"],
+                Role = L["About_Team_Member2_Role"],
+                Description = L["About_Team_Member2_Description"]
+            },
+            new TeamMember
+            {
+                Name = L["About_Team_Member3_Name"],
+                Role = L["About_Team_Member3_Role"],
+                Description = L["About_Team_Member3_Description"]
+            },
+            new TeamMember
+            {
+                Name = L["About_Team_Member4_Name"],
+                Role = L["About_Team_Member4_Role"],
+                Description = L["About_Team_Member4_Description"]
+            }
+        };
     }
 
     private class TeamMember

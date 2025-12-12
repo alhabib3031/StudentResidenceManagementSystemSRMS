@@ -1,18 +1,21 @@
 @page "/help"
 @inject ISnackbar Snackbar
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>Help & Support - SRMS</PageTitle>
+<PageTitle>@L["Help_PageTitle"]</PageTitle>
 
 <MudPaper class="animate-fade-in modern-card">
     <!-- Header -->
     <MudPaper class="text-center mb-6">
         <MudText Typo="Typo.h3" Class="text-gradient mb-2 font-bold">
             <MudIcon Icon="@Icons.Material.Filled.Help" Size="Size.Large" Class="mr-2" />
-            Help & Support
+            @L["Help_Header"]
         </MudText>
         <MudText Typo="Typo.body1" Color="Color.Secondary">
-            We're here to help! Find answers to common questions or contact our support team.
+            @L["Help_Subtitle"]
         </MudText>
     </MudPaper>
 
@@ -20,7 +23,7 @@
     <MudPaper Class="glass-card pa-4 mb-6">
         <MudTextField 
             @bind-Value="_searchQuery"
-            Placeholder="Search for help articles..."
+            Placeholder='@(L["Help_SearchPlaceholder"])'
             Variant="Variant.Outlined"
             Adornment="Adornment.Start"
             AdornmentIcon="@Icons.Material.Filled.Search"
@@ -31,34 +34,34 @@
     <MudGrid>
         <!-- Quick Actions -->
         <MudItem xs="12">
-            <MudText Typo="Typo.h5" Class="mb-4">Quick Actions</MudText>
+            <MudText Typo="Typo.h5" Class="mb-4">@(L["Help_QuickActions"])</MudText>
             <MudGrid>
                 <MudItem xs="12" sm="6" md="3">
                     <MudPaper Class="modern-card hover-lift p-4 text-center cursor-pointer" @onclick="OpenContactSupport">
                         <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Primary" Size="Size.Large" />
-                        <MudText Typo="Typo.h6" Class="mt-2">Contact Support</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">Get in touch with us</MudText>
+                        <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_ContactSupport_Title"])</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_ContactSupport_Desc"])</MudText>
                     </MudPaper>
                 </MudItem>
                 <MudItem xs="12" sm="6" md="3">
                     <MudPaper Class="modern-card hover-lift pa-4 text-center" Style="cursor: pointer;" @onclick="OpenLiveChat">
                         <MudIcon Icon="@Icons.Material.Filled.Chat" Color="Color.Success" Size="Size.Large" />
-                        <MudText Typo="Typo.h6" Class="mt-2">Live Chat</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">Chat with our team</MudText>
+                        <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_LiveChat_Title"])</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_LiveChat_Desc"])</MudText>
                     </MudPaper>
                 </MudItem>
                 <MudItem xs="12" sm="6" md="3">
                     <MudPaper Class="modern-card hover-lift pa-4 text-center" Style="cursor: pointer;" @onclick="OpenDocumentation">
                         <MudIcon Icon="@Icons.Material.Filled.MenuBook" Color="Color.Info" Size="Size.Large" />
-                        <MudText Typo="Typo.h6" Class="mt-2">Documentation</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">Read our guides</MudText>
+                        <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_Documentation_Title"])</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_Documentation_Desc"])</MudText>
                     </MudPaper>
                 </MudItem>
                 <MudItem xs="12" sm="6" md="3">
                     <MudPaper Class="modern-card hover-lift pa-4 text-center" Style="cursor: pointer;" @onclick="OpenVideoTutorials">
                         <MudIcon Icon="@Icons.Material.Filled.VideoLibrary" Color="Color.Warning" Size="Size.Large" />
-                        <MudText Typo="Typo.h6" Class="mt-2">Video Tutorials</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">Watch and learn</MudText>
+                        <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_VideoTutorials_Title"])</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_VideoTutorials_Desc"])</MudText>
                     </MudPaper>
                 </MudItem>
             </MudGrid>
@@ -66,7 +69,7 @@
 
         <!-- FAQ Section -->
         <MudItem xs="12" md="8">
-            <MudText Typo="Typo.h5" Class="mb-4">Frequently Asked Questions</MudText>
+            <MudText Typo="Typo.h5" Class="mb-4">@(L["Help_FAQ_Title"])</MudText>
             <MudPaper Class="glass-card pa-4">
                 <MudExpansionPanels MultiExpansion="true">
                     @foreach (var faq in _faqs)
@@ -91,14 +94,14 @@
 
         <!-- Contact Information -->
         <MudItem xs="12" md="4">
-            <MudText Typo="Typo.h5" Class="mb-4">Contact Information</MudText>
+            <MudText Typo="Typo.h5" Class="mb-4">@(L["Help_ContactInformation"])</MudText>
             
             <MudPaper Class="glass-card pa-4 mb-4">
                 <MudStack Spacing="3">
                     <MudPaper Class="flex align-items-center">
                         <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Primary" Class="mr-3" />
                         <MudPaper>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Email</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_Email_Label"])</MudText>
                             <MudText Typo="Typo.body2">support@srms.com</MudText>
                         </MudPaper>
                     </MudPaper>
@@ -106,7 +109,7 @@
                     <MudPaper Class="flex align-items-center">
                         <MudIcon Icon="@Icons.Material.Filled.Phone" Color="Color.Success" Class="mr-3" />
                         <MudPaper>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Phone</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_Phone_Label"])</MudText>
                             <MudText Typo="Typo.body2">+1 (555) 123-4567</MudText>
                         </MudPaper>
                     </MudPaper>
@@ -114,7 +117,7 @@
                     <MudPaper Class="flex align-items-center">
                         <MudIcon Icon="@Icons.Material.Filled.LocationOn" Color="Color.Error" Class="mr-3" />
                         <MudPaper>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Address</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_Address_Label"])</MudText>
                             <MudText Typo="Typo.body2">123 University Ave, City</MudText>
                         </MudPaper>
                     </MudPaper>
@@ -122,7 +125,7 @@
                     <MudPaper Class="flex align-items-center">
                         <MudIcon Icon="@Icons.Material.Filled.Schedule" Color="Color.Info" Class="mr-3" />
                         <MudPaper>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Support Hours</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_SupportHours_Label"])</MudText>
                             <MudText Typo="Typo.body2">Mon-Fri: 9AM - 6PM</MudText>
                         </MudPaper>
                     </MudPaper>
@@ -131,27 +134,27 @@
 
             <!-- System Status -->
             <MudPaper Class="glass-card pa-4">
-                <MudText Typo="Typo.h6" Class="mb-3">System Status</MudText>
+                <MudText Typo="Typo.h6" Class="mb-3">@(L["Help_SystemStatus_Title"])</MudText>
                 <MudStack Spacing="2">
                     <MudPaper Class="flex justify-content-between align-items-center">
                         <MudText Typo="Typo.body2">API Server</MudText>
                         <MudChip T="string" Color="Color.Success" Size="Size.Small">
                             <span class="status-dot status-online"></span>
-                            Online
+                            @(L["Help_Status_Online"])
                         </MudChip>
                     </MudPaper>
                     <MudPaper Class="flex justify-content-between align-items-center">
                         <MudText Typo="Typo.body2">Database</MudText>
                         <MudChip T="string" Color="Color.Success" Size="Size.Small">
                             <span class="status-dot status-online"></span>
-                            Online
+                            @(L["Help_Status_Online"])
                         </MudChip>
                     </MudPaper>
                     <MudPaper Class="flex justify-content-between align-items-center">
                         <MudText Typo="Typo.body2">Email Service</MudText>
                         <MudChip T="string" Color="Color.Success" Size="Size.Small">
                             <span class="status-dot status-online"></span>
-                            Online
+                            @(L["Help_Status_Online"])
                         </MudChip>
                     </MudPaper>
                 </MudStack>
@@ -160,7 +163,7 @@
 
         <!-- Popular Topics -->
         <MudItem xs="12">
-            <MudText Typo="Typo.h5" Class="mb-4">Popular Topics</MudText>
+            <MudText Typo="Typo.h5" Class="mb-4">@(L["Help_PopularTopics"])</MudText>
             <MudGrid>
                 @foreach (var topic in _popularTopics)
                 {
@@ -170,7 +173,7 @@
                             <MudText Typo="Typo.h6">@topic.Title</MudText>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">@topic.Description</MudText>
                             <MudText Typo="Typo.caption" Color="Color.Tertiary" Class="mt-2">
-                                @topic.ArticleCount articles
+                                @string.Format(L["Help_Articles_Count"].Value, topic.ArticleCount)
                             </MudText>
                         </MudPaper>
                     </MudItem>
@@ -197,36 +200,36 @@
         {
             new FaqModel
             {
-                Question = "How do I register for a room?",
-                Answer = "To register for a room, navigate to the Student Portal and click on 'My Room'. Follow the registration process and select your preferred room from the available options.",
+                Question = L["Faq1_Q"].Value,
+                Answer = L["Faq1_A"].Value,
                 Icon = Icons.Material.Filled.MeetingRoom,
                 Color = Color.Primary
             },
             new FaqModel
             {
-                Question = "How can I make a payment?",
-                Answer = "Go to 'My Payments' in the Student Portal. You can view your payment history and make new payments using various payment methods including credit card, bank transfer, or mobile payment.",
+                Question = L["Faq2_Q"].Value,
+                Answer = L["Faq2_A"].Value,
                 Icon = Icons.Material.Filled.Payment,
                 Color = Color.Success
             },
             new FaqModel
             {
-                Question = "How do I submit a complaint?",
-                Answer = "Navigate to 'My Complaints' in the Student Portal and click 'New Complaint'. Fill in the details of your issue and submit. You'll receive updates on the status of your complaint.",
+                Question = L["Faq3_Q"].Value,
+                Answer = L["Faq3_A"].Value,
                 Icon = Icons.Material.Filled.Report,
                 Color = Color.Warning
             },
             new FaqModel
             {
-                Question = "How do I reset my password?",
-                Answer = "Click on 'Forgot Password' on the login page. Enter your email address and you'll receive a password reset link. Follow the instructions in the email to set a new password.",
+                Question = L["Faq4_Q"].Value,
+                Answer = L["Faq4_A"].Value,
                 Icon = Icons.Material.Filled.Lock,
                 Color = Color.Error
             },
             new FaqModel
             {
-                Question = "Can I change my room after registration?",
-                Answer = "Room changes are subject to availability and approval. Contact your residence manager to request a room change. They will review your request and notify you of the decision.",
+                Question = L["Faq5_Q"].Value,
+                Answer = L["Faq5_A"].Value,
                 Icon = Icons.Material.Filled.SwapHoriz,
                 Color = Color.Info
             }

@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Permissions (neutral English) -->
+  <data name="Permissions.Title" xml:space="preserve">
+    <value>Permissions Management</value>
+  </data>
+  <data name="Permissions.Subtitle" xml:space="preserve">
+    <value>Manage role permissions and access control</value>
+  </data>
+  <data name="Permissions.CreateCustom" xml:space="preserve">
+    <value>Create Permission</value>
+  </data>
+  <data name="Permissions.SelectRoleLabel" xml:space="preserve">
+    <value>Select role to manage</value>
+  </data>
+  <data name="Permissions.Search" xml:space="preserve">
+    <value>Search permissions</value>
+  </data>
+  <data name="Permissions.FilterByCategory" xml:space="preserve">
+    <value>Filter by category</value>
+  </data>
+  <data name="Permissions.Suffix" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="Permissions.EnableAll" xml:space="preserve">
+    <value>Enable All</value>
+  </data>
+  <data name="Permissions.DisableAll" xml:space="preserve">
+    <value>Disable All</value>
+  </data>
+  <data name="Permissions.SaveAll" xml:space="preserve">
+    <value>Save All Changes</value>
+  </data>
+  <data name="Permissions.SavingChanges" xml:space="preserve">
+    <value>Saving changes...</value>
+  </data>
+  <data name="Permissions.ErrorLoadingRoles" xml:space="preserve">
+    <value>Error loading roles</value>
+  </data>
+  <data name="Permissions.ErrorLoading" xml:space="preserve">
+    <value>Error loading permissions: {0}</value>
+  </data>
+  <data name="Permissions.SaveSuccess" xml:space="preserve">
+    <value>Permissions saved for role {0} successfully!</value>
+  </data>
+  <data name="Permissions.SaveFailed" xml:space="preserve">
+    <value>Failed to save permissions.</value>
+  </data>
+  <data name="Permissions.Error" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+
+  <!-- Categories -->
+  <data name="Permissions.Category.Users" xml:space="preserve"><value>Users</value></data>
+  <data name="Permissions.Category.Students" xml:space="preserve"><value>Students</value></data>
+  <data name="Permissions.Category.Managers" xml:space="preserve"><value>Managers</value></data>
+  <data name="Permissions.Category.Rooms" xml:space="preserve"><value>Rooms</value></data>
+  <data name="Permissions.Category.Payments" xml:space="preserve"><value>Payments</value></data>
+  <data name="Permissions.Category.Complaints" xml:space="preserve"><value>Complaints</value></data>
+  <data name="Permissions.Category.Residences" xml:space="preserve"><value>Residences</value></data>
+  <data name="Permissions.Category.Assets" xml:space="preserve"><value>Assets</value></data>
+  <data name="Permissions.Category.System" xml:space="preserve"><value>System</value></data>
+
+  <!-- User permissions -->
+  <data name="Permissions.ViewUsers" xml:space="preserve"><value>View Users</value></data>
+  <data name="Permissions.ViewUsers.Desc" xml:space="preserve"><value>View all users in the system</value></data>
+  <data name="Permissions.CreateUsers" xml:space="preserve"><value>Create Users</value></data>
+  <data name="Permissions.CreateUsers.Desc" xml:space="preserve"><value>Create new user accounts</value></data>
+  <data name="Permissions.EditUsers" xml:space="preserve"><value>Edit Users</value></data>
+  <data name="Permissions.EditUsers.Desc" xml:space="preserve"><value>Edit user information</value></data>
+  <data name="Permissions.DeleteUsers" xml:space="preserve"><value>Delete Users</value></data>
+  <data name="Permissions.DeleteUsers.Desc" xml:space="preserve"><value>Delete user accounts</value></data>
+  <data name="Permissions.ManageUsers" xml:space="preserve"><value>Manage Users</value></data>
+  <data name="Permissions.ManageUsers.Desc" xml:space="preserve"><value>Full user management permissions</value></data>
+  <data name="Permissions.ActivateUsers" xml:space="preserve"><value>Activate Users</value></data>
+  <data name="Permissions.ActivateUsers.Desc" xml:space="preserve"><value>Activate pending user accounts</value></data>
+  <data name="Permissions.DeactivateUsers" xml:space="preserve"><value>Deactivate Users</value></data>
+  <data name="Permissions.DeactivateUsers.Desc" xml:space="preserve"><value>Deactivate user accounts</value></data>
+
+  <!-- Students permissions -->
+  <data name="Permissions.ViewStudents" xml:space="preserve"><value>View Students</value></data>
+  <data name="Permissions.ViewStudents.Desc" xml:space="preserve"><value>View student profiles</value></data>
+  <data name="Permissions.ViewOwnProfile" xml:space="preserve"><value>View Own Profile</value></data>
+  <data name="Permissions.ViewOwnProfile.Desc" xml:space="preserve"><value>View the student's own profile</value></data>
+  <data name="Permissions.EditStudents" xml:space="preserve"><value>Edit Students</value></data>
+  <data name="Permissions.EditStudents.Desc" xml:space="preserve"><value>Edit student information</value></data>
+  <data name="Permissions.EditOwnProfile" xml:space="preserve"><value>Edit Own Profile</value></data>
+  <data name="Permissions.EditOwnProfile.Desc" xml:space="preserve"><value>Edit the student's own profile</value></data>
+  <data name="Permissions.DeleteStudents" xml:space="preserve"><value>Delete Students</value></data>
+  <data name="Permissions.DeleteStudents.Desc" xml:space="preserve"><value>Delete student records</value></data>
+  <data name="Permissions.ManageStudents" xml:space="preserve"><value>Manage Students</value></data>
+  <data name="Permissions.ManageStudents.Desc" xml:space="preserve"><value>Full student management permissions</value></data>
+
+  <!-- Managers permissions -->
+  <data name="Permissions.ViewManagers" xml:space="preserve"><value>View Managers</value></data>
+  <data name="Permissions.ViewManagers.Desc" xml:space="preserve"><value>View manager profiles</value></data>
+  <data name="Permissions.CreateManagers" xml:space="preserve"><value>Create Managers</value></data>
+  <data name="Permissions.CreateManagers.Desc" xml:space="preserve"><value>Create new managers</value></data>
+  <data name="Permissions.EditManagers" xml:space="preserve"><value>Edit Managers</value></data>
+  <data name="Permissions.EditManagers.Desc" xml:space="preserve"><value>Edit manager information</value></data>
+  <data name="Permissions.DeleteManagers" xml:space="preserve"><value>Delete Managers</value></data>
+  <data name="Permissions.DeleteManagers.Desc" xml:space="preserve"><value>Remove managers</value></data>
+  <data name="Permissions.ManageManagers" xml:space="preserve"><value>Manage Managers</value></data>
+  <data name="Permissions.ManageManagers.Desc" xml:space="preserve"><value>Full manager management permissions</value></data>
+
+  <!-- Rooms permissions -->
+  <data name="Permissions.ViewRooms" xml:space="preserve"><value>View Rooms</value></data>
+  <data name="Permissions.ViewRooms.Desc" xml:space="preserve"><value>View room information</value></data>
+  <data name="Permissions.CreateRooms" xml:space="preserve"><value>Create Rooms</value></data>
+  <data name="Permissions.CreateRooms.Desc" xml:space="preserve"><value>Add new rooms</value></data>
+  <data name="Permissions.EditRooms" xml:space="preserve"><value>Edit Rooms</value></data>
+  <data name="Permissions.EditRooms.Desc" xml:space="preserve"><value>Edit room details</value></data>
+  <data name="Permissions.DeleteRooms" xml:space="preserve"><value>Delete Rooms</value></data>
+  <data name="Permissions.DeleteRooms.Desc" xml:space="preserve"><value>Remove rooms</value></data>
+  <data name="Permissions.ManageRooms" xml:space="preserve"><value>Manage Rooms</value></data>
+  <data name="Permissions.ManageRooms.Desc" xml:space="preserve"><value>Full room management permissions</value></data>
+  <data name="Permissions.AssignRooms" xml:space="preserve"><value>Assign Rooms</value></data>
+  <data name="Permissions.AssignRooms.Desc" xml:space="preserve"><value>Assign students to rooms</value></data>
+
+  <!-- Payments permissions -->
+  <data name="Permissions.ViewPayments" xml:space="preserve"><value>View Payments</value></data>
+  <data name="Permissions.ViewPayments.Desc" xml:space="preserve"><value>View payment records</value></data>
+  <data name="Permissions.ViewOwnPayments" xml:space="preserve"><value>View Own Payments</value></data>
+  <data name="Permissions.ViewOwnPayments.Desc" xml:space="preserve"><value>View my payment history</value></data>
+  <data name="Permissions.ViewAllPayments" xml:space="preserve"><value>View All Payments</value></data>
+  <data name="Permissions.ViewAllPayments.Desc" xml:space="preserve"><value>View all payment records</value></data>
+  <data name="Permissions.RecordPayments" xml:space="preserve"><value>Record Payments</value></data>
+  <data name="Permissions.RecordPayments.Desc" xml:space="preserve"><value>Record new payments</value></data>
+  <data name="Permissions.EditPayments" xml:space="preserve"><value>Edit Payments</value></data>
+  <data name="Permissions.EditPayments.Desc" xml:space="preserve"><value>Edit payment records</value></data>
+  <data name="Permissions.DeletePayments" xml:space="preserve"><value>Delete Payments</value></data>
+  <data name="Permissions.DeletePayments.Desc" xml:space="preserve"><value>Remove payment records</value></data>
+
+  <!-- Complaints permissions -->
+  <data name="Permissions.ViewComplaints" xml:space="preserve"><value>View Complaints</value></data>
+  <data name="Permissions.ViewComplaints.Desc" xml:space="preserve"><value>View complaints</value></data>
+  <data name="Permissions.ViewOwnComplaints" xml:space="preserve"><value>View Own Complaints</value></data>
+  <data name="Permissions.ViewOwnComplaints.Desc" xml:space="preserve"><value>View my complaints</value></data>
+  <data name="Permissions.SubmitComplaints" xml:space="preserve"><value>Submit Complaints</value></data>
+  <data name="Permissions.SubmitComplaints.Desc" xml:space="preserve"><value>File new complaints</value></data>
+  <data name="Permissions.EditComplaints" xml:space="preserve"><value>Edit Complaints</value></data>
+  <data name="Permissions.EditComplaints.Desc" xml:space="preserve"><value>Edit complaints</value></data>
+  <data name="Permissions.DeleteComplaints" xml:space="preserve"><value>Delete Complaints</value></data>
+  <data name="Permissions.DeleteComplaints.Desc" xml:space="preserve"><value>Remove complaints</value></data>
+  <data name="Permissions.ManageComplaints" xml:space="preserve"><value>Manage Complaints</value></data>
+  <data name="Permissions.ManageComplaints.Desc" xml:space="preserve"><value>Full complaints management permissions</value></data>
+  <data name="Permissions.ResolveComplaints" xml:space="preserve"><value>Resolve Complaints</value></data>
+  <data name="Permissions.ResolveComplaints.Desc" xml:space="preserve"><value>Mark complaints as resolved</value></data>
+
+  <!-- Residences permissions -->
+  <data name="Permissions.ViewResidences" xml:space="preserve"><value>View Residences</value></data>
+  <data name="Permissions.ViewResidences.Desc" xml:space="preserve"><value>View residence information</value></data>
+  <data name="Permissions.CreateResidences" xml:space="preserve"><value>Create Residences</value></data>
+  <data name="Permissions.CreateResidences.Desc" xml:space="preserve"><value>Add new residences</value></data>
+  <data name="Permissions.EditResidences" xml:space="preserve"><value>Edit Residences</value></data>
+  <data name="Permissions.EditResidences.Desc" xml:space="preserve"><value>Edit residence details</value></data>
+  <data name="Permissions.DeleteResidences" xml:space="preserve"><value>Delete Residences</value></data>
+  <data name="Permissions.DeleteResidences.Desc" xml:space="preserve"><value>Remove residences</value></data>
+  <data name="Permissions.ManageResidence" xml:space="preserve"><value>Manage Residence</value></data>
+  <data name="Permissions.ManageResidence.Desc" xml:space="preserve"><value>Manage assigned residence</value></data>
+  <data name="Permissions.ManageAllResidences" xml:space="preserve"><value>Manage All Residences</value></data>
+  <data name="Permissions.ManageAllResidences.Desc" xml:space="preserve"><value>Full management access to all residences</value></data>
+
+  <!-- Assets permissions -->
+  <data name="Permissions.ViewAssets" xml:space="preserve"><value>View Assets</value></data>
+  <data name="Permissions.ViewAssets.Desc" xml:space="preserve"><value>View asset inventory</value></data>
+  <data name="Permissions.CreateAssets" xml:space="preserve"><value>Create Assets</value></data>
+  <data name="Permissions.CreateAssets.Desc" xml:space="preserve"><value>Add new assets</value></data>
+  <data name="Permissions.EditAssets" xml:space="preserve"><value>Edit Assets</value></data>
+  <data name="Permissions.EditAssets.Desc" xml:space="preserve"><value>Edit asset details</value></data>
+  <data name="Permissions.DeleteAssets" xml:space="preserve"><value>Delete Assets</value></data>
+  <data name="Permissions.DeleteAssets.Desc" xml:space="preserve"><value>Remove assets</value></data>
+  <data name="Permissions.ManageAssets" xml:space="preserve"><value>Manage Assets</value></data>
+  <data name="Permissions.ManageAssets.Desc" xml:space="preserve"><value>Full asset management permissions</value></data>
+
+  <!-- System permissions -->
+  <data name="Permissions.ViewReports" xml:space="preserve"><value>View Reports</value></data>
+  <data name="Permissions.ViewReports.Desc" xml:space="preserve"><value>Access system reports</value></data>
+  <data name="Permissions.SystemSettings" xml:space="preserve"><value>System Settings</value></data>
+  <data name="Permissions.SystemSettings.Desc" xml:space="preserve"><value>Modify system settings</value></data>
+  <data name="Permissions.ViewAuditLogs" xml:space="preserve"><value>View Audit Logs</value></data>
+  <data name="Permissions.ViewAuditLogs.Desc" xml:space="preserve"><value>Access audit log</value></data>
+  <data name="Permissions.SystemConfiguration" xml:space="preserve"><value>System Configuration</value></data>
+  <data name="Permissions.SystemConfiguration.Desc" xml:space="preserve"><value>Configure system parameters</value></data>
+  <data name="Permissions.DatabaseManagement" xml:space="preserve"><value>Database Management</value></data>
+  <data name="Permissions.DatabaseManagement.Desc" xml:space="preserve"><value>Manage database operations</value></data>
+
+  <!-- Roles management -->
+  <data name="RolesManagement.Title" xml:space="preserve">
+    <value>Roles Management</value>
+  </data>
+  <data name="RolesManagement.Subtitle" xml:space="preserve">
+    <value>Manage system roles and permissions</value>
+  </data>
+  <data name="RolesManagement.CreateNewRole" xml:space="preserve">
+    <value>Create New Role</value>
+  </data>
+  <data name="RolesManagement.SystemRolesHeader" xml:space="preserve">
+    <value>System Roles (read-only)</value>
+  </data>
+  <data name="RolesManagement.SystemChip" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="RolesManagement.CustomRolesHeader" xml:space="preserve">
+    <value>Custom Roles</value>
+  </data>
+  <data name="RolesManagement.EditRole" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="RolesManagement.DeleteRole" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="RolesManagement.CustomRoleDesc" xml:space="preserve">
+    <value>Custom role created by administrator</value>
+  </data>
+  <data name="RolesManagement.ManagePermissions" xml:space="preserve">
+    <value>Manage Permissions</value>
+  </data>
+  <data name="RolesManagement.NoCustomRoles" xml:space="preserve">
+    <value>No custom roles yet.</value>
+  </data>
+  <data name="RolesManagement.ErrorLoadingRoles" xml:space="preserve">
+    <value>Error loading roles</value>
+  </data>
+  <data name="RolesManagement.EditRoleToast" xml:space="preserve">
+    <value>Editing role '{0}' - coming soon!</value>
+  </data>
+  <data name="RolesManagement.DeleteRoleConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete role '{0}'? This cannot be undone.</value>
+  </data>
+  <data name="RolesManagement.DeleteRoleSuccess" xml:space="preserve">
+    <value>Role '{0}' deleted successfully!</value>
+  </data>
+  <data name="RolesManagement.DeleteRoleFailed" xml:space="preserve">
+    <value>Failed to delete role '{0}'!</value>
+  </data>
+  <data name="RolesManagement.Desc.SuperRoot" xml:space="preserve">
+    <value>Full system access with all admin permissions</value>
+  </data>
+  <data name="RolesManagement.Desc.Admin" xml:space="preserve">
+    <value>Administrative privileges to manage residences and managers</value>
+  </data>
+  <data name="RolesManagement.Desc.Manager" xml:space="preserve">
+    <value>Manage students, rooms, complaints and payments</value>
+  </data>
+  <data name="RolesManagement.Desc.Student" xml:space="preserve">
+    <value>Access to personal dashboard and submit complaints</value>
+  </data>
+</root>

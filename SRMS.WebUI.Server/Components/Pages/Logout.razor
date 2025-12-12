@@ -1,8 +1,11 @@
 @page "/logout"
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager Navigation
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
 
-<PageTitle>Logout - SRMS</PageTitle>
+<PageTitle>@L["Logout_PageTitle"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
     <MudPaper Elevation="0" Class="glass-card p-8 rounded-2xl text-center animate-fade-in">
@@ -15,11 +18,11 @@
         <!-- Text -->
         <MudStack Spacing="3" AlignItems="AlignItems.Center">
             <MudText Typo="Typo.h5" Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                Logging Out
+                @L["Logout_LoggingOut"]
             </MudText>
             
             <MudText Typo="Typo.body1" Color="Color.Secondary">
-                Please wait while we sign you out...
+                @L["Logout_PleaseWait"]
             </MudText>
 
             <!-- Progress Indicator -->
@@ -27,7 +30,7 @@
 
             <!-- Additional Message -->
             <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-4">
-                You'll be redirected to the login page shortly
+                @L["Logout_RedirectMessage"]
             </MudText>
         </MudStack>
     </MudPaper>

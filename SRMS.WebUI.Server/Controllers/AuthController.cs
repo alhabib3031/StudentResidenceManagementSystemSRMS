@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SRMS.Application.Identity.DTOs;
 using SRMS.Domain.Identity;
 
-namespace SRMS.Infrastructure.Controllers;
+namespace SRMS.WebUI.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -1,9 +1,18 @@
 @using SRMS.Application.Identity.DTOs
 @using SRMS.Application.Identity.Interfaces
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @inject IUserService UserService
 @inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> L
 
 <MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-2" />
+            @L["EditUserDialog_Title"]
+        </MudText>
+    </TitleContent>
     <DialogContent>
         @if (_isLoading)
         {
@@ -17,58 +26,58 @@
                 <MudGrid>
                     <!-- Personal Info -->
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.FirstName" Label="First Name" Variant="Variant.Outlined"
+                        <MudTextField @bind-Value="_model.FirstName" Label='@L["EditUserDialog_FirstName"]' Variant="Variant.Outlined"
                             For="@(() => _model.FirstName)" Required="true" />
                     </MudItem>
 
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.LastName" Label="Last Name" Variant="Variant.Outlined"
+                        <MudTextField @bind-Value="_model.LastName" Label='@L["EditUserDialog_LastName"]' Variant="Variant.Outlined"
                             For="@(() => _model.LastName)" Required="true" />
                     </MudItem>
 
                     <!-- Contact Info -->
                     <MudItem xs="12">
-                        <MudTextField @bind-Value="_model.PhoneNumber" Label="Phone Number" Variant="Variant.Outlined"
+                        <MudTextField @bind-Value="_model.PhoneNumber" Label='@L["EditUserDialog_PhoneNumber"]' Variant="Variant.Outlined"
                             Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Phone"
                             For="@(() => _model.PhoneNumber)" Placeholder="+218 91 234 5678" />
                     </MudItem>
 
                     <!-- Address Info -->
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.City" Label="City" Variant="Variant.Outlined"
+                        <MudTextField @bind-Value="_model.City" Label='@L["EditUserDialog_City"]' Variant="Variant.Outlined"
                             For="@(() => _model.City)" />
                     </MudItem>
 
                     <MudItem xs="12" sm="6">
-                        <MudTextField @bind-Value="_model.Country" Label="Country" Variant="Variant.Outlined"
+                        <MudTextField @bind-Value="_model.Country" Label='@L["EditUserDialog_Country"]' Variant="Variant.Outlined"
                             For="@(() => _model.Country)" />
                     </MudItem>
 
                     <!-- Preferences -->
                     <MudItem xs="12" sm="6">
-                        <MudSelect T="string" Label="Language" @bind-Value="_model.PreferredLanguage"
+                        <MudSelect T="string" Label='@L["EditUserDialog_Language"]' @bind-Value="_model.PreferredLanguage"
                             Variant="Variant.Outlined">
-                            <MudSelectItem Value="@("ar-LY")">Arabic (Libya)</MudSelectItem>
-                            <MudSelectItem Value="@("en-US")">English (US)</MudSelectItem>
+                            <MudSelectItem Value="@("ar-LY")">@L["EditUserDialog_Language_Arabic"]</MudSelectItem>
+                            <MudSelectItem Value="@("en-US")">@L["EditUserDialog_Language_English"]</MudSelectItem>
                         </MudSelect>
                     </MudItem>
 
                     <MudItem xs="12" sm="6">
-                        <MudSelect T="string" Label="Theme" @bind-Value="_model.Theme" Variant="Variant.Outlined">
-                            <MudSelectItem Value="@("Light")">Light</MudSelectItem>
-                            <MudSelectItem Value="@("Dark")">Dark</MudSelectItem>
-                            <MudSelectItem Value="@("System")">System</MudSelectItem>
+                        <MudSelect T="string" Label='@L["EditUserDialog_Theme"]' @bind-Value="_model.Theme" Variant="Variant.Outlined">
+                            <MudSelectItem Value="@("Light")">@L["EditUserDialog_Theme_Light"]</MudSelectItem>
+                            <MudSelectItem Value="@("Dark")">@L["EditUserDialog_Theme_Dark"]</MudSelectItem>
+                            <MudSelectItem Value="@("System")">@L["EditUserDialog_Theme_System"]</MudSelectItem>
                         </MudSelect>
                     </MudItem>
 
                     <!-- Notifications -->
                     <MudItem xs="12">
                         <MudSwitch @bind-Value="_model.EmailNotificationsEnabled" Color="Color.Primary"
-                            Label="Enable Email Notifications" />
+                            Label='@L["EditUserDialog_EnableEmailNotifications"]' />
                     </MudItem>
                     <MudItem xs="12">
                         <MudSwitch @bind-Value="_model.SMSNotificationsEnabled" Color="Color.Primary"
-                            Label="Enable SMS Notifications" />
+                            Label='@L["EditUserDialog_EnableSMSNotifications"]' />
                     </MudItem>
                 </MudGrid>
             </EditForm>
@@ -76,14 +85,14 @@
     </DialogContent>
 
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Cancel">@L["EditUserDialog_Button_Cancel"]</MudButton>
         <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="HandleSubmit"
             Disabled="_isSubmitting || _isLoading">
             @if (_isSubmitting)
             {
                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
             }
-            Save Changes
+            @L["EditUserDialog_Button_Save"]
         </MudButton>
     </DialogActions>
 </MudDialog>
@@ -129,13 +138,13 @@
             }
             else
             {
-                Snackbar.Add("User not found", Severity.Error);
+                Snackbar.Add(L["EditUserDialog_Snackbar_UserNotFound"], Severity.Error);
                 MudDialog.Cancel();
             }
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Error loading user: {ex.Message}", Severity.Error);
+            Snackbar.Add(string.Format(L["EditUserDialog_Snackbar_LoadError"], ex.Message), Severity.Error);
             MudDialog.Cancel();
         }
         finally
@@ -154,12 +163,12 @@
 
             if (success)
             {
-                Snackbar.Add("User updated successfully!", Severity.Success);
+                Snackbar.Add(L["EditUserDialog_Snackbar_UpdateSuccess"], Severity.Success);
                 MudDialog.Close(DialogResult.Ok(true));
             }
             else
             {
-                Snackbar.Add("Failed to update user", Severity.Error);
+                Snackbar.Add(L["EditUserDialog_Snackbar_UpdateFailed"], Severity.Error);
             }
         }
         catch (Exception ex)

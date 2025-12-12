@@ -1,0 +1,3165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="GeneralSettings" xml:space="preserve">
+    <value>General Settings</value>
+  </data>
+  <data name="SaveGeneralSettings" xml:space="preserve">
+    <value>Save General Settings</value>
+  </data>
+  <data name="NotificationSettings" xml:space="preserve">
+    <value>Notification Settings</value>
+  </data>
+  <data name="SaveNotificationSettings" xml:space="preserve">
+    <value>Save Notification Settings</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="SaveAppearanceSettings" xml:space="preserve">
+    <value>Save Appearance Settings</value>
+  </data>
+  <data name="PrivacySecurity" xml:space="preserve">
+    <value>Privacy &amp; Security</value>
+  </data>
+  <data name="DataManagement" xml:space="preserve">
+    <value>Data Management</value>
+  </data>
+  <data name="ExportMyData" xml:space="preserve">
+    <value>Export My Data</value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>Clear Cache</value>
+  </data>
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>Delete Account</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Timezone" xml:space="preserve">
+    <value>Timezone</value>
+  </data>
+  <data name="UTC" xml:space="preserve">
+    <value>UTC</value>
+  </data>
+  <data name="EST" xml:space="preserve">
+    <value>Eastern Time</value>
+  </data>
+  <data name="PST" xml:space="preserve">
+    <value>Pacific Time</value>
+  </data>
+  <data name="GMT" xml:space="preserve">
+    <value>GMT</value>
+  </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>Date Format</value>
+  </data>
+  <data name="MMDDYYYY" xml:space="preserve">
+    <value>MM/DD/YYYY</value>
+  </data>
+  <data name="DDMMYYYY" xml:space="preserve">
+    <value>DD/MM/YYYY</value>
+  </data>
+  <data name="YYYYMMDD" xml:space="preserve">
+    <value>YYYY-MM-DD</value>
+  </data>
+  <data name="EmailNotifications" xml:space="preserve">
+    <value>Email Notifications</value>
+  </data>
+  <data name="Desc_EmailNotifications" xml:space="preserve">
+    <value>Receive notifications via email.</value>
+  </data>
+  <data name="Contact_PageTitle" xml:space="preserve">
+    <value>Contact Us - SRMS</value>
+  </data>
+  <data name="Contact_GetInTouch" xml:space="preserve">
+    <value>Get In Touch</value>
+  </data>
+  <data name="Contact_Subtitle" xml:space="preserve">
+    <value>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</value>
+  </data>
+  <data name="Contact_SendUsMessage" xml:space="preserve">
+    <value>Send Us a Message</value>
+  </data>
+  <data name="Contact_Label_FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Contact_Label_LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Contact_Label_Email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="Contact_Label_Phone" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="Contact_Label_Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="Contact_Subject_GeneralInquiry" xml:space="preserve">
+    <value>General Inquiry</value>
+  </data>
+  <data name="Contact_Subject_TechnicalSupport" xml:space="preserve">
+    <value>Technical Support</value>
+  </data>
+  <data name="Contact_Subject_BillingQuestion" xml:space="preserve">
+    <value>Billing Question</value>
+  </data>
+  <data name="Contact_Subject_FeatureRequest" xml:space="preserve">
+    <value>Feature Request</value>
+  </data>
+  <data name="Contact_Subject_BugReport" xml:space="preserve">
+    <value>Bug Report</value>
+  </data>
+  <data name="Contact_Subject_Partnership" xml:space="preserve">
+    <value>Partnership</value>
+  </data>
+  <data name="Contact_Subject_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Contact_Label_Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Contact_Terms_Prefix" xml:space="preserve">
+    <value>I agree to the </value>
+  </data>
+  <data name="TermsOfService" xml:space="preserve">
+    <value>Terms of Service</value>
+  </data>
+  <data name="PrivacyPolicy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Contact_And" xml:space="preserve">
+    <value> and </value>
+  </data>
+  <data name="Contact_Button_Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Contact_Button_SendMessage" xml:space="preserve">
+    <value>Send Message</value>
+  </data>
+  <data name="Contact_ContactInformation" xml:space="preserve">
+    <value>Contact Information</value>
+  </data>
+  <data name="Contact_Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Contact_Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Contact_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Contact_BusinessHours" xml:space="preserve">
+    <value>Business Hours</value>
+  </data>
+  <data name="Contact_FollowUs" xml:space="preserve">
+    <value>Follow Us</value>
+  </data>
+  <data name="Contact_QuickLinks" xml:space="preserve">
+    <value>Quick Links</value>
+  </data>
+  <data name="Contact_QuickLinks_HelpCenter" xml:space="preserve">
+    <value>Help Center</value>
+  </data>
+  <data name="Contact_QuickLinks_AboutUs" xml:space="preserve">
+    <value>About Us</value>
+  </data>
+  <data name="Contact_QuickLinks_Documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="Contact_Snackbar_AgreeTerms" xml:space="preserve">
+    <value>Please agree to the terms and conditions</value>
+  </data>
+  <data name="Contact_Snackbar_Thanks" xml:space="preserve">
+    <value>Thank you for your message! We'll get back to you soon.</value>
+  </data>
+  <data name="Home_Title" xml:space="preserve">
+    <value>Welcome to SRMS</value>
+  </data>
+  <data name="Home_Subtitle" xml:space="preserve">
+    <value>Modern Student Residence Management System</value>
+  </data>
+  <data name="Home_Lead" xml:space="preserve">
+    <value>Organize student housing operations with our cloud-first platform. Manage residences, students, payments and more — all in one place.</value>
+  </data>
+  <data name="GetStartedFree" xml:space="preserve">
+    <value>Get Started Free</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Learn More</value>
+  </data>
+  <data name="Features_Header" xml:space="preserve">
+    <value>Everything you need to manage student housing</value>
+  </data>
+  <data name="Feature_ResidenceManagement_Title" xml:space="preserve">
+    <value>Residence Management</value>
+  </data>
+  <data name="Feature_ResidenceManagement_Desc" xml:space="preserve">
+    <value>Multi-residence, room and facility management with an intuitive interface.</value>
+  </data>
+  <data name="Feature_StudentPortal_Title" xml:space="preserve">
+    <value>Student Portal</value>
+  </data>
+  <data name="Feature_StudentPortal_Desc" xml:space="preserve">
+    <value>Empower students with self-service tools for room selection, payments and support.</value>
+  </data>
+  <data name="Feature_PaymentProcessing_Title" xml:space="preserve">
+    <value>Payment Processing</value>
+  </data>
+  <data name="Feature_PaymentProcessing_Desc" xml:space="preserve">
+    <value>Secure and automated payment collection with multiple payment method support.</value>
+  </data>
+  <data name="Feature_ComplaintManagement_Title" xml:space="preserve">
+    <value>Complaint Management</value>
+  </data>
+  <data name="Feature_ComplaintManagement_Desc" xml:space="preserve">
+    <value>Track and resolve student complaints efficiently with a ticketing workflow.</value>
+  </data>
+  <data name="Feature_Analytics_Title" xml:space="preserve">
+    <value>Analytics &amp; Reports</value>
+  </data>
+  <data name="Feature_Analytics_Desc" xml:space="preserve">
+    <value>Gain insights with comprehensive reports and live dashboards.</value>
+  </data>
+  <data name="Feature_Security_Title" xml:space="preserve">
+    <value>Security &amp; Privacy</value>
+  </data>
+  <data name="Feature_Security_Desc" xml:space="preserve">
+    <value>Enterprise-grade security with role-based access control and audit logging.</value>
+  </data>
+  <data name="Stats_ActiveStudents" xml:space="preserve">
+    <value>Active Students</value>
+  </data>
+  <data name="Stats_Residences" xml:space="preserve">
+    <value>Residences</value>
+  </data>
+  <data name="Stats_Uptime" xml:space="preserve">
+    <value>Uptime</value>
+  </data>
+  <data name="Stats_Support" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="CTA_Header" xml:space="preserve">
+    <value>Ready to transform student housing?</value>
+  </data>
+  <data name="CTA_Body" xml:space="preserve">
+    <value>Join thousands of institutions that trust SRMS to manage student housing efficiently and effectively.</value>
+  </data>
+  <data name="SignUpNow" xml:space="preserve">
+    <value>Sign Up Now</value>
+  </data>
+  <data name="ContactSales" xml:space="preserve">
+    <value>Contact Sales</value>
+  </data>
+  <data name="Brand_Title" xml:space="preserve">
+    <value>SRMS</value>
+  </data>
+  <data name="Brand_Subtitle" xml:space="preserve">
+    <value>Student Residence Management</value>
+  </data>
+  <data name="SuperRootPanel" xml:space="preserve">
+    <value>Super Root Panel</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="ManageUsers" xml:space="preserve">
+    <value>Manage Users</value>
+  </data>
+  <data name="ManageRoles" xml:space="preserve">
+    <value>Manage Roles</value>
+  </data>
+  <data name="SystemSettings" xml:space="preserve">
+    <value>System Settings</value>
+  </data>
+  <data name="AuditLogs" xml:space="preserve">
+    <value>Audit Logs</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="AdminDashboard" xml:space="preserve">
+    <value>Admin Dashboard</value>
+  </data>
+  <data name="ManagersLabel" xml:space="preserve">
+    <value>Managers</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Management</value>
+  </data>
+  <data name="ManagerDashboard" xml:space="preserve">
+    <value>Manager Dashboard</value>
+  </data>
+  <data name="StudentsLabel" xml:space="preserve">
+    <value>Students</value>
+  </data>
+  <data name="RoomsLabel" xml:space="preserve">
+    <value>Rooms</value>
+  </data>
+  <data name="ComplaintsLabel" xml:space="preserve">
+    <value>Complaints</value>
+  </data>
+  <data name="PaymentsLabel" xml:space="preserve">
+    <value>Payments</value>
+  </data>
+  <data name="StudentPortalLabel" xml:space="preserve">
+    <value>Student Portal</value>
+  </data>
+  <data name="MyDashboard" xml:space="preserve">
+    <value>My Dashboard</value>
+  </data>
+  <data name="MyProfile" xml:space="preserve">
+    <value>My Profile</value>
+  </data>
+  <data name="MyRoom" xml:space="preserve">
+    <value>My Room</value>
+  </data>
+  <data name="MyPayments" xml:space="preserve">
+    <value>My Payments</value>
+  </data>
+  <data name="MyComplaints" xml:space="preserve">
+    <value>My Complaints</value>
+  </data>
+  <data name="HelpSupport" xml:space="preserve">
+    <value>Help &amp; Support</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="AboutUs" xml:space="preserve">
+    <value>About Us</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="VersionInfo" xml:space="preserve">
+    <value>Version 1.0.0</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>© 2025 SRMS. All rights reserved.</value>
+  </data>
+  <data name="Desc_DarkMode" xml:space="preserve">
+    <value>Enable dark mode for the user interface.</value>
+  </data>
+  <data name="Desc_CompactMode" xml:space="preserve">
+    <value>Enable compact mode for the user interface.</value>
+  </data>
+  <data name="Login_PageTitle" xml:space="preserve">
+    <value>Login - SRMS</value>
+  </data>
+  <data name="Login_CheckingAuth" xml:space="preserve">
+    <value>Checking authentication...</value>
+  </data>
+  <data name="Login_WelcomeBack" xml:space="preserve">
+    <value>Welcome Back</value>
+  </data>
+  <data name="Login_SignInAccess" xml:space="preserve">
+    <value>Sign in to access your account</value>
+  </data>
+  <data name="Login_Label_EmailAddress" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="Login_Label_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Login_RememberMe" xml:space="preserve">
+    <value>Remember me</value>
+  </data>
+  <data name="Login_ForgotPassword" xml:space="preserve">
+    <value>Forgot Password?</value>
+  </data>
+  <data name="Login_Button_SignIn" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="Login_OR" xml:space="preserve">
+    <value>OR</value>
+  </data>
+  <data name="Login_Button_SignInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="Login_Question_NoAccount" xml:space="preserve">
+    <value>Don't have an account?</value>
+  </data>
+  <data name="Login_CreateAccount" xml:space="preserve">
+    <value>Create an account</value>
+  </data>
+  <data name="Login_TestAccountLabel" xml:space="preserve">
+    <value>Test Account:</value>
+  </data>
+  <data name="Login_TestAccountCredentials" xml:space="preserve">
+    <value>superroot@srms.edu.ly / SuperRoot@123!</value>
+  </data>
+  <data name="Login_Error_InvalidCredentials" xml:space="preserve">
+    <value>Invalid email or password.</value>
+  </data>
+  <data name="Login_Error_LockedOut" xml:space="preserve">
+    <value>Account is locked out.</value>
+  </data>
+  <data name="Login_Error_GoogleAuthFailed" xml:space="preserve">
+    <value>Google authentication failed.</value>
+  </data>
+  <data name="Login_Error_NoEmailFromGoogle" xml:space="preserve">
+    <value>Could not retrieve email from Google.</value>
+  </data>
+  <data name="Login_Error_UserNotFound" xml:space="preserve">
+    <value>User not found. Please register first.</value>
+  </data>
+  <data name="Login_Error_Default" xml:space="preserve">
+    <value>An error occurred during login.</value>
+  </data>
+  <data name="Logout_PageTitle" xml:space="preserve">
+    <value>Logout - SRMS</value>
+  </data>
+  <data name="Logout_LoggingOut" xml:space="preserve">
+    <value>Logging Out</value>
+  </data>
+  <data name="Logout_PleaseWait" xml:space="preserve">
+    <value>Please wait while we log you out...</value>
+  </data>
+  <data name="Logout_RedirectMessage" xml:space="preserve">
+    <value>You will be redirected to the login page shortly</value>
+  </data>
+  <data name="Faq5_A" xml:space="preserve">
+    <value>Room changes are subject to availability and approval. Contact your residence manager to request a room change. They will review your request and inform you of the decision.</value>
+  </data>
+  <data name="Error_PageTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Error_Header" xml:space="preserve">
+    <value>Error.</value>
+  </data>
+  <data name="Error_ProcessingMessage" xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
+  <data name="Error_RequestId" xml:space="preserve">
+    <value>Request ID:</value>
+  </data>
+  <data name="Error_DevelopmentMode_Title" xml:space="preserve">
+    <value>Development Mode</value>
+  </data>
+  <data name="Error_DevelopmentMode_Desc1" xml:space="preserve">
+      <value>Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment will display more detailed information about the error that occurred.</value>
+  </data>
+  <data name="Error_DevelopmentMode_Desc2" xml:space="preserve">
+    <value>&lt;strong&gt;The Development environment shouldn't be enabled for deployed applications.&lt;/strong&gt; It can result in displaying sensitive information from exceptions to end users. For local debugging, enable the &lt;strong&gt;Development&lt;/strong&gt; environment by setting the &lt;strong&gt;ASPNETCORE_ENVIRONMENT&lt;/strong&gt; environment variable to &lt;strong&gt;Development&lt;/strong&gt; and restarting the app.</value>
+  </data>
+  <data name="VerifyEmail_PageTitle" xml:space="preserve">
+    <value>Verify Email - SRMS</value>
+  </data>
+  <data name="VerifyEmail_Header" xml:space="preserve">
+    <value>Verify Email</value>
+  </data>
+  <data name="VerifyEmail_VerifyingTitle" xml:space="preserve">
+    <value>Verifying Your Email</value>
+  </data>
+  <data name="VerifyEmail_VerifyingMessage" xml:space="preserve">
+    <value>Please wait while we verify your account...</value>
+  </data>
+  <data name="VerifyEmail_Success_Title" xml:space="preserve">
+    <value>Successfully Verified!</value>
+  </data>
+  <data name="VerifyEmail_Success_Message" xml:space="preserve">
+    <value>Your email has been successfully verified. Welcome to the Student Residence Management System!</value>
+  </data>
+  <data name="VerifyEmail_Button_LoginNow" xml:space="preserve">
+    <value>Login Now</value>
+  </data>
+  <data name="VerifyEmail_Error_AlertTitle" xml:space="preserve">
+    <value>Verification Failed</value>
+  </data>
+  <data name="VerifyEmail_Error_DefaultMessage" xml:space="preserve">
+    <value>Email verification failed. The verification code may be invalid or expired.</value>
+  </data>
+  <data name="VerifyEmail_Error_InvalidFormat" xml:space="preserve">
+    <value>Invalid verification link format. Please check the link and try again.</value>
+  </data>
+  <data name="VerifyEmail_Error_Exception" xml:space="preserve">
+    <value>An error occurred during verification: {0}</value>
+  </data>
+  <data name="VerifyEmail_Button_TryRegister" xml:space="preserve">
+    <value>Try Registering Again</value>
+  </data>
+  <data name="VerifyEmail_NeedHelp_Text" xml:space="preserve">
+    <value>Need help? Contact support or try these options:</value>
+  </data>
+  <data name="VerifyEmail_Button_BackToLogin" xml:space="preserve">
+    <value>Back to Login</value>
+  </data>
+  <data name="VerifyEmail_Button_ContactSupport" xml:space="preserve">
+    <value>Contact Support</value>
+  </data>
+  <data name="VerifyEmail_Snackbar_Success" xml:space="preserve">
+    <value>Email verified successfully! Welcome to SRMS.</value>
+  </data>
+  <data name="ResetPassword_PageTitle" xml:space="preserve">
+    <value>Reset Password - SRMS</value>
+  </data>
+  <data name="ResetPassword_InvalidLink_Title" xml:space="preserve">
+    <value>Invalid Reset Link</value>
+  </data>
+  <data name="ResetPassword_InvalidLink_Message" xml:space="preserve">
+    <value>This password reset link is invalid or has expired. Please request a new one.</value>
+  </data>
+  <data name="ResetPassword_RequestNewLink" xml:space="preserve">
+    <value>Request a new reset link</value>
+  </data>
+  <data name="ResetPassword_Header_ResetYourPassword" xml:space="preserve">
+    <value>Reset Your Password</value>
+  </data>
+  <data name="ResetPassword_EnterNewPassword" xml:space="preserve">
+    <value>Enter your new password below</value>
+  </data>
+  <data name="ResetPassword_Label_NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="ResetPassword_Label_ConfirmPassword" xml:space="preserve">
+    <value>Confirm New Password</value>
+  </data>
+  <data name="ResetPassword_Helper_PasswordRules" xml:space="preserve">
+    <value>Min 8 characters, uppercase, lowercase, number, special symbol</value>
+  </data>
+  <data name="ResetPassword_PasswordStrengthPrefix" xml:space="preserve">
+    <value>Password strength: {0}</value>
+  </data>
+  <data name="ResetPassword_Button_Resetting" xml:space="preserve">
+    <value>Resetting password...</value>
+  </data>
+  <data name="ResetPassword_Button_ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="ResetPassword_Button_BackToLogin" xml:space="preserve">
+    <value>Back to Login</value>
+  </data>
+  <data name="ResetPassword_Success_Title" xml:space="preserve">
+    <value>Password Reset Successful!</value>
+  </data>
+  <data name="ResetPassword_Success_Subtitle" xml:space="preserve">
+    <value>Your password has been successfully reset. You can now log in with your new password.</value>
+  </data>
+  <data name="ResetPassword_Button_GoToLogin" xml:space="preserve">
+    <value>Go to Login</value>
+  </data>
+  <data name="ResetPassword_Error_PasswordsMismatch" xml:space="preserve">
+    <value>Passwords do not match!</value>
+  </data>
+  <data name="ResetPassword_Snackbar_ResetSuccess" xml:space="preserve">
+    <value>Password reset successfully! Redirecting to login...</value>
+  </data>
+  <data name="ResetPassword_Error_FailedReset" xml:space="preserve">
+    <value>Failed to reset password. The link may be expired or invalid.</value>
+  </data>
+  <data name="ResetPassword_Error_GenericException" xml:space="preserve">
+    <value>An error occurred: {0}</value>
+  </data>
+  <data name="Register_PageTitle" xml:space="preserve">
+    <value>Register - SRMS</value>
+  </data>
+  <data name="Register_CheckingAuth" xml:space="preserve">
+    <value>Checking authentication...</value>
+  </data>
+  <data name="Register_Header_CreateAccount" xml:space="preserve">
+    <value>Create Your Account</value>
+  </data>
+  <data name="Register_Subtitle_Join" xml:space="preserve">
+    <value>Join the Student Residence Management System</value>
+  </data>
+  <data name="Register_PersonalInformation" xml:space="preserve">
+    <value>Personal Information</value>
+  </data>
+  <data name="Register_ContactInformation" xml:space="preserve">
+    <value>Contact Information</value>
+  </data>
+  <data name="Register_AdditionalInformation" xml:space="preserve">
+    <value>Additional Information</value>
+  </data>
+  <data name="Register_Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="Register_Label_FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Register_Label_LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Register_Label_Email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="Register_Helper_EmailVerification" xml:space="preserve">
+    <value>We'll send a verification link to this email</value>
+  </data>
+  <data name="Register_Label_Phone" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="Register_Label_NationalId" xml:space="preserve">
+    <value>National ID</value>
+  </data>
+  <data name="Register_Label_DateOfBirth" xml:space="preserve">
+    <value>Date of Birth</value>
+  </data>
+  <data name="Register_Label_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Register_Label_ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="Register_Helper_PasswordRules" xml:space="preserve">
+    <value>Min 8 characters: uppercase, lowercase, number &amp; special symbol</value>
+  </data>
+  <data name="Register_PasswordStrength_Prefix" xml:space="preserve">
+    <value>Password strength:</value>
+  </data>
+  <data name="Register_Button_CreatingAccount" xml:space="preserve">
+    <value>Creating your account...</value>
+  </data>
+  <data name="Register_Button_CreateAccount" xml:space="preserve">
+    <value>Create Account</value>
+  </data>
+  <data name="Register_OR" xml:space="preserve">
+    <value>OR</value>
+  </data>
+  <data name="Register_AlreadyHaveAccount" xml:space="preserve">
+    <value>Already have an account?</value>
+  </data>
+  <data name="Register_Button_SignInInstead" xml:space="preserve">
+    <value>Sign in instead</value>
+  </data>
+  <data name="About_PageTitle" xml:space="preserve">
+    <value>About Us - SRMS</value>
+  </data>
+  <data name="About_Header" xml:space="preserve">
+    <value>About SRMS</value>
+  </data>
+  <data name="About_Subtitle" xml:space="preserve">
+    <value>Revolutionizing student residence management with cutting-edge technology and exceptional service</value>
+  </data>
+  <data name="About_Vision_Title" xml:space="preserve">
+    <value>Our Vision</value>
+  </data>
+  <data name="About_Vision_Description" xml:space="preserve">
+    <value>To be the leading platform for student residence management, delivering seamless experiences for students, managers, and administrators worldwide through innovative technology and exceptional service delivery.</value>
+  </data>
+  <data name="About_Mission_Title" xml:space="preserve">
+    <value>Our Mission</value>
+  </data>
+  <data name="About_Mission_Description" xml:space="preserve">
+    <value>To simplify and enhance the student housing experience by providing a comprehensive, user-friendly platform that connects students with quality accommodation while empowering administrators with powerful management tools.</value>
+  </data>
+  <data name="About_WhyChooseSRMS_Title" xml:space="preserve">
+    <value>Why Choose SRMS?</value>
+  </data>
+  <data name="About_Feature_FastEfficient_Title" xml:space="preserve">
+    <value>Fast &amp; Efficient</value>
+  </data>
+  <data name="About_Feature_FastEfficient_Description" xml:space="preserve">
+    <value>Streamlined processes that save time and reduce administrative burden</value>
+  </data>
+  <data name="About_Feature_MultiPlatform_Title" xml:space="preserve">
+    <value>Multi-Platform</value>
+  </data>
+  <data name="About_Feature_MultiPlatform_Description" xml:space="preserve">
+    <value>Access from any device - desktop, tablet, or mobile</value>
+  </data>
+  <data name="About_Feature_247Support_Title" xml:space="preserve">
+    <value>24/7 Support</value>
+  </data>
+  <data name="About_Feature_247Support_Description" xml:space="preserve">
+    <value>Round-the-clock customer support to assist you anytime</value>
+  </data>
+  <data name="About_Feature_CloudBased_Title" xml:space="preserve">
+    <value>Cloud-Based</value>
+  </data>
+  <data name="About_Feature_CloudBased_Description" xml:space="preserve">
+    <value>Scalable cloud infrastructure for optimal performance</value>
+  </data>
+  <data name="About_Impact_Title" xml:space="preserve">
+    <value>Our Impact</value>
+  </data>
+  <data name="About_Impact_UserRating" xml:space="preserve">
+    <value>User Rating</value>
+  </data>
+  <data name="About_Team_Title" xml:space="preserve">
+    <value>Meet Our Team</value>
+  </data>
+  <data name="About_Team_Member1_Name" xml:space="preserve">
+    <value>Dr. Sarah Johnson</value>
+  </data>
+  <data name="About_Team_Member1_Role" xml:space="preserve">
+    <value>CEO</value>
+  </data>
+  <data name="About_Team_Member1_Description" xml:space="preserve">
+    <value>Driving innovation in student housing</value>
+  </data>
+  <data name="About_Team_Member2_Name" xml:space="preserve">
+    <value>Michael Chen</value>
+  </data>
+  <data name="About_Team_Member2_Role" xml:space="preserve">
+    <value>CTO</value>
+  </data>
+  <data name="About_Team_Member2_Description" xml:space="preserve">
+    <value>Building cutting-edge solutions</value>
+  </data>
+  <data name="About_Team_Member3_Name" xml:space="preserve">
+    <value>Emily Rodriguez</value>
+  </data>
+  <data name="About_Team_Member3_Role" xml:space="preserve">
+    <value>COO</value>
+  </data>
+  <data name="About_Team_Member3_Description" xml:space="preserve">
+    <value>Ensuring seamless experiences</value>
+  </data>
+  <data name="About_Team_Member4_Name" xml:space="preserve">
+    <value>David Kim</value>
+  </data>
+  <data name="About_Team_Member4_Role" xml:space="preserve">
+    <value>Customer Success Manager</value>
+  </data>
+  <data name="About_Team_Member4_Description" xml:space="preserve">
+    <value>Dedicated to your satisfaction</value>
+  </data>
+  <data name="Contact_Address_Value" xml:space="preserve">
+    <value>123 University Ave, City, State 12345, Country</value>
+  </data>
+  <data name="Contact_Phone_Value" xml:space="preserve">
+    <value>+1 (555) 123-4567 / +1 (555) 987-6543</value>
+  </data>
+  <data name="Contact_Email_Value" xml:space="preserve">
+    <value>info@srms.com / support@srms.com</value>
+  </data>
+  <data name="Contact_BusinessHours_Value" xml:space="preserve">
+    <value>Mon - Fri: 9am - 6pm, Sat: 10am - 4pm, Sun: Closed</value>
+  </data>
+  <data name="Register_PasswordStrength_NotSet" xml:space="preserve">
+    <value>Not Set</value>
+  </data>
+  <data name="Register_PasswordStrength_VeryWeak" xml:space="preserve">
+    <value>Very Weak</value>
+  </data>
+  <data name="Register_PasswordStrength_Weak" xml:space="preserve">
+    <value>Weak</value>
+  </data>
+  <data name="Register_PasswordStrength_Fair" xml:space="preserve">
+    <value>Fair</value>
+  </data>
+  <data name="Register_PasswordStrength_Good" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="Register_PasswordStrength_Strong" xml:space="preserve">
+    <value>Strong</value>
+  </data>
+  <data name="Register_Snackbar_Success" xml:space="preserve">
+    <value>Successfully registered! Please check your email to activate your account.</value>
+  </data>
+  <data name="Register_Snackbar_Failure" xml:space="preserve">
+    <value>Registration failed. Please try again.</value>
+  </data>
+  <data name="Register_Snackbar_Error" xml:space="preserve">
+    <value>Registration failed: {0}</value>
+  </data>
+  <data name="Register_TermsAndConditions" xml:space="preserve">
+    <value>I agree to the {0} and {1}</value>
+  </data>
+  <data name="ForgotPassword_PageTitle" xml:space="preserve">
+    <value>Forgot Password - SRMS</value>
+  </data>
+  <data name="ForgotPassword_Header" xml:space="preserve">
+    <value>Forgot Password?</value>
+  </data>
+  <data name="ForgotPassword_Subheader" xml:space="preserve">
+    <value>No worries! Enter your email and we'll send you a reset link.</value>
+  </data>
+  <data name="ForgotPassword_Label_Email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="ForgotPassword_Helper_Email" xml:space="preserve">
+    <value>Enter the email address associated with your account</value>
+  </data>
+  <data name="ForgotPassword_Button_Sending" xml:space="preserve">
+    <value>Sending reset link...</value>
+  </data>
+  <data name="ForgotPassword_Button_Send" xml:space="preserve">
+    <value>Send Reset Link</value>
+  </data>
+  <data name="ForgotPassword_Button_BackToLogin" xml:space="preserve">
+    <value>Back to Login</value>
+  </data>
+  <data name="ForgotPassword_Success_Header" xml:space="preserve">
+    <value>Check your email</value>
+  </data>
+  <data name="ForgotPassword_Success_Subheader" xml:space="preserve">
+    <value>We've sent a password reset link to &lt;strong&gt;{0}&lt;/strong&gt;</value>
+  </data>
+  <data name="ForgotPassword_Success_Spam" xml:space="preserve">
+    <value>Didn't receive the email? Check your spam folder or try again.</value>
+  </data>
+  <data name="ForgotPassword_Button_TryAnotherEmail" xml:space="preserve">
+    <value>Try another email</value>
+  </data>
+  <data name="ForgotPassword_Snackbar_Success" xml:space="preserve">
+    <value>Password reset link sent successfully! Please check your email.</value>
+  </data>
+  <data name="ForgotPassword_Snackbar_Failure" xml:space="preserve">
+    <value>Failed to send reset link. Please try again.</value>
+  </data>
+  <data name="ForgotPassword_Snackbar_Error" xml:space="preserve">
+    <value>An error occurred: {0}</value>
+  </data>
+  <data name="ResetPassword_PasswordStrength_VeryWeak" xml:space="preserve">
+    <value>Very Weak</value>
+  </data>
+  <data name="ResetPassword_PasswordStrength_Weak" xml:space="preserve">
+    <value>Weak</value>
+  </data>
+  <data name="ResetPassword_PasswordStrength_Fair" xml:space="preserve">
+    <value>Fair</value>
+  </data>
+  <data name="ResetPassword_PasswordStrength_Good" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="ResetPassword_PasswordStrength_Strong" xml:space="preserve">
+    <value>Strong</value>
+  </data>
+  <data name="Profile_PageTitle" xml:space="preserve">
+    <value>My Profile - SRMS</value>
+  </data>
+  <data name="Profile_Header" xml:space="preserve">
+    <value>My Profile</value>
+  </data>
+  <data name="Profile_Error_Load" xml:space="preserve">
+    <value>Could not load profile data. Please try again.</value>
+  </data>
+  <data name="Profile_Status_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Profile_Status_Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="Profile_MemberSince" xml:space="preserve">
+    <value>Member since</value>
+  </data>
+  <data name="Profile_LastLogin" xml:space="preserve">
+    <value>Last login</value>
+  </data>
+  <data name="Profile_Never" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="Profile_Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="Profile_Tab_PersonalInfo" xml:space="preserve">
+    <value>Personal Info</value>
+  </data>
+  <data name="Profile_Label_FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Profile_Label_LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Profile_Label_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Profile_Label_PhoneNumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="Profile_Label_City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Profile_Label_Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="Profile_Label_Street" xml:space="preserve">
+    <value>Street Address</value>
+  </data>
+  <data name="Profile_Label_PostalCode" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="Profile_Label_PreferredLanguage" xml:space="preserve">
+    <value>Preferred Language</value>
+  </data>
+  <data name="Profile_Button_Saving" xml:space="preserve">
+    <value>Saving...</value>
+  </data>
+  <data name="Profile_Button_SaveChanges" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="Profile_Tab_Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="Profile_Label_CurrentPassword" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="Profile_Label_NewPassword" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="Profile_Label_ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm New Password</value>
+  </data>
+  <data name="Profile_Button_Changing" xml:space="preserve">
+    <value>Changing...</value>
+  </data>
+  <data name="Profile_Button_ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="Profile_Tab_Preferences" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="Profile_Label_EmailNotifications" xml:space="preserve">
+    <value>Email Notifications</value>
+  </data>
+  <data name="Profile_Helper_EmailNotifications" xml:space="preserve">
+    <value>Receive email notifications for important updates</value>
+  </data>
+  <data name="Profile_Label_SMSNotifications" xml:space="preserve">
+    <value>SMS Notifications</value>
+  </data>
+  <data name="Profile_Helper_SMSNotifications" xml:space="preserve">
+    <value>Receive SMS notifications for urgent matters</value>
+  </data>
+  <data name="Profile_Label_Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Profile_Theme_Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Profile_Theme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Profile_Theme_Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Profile_Button_SavePreferences" xml:space="preserve">
+    <value>Save Preferences</value>
+  </data>
+  <data name="Profile_Snackbar_UpdateSuccess" xml:space="preserve">
+    <value>Profile updated successfully!</value>
+  </data>
+  <data name="Profile_Snackbar_UpdateFailed" xml:space="preserve">
+    <value>Failed to update profile.</value>
+  </data>
+  <data name="Profile_Snackbar_PasswordMismatch" xml:space="preserve">
+    <value>Passwords do not match!</value>
+  </data>
+  <data name="Profile_Snackbar_PasswordChangeNotImplemented" xml:space="preserve">
+    <value>Password change feature will be implemented soon!</value>
+  </data>
+  <data name="Profile_Snackbar_UploadNotImplemented" xml:space="preserve">
+    <value>Image upload feature coming soon!</value>
+  </data>
+  <data name="SMSNotifications" xml:space="preserve">
+    <value>SMS Notifications</value>
+  </data>
+  <data name="Desc_SMSNotifications" xml:space="preserve">
+    <value>Receive important notifications via SMS.</value>
+  </data>
+  <data name="PushNotifications" xml:space="preserve">
+    <value>Push Notifications</value>
+  </data>
+  <data name="Desc_PushNotifications" xml:space="preserve">
+    <value>Get push notifications on your device.</value>
+  </data>
+  <data name="PaymentNotifications" xml:space="preserve">
+    <value>Payment Notifications</value>
+  </data>
+  <data name="Desc_PaymentNotifications" xml:space="preserve">
+    <value>Receive notifications for payments and invoices.</value>
+  </data>
+  <data name="ComplaintNotifications" xml:space="preserve">
+    <value>Complaint Notifications</value>
+  </data>
+  <data name="Desc_ComplaintNotifications" xml:space="preserve">
+    <value>Get updates on your complaints.</value>
+  </data>
+  <data name="DarkMode" xml:space="preserve">
+    <value>Dark Mode</value>
+  </data>
+  <data name="CompactMode" xml:space="preserve">
+    <value>Compact Mode</value>
+  </data>
+  <data name="AccentColor" xml:space="preserve">
+    <value>Accent Color</value>
+  </data>
+  <data name="Purple" xml:space="preserve">
+    <value>Purple</value>
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value>Blue</value>
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value>Red</value>
+  </data>
+  <data name="TwoFactorAuthentication" xml:space="preserve">
+    <value>Two-Factor Authentication</value>
+  </data>
+  <data name="Desc_TwoFactorAuthentication" xml:space="preserve">
+    <value>Add an extra layer of security to your account.</value>
+  </data>
+  <data name="LoginAlerts" xml:space="preserve">
+    <value>Login Alerts</value>
+  </data>
+  <data name="Desc_LoginAlerts" xml:space="preserve">
+    <value>Get notified when your account is logged in from a new device.</value>
+  </data>
+  <data name="PublicProfile" xml:space="preserve">
+    <value>Public Profile</value>
+  </data>
+  <data name="Desc_PublicProfile" xml:space="preserve">
+    <value>Allow other users to see your profile.</value>
+  </data>
+  <data name="ViewLoginHistory" xml:space="preserve">
+    <value>View Login History</value>
+  </data>
+  <data name="LogoutAllDevices" xml:space="preserve">
+    <value>Logout From All Devices</value>
+  </data>
+  <data name="Snackbar_GeneralSettingsSaved" xml:space="preserve">
+    <value>General settings saved successfully!</value>
+  </data>
+  <data name="Snackbar_NotificationSettingsSaved" xml:space="preserve">
+    <value>Notification settings saved successfully!</value>
+  </data>
+  <data name="Snackbar_AppearanceSettingsSaved" xml:space="preserve">
+    <value>Appearance settings saved successfully!</value>
+  </data>
+  <data name="Snackbar_LoginHistoryComingSoon" xml:space="preserve">
+    <value>Login history feature coming soon!</value>
+  </data>
+  <data name="Snackbar_LoggedOutAllDevices" xml:space="preserve">
+    <value>Successfully logged out of all other devices.</value>
+  </data>
+  <data name="Snackbar_DataExportStarted" xml:space="preserve">
+    <value>Data export started. You will receive an email with the download link shortly.</value>
+  </data>
+  <data name="Snackbar_CacheCleared" xml:space="preserve">
+    <value>Cache cleared successfully!</value>
+  </data>
+  <data name="Snackbar_DeleteAccount_ContactSupport" xml:space="preserve">
+    <value>To delete your account, please contact support.</value>
+  </data>
+  <data name="Notifications_PageTitle" xml:space="preserve">
+    <value>Notifications - SRMS</value>
+  </data>
+  <data name="Notifications_Header" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Notifications_Subheader" xml:space="preserve">
+    <value>Stay up-to-date with your latest activities</value>
+  </data>
+  <data name="Notifications_Button_Create" xml:space="preserve">
+    <value>Create Notification</value>
+  </data>
+  <data name="Notifications_Button_MarkAllRead" xml:space="preserve">
+    <value>Mark All as Read</value>
+  </data>
+  <data name="Notifications_Filter_All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Notifications_Filter_Unread" xml:space="preserve">
+    <value>Unread</value>
+  </data>
+  <data name="Notifications_Filter_Announcement" xml:space="preserve">
+    <value>Announcement</value>
+  </data>
+  <data name="Notifications_Filter_Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="Notifications_Filter_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="Notifications_Filter_System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="Notifications_Filter_Payments" xml:space="preserve">
+    <value>Payments</value>
+  </data>
+  <data name="Notifications_Filter_Complaints" xml:space="preserve">
+    <value>Complaints</value>
+  </data>
+  <data name="Notifications_NoNotifications_Header" xml:space="preserve">
+    <value>No Notifications</value>
+  </data>
+  <data name="Notifications_NoNotifications_Subheader" xml:space="preserve">
+    <value>You're all caught up! Check back later for updates.</value>
+  </data>
+  <data name="Notifications_Snackbar_SentSuccess" xml:space="preserve">
+    <value>Notification sent successfully</value>
+  </data>
+  <data name="Notifications_Snackbar_SentFailed" xml:space="preserve">
+    <value>Failed to send notification</value>
+  </data>
+  <data name="AdminDashboard_PageTitle" xml:space="preserve">
+    <value>Admin Dashboard</value>
+  </data>
+  <data name="AdminDashboard_Welcome" xml:space="preserve">
+    <value>Welcome back, {0}</value>
+  </data>
+  <data name="AdminDashboard_Role" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="AdminDashboard_TotalResidences" xml:space="preserve">
+    <value>Total Residences</value>
+  </data>
+  <data name="AdminDashboard_ResidencesGrowth" xml:space="preserve">
+    <value>{0} this month</value>
+  </data>
+  <data name="AdminDashboard_ActiveManagers" xml:space="preserve">
+    <value>Active Managers</value>
+  </data>
+  <data name="AdminDashboard_ManagerAvailability" xml:space="preserve">
+    <value>{0}% availability</value>
+  </data>
+  <data name="AdminDashboard_TotalStudents" xml:space="preserve">
+    <value>Total Students</value>
+  </data>
+  <data name="AdminDashboard_OccupancyRate" xml:space="preserve">
+    <value>{0}% occupancy</value>
+  </data>
+  <data name="AdminDashboard_MonthlyRevenue" xml:space="preserve">
+    <value>Monthly Revenue</value>
+  </data>
+  <data name="AdminDashboard_RevenueGrowth" xml:space="preserve">
+    <value>{0}% vs last month</value>
+  </data>
+  <data name="AdminDashboard_StudentRegistrations" xml:space="preserve">
+    <value>Student Registration Trend</value>
+  </data>
+  <data name="AdminDashboard_Chart_ThisWeek" xml:space="preserve">
+    <value>This Week</value>
+  </data>
+  <data name="AdminDashboard_Chart_ThisMonth" xml:space="preserve">
+    <value>This Month</value>
+  </data>
+  <data name="AdminDashboard_Chart_ThisYear" xml:space="preserve">
+    <value>This Year</value>
+  </data>
+  <data name="AdminDashboard_Chart_NoData" xml:space="preserve">
+    <value>No data available for the selected period</value>
+  </data>
+  <data name="AdminDashboard_QuickActions" xml:space="preserve">
+    <value>Quick Actions</value>
+  </data>
+  <data name="AdminDashboard_Button_AddResidence" xml:space="preserve">
+    <value>Add Residence</value>
+  </data>
+  <data name="AdminDashboard_Button_AddManager" xml:space="preserve">
+    <value>Add Manager</value>
+  </data>
+  <data name="AdminDashboard_Button_ViewReports" xml:space="preserve">
+    <value>View Reports</value>
+  </data>
+  <data name="AdminDashboard_Button_SystemSettings" xml:space="preserve">
+    <value>System Settings</value>
+  </data>
+  <data name="AdminDashboard_ComplaintsOverview" xml:space="preserve">
+    <value>Complaints Overview</value>
+  </data>
+  <data name="AdminDashboard_Complaints_Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="AdminDashboard_Complaints_Resolved" xml:space="preserve">
+    <value>Resolved</value>
+  </data>
+  <data name="AdminDashboard_Button_ViewAllComplaints" xml:space="preserve">
+    <value>View All Complaints</value>
+  </data>
+  <data name="ManagersManagement_PageTitle" xml:space="preserve">
+    <value>Managers Management</value>
+  </data>
+  <data name="ManagersManagement_Header" xml:space="preserve">
+    <value>Managers Management</value>
+  </data>
+  <data name="ManagersManagement_Button_Add" xml:space="preserve">
+    <value>Add New Manager</value>
+  </data>
+  <data name="ManagersManagement_Stats_Total" xml:space="preserve">
+    <value>Total Managers</value>
+  </data>
+  <data name="ManagersManagement_Stats_Active" xml:space="preserve">
+    <value>Active Managers</value>
+  </data>
+  <data name="ManagersManagement_Stats_OnLeave" xml:space="preserve">
+    <value>On Leave</value>
+  </data>
+  <data name="ManagersManagement_Stats_AvgWorkload" xml:space="preserve">
+    <value>Avg. Workload</value>
+  </data>
+  <data name="ManagersManagement_SearchPlaceholder" xml:space="preserve">
+    <value>Search managers by name, email, or employee #...</value>
+  </data>
+  <data name="ManagersManagement_Filter_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ManagersManagement_Filter_AllStatuses" xml:space="preserve">
+    <value>All Statuses</value>
+  </data>
+  <data name="ManagersManagement_Filter_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="ManagersManagement_Filter_OnLeave" xml:space="preserve">
+    <value>On Leave</value>
+  </data>
+  <data name="ManagersManagement_Filter_Suspended" xml:space="preserve">
+    <value>Suspended</value>
+  </data>
+  <data name="ManagersManagement_Filter_Terminated" xml:space="preserve">
+    <value>Terminated</value>
+  </data>
+  <data name="ManagersManagement_Button_ClearFilters" xml:space="preserve">
+    <value>Clear Filters</value>
+  </data>
+  <data name="ManagersManagement_Table_Header_Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="ManagersManagement_Table_Header_Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="ManagersManagement_Table_Header_EmployeeNo" xml:space="preserve">
+    <value>Employee #</value>
+  </data>
+  <data name="ManagersManagement_Table_Header_Residences" xml:space="preserve">
+    <value>Residences</value>
+  </data>
+  <data name="ManagersManagement_Table_Header_Students" xml:space="preserve">
+    <value>Students</value>
+  </data>
+  <data name="ManagersManagement_Table_Header_HireDate" xml:space="preserve">
+    <value>Hire Date</value>
+  </data>
+  <data name="ManagersManagement_Table_Header_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ManagersManagement_Table_Header_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="ManagersManagement_Table_NA" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="ManagersManagement_Actions_ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="ManagersManagement_Actions_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ManagersManagement_Actions_AssignResidences" xml:space="preserve">
+    <value>Assign Residences</value>
+  </data>
+  <data name="ManagersManagement_Actions_SetOnLeave" xml:space="preserve">
+    <value>Set On Leave</value>
+  </data>
+  <data name="ManagersManagement_Actions_SetActive" xml:space="preserve">
+    <value>Set Active</value>
+  </data>
+  <data name="ManagersManagement_Actions_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ManagersManagement_Performance_Header" xml:space="preserve">
+    <value>Managers Performance Overview</value>
+  </data>
+  <data name="ManagersManagement_Performance_AvgOccupancy" xml:space="preserve">
+    <value>Avg. Occupancy</value>
+  </data>
+  <data name="ManagersManagement_Performance_Workload" xml:space="preserve">
+    <value>Workload</value>
+  </data>
+  <data name="ResidencesManagement_PageTitle" xml:space="preserve">
+    <value>Residences Management</value>
+  </data>
+  <data name="ResidencesManagement_Header" xml:space="preserve">
+    <value>Residences Management</value>
+  </data>
+  <data name="ResidencesManagement_Button_Add" xml:space="preserve">
+    <value>Add New Residence</value>
+  </data>
+  <data name="ResidencesManagement_Stats_Total" xml:space="preserve">
+    <value>Total Residences</value>
+  </data>
+  <data name="ResidencesManagement_Stats_Capacity" xml:space="preserve">
+    <value>Total Capacity</value>
+  </data>
+  <data name="ResidencesManagement_Stats_Available" xml:space="preserve">
+    <value>Available Space</value>
+  </data>
+  <data name="ResidencesManagement_Stats_AvgOccupancy" xml:space="preserve">
+    <value>Avg. Occupancy</value>
+  </data>
+  <data name="ResidencesManagement_SearchPlaceholder" xml:space="preserve">
+    <value>Search residences...</value>
+  </data>
+  <data name="ResidencesManagement_Filter_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ResidencesManagement_Filter_AllStatuses" xml:space="preserve">
+    <value>All Statuses</value>
+  </data>
+  <data name="ResidencesManagement_Filter_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="ResidencesManagement_Filter_Full" xml:space="preserve">
+    <value>Full</value>
+  </data>
+  <data name="ResidencesManagement_Filter_Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="ResidencesManagement_Button_ClearFilters" xml:space="preserve">
+    <value>Clear Filters</value>
+  </data>
+  <data name="ResidencesManagement_Table_Header_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ResidencesManagement_Table_Header_Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="ResidencesManagement_Table_Header_Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="ResidencesManagement_Table_Header_Capacity" xml:space="preserve">
+    <value>Capacity</value>
+  </data>
+  <data name="ResidencesManagement_Table_Header_Occupancy" xml:space="preserve">
+    <value>Occupancy</value>
+  </data>
+  <data name="ResidencesManagement_Table_Header_MonthlyRent" xml:space="preserve">
+    <value>Monthly Rent</value>
+  </data>
+  <data name="ResidencesManagement_Table_Header_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ResidencesManagement_Table_Header_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="ResidencesManagement_Table_Unassigned" xml:space="preserve">
+    <value>Unassigned</value>
+  </data>
+  <data name="ResidencesManagement_Table_NA" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="ResidencesManagement_Table_Status_Full" xml:space="preserve">
+    <value>Full</value>
+  </data>
+  <data name="ResidencesManagement_Table_Status_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="ResidencesManagement_Table_Status_Inactive" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="ResidencesManagement_Actions_ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="ResidencesManagement_Actions_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="ResidencesManagement_Actions_ManageRooms" xml:space="preserve">
+    <value>Manage Rooms</value>
+  </data>
+  <data name="ResidencesManagement_Actions_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ResidencesManagement_Snackbar_Created" xml:space="preserve">
+    <value>Residence created successfully</value>
+  </data>
+  <data name="ResidencesManagement_Snackbar_Deleted" xml:space="preserve">
+    <value>Residence '{0}' deleted successfully</value>
+  </data>
+  <data name="ResidencesManagement_Dialog_ConfirmDelete_Title" xml:space="preserve">
+    <value>Confirm Deletion</value>
+  </data>
+  <data name="ResidencesManagement_Dialog_ConfirmDelete_Content" xml:space="preserve">
+    <value>Are you sure you want to delete '{0}'? This action cannot be undone.</value>
+  </data>
+  <data name="ResidencesManagement_Dialog_ConfirmDelete_Button" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ReportsAndAnalytics_PageTitle" xml:space="preserve">
+    <value>Reports &amp; Analytics</value>
+  </data>
+  <data name="ReportsAndAnalytics_Header" xml:space="preserve">
+    <value>Reports &amp; Analytics</value>
+  </data>
+  <data name="ReportsAndAnalytics_Button_ExportPDF" xml:space="preserve">
+    <value>Export PDF</value>
+  </data>
+  <data name="ReportsAndAnalytics_Button_ExportExcel" xml:space="preserve">
+    <value>Export Excel</value>
+  </data>
+  <data name="ReportsAndAnalytics_Label_StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="ReportsAndAnalytics_Label_EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="ReportsAndAnalytics_Label_QuickSelect" xml:space="preserve">
+    <value>Quick Select</value>
+  </data>
+  <data name="ReportsAndAnalytics_Period_Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="ReportsAndAnalytics_Period_ThisWeek" xml:space="preserve">
+    <value>This Week</value>
+  </data>
+  <data name="ReportsAndAnalytics_Period_ThisMonth" xml:space="preserve">
+    <value>This Month</value>
+  </data>
+  <data name="ReportsAndAnalytics_Period_ThisQuarter" xml:space="preserve">
+    <value>This Quarter</value>
+  </data>
+  <data name="ReportsAndAnalytics_Period_ThisYear" xml:space="preserve">
+    <value>This Year</value>
+  </data>
+  <data name="ReportsAndAnalytics_Period_CustomRange" xml:space="preserve">
+    <value>Custom Range</value>
+  </data>
+  <data name="ReportsAndAnalytics_Summary_TotalRevenue" xml:space="preserve">
+    <value>Total Revenue</value>
+  </data>
+  <data name="ReportsAndAnalytics_Summary_PaymentsReceived" xml:space="preserve">
+    <value>{0} payments received</value>
+  </data>
+  <data name="ReportsAndAnalytics_Summary_PendingPayments" xml:space="preserve">
+    <value>Pending Payments</value>
+  </data>
+  <data name="ReportsAndAnalytics_Summary_PaymentsPending" xml:space="preserve">
+    <value>{0} payments pending</value>
+  </data>
+  <data name="ReportsAndAnalytics_Summary_NewStudents" xml:space="preserve">
+    <value>New Students</value>
+  </data>
+  <data name="ReportsAndAnalytics_Summary_InSelectedPeriod" xml:space="preserve">
+    <value>in selected period</value>
+  </data>
+  <data name="ReportsAndAnalytics_Summary_Complaints" xml:space="preserve">
+    <value>Complaints</value>
+  </data>
+  <data name="ReportsAndAnalytics_Summary_ComplaintsResolved" xml:space="preserve">
+    <value>{0} resolved</value>
+  </data>
+  <data name="ReportsAndAnalytics_Chart_RevenueTrend" xml:space="preserve">
+    <value>Revenue Trend</value>
+  </data>
+  <data name="ReportsAndAnalytics_Chart_PaymentStatus" xml:space="preserve">
+    <value>Payment Status</value>
+  </data>
+  <data name="ReportsAndAnalytics_Chart_OccupancyByResidence" xml:space="preserve">
+    <value>Occupancy by Residence</value>
+  </data>
+  <data name="ReportsAndAnalytics_Chart_Occupied" xml:space="preserve">
+    <value>{0} / {1} occupied</value>
+  </data>
+  <data name="ReportsAndAnalytics_Chart_ComplaintsByCategory" xml:space="preserve">
+    <value>Complaints by Category</value>
+  </data>
+  <data name="ReportsAndAnalytics_Table_TopRevenueGenerators" xml:space="preserve">
+    <value>Top Revenue Generators</value>
+  </data>
+  <data name="ReportsAndAnalytics_Table_Header_Residence" xml:space="preserve">
+    <value>Residence</value>
+  </data>
+  <data name="ReportsAndAnalytics_Table_Header_Revenue" xml:space="preserve">
+    <value>Revenue</value>
+  </data>
+  <data name="ReportsAndAnalytics_Table_Header_Students" xml:space="preserve">
+    <value>Students</value>
+  </data>
+  <data name="ReportsAndAnalytics_ActivitySummary" xml:space="preserve">
+    <value>Activity Summary</value>
+  </data>
+  <data name="ReportsAndAnalytics_Activity_UserLogins" xml:space="preserve">
+    <value>{0} user logins</value>
+  </data>
+  <data name="ReportsAndAnalytics_Activity_NewRegistrations" xml:space="preserve">
+    <value>{0} new registrations</value>
+  </data>
+  <data name="ReportsAndAnalytics_Activity_PaymentsProcessed" xml:space="preserve">
+    <value>{0} payments processed</value>
+  </data>
+  <data name="ReportsAndAnalytics_Activity_ComplaintsFiled" xml:space="preserve">
+    <value>{0} complaints filed</value>
+  </data>
+  <data name="ReportsAndAnalytics_Activity_ComplaintsResolved" xml:space="preserve">
+    <value>{0} complaints resolved</value>
+  </data>
+  <data name="RoomsManagement_PageTitle" xml:space="preserve">
+    <value>Rooms Management</value>
+  </data>
+  <data name="RoomsManagement_Header" xml:space="preserve">
+    <value>Rooms Management</value>
+  </data>
+  <data name="RoomsManagement_Subheader" xml:space="preserve">
+    <value>Manage residence rooms and bed assignments</value>
+  </data>
+  <data name="RoomsManagement_Button_Add" xml:space="preserve">
+    <value>Add New Room</value>
+  </data>
+  <data name="RoomsManagement_Stats_Total" xml:space="preserve">
+    <value>Total Rooms</value>
+  </data>
+  <data name="RoomsManagement_Stats_Available" xml:space="preserve">
+    <value>Available Rooms</value>
+  </data>
+  <data name="RoomsManagement_Stats_TotalBeds" xml:space="preserve">
+    <value>Total Beds</value>
+  </data>
+  <data name="RoomsManagement_Stats_OccupancyRate" xml:space="preserve">
+    <value>Occupancy Rate</value>
+  </data>
+  <data name="RoomsManagement_SearchPlaceholder" xml:space="preserve">
+    <value>Search rooms...</value>
+  </data>
+  <data name="RoomsManagement_View_Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="RoomsManagement_View_List" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="RoomsManagement_Card_Room" xml:space="preserve">
+    <value>Room {0}</value>
+  </data>
+  <data name="RoomsManagement_Card_Floor" xml:space="preserve">
+    <value>Floor {0}</value>
+  </data>
+  <data name="RoomsManagement_Card_Status_Full" xml:space="preserve">
+    <value>Full</value>
+  </data>
+  <data name="RoomsManagement_Card_Status_Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="RoomsManagement_Card_BedsOccupied" xml:space="preserve">
+    <value>{0}/{1} beds occupied</value>
+  </data>
+  <data name="RoomsManagement_Card_ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="RoomsManagement_Card_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="RoomsManagement_Card_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="RoomsManagement_Table_Header_Room" xml:space="preserve">
+    <value>Room</value>
+  </data>
+  <data name="RoomsManagement_Table_Header_Residence" xml:space="preserve">
+    <value>Residence</value>
+  </data>
+  <data name="RoomsManagement_Table_Header_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="RoomsManagement_Table_Header_Beds" xml:space="preserve">
+    <value>Beds</value>
+  </data>
+  <data name="RoomsManagement_Table_Header_Occupancy" xml:space="preserve">
+    <value>Occupancy</value>
+  </data>
+  <data name="RoomsManagement_Table_Header_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="RoomsManagement_Table_Header_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="RoomsManagement_Snackbar_CreateNotImplemented" xml:space="preserve">
+    <value>Room creation functionality - coming soon!</value>
+  </data>
+  <data name="RoomsManagement_Snackbar_EditNotImplemented" xml:space="preserve">
+    <value>Room editing functionality - coming soon!</value>
+  </data>
+  <data name="RoomsManagement_Snackbar_Deleted" xml:space="preserve">
+    <value>Room deleted successfully!</value>
+  </data>
+  <data name="RoomsManagement_Dialog_ConfirmDelete_Title" xml:space="preserve">
+    <value>Delete Room</value>
+  </data>
+  <data name="RoomsManagement_Dialog_ConfirmDelete_Content" xml:space="preserve">
+    <value>Are you sure you want to delete this room? Students assigned to this room will need to be reassigned!</value>
+  </data>
+  <data name="RoomsManagement_Dialog_ConfirmDelete_Button" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Dialog_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Dialog_OK" xml:space="preserve">
+  <value>OK</value>
+  </data>
+  <data name="CreateRoleDialog_Title" xml:space="preserve">
+    <value>Create New Role</value>
+  </data>
+  <data name="CreateRoleDialog_Description" xml:space="preserve">
+    <value>Create a new role for the system. This role can be assigned to users later.</value>
+  </data>
+  <data name="CreateRoleDialog_RoleName_Label" xml:space="preserve">
+    <value>Role Name</value>
+  </data>
+  <data name="CreateRoleDialog_RoleName_Placeholder" xml:space="preserve">
+    <value>e.g., SecurityGuard</value>
+  </data>
+  <data name="CreateRoleDialog_RoleName_HelperText" xml:space="preserve">
+    <value>Role name must be unique and contain no spaces</value>
+  </data>
+  <data name="CreateRoleDialog_Description_Label" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="CreateRoleDialog_Description_Placeholder" xml:space="preserve">
+    <value>Describe the purpose and responsibilities of this role</value>
+  </data>
+  <data name="CreateRoleDialog_Description_HelperText" xml:space="preserve">
+    <value>Optional: Provide a brief description</value>
+  </data>
+  <data name="CreateRoleDialog_Preview" xml:space="preserve">
+    <value>Preview:</value>
+  </data>
+  <data name="CreateRoleDialog_Validation_NoSpaces" xml:space="preserve">
+    <value>Role name cannot contain spaces</value>
+  </data>
+  <data name="CreateRoleDialog_Validation_InvalidChars" xml:space="preserve">
+    <value>Role name can only contain letters, numbers, and underscores</value>
+  </data>
+  <data name="CreateRoleDialog_Validation_MinLength" xml:space="preserve">
+    <value>Role name must be at least 3 characters</value>
+  </data>
+  <data name="CreateRoleDialog_Validation_MaxLength" xml:space="preserve">
+    <value>Role name cannot exceed 50 characters</value>
+  </data>
+  <data name="CreateRoleDialog_Validation_Valid" xml:space="preserve">
+    <value>✓ Valid role name</value>
+  </data>
+  <data name="CreateRoleDialog_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateRoleDialog_Button_Create" xml:space="preserve">
+    <value>Create Role</value>
+  </data>
+  <data name="CreateRoleDialog_Snackbar_Exists" xml:space="preserve">
+    <value>Role '{0}' already exists!</value>
+  </data>
+  <data name="CreateRoleDialog_Snackbar_Success" xml:space="preserve">
+    <value>Role '{0}' created successfully!</value>
+  </data>
+  <data name="CreateRoleDialog_Snackbar_Failure" xml:space="preserve">
+    <value>Failed to create role. Please try again.</value>
+  </data>
+  <data name="CreateUserDialog_Title" xml:space="preserve">
+    <value>Create New User</value>
+  </data>
+  <data name="CreateUserDialog_SelectRole" xml:space="preserve">
+    <value>Select Role</value>
+  </data>
+  <data name="CreateUserDialog_Role_Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="CreateUserDialog_Role_Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="CreateUserDialog_Role_Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="CreateUserDialog_FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="CreateUserDialog_LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="CreateUserDialog_Email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="CreateUserDialog_PhoneNumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="CreateUserDialog_TempPassword" xml:space="preserve">
+    <value>Temporary Password</value>
+  </data>
+  <data name="CreateUserDialog_TempPassword_Helper" xml:space="preserve">
+    <value>User will be prompted to change password on first login</value>
+  </data>
+  <data name="CreateUserDialog_ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="CreateUserDialog_SendWelcomeEmail" xml:space="preserve">
+    <value>Send welcome email with login credentials</value>
+  </data>
+  <data name="CreateUserDialog_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateUserDialog_Button_Create" xml:space="preserve">
+    <value>Create User</value>
+  </data>
+  <data name="CreateUserDialog_Snackbar_Success" xml:space="preserve">
+    <value>{0} account created successfully!</value>
+  </data>
+  <data name="CreateUserDialog_Snackbar_Failure" xml:space="preserve">
+    <value>Failed to create user</value>
+  </data>
+  <data name="DatabaseToolsDialog_Title" xml:space="preserve">
+    <value>Database Management Tools</value>
+  </data>
+  <data name="DatabaseToolsDialog_Warning" xml:space="preserve">
+    <value>&lt;strong&gt;⚠️ Warning:&lt;/strong&gt; These operations can affect your entire database. Use with extreme caution!</value>
+  </data>
+  <data name="DatabaseToolsDialog_Backup_Header" xml:space="preserve">
+    <value>Database Backup</value>
+  </data>
+  <data name="DatabaseToolsDialog_Backup_Description" xml:space="preserve">
+    <value>Create a full backup of your database for safekeeping.</value>
+  </data>
+  <data name="DatabaseToolsDialog_Backup_Button" xml:space="preserve">
+    <value>Create Backup</value>
+  </data>
+  <data name="DatabaseToolsDialog_Restore_Header" xml:space="preserve">
+    <value>Database Restore</value>
+  </data>
+  <data name="DatabaseToolsDialog_Restore_Description" xml:space="preserve">
+    <value>Restore your database from a previous backup file.</value>
+  </data>
+  <data name="DatabaseToolsDialog_Restore_Button_Select" xml:space="preserve">
+    <value>Choose Backup File</value>
+  </data>
+  <data name="DatabaseToolsDialog_Restore_Button_Restore" xml:space="preserve">
+    <value>Restore Now</value>
+  </data>
+  <data name="DatabaseToolsDialog_DangerZone_Header" xml:space="preserve">
+    <value>Danger Zone</value>
+  </data>
+  <data name="DatabaseToolsDialog_DangerZone_Description" xml:space="preserve">
+    <value>&lt;strong&gt;⚠️ These actions are irreversible!&lt;/strong&gt;</value>
+  </data>
+  <data name="DatabaseToolsDialog_DangerZone_Button_Reset" xml:space="preserve">
+    <value>Reset Database to Defaults</value>
+  </data>
+  <data name="DatabaseToolsDialog_Button_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_BackupCreating" xml:space="preserve">
+    <value>Creating database backup...</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_BackupSuccess" xml:space="preserve">
+    <value>✅ Database backup created successfully! Saved to: Backups/{0}</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_BackupFailed" xml:space="preserve">
+    <value>❌ Backup creation failed.</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_SelectFile" xml:space="preserve">
+    <value>Please select a backup file first.</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_RestoreConfirm" xml:space="preserve">
+    <value>Are you sure you want to restore from '{0}'? This will overwrite all current data!</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_RestoreConfirm_Button" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_Restoring" xml:space="preserve">
+    <value>Restoring database...</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_RestoreSuccess" xml:space="preserve">
+    <value>✅ Database restored successfully!</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_RestoreFailed" xml:space="preserve">
+    <value>❌ Database restore failed. Please check the backup file.</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_ResetConfirm" xml:space="preserve">
+    <value>⚠️ Warning: This will delete all data and reset the database to factory defaults. Type 'RESET' to confirm.</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_ResetConfirm_Button" xml:space="preserve">
+    <value>I understand, Reset Now</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_Resetting" xml:space="preserve">
+    <value>Resetting database...</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_ResetSuccess" xml:space="preserve">
+    <value>✅ Database reset successfully!</value>
+  </data>
+  <data name="DatabaseToolsDialog_Snackbar_ResetFailed" xml:space="preserve">
+    <value>❌ Database reset failed.</value>
+  </data>
+  <data name="EditUserDialog_Title" xml:space="preserve">
+    <value>Edit User</value>
+  </data>
+  <data name="EditUserDialog_FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="EditUserDialog_LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="EditUserDialog_PhoneNumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="EditUserDialog_City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="EditUserDialog_Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="EditUserDialog_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="EditUserDialog_Language_Arabic" xml:space="preserve">
+    <value>Arabic (Libya)</value>
+  </data>
+  <data name="EditUserDialog_Language_English" xml:space="preserve">
+    <value>English (United States)</value>
+  </data>
+  <data name="EditUserDialog_Theme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="EditUserDialog_Theme_Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="EditUserDialog_Theme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="EditUserDialog_Theme_System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="EditUserDialog_EnableEmailNotifications" xml:space="preserve">
+    <value>Enable Email Notifications</value>
+  </data>
+  <data name="EditUserDialog_EnableSMSNotifications" xml:space="preserve">
+    <value>Enable SMS Notifications</value>
+  </data>
+  <data name="EditUserDialog_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="EditUserDialog_Button_Save" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="EditUserDialog_Snackbar_UserNotFound" xml:space="preserve">
+    <value>User not found</value>
+  </data>
+  <data name="EditUserDialog_Snackbar_LoadError" xml:space="preserve">
+    <value>Error loading user: {0}</value>
+  </data>
+  <data name="EditUserDialog_Snackbar_UpdateSuccess" xml:space="preserve">
+    <value>User updated successfully!</value>
+  </data>
+  <data name="EditUserDialog_Snackbar_UpdateFailed" xml:space="preserve">
+    <value>Failed to update user</value>
+  </data>
+  <data name="ManageRolesDialog_Title" xml:space="preserve">
+    <value>Manage Roles</value>
+  </data>
+  <data name="ManageRolesDialog_Description" xml:space="preserve">
+    <value>Manage roles for the selected user.</value>
+  </data>
+  <data name="ManageRolesDialog_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ManageRolesDialog_Button_Save" xml:space="preserve">
+    <value>Save Roles</value>
+  </data>
+  <data name="ManageRolesDialog_Snackbar_LoadError" xml:space="preserve">
+    <value>Error loading roles: {0}</value>
+  </data>
+  <data name="ManageRolesDialog_Snackbar_AddRoleFailed" xml:space="preserve">
+    <value>Failed to add role: {0}</value>
+  </data>
+  <data name="ManageRolesDialog_Snackbar_RemoveRoleFailed" xml:space="preserve">
+    <value>Failed to remove role: {0}</value>
+  </data>
+  <data name="ManageRolesDialog_Snackbar_UpdateSuccess" xml:space="preserve">
+    <value>Roles updated successfully!</value>
+  </data>
+  <data name="AuditLogDetailsDialog_Title" xml:space="preserve">
+    <value>Audit Log Details</value>
+  </data>
+  <data name="AuditLogDetailsDialog_UserInfo" xml:space="preserve">
+    <value>User Information</value>
+  </data>
+  <data name="AuditLogDetailsDialog_Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="AuditLogDetailsDialog_System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="AuditLogDetailsDialog_UserId" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="AuditLogDetailsDialog_IpAddress" xml:space="preserve">
+    <value>IP Address</value>
+  </data>
+  <data name="AuditLogDetailsDialog_UserAgent" xml:space="preserve">
+    <value>User Agent</value>
+  </data>
+  <data name="AuditLogDetailsDialog_Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="AuditLogDetailsDialog_EntityInfo" xml:space="preserve">
+    <value>Entity Information</value>
+  </data>
+  <data name="AuditLogDetailsDialog_EntityType" xml:space="preserve">
+    <value>Entity Type</value>
+  </data>
+  <data name="AuditLogDetailsDialog_EntityId" xml:space="preserve">
+    <value>Entity ID</value>
+  </data>
+  <data name="AuditLogDetailsDialog_NA" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="AuditLogDetailsDialog_AdditionalInfo" xml:space="preserve">
+    <value>Additional Information</value>
+  </data>
+  <data name="AuditLogDetailsDialog_OldValues" xml:space="preserve">
+    <value>Old Values</value>
+  </data>
+  <data name="AuditLogDetailsDialog_NewValues" xml:space="preserve">
+    <value>New Values</value>
+  </data>
+  <data name="AuditLogDetailsDialog_ChangesSummary" xml:space="preserve">
+    <value>Changes Summary</value>
+  </data>
+  <data name="AuditLogDetailsDialog_From" xml:space="preserve">
+    <value>From: {0}</value>
+  </data>
+  <data name="AuditLogDetailsDialog_To" xml:space="preserve">
+    <value>To: {0}</value>
+  </data>
+  <data name="AuditLogDetailsDialog_Metadata" xml:space="preserve">
+    <value>Metadata</value>
+  </data>
+  <data name="AuditLogDetailsDialog_Timestamp" xml:space="preserve">
+    <value>Timestamp (UTC)</value>
+  </data>
+  <data name="AuditLogDetailsDialog_LogId" xml:space="preserve">
+    <value>Log ID</value>
+  </data>
+  <data name="AuditLogDetailsDialog_Button_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ConfirmWithTextDialog_Title" xml:space="preserve">
+    <value>Confirmation Required</value>
+  </data>
+  <data name="ConfirmWithTextDialog_Label" xml:space="preserve">
+    <value>Type confirmation text</value>
+  </data>
+  <data name="ConfirmWithTextDialog_HelperText" xml:space="preserve">
+    <value>Type '{0}' exactly to confirm</value>
+  </data>
+  <data name="ConfirmWithTextDialog_Validation_Mismatch" xml:space="preserve">
+    <value>❌ Text does not match. Please type exactly: &lt;strong&gt;{0}&lt;/strong&gt;</value>
+  </data>
+  <data name="ConfirmWithTextDialog_Validation_Match" xml:space="preserve">
+    <value>✓ Confirmation text is correct</value>
+  </data>
+  <data name="ConfirmWithTextDialog_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateComplaintDialog_Title" xml:space="preserve">
+    <value>New Complaint</value>
+  </data>
+  <data name="CreateComplaintDialog_Label_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="CreateComplaintDialog_Error_TitleRequired" xml:space="preserve">
+    <value>Title is required</value>
+  </data>
+  <data name="CreateComplaintDialog_Label_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="CreateComplaintDialog_Error_DescriptionRequired" xml:space="preserve">
+    <value>Description is required</value>
+  </data>
+  <data name="CreateComplaintDialog_Helper_Description" xml:space="preserve">
+    <value>Describe your complaint in detail</value>
+  </data>
+  <data name="CreateComplaintDialog_Label_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_Maintenance" xml:space="preserve">
+    <value>🔧 Maintenance</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_Cleanliness" xml:space="preserve">
+    <value>🧹 Cleanliness</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_Noise" xml:space="preserve">
+    <value>🔊 Noise</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_Security" xml:space="preserve">
+    <value>🔒 Security</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_RoommateIssue" xml:space="preserve">
+    <value>👥 Roommate Issue</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_Facilities" xml:space="preserve">
+    <value>🏢 Facilities</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_Internet" xml:space="preserve">
+    <value>📶 Internet</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_Utilities" xml:space="preserve">
+    <value>💡 Utilities</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_Management" xml:space="preserve">
+    <value>📋 Management</value>
+  </data>
+  <data name="CreateComplaintDialog_Category_Other" xml:space="preserve">
+    <value>📝 Other</value>
+  </data>
+  <data name="CreateComplaintDialog_Label_Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="CreateComplaintDialog_Priority_Low" xml:space="preserve">
+    <value>Low - Not urgent</value>
+  </data>
+  <data name="CreateComplaintDialog_Priority_Medium" xml:space="preserve">
+    <value>Medium - Normal priority</value>
+  </data>
+  <data name="CreateComplaintDialog_Priority_High" xml:space="preserve">
+    <value>High - Needs attention soon</value>
+  </data>
+  <data name="CreateComplaintDialog_Priority_Critical" xml:space="preserve">
+    <value>Critical - Requires immediate action</value>
+  </data>
+  <data name="CreateComplaintDialog_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateComplaintDialog_Button_Submit" xml:space="preserve">
+    <value>Submit Complaint</value>
+  </data>
+  <data name="CreateResidenceDialog_Title" xml:space="preserve">
+    <value>Add New Residence</value>
+  </data>
+  <data name="CreateResidenceDialog_Name" xml:space="preserve">
+    <value>Residence Name</value>
+  </data>
+  <data name="CreateResidenceDialog_Name_Required" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="CreateResidenceDialog_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="CreateResidenceDialog_Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="CreateResidenceDialog_Street" xml:space="preserve">
+    <value>Street</value>
+  </data>
+  <data name="CreateResidenceDialog_City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="CreateResidenceDialog_State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="CreateResidenceDialog_Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="CreateResidenceDialog_ZipCode" xml:space="preserve">
+    <value>Zip Code</value>
+  </data>
+  <data name="CreateResidenceDialog_TotalCapacity" xml:space="preserve">
+    <value>Total Capacity</value>
+  </data>
+  <data name="CreateResidenceDialog_MonthlyRent" xml:space="preserve">
+    <value>Monthly Rent</value>
+  </data>
+  <data name="CreateResidenceDialog_Facilities" xml:space="preserve">
+    <value>Facilities</value>
+  </data>
+  <data name="CreateResidenceDialog_Facility_WiFi" xml:space="preserve">
+    <value>WiFi</value>
+  </data>
+  <data name="CreateResidenceDialog_Facility_Parking" xml:space="preserve">
+    <value>Parking</value>
+  </data>
+  <data name="CreateResidenceDialog_Facility_Laundry" xml:space="preserve">
+    <value>Laundry</value>
+  </data>
+  <data name="CreateResidenceDialog_Facility_Gym" xml:space="preserve">
+    <value>Gym</value>
+  </data>
+  <data name="CreateResidenceDialog_Facility_Pool" xml:space="preserve">
+    <value>Pool</value>
+  </data>
+  <data name="CreateResidenceDialog_Facility_Security" xml:space="preserve">
+    <value>Security</value>
+  </data>
+  <data name="CreateResidenceDialog_Facility_Kitchen" xml:space="preserve">
+    <value>Kitchen</value>
+  </data>
+  <data name="CreateResidenceDialog_Facility_StudyRoom" xml:space="preserve">
+    <value>Study Room</value>
+  </data>
+  <data name="CreateResidenceDialog_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateResidenceDialog_Button_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateResidenceDialog_Snackbar_Error" xml:space="preserve">
+    <value>Error creating residence: {0}</value>
+  </data>
+  <data name="ResolveComplaintDialog_Title" xml:space="preserve">
+    <value>Resolve Complaint</value>
+  </data>
+  <data name="ResolveComplaintDialog_Description" xml:space="preserve">
+    <value>Please provide details on how this complaint was resolved.</value>
+  </data>
+  <data name="ResolveComplaintDialog_Label_ResolutionNotes" xml:space="preserve">
+    <value>Resolution Notes</value>
+  </data>
+  <data name="ResolveComplaintDialog_Placeholder_ResolutionNotes" xml:space="preserve">
+    <value>Enter resolution details...</value>
+  </data>
+  <data name="ResolveComplaintDialog_Error_ResolutionNotesRequired" xml:space="preserve">
+    <value>Please provide resolution notes</value>
+  </data>
+  <data name="ResolveComplaintDialog_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ResolveComplaintDialog_Button_MarkAsResolved" xml:space="preserve">
+    <value>Mark as Resolved</value>
+  </data>
+  <data name="CreateNotificationDialog_Title" xml:space="preserve">
+    <value>Create Notification</value>
+  </data>
+  <data name="CreateNotificationDialog_Label_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="CreateNotificationDialog_Label_Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="CreateNotificationDialog_Label_TargetAudience" xml:space="preserve">
+    <value>Target Audience</value>
+  </data>
+  <data name="CreateNotificationDialog_Audience_All" xml:space="preserve">
+    <value>All Users</value>
+  </data>
+  <data name="CreateNotificationDialog_Audience_Admins" xml:space="preserve">
+    <value>Admins</value>
+  </data>
+  <data name="CreateNotificationDialog_Audience_Managers" xml:space="preserve">
+    <value>Managers</value>
+  </data>
+  <data name="CreateNotificationDialog_Audience_Students" xml:space="preserve">
+    <value>Students</value>
+  </data>
+  <data name="CreateNotificationDialog_Label_Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="CreateNotificationDialog_Priority_Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="CreateNotificationDialog_Priority_Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="CreateNotificationDialog_Priority_High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="CreateNotificationDialog_Priority_Urgent" xml:space="preserve">
+    <value>Urgent</value>
+  </data>
+  <data name="CreateNotificationDialog_Label_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="CreateNotificationDialog_Type_Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="CreateNotificationDialog_Type_Announcement" xml:space="preserve">
+    <value>Announcement</value>
+  </data>
+  <data name="CreateNotificationDialog_Type_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="CreateNotificationDialog_Type_System" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="CreateNotificationDialog_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateNotificationDialog_Button_Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="ManagerDashboard_PageTitle" xml:space="preserve">
+    <value>Manager Dashboard</value>
+  </data>
+  <data name="ManagerDashboard_Header" xml:space="preserve">
+    <value>Manager Dashboard</value>
+  </data>
+  <data name="ManagerDashboard_Welcome" xml:space="preserve">
+    <value>Welcome back, {0}</value>
+  </data>
+  <data name="ManagerDashboard_MyStudents" xml:space="preserve">
+    <value>My Students</value>
+  </data>
+  <data name="ManagerDashboard_StudentsThisWeek" xml:space="preserve">
+    <value>+3 this week</value>
+  </data>
+  <data name="ManagerDashboard_PendingComplaints" xml:space="preserve">
+    <value>Pending Complaints</value>
+  </data>
+  <data name="ManagerDashboard_NeedsAttention" xml:space="preserve">
+    <value>needs attention</value>
+  </data>
+  <data name="ManagerDashboard_DuePayments" xml:space="preserve">
+    <value>Due Payments</value>
+  </data>
+  <data name="ManagerDashboard_Overdue" xml:space="preserve">
+    <value>overdue</value>
+  </data>
+  <data name="ManagerDashboard_AvailableRooms" xml:space="preserve">
+    <value>Available Rooms</value>
+  </data>
+  <data name="ManagerDashboard_ReadyToAssign" xml:space="preserve">
+    <value>ready to assign</value>
+  </data>
+  <data name="ManagerDashboard_TasksToday" xml:space="preserve">
+    <value>Today's Tasks</value>
+  </data>
+  <data name="ManagerDashboard_Urgent" xml:space="preserve">
+    <value>Urgent</value>
+  </data>
+  <data name="ManagerDashboard_ReviewComplaint" xml:space="preserve">
+    <value>Review Room 201 complaint</value>
+  </data>
+  <data name="ManagerDashboard_DueIn" xml:space="preserve">
+    <value>Due in 2 hours</value>
+  </data>
+  <data name="ManagerDashboard_FollowUpPayments" xml:space="preserve">
+    <value>Follow up on overdue payments</value>
+  </data>
+  <data name="ManagerDashboard_Students" xml:space="preserve">
+    <value>students</value>
+  </data>
+  <data name="ManagerDashboard_AssignNewStudent" xml:space="preserve">
+    <value>Assign new student to room</value>
+  </data>
+  <data name="ManagerDashboard_Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="ManagerDashboard_MonthlyReport" xml:space="preserve">
+    <value>Submit monthly report</value>
+  </data>
+  <data name="ManagerDashboard_DueTomorrow" xml:space="preserve">
+    <value>Due tomorrow</value>
+  </data>
+  <data name="ManagerDashboard_BuildingInspection" xml:space="preserve">
+    <value>Building inspection</value>
+  </data>
+  <data name="ManagerDashboard_Tomorrow" xml:space="preserve">
+    <value>Tomorrow 10am</value>
+  </data>
+  <data name="ManagerDashboard_NewStudentsThisWeek" xml:space="preserve">
+    <value>New Students This Week</value>
+  </data>
+  <data name="ManagerDashboard_Room" xml:space="preserve">
+    <value>Room</value>
+  </data>
+  <data name="ManagerDashboard_Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="ManagerDashboard_QuickActions" xml:space="preserve">
+    <value>Quick Actions</value>
+  </data>
+  <data name="ManagerDashboard_AddNewStudent" xml:space="preserve">
+    <value>Add New Student</value>
+  </data>
+  <data name="ManagerDashboard_RecordPayment" xml:space="preserve">
+    <value>Record Payment</value>
+  </data>
+  <data name="ManagerDashboard_ManageRooms" xml:space="preserve">
+    <value>Manage Rooms</value>
+  </data>
+  <data name="ManagerDashboard_ViewComplaints" xml:space="preserve">
+    <value>View Complaints</value>
+  </data>
+  <data name="ManagerDashboard_GenerateReport" xml:space="preserve">
+    <value>Generate Report</value>
+  </data>
+  <data name="ComplaintDetails_PageTitle" xml:space="preserve">
+    <value>Complaint Details</value>
+  </data>
+  <data name="ComplaintDetails_Button_BackToList" xml:space="preserve">
+    <value>Back to List</value>
+  </data>
+  <data name="ComplaintDetails_Error_NotFound" xml:space="preserve">
+    <value>Complaint not found or you do not have permission to view it.</value>
+  </data>
+  <data name="ComplaintDetails_Header_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="ComplaintDetails_Header_Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="ComplaintDetails_Header_Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="ComplaintDetails_Header_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="ComplaintDetails_Header_CreatedOn" xml:space="preserve">
+    <value>Created On</value>
+  </data>
+  <data name="ComplaintDetails_Header_Resolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="ComplaintDetails_ManagerNotes" xml:space="preserve">
+    <value>Manager's Notes:</value>
+  </data>
+  <data name="ComplaintDetails_ResolvedOn" xml:space="preserve">
+    <value>Resolved on: {0}</value>
+  </data>
+  <data name="PaymentsManagement_PageTitle" xml:space="preserve">
+    <value>Payments Management</value>
+  </data>
+  <data name="PaymentsManagement_Header" xml:space="preserve">
+    <value>Payments Management</value>
+  </data>
+  <data name="PaymentsManagement_Subheader" xml:space="preserve">
+    <value>Track and manage student payments</value>
+  </data>
+  <data name="PaymentsManagement_Button_RecordPayment" xml:space="preserve">
+    <value>Record Payment</value>
+  </data>
+  <data name="PaymentsManagement_Stats_TotalRevenue" xml:space="preserve">
+    <value>Total Revenue</value>
+  </data>
+  <data name="PaymentsManagement_Stats_Paid" xml:space="preserve">
+    <value>Paid</value>
+  </data>
+  <data name="PaymentsManagement_Stats_Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="PaymentsManagement_Stats_Overdue" xml:space="preserve">
+    <value>Overdue</value>
+  </data>
+  <data name="PaymentsManagement_SearchPlaceholder" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="PaymentsManagement_Filter_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="PaymentsManagement_Filter_Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="PaymentsManagement_Filter_Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="PaymentsManagement_Table_Header_PaymentID" xml:space="preserve">
+    <value>Payment ID</value>
+  </data>
+  <data name="PaymentsManagement_Table_Header_Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="PaymentsManagement_Table_Header_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="PaymentsManagement_Table_Header_Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="PaymentsManagement_Table_Header_Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="PaymentsManagement_Table_Header_DueDate" xml:space="preserve">
+    <value>Due Date</value>
+  </data>
+  <data name="PaymentsManagement_Table_Header_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="PaymentsManagement_Table_Header_PaidDate" xml:space="preserve">
+    <value>Paid Date</value>
+  </data>
+  <data name="PaymentsManagement_Table_Header_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="PaymentsManagement_Table_ID" xml:space="preserve">
+    <value>ID:</value>
+  </data>
+  <data name="PaymentsManagement_Table_NA" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="PaymentsManagement_Actions_ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="PaymentsManagement_Actions_MarkAsPaid" xml:space="preserve">
+    <value>Mark as Paid</value>
+  </data>
+  <data name="PaymentsManagement_Actions_GenerateReceipt" xml:space="preserve">
+    <value>Generate Receipt</value>
+  </data>
+  <data name="PaymentsManagement_Actions_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="PaymentsManagement_Snackbar_RecordPaymentComingSoon" xml:space="preserve">
+    <value>Record payment functionality - coming soon!</value>
+  </data>
+  <data name="PaymentsManagement_Snackbar_MarkAsPaidConfirm" xml:space="preserve">
+    <value>Mark this payment as paid?</value>
+  </data>
+  <data name="PaymentsManagement_Snackbar_ConfirmPayment" xml:space="preserve">
+    <value>Confirm Payment</value>
+  </data>
+  <data name="PaymentsManagement_Snackbar_PaymentMarkedAsPaid" xml:space="preserve">
+    <value>Payment marked as paid!</value>
+  </data>
+  <data name="PaymentsManagement_Snackbar_GeneratingReceipt" xml:space="preserve">
+    <value>Generating receipt...</value>
+  </data>
+  <data name="PaymentsManagement_Snackbar_EditPaymentComingSoon" xml:space="preserve">
+    <value>Edit payment functionality - coming soon!</value>
+  </data>
+  <data name="ComplaintsManagement_PageTitle" xml:space="preserve">
+    <value>Complaints Management</value>
+  </data>
+  <data name="ComplaintsManagement_Header" xml:space="preserve">
+    <value>Complaints Management</value>
+  </data>
+  <data name="ComplaintsManagement_Subheader" xml:space="preserve">
+    <value>Track and resolve student complaints</value>
+  </data>
+  <data name="ComplaintsManagement_Button_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="ComplaintsManagement_Stats_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="ComplaintsManagement_Stats_InProgress" xml:space="preserve">
+    <value>In Progress</value>
+  </data>
+  <data name="ComplaintsManagement_Stats_Resolved" xml:space="preserve">
+    <value>Resolved</value>
+  </data>
+  <data name="ComplaintsManagement_Stats_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="ComplaintsManagement_SearchPlaceholder" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="ComplaintsManagement_Filter_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ComplaintsManagement_Filter_Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="ComplaintsManagement_Filter_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="ComplaintsManagement_NoComplaints_Header" xml:space="preserve">
+    <value>No Complaints</value>
+  </data>
+  <data name="ComplaintsManagement_NoComplaints_Subheader" xml:space="preserve">
+    <value>Try adjusting your filters</value>
+  </data>
+  <data name="ComplaintsManagement_Table_Header_ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="ComplaintsManagement_Table_Header_Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="ComplaintsManagement_Table_Header_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="ComplaintsManagement_Table_Header_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="ComplaintsManagement_Table_Header_Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="ComplaintsManagement_Table_Header_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="ComplaintsManagement_Table_Header_Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="ComplaintsManagement_Table_Header_Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="ComplaintsManagement_Actions_ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="ComplaintsManagement_Actions_AssignToMe" xml:space="preserve">
+    <value>Assign to Me</value>
+  </data>
+  <data name="ComplaintsManagement_Actions_MarkAsResolved" xml:space="preserve">
+    <value>Mark as Resolved</value>
+  </data>
+  <data name="ComplaintsManagement_Snackbar_Assigned" xml:space="preserve">
+    <value>Complaint assigned to you!</value>
+  </data>
+  <data name="ComplaintsManagement_Snackbar_Resolved" xml:space="preserve">
+    <value>Complaint marked as resolved!</value>
+  </data>
+  <data name="UserManagement.Title" xml:space="preserve">
+    <value>Users Management</value>
+  </data>
+  <data name="UserManagement.Subtitle" xml:space="preserve">
+    <value>Manage all system users and their roles</value>
+  </data>
+  <data name="UserManagement.CreateNewUser" xml:space="preserve">
+    <value>Create New User</value>
+  </data>
+  <data name="UserManagement.SearchPlaceholder" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="UserManagement.FilterByRole" xml:space="preserve">
+    <value>Filter by Role</value>
+  </data>
+  <data name="UserManagement.Role.SuperRoot" xml:space="preserve">
+    <value>SuperRoot</value>
+  </data>
+  <data name="UserManagement.Role.Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="UserManagement.Role.Manager" xml:space="preserve">
+    <value>Manager</value>
+  </data>
+  <data name="UserManagement.Role.Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="UserManagement.FilterByStatus" xml:space="preserve">
+    <value>Filter by Status</value>
+  </data>
+  <data name="UserManagement.Status.ActiveOnly" xml:space="preserve">
+    <value>Active Only</value>
+  </data>
+  <data name="UserManagement.Status.InactiveOnly" xml:space="preserve">
+    <value>Inactive Only</value>
+  </data>
+  <data name="UserManagement.ApplyFilters" xml:space="preserve">
+    <value>Apply Filters</value>
+  </data>
+  <data name="UserManagement.Table.Header.Avatar" xml:space="preserve">
+    <value>Avatar</value>
+  </data>
+  <data name="UserManagement.Table.Header.FullName" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="UserManagement.Table.Header.Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="UserManagement.Table.Header.Roles" xml:space="preserve">
+    <value>Roles</value>
+  </data>
+  <data name="UserManagement.Table.Header.Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="UserManagement.Table.Header.Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="UserManagement.Table.Header.LastLogin" xml:space="preserve">
+    <value>Last Login</value>
+  </data>
+  <data name="UserManagement.Table.Header.Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+
+  <!-- Roles management (added) -->
+  <data name="RolesManagement.Title" xml:space="preserve">
+    <value>Roles Management</value>
+  </data>
+  <data name="RolesManagement.Subtitle" xml:space="preserve">
+    <value>Manage system roles and permissions</value>
+  </data>
+  <data name="RolesManagement.CreateNewRole" xml:space="preserve">
+    <value>Create New Role</value>
+  </data>
+  <data name="RolesManagement.SystemRolesHeader" xml:space="preserve">
+    <value>System Roles (read-only)</value>
+  </data>
+  <data name="RolesManagement.SystemChip" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="RolesManagement.CustomRolesHeader" xml:space="preserve">
+    <value>Custom Roles</value>
+  </data>
+  <data name="RolesManagement.EditRole" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="RolesManagement.DeleteRole" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="RolesManagement.CustomRoleDesc" xml:space="preserve">
+    <value>Custom role created by administrator</value>
+  </data>
+  <data name="RolesManagement.ManagePermissions" xml:space="preserve">
+    <value>Manage Permissions</value>
+  </data>
+  <data name="RolesManagement.NoCustomRoles" xml:space="preserve">
+    <value>No custom roles yet.</value>
+  </data>
+  <data name="RolesManagement.ErrorLoadingRoles" xml:space="preserve">
+    <value>Error loading roles</value>
+  </data>
+  <data name="RolesManagement.EditRoleToast" xml:space="preserve">
+    <value>Editing role '{0}' - coming soon!</value>
+  </data>
+  <data name="RolesManagement.DeleteRoleConfirm" xml:space="preserve">
+    <value>Are you sure you want to delete role '{0}'? This cannot be undone.</value>
+  </data>
+  <data name="RolesManagement.DeleteRoleSuccess" xml:space="preserve">
+    <value>Role '{0}' deleted successfully!</value>
+  </data>
+  <data name="RolesManagement.DeleteRoleFailed" xml:space="preserve">
+    <value>Failed to delete role '{0}'!</value>
+  </data>
+  <data name="RolesManagement.Desc.SuperRoot" xml:space="preserve">
+    <value>Full system access with all admin permissions</value>
+  </data>
+  <data name="RolesManagement.Desc.Admin" xml:space="preserve">
+    <value>Administrative privileges to manage residences and managers</value>
+  </data>
+  <data name="RolesManagement.Desc.Manager" xml:space="preserve">
+    <value>Manage students, rooms, complaints and payments</value>
+  </data>
+  <data name="RolesManagement.Desc.Student" xml:space="preserve">
+    <value>Access to personal dashboard and submit complaints</value>
+  </data>
+  <data name="RolesManagement.Desc.Custom" xml:space="preserve">
+    <value>Custom role</value>
+  </data>
+
+  <!-- Permissions management (added) -->
+  <data name="Permissions.Title" xml:space="preserve">
+    <value>Permissions Management</value>
+  </data>
+  <data name="Permissions.Subtitle" xml:space="preserve">
+    <value>Manage role permissions and access control</value>
+  </data>
+  <data name="Permissions.CreateCustom" xml:space="preserve">
+    <value>Create Permission</value>
+  </data>
+  <data name="Permissions.SelectRoleLabel" xml:space="preserve">
+    <value>Select a role to manage</value>
+  </data>
+  <data name="Permissions.Search" xml:space="preserve">
+    <value>Search for permissions</value>
+  </data>
+  <data name="Permissions.FilterByCategory" xml:space="preserve">
+    <value>Filter by category</value>
+  </data>
+  <data name="Permissions.Suffix" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="Permissions.EnableAll" xml:space="preserve">
+    <value>Enable All</value>
+  </data>
+  <data name="Permissions.DisableAll" xml:space="preserve">
+    <value>Disable All</value>
+  </data>
+  <data name="Permissions.SaveAll" xml:space="preserve">
+    <value>Save All Changes</value>
+  </data>
+  <data name="Permissions.SavingChanges" xml:space="preserve">
+    <value>Saving changes...</value>
+  </data>
+  <data name="Permissions.ErrorLoadingRoles" xml:space="preserve">
+    <value>Error loading roles</value>
+  </data>
+  <data name="Permissions.ErrorLoading" xml:space="preserve">
+    <value>Error loading permissions: {0}</value>
+  </data>
+  <data name="Permissions.SaveSuccess" xml:space="preserve">
+    <value>Successfully saved permissions for {0} role!</value>
+  </data>
+  <data name="Permissions.SaveFailed" xml:space="preserve">
+    <value>Failed to save permissions.</value>
+  </data>
+  <data name="Permissions.Error" xml:space="preserve">
+    <value>Error: {0}</value>
+  </data>
+
+  <!-- Categories -->
+  <data name="Permissions.Category.Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Permissions.Category.Students" xml:space="preserve">
+    <value>Students</value>
+  </data>
+  <data name="Permissions.Category.Managers" xml:space="preserve">
+    <value>Managers</value>
+  </data>
+  <data name="Permissions.Category.Rooms" xml:space="preserve">
+    <value>Rooms</value>
+  </data>
+  <data name="Permissions.Category.Payments" xml:space="preserve">
+    <value>Payments</value>
+  </data>
+  <data name="Permissions.Category.Complaints" xml:space="preserve">
+    <value>Complaints</value>
+  </data>
+  <data name="Permissions.Category.Residences" xml:space="preserve">
+    <value>Residences</value>
+  </data>
+  <data name="Permissions.Category.Assets" xml:space="preserve">
+    <value>Assets</value>
+  </data>
+  <data name="Permissions.Category.System" xml:space="preserve">
+    <value>System</value>
+  </data>
+
+  <!-- User permissions -->
+  <data name="Permissions.ViewUsers" xml:space="preserve">
+    <value>View Users</value>
+  </data>
+  <data name="Permissions.ViewUsers.Desc" xml:space="preserve">
+    <value>View all users in the system</value>
+  </data>
+  <data name="Permissions.CreateUsers" xml:space="preserve">
+    <value>Create Users</value>
+  </data>
+  <data name="Permissions.CreateUsers.Desc" xml:space="preserve">
+    <value>Create new user accounts</value>
+  </data>
+  <data name="Permissions.EditUsers" xml:space="preserve">
+    <value>Edit Users</value>
+  </data>
+  <data name="Permissions.EditUsers.Desc" xml:space="preserve">
+    <value>Modify user information</value>
+  </data>
+  <data name="Permissions.DeleteUsers" xml:space="preserve">
+    <value>Delete Users</value>
+  </data>
+  <data name="Permissions.DeleteUsers.Desc" xml:space="preserve">
+    <value>Delete user accounts</value>
+  </data>
+  <data name="Permissions.ManageUsers" xml:space="preserve">
+    <value>Manage Users</value>
+  </data>
+  <data name="Permissions.ManageUsers.Desc" xml:space="preserve">
+    <value>Full user management permissions</value>
+  </data>
+  <data name="Permissions.ActivateUsers" xml:space="preserve">
+    <value>Activate Users</value>
+  </data>
+  <data name="Permissions.ActivateUsers.Desc" xml:space="preserve">
+    <value>Activate pending user accounts</value>
+  </data>
+  <data name="Permissions.DeactivateUsers" xml:space="preserve">
+    <value>Deactivate Users</value>
+  </data>
+  <data name="Permissions.DeactivateUsers.Desc" xml:space="preserve">
+    <value>Deactivate user accounts</value>
+  </data>
+
+  <!-- Students permissions -->
+  <data name="Permissions.ViewStudents" xml:space="preserve">
+    <value>View Students</value>
+  </data>
+  <data name="Permissions.ViewStudents.Desc" xml:space="preserve">
+    <value>View student profiles</value>
+  </data>
+  <data name="Permissions.ViewOwnProfile" xml:space="preserve">
+    <value>View Own Profile</value>
+  </data>
+  <data name="Permissions.ViewOwnProfile.Desc" xml:space="preserve">
+    <value>View own student profile</value>
+  </data>
+  <data name="Permissions.EditStudents" xml:space="preserve">
+    <value>Edit Students</value>
+  </data>
+  <data name="Permissions.EditStudents.Desc" xml:space="preserve">
+    <value>Modify student information</value>
+  </data>
+  <data name="Permissions.EditOwnProfile" xml:space="preserve">
+    <value>Edit Own Profile</value>
+  </data>
+  <data name="Permissions.EditOwnProfile.Desc" xml:space="preserve">
+    <value>Modify own student profile</value>
+  </data>
+  <data name="Permissions.DeleteStudents" xml:space="preserve">
+    <value>Delete Students</value>
+  </data>
+  <data name="Permissions.DeleteStudents.Desc" xml:space="preserve">
+    <value>Delete student records</value>
+  </data>
+  <data name="Permissions.ManageStudents" xml:space="preserve">
+    <value>Manage Students</value>
+  </data>
+  <data name="Permissions.ManageStudents.Desc" xml:space="preserve">
+    <value>Full student management permissions</value>
+  </data>
+
+  <!-- Managers permissions -->
+  <data name="Permissions.ViewManagers" xml:space="preserve">
+    <value>View Managers</value>
+  </data>
+  <data name="Permissions.ViewManagers.Desc" xml:space="preserve">
+    <value>View manager profiles</value>
+  </data>
+  <data name="Permissions.CreateManagers" xml:space="preserve">
+    <value>Create Managers</value>
+  </data>
+  <data name="Permissions.CreateManagers.Desc" xml:space="preserve">
+    <value>Create new managers</value>
+  </data>
+  <data name="Permissions.EditManagers" xml:space="preserve">
+    <value>Edit Managers</value>
+  </data>
+  <data name="Permissions.EditManagers.Desc" xml:space="preserve">
+    <value>Modify manager information</value>
+  </data>
+  <data name="Permissions.DeleteManagers" xml:space="preserve">
+    <value>Delete Managers</value>
+  </data>
+  <data name="Permissions.DeleteManagers.Desc" xml:space="preserve">
+    <value>Remove managers</value>
+  </data>
+  <data name="Permissions.ManageManagers" xml:space="preserve">
+    <value>Manage Managers</value>
+  </data>
+  <data name="Permissions.ManageManagers.Desc" xml:space="preserve">
+    <value>Full manager management permissions</value>
+  </data>
+
+  <!-- Rooms permissions -->
+  <data name="Permissions.ViewRooms" xml:space="preserve">
+    <value>View Rooms</value>
+  </data>
+  <data name="Permissions.ViewRooms.Desc" xml:space="preserve">
+    <value>View room information</value>
+  </data>
+  <data name="Permissions.CreateRooms" xml:space="preserve">
+    <value>Create Rooms</value>
+  </data>
+  <data name="Permissions.CreateRooms.Desc" xml:space="preserve">
+    <value>Add new rooms</value>
+  </data>
+  <data name="Permissions.EditRooms" xml:space="preserve">
+    <value>Edit Rooms</value>
+  </data>
+  <data name="Permissions.EditRooms.Desc" xml:space="preserve">
+    <value>Modify room details</value>
+  </data>
+  <data name="Permissions.DeleteRooms" xml:space="preserve">
+    <value>Delete Rooms</value>
+  </data>
+  <data name="Permissions.DeleteRooms.Desc" xml:space="preserve">
+    <value>Remove rooms</value>
+  </data>
+  <data name="Permissions.ManageRooms" xml:space="preserve">
+    <value>Manage Rooms</value>
+  </data>
+  <data name="Permissions.ManageRooms.Desc" xml:space="preserve">
+    <value>Full room management permissions</value>
+  </data>
+  <data name="Permissions.AssignRooms" xml:space="preserve">
+    <value>Assign Rooms</value>
+  </data>
+  <data name="Permissions.AssignRooms.Desc" xml:space="preserve">
+    <value>Assign students to rooms</value>
+  </data>
+
+  <!-- Payments permissions -->
+  <data name="Permissions.ViewPayments" xml:space="preserve">
+    <value>View Payments</value>
+  </data>
+  <data name="Permissions.ViewPayments.Desc" xml:space="preserve">
+    <value>View payment records</value>
+  </data>
+  <data name="Permissions.ViewOwnPayments" xml:space="preserve">
+    <value>View Own Payments</value>
+  </data>
+  <data name="Permissions.ViewOwnPayments.Desc" xml:space="preserve">
+    <value>View own payment history</value>
+  </data>
+  <data name="Permissions.ViewAllPayments" xml:space="preserve">
+    <value>View All Payments</value>
+  </data>
+  <data name="Permissions.ViewAllPayments.Desc" xml:space="preserve">
+    <value>View all payment records</value>
+  </data>
+  <data name="Permissions.RecordPayments" xml:space="preserve">
+    <value>Record Payments</value>
+  </data>
+  <data name="Permissions.RecordPayments.Desc" xml:space="preserve">
+    <value>Record new payments</value>
+  </data>
+  <data name="Permissions.EditPayments" xml:space="preserve">
+    <value>Edit Payments</value>
+  </data>
+  <data name="Permissions.EditPayments.Desc" xml:space="preserve">
+    <value>Modify payment records</value>
+  </data>
+  <data name="Permissions.DeletePayments" xml:space="preserve">
+    <value>Delete Payments</value>
+  </data>
+  <data name="Permissions.DeletePayments.Desc" xml:space="preserve">
+    <value>Remove payment records</value>
+  </data>
+
+  <!-- Complaints permissions -->
+  <data name="Permissions.ViewComplaints" xml:space="preserve">
+    <value>View Complaints</value>
+  </data>
+  <data name="Permissions.ViewComplaints.Desc" xml:space="preserve">
+    <value>View complaints</value>
+  </data>
+  <data name="Permissions.ViewOwnComplaints" xml:space="preserve">
+    <value>View Own Complaints</value>
+  </data>
+  <data name="Permissions.ViewOwnComplaints.Desc" xml:space="preserve">
+    <value>View own complaints</value>
+  </data>
+  <data name="Permissions.SubmitComplaints" xml:space="preserve">
+    <value>Submit Complaints</value>
+  </data>
+  <data name="Permissions.SubmitComplaints.Desc" xml:space="preserve">
+    <value>Create new complaints</value>
+  </data>
+  <data name="Permissions.EditComplaints" xml:space="preserve">
+    <value>Edit Complaints</value>
+  </data>
+  <data name="Permissions.EditComplaints.Desc" xml:space="preserve">
+    <value>Modify complaints</value>
+  </data>
+  <data name="Permissions.DeleteComplaints" xml:space="preserve">
+    <value>Delete Complaints</value>
+  </data>
+  <data name="Permissions.DeleteComplaints.Desc" xml:space="preserve">
+    <value>Remove complaints</value>
+  </data>
+  <data name="Permissions.ManageComplaints" xml:space="preserve">
+    <value>Manage Complaints</value>
+  </data>
+  <data name="Permissions.ManageComplaints.Desc" xml:space="preserve">
+    <value>Full complaint management permissions</value>
+  </data>
+  <data name="Permissions.ResolveComplaints" xml:space="preserve">
+    <value>Resolve Complaints</value>
+  </data>
+  <data name="Permissions.ResolveComplaints.Desc" xml:space="preserve">
+    <value>Mark complaints as resolved</value>
+  </data>
+
+  <!-- Residences permissions -->
+  <data name="Permissions.ViewResidences" xml:space="preserve">
+    <value>View Residences</value>
+  </data>
+  <data name="Permissions.ViewResidences.Desc" xml:space="preserve">
+    <value>View residence information</value>
+  </data>
+  <data name="Permissions.CreateResidences" xml:space="preserve">
+    <value>Create Residences</value>
+  </data>
+  <data name="Permissions.CreateResidences.Desc" xml:space="preserve">
+    <value>Add new residences</value>
+  </data>
+  <data name="Permissions.EditResidences" xml:space="preserve">
+    <value>Edit Residences</value>
+  </data>
+  <data name="Permissions.EditResidences.Desc" xml:space="preserve">
+    <value>Modify residence details</value>
+  </data>
+  <data name="Permissions.DeleteResidences" xml:space="preserve">
+    <value>Delete Residences</value>
+  </data>
+  <data name="Permissions.DeleteResidences.Desc" xml:space="preserve">
+    <value>Remove residences</value>
+  </data>
+  <data name="Permissions.ManageResidence" xml:space="preserve">
+    <value>Manage Residence</value>
+  </data>
+  <data name="Permissions.ManageResidence.Desc" xml:space="preserve">
+    <value>Manage assigned residence</value>
+  </data>
+  <data name="Permissions.ManageAllResidences" xml:space="preserve">
+    <value>Manage All Residences</value>
+  </data>
+  <data name="Permissions.ManageAllResidences.Desc" xml:space="preserve">
+    <value>Full management permissions for all residences</value>
+  </data>
+
+  <!-- Assets permissions -->
+  <data name="Permissions.ViewAssets" xml:space="preserve">
+    <value>View Assets</value>
+  </data>
+  <data name="Permissions.ViewAssets.Desc" xml:space="preserve">
+    <value>View asset inventory</value>
+  </data>
+  <data name="Permissions.CreateAssets" xml:space="preserve">
+    <value>Create Assets</value>
+  </data>
+  <data name="Permissions.CreateAssets.Desc" xml:space="preserve">
+    <value>Add new assets</value>
+  </data>
+  <data name="Permissions.EditAssets" xml:space="preserve">
+    <value>Edit Assets</value>
+  </data>
+  <data name="Permissions.EditAssets.Desc" xml:space="preserve">
+    <value>Modify asset details</value>
+  </data>
+  <data name="Permissions.DeleteAssets" xml:space="preserve">
+    <value>Delete Assets</value>
+  </data>
+  <data name="Permissions.DeleteAssets.Desc" xml:space="preserve">
+    <value>Remove assets</value>
+  </data>
+  <data name="Permissions.ManageAssets" xml:space="preserve">
+    <value>Manage Assets</value>
+  </data>
+  <data name="Permissions.ManageAssets.Desc" xml:space="preserve">
+    <value>Full asset management permissions</value>
+  </data>
+
+  <!-- System permissions -->
+  <data name="Permissions.ViewReports" xml:space="preserve">
+    <value>View Reports</value>
+  </data>
+  <data name="Permissions.ViewReports.Desc" xml:space="preserve">
+    <value>Access system reports</value>
+  </data>
+  <data name="Permissions.SystemSettings" xml:space="preserve">
+    <value>System Settings</value>
+  </data>
+  <data name="Permissions.SystemSettings.Desc" xml:space="preserve">
+    <value>Modify system settings</value>
+  </data>
+  <data name="Permissions.ViewAuditLogs" xml:space="preserve">
+    <value>View Audit Logs</value>
+  </data>
+  <data name="Permissions.ViewAuditLogs.Desc" xml:space="preserve">
+    <value>Access the audit log</value>
+  </data>
+  <data name="Permissions.SystemConfiguration" xml:space="preserve">
+    <value>System Configuration</value>
+  </data>
+  <data name="Permissions.SystemConfiguration.Desc" xml:space="preserve">
+    <value>Configure system parameters</value>
+  </data>
+  <data name="Permissions.DatabaseManagement" xml:space="preserve">
+    <value>Database Management</value>
+  </data>
+  <data name="Permissions.DatabaseManagement.Desc" xml:space="preserve">
+    <value>Manage database operations</value>
+  </data>
+</root>

@@ -1,19 +1,22 @@
 @page "/login"
 @using System.Security.Claims
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @* @inject IAuthService AuthService *@
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthStateProvider
 @inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>Login - SRMS</PageTitle>
+<PageTitle>@L["Login_PageTitle"]</PageTitle>
 
 @if (_isCheckingAuth)
 {
     <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
         <MudStack AlignItems="AlignItems.Center" Spacing="4">
             <MudProgressCircular Size="Size.Large" Indeterminate="true" Color="Color.Primary" />
-            <MudText Typo="Typo.h6" Color="Color.Secondary">Checking authentication...</MudText>
+            <MudText Typo="Typo.h6" Color="Color.Secondary">@L["Login_CheckingAuth"]</MudText>
         </MudStack>
     </MudContainer>
 }
@@ -31,10 +34,10 @@ else
                 
                 <MudStack Spacing="1" AlignItems="AlignItems.Center">
                     <MudText Typo="Typo.h4" Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                        Welcome Back
+                        @L["Login_WelcomeBack"]
                     </MudText>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        Sign in to access your account
+                        @L["Login_SignInAccess"]
                     </MudText>
                 </MudStack>
             </MudStack>
@@ -47,7 +50,7 @@ else
                     <!-- Email Field -->
                     <MudTextField 
                         @bind-Value="_loginModel.Email"
-                        Label="Email Address"
+                        Label='@(L["Login_Label_EmailAddress"])'
                         Variant="Variant.Outlined"
                         InputType="InputType.Email"
                         Adornment="Adornment.Start"
@@ -59,7 +62,7 @@ else
                     <!-- Password Field -->
                     <MudTextField 
                         @bind-Value="_loginModel.Password"
-                        Label="Password"
+                        Label='@(L["Login_Label_Password"])'
                         Variant="Variant.Outlined"
                         InputType="@(_showPassword ? InputType.Text : InputType.Password)"
                         Adornment="Adornment.End"
@@ -76,11 +79,11 @@ else
                             Color="Color.Primary"
                             Dense="true"
                             UserAttributes="@(new Dictionary<string, object> { { "name", "RememberMe" }, { "value", "true" } })">
-                            <MudText Typo="Typo.body2">Remember me</MudText>
+                            <MudText Typo="Typo.body2">@(L["Login_RememberMe"])</MudText>
                         </MudCheckBox>
 
                         <MudLink Href="/forgot-password" Typo="Typo.body2" Class="text-purple-500 hover:text-purple-600 transition-colors">
-                            Forgot password?
+                            @(L["Login_ForgotPassword"])
                         </MudLink>
                     </MudStack>
 
@@ -93,13 +96,13 @@ else
                         Size="Size.Large"
                         StartIcon="@Icons.Material.Filled.Login"
                         Class="btn-modern btn-primary h-12 rounded-xl font-semibold">
-                        Sign In
+                        @(L["Login_Button_SignIn"])
                     </MudButton>
 
                     <!-- Divider -->
                     <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Class="my-2">
                         <MudDivider Class="flex-1" />
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">OR</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Login_OR"])</MudText>
                         <MudDivider Class="flex-1" />
                     </MudStack>
 
@@ -110,13 +113,13 @@ else
                         FullWidth="true"
                         StartIcon="@Icons.Custom.Brands.Google"
                         Class="rounded-xl h-12 font-semibold border-2 hover-lift">
-                        Sign in with Google
+                        @(L["Login_Button_SignInWithGoogle"])
                     </MudButton>
 
                     <!-- Register Link -->
                     <MudPaper Elevation="0" Class="bg-gray-100 dark:bg-gray-800/50 p-4 rounded-xl text-center mt-2">
                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-2">
-                            Don't have an account?
+                            @(L["Login_Question_NoAccount"])
                         </MudText>
                         <MudButton 
                             Href="/register"
@@ -124,15 +127,15 @@ else
                             Color="Color.Primary"
                             StartIcon="@Icons.Material.Filled.PersonAdd"
                             Class="font-semibold">
-                            Create Account
+                            @(L["Login_CreateAccount"])
                         </MudButton>
                     </MudPaper>
 
                     <!-- Test Account Info -->
                     <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true" Class="rounded-xl">
-                        <MudText Typo="Typo.caption" Class="font-semibold mb-1">Test Account:</MudText>
+                        <MudText Typo="Typo.caption" Class="font-semibold mb-1">@(L["Login_TestAccountLabel"])</MudText>
                         <MudText Typo="Typo.caption" Class="font-mono">
-                            superroot@srms.edu.ly / SuperRoot@123!
+                            @(L["Login_TestAccountCredentials"])
                         </MudText>
                     </MudAlert>
                 </MudStack>
@@ -177,12 +180,12 @@ else
             {
                 var message = Error switch
                 {
-                    "invalid-credentials" => "Invalid email or password.",
-                    "locked-out" => "Account is locked out.",
-                    "google-auth-failed" => "Google authentication failed.",
-                    "no-email-from-google" => "Could not retrieve email from Google.",
-                    "user-not-found" => "User not found. Please register first.",
-                    _ => "An error occurred during login."
+                    "invalid-credentials" => L["Login_Error_InvalidCredentials"].Value,
+                    "locked-out" => L["Login_Error_LockedOut"].Value,
+                    "google-auth-failed" => L["Login_Error_GoogleAuthFailed"].Value,
+                    "no-email-from-google" => L["Login_Error_NoEmailFromGoogle"].Value,
+                    "user-not-found" => L["Login_Error_UserNotFound"].Value,
+                    _ => L["Login_Error_Default"].Value
                 };
 
                 Snackbar.Add(message, Severity.Error);

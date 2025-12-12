@@ -1,0 +1,32 @@
+﻿@inject NavigationManager Navigation
+@using Microsoft.Extensions.Localization
+@using System.Globalization
+@inject IStringLocalizer<Resource> Localizer
+
+<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined" OverrideStyles="false">
+    <MudButton OnClick="@(() => SetCulture("en-US"))" Disabled="@(IsCultureActive("en-US"))">@Localizer["English"]</MudButton>
+    <MudButton OnClick="@(() => SetCulture("ar-LY"))" Disabled="@(IsCultureActive("ar-LY"))">@Localizer["Arabic"]</MudButton>
+</MudButtonGroup>
+
+@code {
+    private bool IsCultureActive(string culture)
+    {
+        return CultureInfo.CurrentCulture.Name.Equals(culture, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private void SetCulture(string culture)
+    {
+        if (IsCultureActive(culture))
+            return;
+
+        var uri = new Uri(Navigation.Uri)
+            .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+
+        var cultureEscaped = Uri.EscapeDataString(culture);
+        var uriEscaped = Uri.EscapeDataString(uri);
+
+        Navigation.NavigateTo(
+            $"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+            forceLoad: true);
+    }
+}

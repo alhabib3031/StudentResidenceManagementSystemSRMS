@@ -7,6 +7,8 @@
 @using SRMS.Domain.Repositories
 @using SRMS.WebUI.Server.Components.Pages.Root
 @using SRMS.Domain.Residences
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @attribute [Authorize(Roles = "Admin,SuperRoot")]
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IRepositories<Student> StudentRepo
@@ -14,8 +16,9 @@
 @inject IRepositories<Residence> ResidenceRepo
 @inject IRepositories<Payment> PaymentRepo
 @inject IRepositories<Complaint> ComplaintRepo
+@inject IStringLocalizer<Resource> L
 
-<PageTitle>Admin Dashboard</PageTitle>
+<PageTitle>@L["AdminDashboard_PageTitle"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Welcome Header -->
@@ -25,14 +28,14 @@
             <MudStack Spacing="0">
                 <MudText Typo="Typo.h4" Style="color: white;">
                     <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" />
-                    Admin Dashboard
+                    @L["AdminDashboard"]
                 </MudText>
                 <MudText Typo="Typo.body2" Style="color: rgba(255,255,255,0.8);">
-                    Welcome back, @_adminName • @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+                    @string.Format(L["AdminDashboard_Welcome"], _adminName) • @DateTime.Now.ToString("dddd, dd MMMM yyyy")
                 </MudText>
             </MudStack>
             <MudChip T="string" Icon="@Icons.Material.Filled.Shield" Color="Color.Surface" Size="Size.Large">
-                Administrator
+                @L["AdminDashboard_Role"]
             </MudChip>
         </MudStack>
     </MudPaper>
@@ -51,11 +54,11 @@
                     <MudCardContent>
                         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                             <MudStack Spacing="0">
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">Total Residences</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">@L["AdminDashboard_TotalResidences"]</MudText>
                                 <MudText Typo="Typo.h4">@_stats.TotalResidences</MudText>
                                 <MudText Typo="Typo.caption"
                                     Color="@(_stats.ResidencesGrowth >= 0 ? Color.Success : Color.Error)">
-                                    @(_stats.ResidencesGrowth >= 0 ? "+" : "")@_stats.ResidencesGrowth this month
+                                    @(_stats.ResidencesGrowth >= 0 ? "+" : "")@string.Format(L["AdminDashboard_ResidencesGrowth"], _stats.ResidencesGrowth)
                                 </MudText>
                             </MudStack>
                             <MudAvatar Color="Color.Primary" Size="Size.Large">
@@ -72,10 +75,10 @@
                     <MudCardContent>
                         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                             <MudStack Spacing="0">
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">Active Managers</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">@L["AdminDashboard_ActiveManagers"]</MudText>
                                 <MudText Typo="Typo.h4" Color="Color.Success">@_stats.ActiveManagers</MudText>
                                 <MudText Typo="Typo.caption" Color="Color.Success">
-                                    @_stats.ManagerAvailability.ToString("F0")% availability
+                                    @string.Format(L["AdminDashboard_ManagerAvailability"], _stats.ManagerAvailability.ToString("F0"))
                                 </MudText>
                             </MudStack>
                             <MudAvatar Color="Color.Success" Size="Size.Large">
@@ -92,10 +95,10 @@
                     <MudCardContent>
                         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                             <MudStack Spacing="0">
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">Total Students</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">@L["AdminDashboard_TotalStudents"]</MudText>
                                 <MudText Typo="Typo.h4" Color="Color.Info">@_stats.TotalStudents</MudText>
                                 <MudText Typo="Typo.caption" Color="Color.Info">
-                                    @_stats.OccupancyRate.ToString("F0")% occupancy
+                                    @string.Format(L["AdminDashboard_OccupancyRate"], _stats.OccupancyRate.ToString("F0"))
                                 </MudText>
                             </MudStack>
                             <MudAvatar Color="Color.Info" Size="Size.Large">
@@ -111,13 +114,12 @@
                     <MudCardContent>
                         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                             <MudStack Spacing="0">
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">Monthly Revenue</MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">@L["AdminDashboard_MonthlyRevenue"]</MudText>
                                 <MudText Typo="Typo.h5" Color="Color.Warning">@_stats.MonthlyRevenue.ToString("N0") LYD
                                 </MudText>
                                 <MudText Typo="Typo.caption"
                                     Color="@(_stats.RevenueGrowth >= 0 ? Color.Success : Color.Error)">
-                                    @(_stats.RevenueGrowth >= 0 ? "+" : "")@_stats.RevenueGrowth.ToString("F1")% vs last
-                                    month
+                                    @(_stats.RevenueGrowth >= 0 ? "+" : "")@string.Format(L["AdminDashboard_RevenueGrowth"], _stats.RevenueGrowth.ToString("F1"))
                                 </MudText>
                             </MudStack>
                             <MudAvatar Color="Color.Warning" Size="Size.Large">
@@ -137,15 +139,15 @@
                         <CardHeaderContent>
                             <MudText Typo="Typo.h6">
                                 <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Class="mr-2" Size="Size.Small" />
-                                Student Registrations Trend
+                                @L["AdminDashboard_StudentRegistrations"]
                             </MudText>
                         </CardHeaderContent>
                         <CardHeaderActions>
                             <MudSelect T="string" @bind-Value="_chartPeriod" Variant="Variant.Outlined"
                                 Margin="Margin.Dense">
-                                <MudSelectItem Value="@("week")">This Week</MudSelectItem>
-                                <MudSelectItem Value="@("month")">This Month</MudSelectItem>
-                                <MudSelectItem Value="@("year")">This Year</MudSelectItem>
+                                <MudSelectItem Value="@("week")">@L["AdminDashboard_Chart_ThisWeek"]</MudSelectItem>
+                                <MudSelectItem Value="@("month")">@L["AdminDashboard_Chart_ThisMonth"]</MudSelectItem>
+                                <MudSelectItem Value="@("year")">@L["AdminDashboard_Chart_ThisYear"]</MudSelectItem>
                             </MudSelect>
                         </CardHeaderActions>
                     </MudCardHeader>
@@ -159,7 +161,7 @@
                         else
                         {
                             <MudText Typo="Typo.body2" Color="Color.Secondary" Align="Align.Center" Class="mt-8">
-                                No data available for the selected period
+                                @L["AdminDashboard_Chart_NoData"]
                             </MudText>
                         }
                     </MudCardContent>
@@ -180,7 +182,7 @@
                         <CardHeaderContent>
                             <MudText Typo="Typo.h6">
                                 <MudIcon Icon="@Icons.Material.Filled.Bolt" Class="mr-2" Size="Size.Small" />
-                                Quick Actions
+                                @L["AdminDashboard_QuickActions"]
                             </MudText>
                         </CardHeaderContent>
                     </MudCardHeader>
@@ -189,25 +191,25 @@
                             <MudItem xs="12" sm="6">
                                 <MudButton Variant="Variant.Outlined" Color="Color.Primary" FullWidth="true"
                                     StartIcon="@Icons.Material.Filled.Add" Href="/admin/residences/create">
-                                    Add Residence
+                                    @L["AdminDashboard_Button_AddResidence"]
                                 </MudButton>
                             </MudItem>
                             <MudItem xs="12" sm="6">
                                 <MudButton Variant="Variant.Outlined" Color="Color.Success" FullWidth="true"
                                     StartIcon="@Icons.Material.Filled.PersonAdd" Href="/admin/managers/create">
-                                    Add Manager
+                                    @L["AdminDashboard_Button_AddManager"]
                                 </MudButton>
                             </MudItem>
                             <MudItem xs="12" sm="6">
                                 <MudButton Variant="Variant.Outlined" Color="Color.Info" FullWidth="true"
                                     StartIcon="@Icons.Material.Filled.Assessment" Href="/admin/reports">
-                                    View Reports
+                                    @L["AdminDashboard_Button_ViewReports"]
                                 </MudButton>
                             </MudItem>
                             <MudItem xs="12" sm="6">
                                 <MudButton Variant="Variant.Outlined" Color="Color.Warning" FullWidth="true"
                                     StartIcon="@Icons.Material.Filled.Settings" Href="/superroot/settings">
-                                    System Settings
+                                    @L["AdminDashboard_Button_SystemSettings"]
                                 </MudButton>
                             </MudItem>
                         </MudGrid>
@@ -222,7 +224,7 @@
                         <CardHeaderContent>
                             <MudText Typo="Typo.h6">
                                 <MudIcon Icon="@Icons.Material.Filled.ReportProblem" Class="mr-2" Size="Size.Small" />
-                                Complaints Overview
+                                @L["AdminDashboard_ComplaintsOverview"]
                             </MudText>
                         </CardHeaderContent>
                     </MudCardHeader>
@@ -231,20 +233,20 @@
                             <MudItem xs="6">
                                 <MudPaper Elevation="0" Class="pa-3 text-center" Style="background-color: #fff3e0;">
                                     <MudText Typo="Typo.h4" Color="Color.Warning">@_stats.PendingComplaints</MudText>
-                                    <MudText Typo="Typo.caption">Pending</MudText>
+                                    <MudText Typo="Typo.caption">@L["AdminDashboard_Complaints_Pending"]</MudText>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="6">
                                 <MudPaper Elevation="0" Class="pa-3 text-center" Style="background-color: #e8f5e9;">
                                     <MudText Typo="Typo.h4" Color="Color.Success">@_stats.ResolvedComplaints</MudText>
-                                    <MudText Typo="Typo.caption">Resolved</MudText>
+                                    <MudText Typo="Typo.caption">@L["AdminDashboard_Complaints_Resolved"]</MudText>
                                 </MudPaper>
                             </MudItem>
                         </MudGrid>
                         <MudDivider Class="my-3" />
                         <MudButton Variant="Variant.Text" Color="Color.Primary" FullWidth="true"
                             EndIcon="@Icons.Material.Filled.ArrowForward" Href="/admin/complaints">
-                            View All Complaints
+                            @L["AdminDashboard_Button_ViewAllComplaints"]
                         </MudButton>
                     </MudCardContent>
                 </MudCard>

@@ -2,10 +2,13 @@
 @inject ISender Sender
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
 @attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
 @rendermode InteractiveServer
 
-<PageTitle>Payments Management</PageTitle>
+<PageTitle>@L["PaymentsManagement_PageTitle"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
@@ -14,15 +17,15 @@
             <div>
                 <MudText Typo="Typo.h4" Color="Color.Primary">
                     <MudIcon Icon="@Icons.Material.Filled.Payment" Class="mr-2" />
-                    Payments Management
+                    @L["PaymentsManagement_Header"]
                 </MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Track and manage student payments
+                    @L["PaymentsManagement_Subheader"]
                 </MudText>
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
                 OnClick="@RecordPayment">
-                Record Payment
+                @L["PaymentsManagement_Button_RecordPayment"]
             </MudButton>
         </MudStack>
     </MudPaper>
@@ -39,7 +42,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Revenue</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["PaymentsManagement_Stats_TotalRevenue"]</MudText>
                             <MudText Typo="Typo.h5" Color="Color.Success">45,000 LYD</MudText>
                         </div>
                         <MudAvatar Color="Color.Success" Size="Size.Large">
@@ -55,7 +58,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Paid</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["PaymentsManagement_Stats_Paid"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Success">87</MudText>
                         </div>
                         <MudAvatar Color="Color.Success" Size="Size.Large">
@@ -71,7 +74,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Pending</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["PaymentsManagement_Stats_Pending"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Warning">23</MudText>
                         </div>
                         <MudAvatar Color="Color.Warning" Size="Size.Large">
@@ -87,7 +90,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Overdue</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["PaymentsManagement_Stats_Overdue"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Error">8</MudText>
                         </div>
                         <MudAvatar Color="Color.Error" Size="Size.Large">
@@ -103,21 +106,21 @@
     <MudPaper Elevation="2" Class="pa-4 mb-4">
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
-                <MudTextField @bind-Value="_searchString" Label="Search" Variant="Variant.Outlined"
+                <MudTextField @bind-Value="_searchString" Label='@L["PaymentsManagement_SearchPlaceholder"]' Variant="Variant.Outlined"
                     Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Margin="Margin.Dense" />
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_statusFilter" Label="Status" Variant="Variant.Outlined"
+                <MudSelect T="string" @bind-Value="_statusFilter" Label='@L["PaymentsManagement_Filter_Status"]' Variant="Variant.Outlined"
                     Margin="Margin.Dense" Clearable="true">
-                    <MudSelectItem Value="@("Paid")">Paid</MudSelectItem>
-                    <MudSelectItem Value="@("Pending")">Pending</MudSelectItem>
-                    <MudSelectItem Value="@("Overdue")">Overdue</MudSelectItem>
+                    <MudSelectItem Value="@("Paid")">@L["PaymentsManagement_Stats_Paid"]</MudSelectItem>
+                    <MudSelectItem Value="@("Pending")">@L["PaymentsManagement_Stats_Pending"]</MudSelectItem>
+                    <MudSelectItem Value="@("Overdue")">@L["PaymentsManagement_Stats_Overdue"]</MudSelectItem>
                 </MudSelect>
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="int?" @bind-Value="_monthFilter" Label="Month" Variant="Variant.Outlined"
+                <MudSelect T="int?" @bind-Value="_monthFilter" Label='@L["PaymentsManagement_Filter_Month"]' Variant="Variant.Outlined"
                     Margin="Margin.Dense" Clearable="true">
                     @for (int i = 1; i <= 12; i++)
                     {
@@ -128,7 +131,7 @@
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="int?" @bind-Value="_yearFilter" Label="Year" Variant="Variant.Outlined"
+                <MudSelect T="int?" @bind-Value="_yearFilter" Label='@L["PaymentsManagement_Filter_Year"]' Variant="Variant.Outlined"
                     Margin="Margin.Dense" Clearable="true">
                     <MudSelectItem Value="@(2024)">2024</MudSelectItem>
                     <MudSelectItem Value="@(2025)">2025</MudSelectItem>
@@ -141,15 +144,15 @@
     <MudPaper Elevation="4">
         <MudTable Items="@_payments" Hover="true" Striped="true" Dense="true" Loading="@_isLoading">
             <HeaderContent>
-                <MudTh>Payment ID</MudTh>
-                <MudTh>Student</MudTh>
-                <MudTh>Description</MudTh>
-                <MudTh>Amount</MudTh>
-                <MudTh>Period</MudTh>
-                <MudTh>Due Date</MudTh>
-                <MudTh>Status</MudTh>
-                <MudTh>Paid Date</MudTh>
-                <MudTh Class="text-right">Actions</MudTh>
+                <MudTh>@L["PaymentsManagement_Table_Header_PaymentID"]</MudTh>
+                <MudTh>@L["PaymentsManagement_Table_Header_Student"]</MudTh>
+                <MudTh>@L["PaymentsManagement_Table_Header_Description"]</MudTh>
+                <MudTh>@L["PaymentsManagement_Table_Header_Amount"]</MudTh>
+                <MudTh>@L["PaymentsManagement_Table_Header_Period"]</MudTh>
+                <MudTh>@L["PaymentsManagement_Table_Header_DueDate"]</MudTh>
+                <MudTh>@L["PaymentsManagement_Table_Header_Status"]</MudTh>
+                <MudTh>@L["PaymentsManagement_Table_Header_PaidDate"]</MudTh>
+                <MudTh Class="text-right">@L["PaymentsManagement_Table_Header_Actions"]</MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="ID">
@@ -158,7 +161,7 @@
                 <MudTd DataLabel="Student">
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.body2"><strong>@context.StudentName</strong></MudText>
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">ID:
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">@L["PaymentsManagement_Table_ID"]
                             @context.StudentId.ToString().Substring(0, 8)...</MudText>
                     </MudStack>
                 </MudTd>
@@ -191,28 +194,28 @@
                     }
                     else
                     {
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">-</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">@L["PaymentsManagement_Table_NA"]</MudText>
                     }
                 </MudTd>
                 <MudTd DataLabel="Actions" Class="text-right">
                     <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
                         <MudMenuItem Icon="@Icons.Material.Filled.Visibility" Href="@($"/payments/{context.Id}")">
-                            View Details
+                            @L["PaymentsManagement_Actions_ViewDetails"]
                         </MudMenuItem>
                         @if (context.Status == PaymentStatus.Pending || context.Status == PaymentStatus.Overdue)
                         {
                             <MudMenuItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success"
                                 OnClick="@(() => MarkAsPaid(context.Id))">
-                                Mark as Paid
+                                @L["PaymentsManagement_Actions_MarkAsPaid"]
                             </MudMenuItem>
                         }
                         <MudMenuItem Icon="@Icons.Material.Filled.Receipt"
                             OnClick="@(() => GenerateReceipt(context.Id))">
-                            Generate Receipt
+                            @L["PaymentsManagement_Actions_GenerateReceipt"]
                         </MudMenuItem>
                         <MudDivider />
                         <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditPayment(context.Id))">
-                            Edit
+                            @L["PaymentsManagement_Actions_Edit"]
                         </MudMenuItem>
                     </MudMenu>
                 </MudTd>
@@ -279,15 +282,15 @@
 
     private void RecordPayment()
     {
-        Snackbar.Add("Record payment functionality - Coming soon!", Severity.Info);
+        Snackbar.Add(L["PaymentsManagement_Snackbar_RecordPaymentComingSoon"], Severity.Info);
     }
 
     private async Task MarkAsPaid(Guid paymentId)
     {
         var parameters = new DialogParameters
             {
-                ["ContentText"] = "Mark this payment as paid?",
-                ["ButtonText"] = "Confirm Payment",
+                ["ContentText"] = L["PaymentsManagement_Snackbar_MarkAsPaidConfirm"],
+                ["ButtonText"] = L["PaymentsManagement_Snackbar_ConfirmPayment"],
                 ["Color"] = Color.Success
             };
 
@@ -296,18 +299,18 @@
 
         if (result is { Canceled: false })
         {
-            Snackbar.Add("Payment marked as paid!", Severity.Success);
+            Snackbar.Add(L["PaymentsManagement_Snackbar_PaymentMarkedAsPaid"], Severity.Success);
             await LoadPayments();
         }
     }
 
     private void GenerateReceipt(Guid paymentId)
     {
-        Snackbar.Add("Generating receipt...", Severity.Info);
+        Snackbar.Add(L["PaymentsManagement_Snackbar_GeneratingReceipt"], Severity.Info);
     }
 
     private void EditPayment(Guid paymentId)
     {
-        Snackbar.Add("Edit payment functionality - Coming soon!", Severity.Info);
+        Snackbar.Add(L["PaymentsManagement_Snackbar_EditPaymentComingSoon"], Severity.Info);
     }
 }

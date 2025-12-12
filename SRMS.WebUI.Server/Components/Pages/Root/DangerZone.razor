@@ -1,12 +1,14 @@
 ﻿@page "/superroot/danger-zone"
+@using Microsoft.Extensions.Localization
 @attribute [Authorize(Roles = "SuperRoot")]
 @inject ISuperRootService SuperRootService
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject NavigationManager Navigation
+@inject IStringLocalizer<Resource> Localizer
 @rendermode InteractiveServer
 
-<PageTitle>⚠️ Danger Zone</PageTitle>
+<PageTitle>@Localizer["DangerZone_Title"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Warning Header -->
@@ -15,18 +17,17 @@
             <MudIcon Icon="@Icons.Material.Filled.Warning" Size="Size.Large" Class="text-white text-[64px]" />
             <div>
                 <MudText Typo="Typo.h3" Class="text-white">
-                    ⚠️ DANGER ZONE
+                    @Localizer["DangerZone_Header"]
                 </MudText>
                 <MudText Typo="Typo.body1" Class="text-white/90">
-                    These operations are <strong>IRREVERSIBLE</strong> and can cause permanent data loss!
+                    @Localizer["DangerZone_SubHeader"]
                 </MudText>
             </div>
         </MudStack>
     </MudPaper>
 
     <MudAlert Severity="Severity.Error" Class="mb-4">
-        <strong>⚠️ CRITICAL WARNING:</strong> Actions in this zone are <strong>PERMANENT</strong> and cannot be undone. 
-        Use with extreme caution and only if you fully understand the consequences!
+        <strong>@Localizer["DangerZone_CriticalWarning"]</strong> @Localizer["DangerZone_CriticalWarningMessage"]
     </MudAlert>
 
     <MudGrid>
@@ -37,17 +38,16 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6" Color="Color.Warning">
                             <MudIcon Icon="@Icons.Material.Filled.CleaningServices" Class="mr-2" />
-                            Clear All Cache
+                            @Localizer["ClearAllCache"]
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
-                        <MudChip T="string" Size="Size.Small" Color="Color.Warning">Moderate Risk</MudChip>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Warning">@Localizer["ModerateRisk"]</MudChip>
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        Clears all cached data including sessions, temporary files, and application cache. 
-                        Users may need to log in again and may experience slower performance temporarily.
+                        @Localizer["ClearAllCache_Description"]
                     </MudText>
                 </MudCardContent>
                 <MudCardActions>
@@ -56,7 +56,7 @@
                         Color="Color.Warning"
                         StartIcon="@Icons.Material.Filled.Delete"
                         OnClick="@ClearCache">
-                        Clear Cache
+                        @Localizer["ClearCache"]
                     </MudButton>
                 </MudCardActions>
             </MudCard>
@@ -69,28 +69,27 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6" Color="Color.Warning">
                             <MudIcon Icon="@Icons.Material.Filled.DeleteSweep" Class="mr-2" />
-                            Delete Old Audit Logs
+                            @Localizer["DeleteOldAuditLogs"]
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
-                        <MudChip T="string" Size="Size.Small" Color="Color.Warning">Moderate Risk</MudChip>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Warning">@Localizer["ModerateRisk"]</MudChip>
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">
-                        Permanently deletes audit logs older than the specified period. This helps reduce database size 
-                        but removes historical tracking data.
+                        @Localizer["DeleteOldAuditLogs_Description"]
                     </MudText>
                     <MudSelect 
                         T="int"
                         @bind-Value="_deleteLogsOlderThan"
-                        Label="Delete logs older than"
+                        Label="@Localizer["DeleteLogsOlderThan"]"
                         Variant="Variant.Outlined">
-                        <MudSelectItem Value="30">30 days</MudSelectItem>
-                        <MudSelectItem Value="60">60 days</MudSelectItem>
-                        <MudSelectItem Value="90">90 days</MudSelectItem>
-                        <MudSelectItem Value="180">6 months</MudSelectItem>
-                        <MudSelectItem Value="365">1 year</MudSelectItem>
+                        <MudSelectItem Value="30">@Localizer["30days"]</MudSelectItem>
+                        <MudSelectItem Value="60">@Localizer["60days"]</MudSelectItem>
+                        <MudSelectItem Value="90">@Localizer["90days"]</MudSelectItem>
+                        <MudSelectItem Value="180">@Localizer["6months"]</MudSelectItem>
+                        <MudSelectItem Value="365">@Localizer["1year"]</MudSelectItem>
                     </MudSelect>
                 </MudCardContent>
                 <MudCardActions>
@@ -99,7 +98,7 @@
                         Color="Color.Warning"
                         StartIcon="@Icons.Material.Filled.DeleteForever"
                         OnClick="@DeleteOldLogs">
-                        Delete Old Logs
+                        @Localizer["DeleteOldLogs"]
                     </MudButton>
                 </MudCardActions>
             </MudCard>
@@ -112,22 +111,22 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6" Color="Color.Info">
                             <MudIcon Icon="@Icons.Material.Filled.Science" Class="mr-2" />
-                            Generate Test Data
+                            @Localizer["GenerateTestData"]
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
-                        <MudChip T="string" Size="Size.Small" Color="Color.Info">Low Risk</MudChip>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Info">@Localizer["LowRisk"]</MudChip>
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">
-                        Generates fake data for testing purposes. Useful for development and demo environments.
+                        @Localizer["GenerateTestData_Description"]
                     </MudText>
                     <MudGrid>
                         <MudItem xs="12" sm="6">
                             <MudNumericField 
                                 @bind-Value="_testUsersCount"
-                                Label="Number of Users"
+                                Label="@Localizer["NumberOfUsers"]"
                                 Variant="Variant.Outlined"
                                 Min="1"
                                 Max="1000" />
@@ -135,7 +134,7 @@
                         <MudItem xs="12" sm="6">
                             <MudNumericField 
                                 @bind-Value="_testStudentsCount"
-                                Label="Number of Students"
+                                Label="@Localizer["NumberOfStudents"]"
                                 Variant="Variant.Outlined"
                                 Min="1"
                                 Max="1000" />
@@ -152,11 +151,11 @@
                         @if (_isGenerating)
                         {
                             <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                            <span>Generating...</span>
+                            <span>@Localizer["Generating"]</span>
                         }
                         else
                         {
-                            <span>Generate Test Data</span>
+                            <span>@Localizer["GenerateTestData"]</span>
                         }
                     </MudButton>
                 </MudCardActions>
@@ -170,21 +169,19 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6" Color="Color.Error">
                             <MudIcon Icon="@Icons.Material.Filled.RestartAlt" Class="mr-2" />
-                            Reset Database to Defaults
+                            @Localizer["ResetDatabaseToDefaults"]
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
-                        <MudChip T="string" Size="Size.Small" Color="Color.Error">HIGH RISK</MudChip>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Error">@Localizer["HighRisk"]</MudChip>
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudAlert Severity="Severity.Error" Dense="true" Class="mb-3">
-                        <strong>⚠️ EXTREME CAUTION:</strong> This will reset the database to its initial state, 
-                        removing ALL data except system roles and the SuperRoot account!
+                        <strong>@Localizer["ExtremeCaution"]</strong> @Localizer["ResetDatabase_Warning"]
                     </MudAlert>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        Resets the entire database to factory defaults. All users, students, managers, rooms, 
-                        payments, and complaints will be permanently deleted.
+                        @Localizer["ResetDatabase_Description"]
                     </MudText>
                 </MudCardContent>
                 <MudCardActions>
@@ -197,11 +194,11 @@
                         @if (_isResetting)
                         {
                             <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                            <span>Resetting...</span>
+                            <span>@Localizer["Resetting"]</span>
                         }
                         else
                         {
-                            <span>Reset Database</span>
+                            <span>@Localizer["ResetDatabase"]</span>
                         }
                     </MudButton>
                 </MudCardActions>
@@ -215,36 +212,36 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6" Color="Color.Error">
                             <MudIcon Icon="@Icons.Material.Filled.DeleteForever" Class="mr-2" />
-                            ⚠️ DELETE ALL DATA ⚠️
+                            @Localizer["DeleteAllData_Header"]
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
-                        <MudChip T="string" Size="Size.Small" Color="Color.Error">🔥 CRITICAL 🔥</MudChip>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Error">@Localizer["CriticalRisk"]</MudChip>
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudAlert Severity="Severity.Error" Class="mb-3">
-                        <strong>🚨 NUCLEAR OPTION 🚨</strong><br/>
-                        This is the <strong>MOST DESTRUCTIVE</strong> action available!<br/>
-                        It will <strong>PERMANENTLY DELETE EVERYTHING</strong> including:<br/>
-                        • All users (except SuperRoot)<br/>
-                        • All students and managers<br/>
-                        • All residences and rooms<br/>
-                        • All payments and complaints<br/>
-                        • All audit logs<br/>
+                        <strong>@Localizer["NuclearOption"]</strong><br/>
+                        @Localizer["MostDestructiveAction"]<br/>
+                        @Localizer["PermanentlyDeleteEverything"]<br/>
+                        • @Localizer["AllUsersExceptSuperRoot"]<br/>
+                        • @Localizer["AllStudentsAndManagers"]<br/>
+                        • @Localizer["AllResidencesAndRooms"]<br/>
+                        • @Localizer["AllPaymentsAndComplaints"]<br/>
+                        • @Localizer["AllAuditLogs"]<br/>
                         <br/>
-                        <strong>THIS ACTION CANNOT BE UNDONE!</strong>
+                        <strong>@Localizer["ActionCannotBeUndone"]</strong>
                     </MudAlert>
                     <MudText Typo="Typo.body1" Color="Color.Error" Class="mb-3">
-                        <strong>You must type the confirmation code exactly to proceed:</strong>
+                        <strong>@Localizer["MustTypeConfirmation"]</strong>
                     </MudText>
                     <MudTextField 
                         @bind-Value="_deleteConfirmation"
-                        Label="Type 'DELETE_ALL_DATA_PERMANENTLY' to confirm"
+                        Label="@Localizer["DeleteAllData_ConfirmationLabel"]"
                         Variant="Variant.Outlined"
                         Error="@(_showDeleteError)"
-                        ErrorText="Confirmation code does not match!"
-                        HelperText="This code must be typed exactly as shown" />
+                        ErrorText="@Localizer["ConfirmationCodeMismatch"]"
+                        HelperText="@Localizer["ConfirmationCodeHelper"]" />
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton 
@@ -256,11 +253,11 @@
                         @if (_isDeleting)
                         {
                             <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                            <span>Deleting Everything...</span>
+                            <span>@Localizer["DeletingEverything"]</span>
                         }
                         else
                         {
-                            <span>🔥 DELETE EVERYTHING 🔥</span>
+                            <span>@Localizer["DeleteEverythingButton"]</span>
                         }
                     </MudButton>
                 </MudCardActions>
@@ -283,12 +280,12 @@
     {
         var parameters = new DialogParameters
         {
-            ["ContentText"] = "Are you sure you want to clear all cache? Users may need to log in again.",
-            ["ButtonText"] = "Clear Cache",
+            ["ContentText"] = Localizer["ClearCache_Confirmation"],
+            ["ButtonText"] = Localizer["ClearCache"],
             ["Color"] = Color.Warning
         };
 
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Clear Cache", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["ClearCache"], parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
@@ -298,16 +295,16 @@
                 var success = await SuperRootService.ClearAllCacheAsync();
                 if (success)
                 {
-                    Snackbar.Add("Cache cleared successfully!", Severity.Success);
+                    Snackbar.Add(Localizer["CacheClearedSuccessfully"], Severity.Success);
                 }
                 else
                 {
-                    Snackbar.Add("Failed to clear cache.", Severity.Error);
+                    Snackbar.Add(Localizer["FailedToClearCache"], Severity.Error);
                 }
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+                Snackbar.Add($"{Localizer["Error"]}: {ex.Message}", Severity.Error);
             }
         }
     }
@@ -316,17 +313,17 @@
     {
         var parameters = new DialogParameters
         {
-            ["ContentText"] = $"Delete all audit logs older than {_deleteLogsOlderThan} days? This cannot be undone!",
-            ["ButtonText"] = "Delete Logs",
+            ["ContentText"] = string.Format(Localizer["DeleteOldLogs_Confirmation"], _deleteLogsOlderThan),
+            ["ButtonText"] = Localizer["DeleteLogs"],
             ["Color"] = Color.Warning
         };
 
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete Old Logs", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["DeleteOldLogs"], parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
         {
-            Snackbar.Add($"Deleted logs older than {_deleteLogsOlderThan} days!", Severity.Success);
+            Snackbar.Add(string.Format(Localizer["LogsDeletedSuccessfully"], _deleteLogsOlderThan), Severity.Success);
         }
     }
 
@@ -338,16 +335,16 @@
             var success = await SuperRootService.GenerateTestDataAsync(_testUsersCount, _testStudentsCount);
             if (success)
             {
-                Snackbar.Add($"Generated {_testUsersCount} users and {_testStudentsCount} students!", Severity.Success);
+                Snackbar.Add(string.Format(Localizer["TestDataGenerated"], _testUsersCount, _testStudentsCount), Severity.Success);
             }
             else
             {
-                Snackbar.Add("Failed to generate test data.", Severity.Error);
+                Snackbar.Add(Localizer["FailedToGenerateTestData"], Severity.Error);
             }
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{Localizer["Error"]}: {ex.Message}", Severity.Error);
         }
         finally
         {
@@ -359,13 +356,13 @@
     {
         var parameters = new DialogParameters
         {
-            ["ContentText"] = "⚠️ This will reset the database to defaults. ALL DATA will be lost! Type 'RESET' to confirm.",
+            ["ContentText"] = Localizer["ResetDatabase_Confirmation"],
             ["ExpectedText"] = "RESET",
-            ["ButtonText"] = "Reset Database",
+            ["ButtonText"] = Localizer["ResetDatabase"],
             ["ButtonColor"] = Color.Error
         };
 
-        var dialog = await DialogService.ShowAsync<ConfirmWithTextDialog>("⚠️ Reset Database", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmWithTextDialog>(Localizer["ResetDatabase_Title"], parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false } && result.Data?.ToString() == "RESET")
@@ -376,18 +373,18 @@
                 var success = await SuperRootService.ResetDatabaseAsync();
                 if (success)
                 {
-                    Snackbar.Add("Database reset successfully! Redirecting...", Severity.Success);
+                    Snackbar.Add(Localizer["DatabaseResetSuccessfully"], Severity.Success);
                     await Task.Delay(2000);
                     Navigation.NavigateTo("/login", forceLoad: true);
                 }
                 else
                 {
-                    Snackbar.Add("Failed to reset database.", Severity.Error);
+                    Snackbar.Add(Localizer["FailedToResetDatabase"], Severity.Error);
                 }
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+                Snackbar.Add($"{Localizer["Error"]}: {ex.Message}", Severity.Error);
             }
             finally
             {
@@ -401,19 +398,19 @@
         if (_deleteConfirmation != "DELETE_ALL_DATA_PERMANENTLY")
         {
             _showDeleteError = true;
-            Snackbar.Add("Confirmation code does not match!", Severity.Error);
+            Snackbar.Add(Localizer["ConfirmationCodeMismatch"], Severity.Error);
             return;
         }
 
         var parameters = new DialogParameters
         {
-            ["ContentText"] = "🚨 FINAL WARNING 🚨\n\nThis is your LAST CHANCE to cancel!\n\nYou are about to PERMANENTLY DELETE ALL DATA.\n\nType 'DELETE' one more time to confirm:",
+            ["ContentText"] = Localizer["DeleteAllData_FinalWarning"],
             ["ExpectedText"] = "DELETE",
-            ["ButtonText"] = "I UNDERSTAND - DELETE EVERYTHING",
+            ["ButtonText"] = Localizer["DeleteEverythingButton_Final"],
             ["ButtonColor"] = Color.Error
         };
 
-        var dialog = await DialogService.ShowAsync<ConfirmWithTextDialog>("🚨 FINAL WARNING", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmWithTextDialog>(Localizer["FinalWarning_Title"], parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false } && result.Data?.ToString() == "DELETE")
@@ -424,18 +421,18 @@
                 var success = await SuperRootService.DeleteAllDataAsync("DELETE_ALL_DATA_PERMANENTLY");
                 if (success)
                 {
-                    Snackbar.Add("All data deleted! Redirecting to login...", Severity.Success);
+                    Snackbar.Add(Localizer["AllDataDeleted"], Severity.Success);
                     await Task.Delay(2000);
                     Navigation.NavigateTo("/login", forceLoad: true);
                 }
                 else
                 {
-                    Snackbar.Add("Failed to delete data.", Severity.Error);
+                    Snackbar.Add(Localizer["FailedToDeleteData"], Severity.Error);
                 }
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+                Snackbar.Add($"{Localizer["Error"]}: {ex.Message}", Severity.Error);
             }
             finally
             {

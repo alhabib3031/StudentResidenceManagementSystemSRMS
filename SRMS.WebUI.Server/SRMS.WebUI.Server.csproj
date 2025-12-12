@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
       <UserSecretsId>5aa6c4d1-0e27-4457-9280-c0b64a496b87</UserSecretsId>
+      <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
   </PropertyGroup>
 
 
@@ -14,6 +15,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.10" />
         <PackageReference Include="MudBlazor" Version="8.*" />
     </ItemGroup>
 
@@ -21,4 +23,22 @@
     <ItemGroup>
       <ProjectReference Include="..\SRMS.Infrastructure\SRMS.Infrastructure.csproj" />
     </ItemGroup>
+
+
+    <ItemGroup>
+      <Compile Update="Resources\Resource.en-US.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resource.en-US.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\Resource.en-US.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resource.en-US.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>
