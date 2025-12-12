@@ -2,11 +2,12 @@
 @attribute [Authorize(Roles = "SuperRoot")]
 @inject ISnackbar Snackbar
 @using SRMS.WebUI.Server.Resources
+@using System.Globalization
 @using Microsoft.Extensions.Localization
-@inject IStringLocalizer<Resources> L
+@inject IStringLocalizer<Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>@L["SystemSettings"]</PageTitle>
+<PageTitle>System Settings</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->
