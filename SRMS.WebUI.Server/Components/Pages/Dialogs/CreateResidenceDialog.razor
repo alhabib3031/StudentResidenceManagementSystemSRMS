@@ -2,79 +2,70 @@
 @using SRMS.Domain.ValueObjects
 @using SRMS.Domain.Repositories
 @using Microsoft.Extensions.DependencyInjection
-@using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @using MudBlazor
 @inject ISnackbar Snackbar
 @inject IServiceScopeFactory ScopeFactory
-@inject IStringLocalizer<Resource> L
 
 <MudDialog>
-    <TitleContent>
-        <MudText Typo="Typo.h6">
-            <MudIcon Icon="@Icons.Material.Filled.AddBusiness" Class="mr-2" />
-            @L["CreateResidenceDialog_Title"]
-        </MudText>
-    </TitleContent>
     <DialogContent>
         <MudForm @ref="_form" @bind-IsValid="_success">
             <MudGrid>
                 <MudItem xs="12">
-                    <MudTextField @bind-Value="_residence.Name" Label='@L["CreateResidenceDialog_Name"]' Required="true"
-                        RequiredError='@L["CreateResidenceDialog_Name_Required"]' Variant="Variant.Outlined" />
+                    <MudTextField @bind-Value="_residence.Name" Label="Residence Name" Required="true"
+                        RequiredError="Name is required" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem xs="12">
-                    <MudTextField @bind-Value="_description" Label='@L["CreateResidenceDialog_Description"]' Variant="Variant.Outlined" Lines="3" />
+                    <MudTextField @bind-Value="_description" Label="Description" Variant="Variant.Outlined" Lines="3" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudText Typo="Typo.subtitle2" Class="mb-2">@L["CreateResidenceDialog_Address"]</MudText>
+                    <MudText Typo="Typo.subtitle2" Class="mb-2">Address</MudText>
                 </MudItem>
                 <MudItem xs="6">
-                    <MudTextField @bind-Value="_street" Label='@L["CreateResidenceDialog_Street"]' Required="true" Variant="Variant.Outlined" />
+                    <MudTextField @bind-Value="_street" Label="Street" Required="true" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem xs="6">
-                    <MudTextField @bind-Value="_city" Label='@L["CreateResidenceDialog_City"]' Required="true" Variant="Variant.Outlined" />
+                    <MudTextField @bind-Value="_city" Label="City" Required="true" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem xs="4">
-                    <MudTextField @bind-Value="_state" Label='@L["CreateResidenceDialog_State"]' Variant="Variant.Outlined" />
+                    <MudTextField @bind-Value="_state" Label="State" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem xs="4">
-                    <MudTextField @bind-Value="_country" Label='@L["CreateResidenceDialog_Country"]' Variant="Variant.Outlined" />
+                    <MudTextField @bind-Value="_country" Label="Country" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem xs="4">
-                    <MudTextField @bind-Value="_zipCode" Label='@L["CreateResidenceDialog_ZipCode"]' Variant="Variant.Outlined" />
+                    <MudTextField @bind-Value="_zipCode" Label="Zip Code" Variant="Variant.Outlined" />
                 </MudItem>
 
                 <MudItem xs="6">
-                    <MudNumericField @bind-Value="_residence.TotalCapacity" Label='@L["CreateResidenceDialog_TotalCapacity"]' Min="1"
+                    <MudNumericField @bind-Value="_residence.TotalCapacity" Label="Total Capacity" Min="1"
                         Required="true" Variant="Variant.Outlined" />
                 </MudItem>
                 <MudItem xs="6">
-                    <MudNumericField @bind-Value="_monthlyRentAmount" Label='@L["CreateResidenceDialog_MonthlyRent"]' Min="0"
+                    <MudNumericField @bind-Value="_monthlyRentAmount" Label="Monthly Rent" Min="0"
                         Variant="Variant.Outlined" Adornment="Adornment.Start"
                         AdornmentIcon="@Icons.Material.Filled.AttachMoney" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudText Typo="Typo.subtitle2" Class="mb-2">@L["CreateResidenceDialog_Facilities"]</MudText>
+                    <MudText Typo="Typo.subtitle2" Class="mb-2">Facilities</MudText>
                     <MudStack Row="true" Wrap="Wrap.Wrap">
-                        <MudCheckBox @bind-Value="@_residence.HasWifi" Label='@L["CreateResidenceDialog_Facility_WiFi"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_residence.HasParking" Label='@L["CreateResidenceDialog_Facility_Parking"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_residence.HasLaundry" Label='@L["CreateResidenceDialog_Facility_Laundry"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_residence.HasGym" Label='@L["CreateResidenceDialog_Facility_Gym"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_residence.HasSwimmingPool" Label='@L["CreateResidenceDialog_Facility_Pool"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_residence.HasSecurity" Label='@L["CreateResidenceDialog_Facility_Security"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_residence.HasKitchen" Label='@L["CreateResidenceDialog_Facility_Kitchen"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_residence.HasStudyRoom" Label='@L["CreateResidenceDialog_Facility_StudyRoom"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasWifi" Label="WiFi" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasParking" Label="Parking" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasLaundry" Label="Laundry" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasGym" Label="Gym" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasSwimmingPool" Label="Pool" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasSecurity" Label="Security" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasKitchen" Label="Kitchen" Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasStudyRoom" Label="Study Room" Color="Color.Primary" />
                     </MudStack>
                 </MudItem>
             </MudGrid>
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["CreateResidenceDialog_Button_Cancel"]</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(!_success)">@L["CreateResidenceDialog_Button_Create"]</MudButton>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(!_success)">Create</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -123,7 +114,7 @@
             }
             catch (Exception ex)
             {
-                Snackbar.Add(string.Format(L["CreateResidenceDialog_Snackbar_Error"], ex.Message), Severity.Error);
+                Snackbar.Add($"Error creating residence: {ex.Message}", Severity.Error);
             }
         }
     }

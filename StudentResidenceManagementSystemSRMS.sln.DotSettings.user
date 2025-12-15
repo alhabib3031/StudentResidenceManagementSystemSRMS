@@ -23,30 +23,7 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ATypography_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F4bc8473e96ad4af324e7e43b428d6af3d740d551d3506c2f6e4fc1bd734727_003FTypography_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AUserManager_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E2_003Fresharper_002Dhost_003FSourcesCache_003F1622b8f95d27187bc1fb39bac49bd64e928773df4fda6fcf6271680be54a2_003FUserManager_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
-    &lt;Assembly Path="C:\Users\alhab\.nuget\packages\mapster\7.4.0\lib\net7.0\Mapster.dll" /&gt;&#xD;
-    &lt;/AssemblyExplorer&gt;</s:String>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FLocalization_002FResources/@EntryIndexedValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FLocalization_002FResources/@EntryIndexRemoved">True</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FResources_002FResource/@EntryIndexedValue">True</s:Boolean>
-	
+  &lt;Assembly Path="C:\Users\alhab\.nuget\packages\mapster\7.4.0\lib\net7.0\Mapster.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FResources_002FResources/@EntryIndexedValue">True</s:Boolean>
-	
-	
-	
-	
-	
-	
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FResources_002FResources1/@EntryIndexedValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FResources_002FResources1/@EntryIndexRemoved">True</s:Boolean>
-	
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FResources_002FResources_002Ear_002DLY_002Eresx/@EntryIndexedValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FResources_002FResources_002Ear_002DLY_002Eresx/@EntryIndexRemoved">True</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FResources_002FResources_002Ear_002Eresx/@EntryIndexedValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FResources_002FResources_002Ear_002Eresx/@EntryIndexRemoved">True</s:Boolean>
-	<s:String x:Key="/Default/ResxEditorPersonal/DisabledLanguages/@EntryValue">default-language,fr</s:String>
-	
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/OrderByFullPath/@EntryValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/ShowComments/@EntryValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/ShowOnlyErrors/@EntryValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/ShowOnlyStringResources/@EntryValue">False</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, ...</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, ...</value>
+  </resheader>
+  <!-- Example entries, will be filled in next steps -->
+  <data name="Settings" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="GeneralSettings" xml:space="preserve">
+    <value>الإعدادات العامة</value>
+  </data>
+  <data name="SaveGeneralSettings" xml:space="preserve">
+    <value>حفظ الإعدادات العامة</value>
+  </data>
+  <data name="NotificationSettings" xml:space="preserve">
+    <value>إعدادات الإشعارات</value>
+  </data>
+  <data name="SaveNotificationSettings" xml:space="preserve">
+    <value>حفظ إعدادات الإشعارات</value>
+  </data>
+  <data name="Appearance" xml:space="preserve">
+    <value>المظهر</value>
+  </data>
+  <data name="SaveAppearanceSettings" xml:space="preserve">
+    <value>حفظ إعدادات المظهر</value>
+  </data>
+  <data name="PrivacySecurity" xml:space="preserve">
+    <value>الخصوصية والأمان</value>
+  </data>
+  <data name="DataManagement" xml:space="preserve">
+    <value>إدارة البيانات</value>
+  </data>
+  <data name="ExportMyData" xml:space="preserve">
+    <value>تصدير بياناتي</value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>مسح الذاكرة المؤقتة</value>
+  </data>
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>حذف الحساب</value>
+  </data>
+  <data name="Wellcome" xml:space="preserve">
+    <value>مرحبا</value>
+  </data>
+  <!-- Add more entries as needed -->
+</root>

@@ -4,17 +4,14 @@
 @using SRMS.Domain.Residences
 @using SRMS.Infrastructure
 @using SRMS.WebUI.Server.Components.Pages.Dialogs
-@using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @attribute [Authorize(Roles = "Admin,SuperRoot")]
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject NavigationManager Navigation
-@inject IStringLocalizer<Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>@L["ResidencesManagement_PageTitle"]</PageTitle>
+<PageTitle>Residences Management</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
@@ -23,13 +20,13 @@
             <div>
                 <MudText Typo="Typo.h4">
                     <MudIcon Icon="@Icons.Material.Filled.Apartment" Class="mr-2" />
-                    @L["ResidencesManagement_Header"]
+                    Residences Management
                 </MudText>
                 <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
                 OnClick="OpenCreateDialog">
-                @L["ResidencesManagement_Button_Add"]
+                Add New Residence
             </MudButton>
         </MudStack>
     </MudPaper>
@@ -41,7 +38,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ResidencesManagement_Stats_Total"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Residences</MudText>
                             <MudText Typo="Typo.h4">@_residences.Count()</MudText>
                         </div>
                         <MudAvatar Color="Color.Primary">
@@ -57,7 +54,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ResidencesManagement_Stats_Capacity"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Capacity</MudText>
                             <MudText Typo="Typo.h4">@_residences.Sum(r => r.TotalCapacity)</MudText>
                         </div>
                         <MudAvatar Color="Color.Info">
@@ -73,7 +70,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ResidencesManagement_Stats_Available"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Available Space</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Success">@_residences.Sum(r => r.AvailableCapacity)
                             </MudText>
                         </div>
@@ -90,7 +87,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ResidencesManagement_Stats_AvgOccupancy"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Avg Occupancy</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Warning">
                                 @(GetAverageOccupancy().ToString("F0"))%
                             </MudText>
@@ -108,22 +105,22 @@
     <MudPaper Elevation="2" Class="pa-4 mb-4">
         <MudGrid>
             <MudItem xs="12" md="6">
-                <MudTextField @bind-Value="_searchString" Placeholder='@L["ResidencesManagement_SearchPlaceholder"]' Adornment="Adornment.Start"
+                <MudTextField @bind-Value="_searchString" Placeholder="Search residences..." Adornment="Adornment.Start"
                     AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Outlined" Immediate="true" />
             </MudItem>
             <MudItem xs="12" md="3">
-                <MudSelect @bind-Value="_filterStatus" Label='@L["ResidencesManagement_Filter_Status"]' Variant="Variant.Outlined"
+                <MudSelect @bind-Value="_filterStatus" Label="Status" Variant="Variant.Outlined"
                     AnchorOrigin="Origin.BottomCenter">
-                    <MudSelectItem Value="@("all")">@L["ResidencesManagement_Filter_AllStatuses"]</MudSelectItem>
-                    <MudSelectItem Value="@("active")">@L["ResidencesManagement_Filter_Active"]</MudSelectItem>
-                    <MudSelectItem Value="@("full")">@L["ResidencesManagement_Filter_Full"]</MudSelectItem>
-                    <MudSelectItem Value="@("available")">@L["ResidencesManagement_Filter_Available"]</MudSelectItem>
+                    <MudSelectItem Value="@("all")">All Status</MudSelectItem>
+                    <MudSelectItem Value="@("active")">Active</MudSelectItem>
+                    <MudSelectItem Value="@("full")">Full</MudSelectItem>
+                    <MudSelectItem Value="@("available")">Available</MudSelectItem>
                 </MudSelect>
             </MudItem>
             <MudItem xs="12" md="3">
                 <MudButton Variant="Variant.Outlined" Color="Color.Secondary" FullWidth="true"
                     StartIcon="@Icons.Material.Filled.FilterAltOff" OnClick="ClearFilters">
-                    @L["ResidencesManagement_Button_ClearFilters"]
+                    Clear Filters
                 </MudButton>
             </MudItem>
         </MudGrid>
@@ -134,14 +131,14 @@
         <MudTable Items="@GetFilteredResidences()" Hover="true" Striped="true" Loading="@_isLoading"
             LoadingProgressColor="Color.Primary">
             <HeaderContent>
-                <MudTh>@L["ResidencesManagement_Table_Header_Name"]</MudTh>
-                <MudTh>@L["ResidencesManagement_Table_Header_Location"]</MudTh>
-                <MudTh>@L["ResidencesManagement_Table_Header_Manager"]</MudTh>
-                <MudTh>@L["ResidencesManagement_Table_Header_Capacity"]</MudTh>
-                <MudTh>@L["ResidencesManagement_Table_Header_Occupancy"]</MudTh>
-                <MudTh>@L["ResidencesManagement_Table_Header_MonthlyRent"]</MudTh>
-                <MudTh>@L["ResidencesManagement_Table_Header_Status"]</MudTh>
-                <MudTh>@L["ResidencesManagement_Table_Header_Actions"]</MudTh>
+                <MudTh>Name</MudTh>
+                <MudTh>Location</MudTh>
+                <MudTh>Manager</MudTh>
+                <MudTh>Capacity</MudTh>
+                <MudTh>Occupancy</MudTh>
+                <MudTh>Monthly Rent</MudTh>
+                <MudTh>Status</MudTh>
+                <MudTh>Actions</MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Name">
@@ -193,7 +190,7 @@
                     else
                     {
                         <MudChip T="string" Size="Size.Small" Color="Color.Default" Variant="Variant.Outlined">
-                            @L["ResidencesManagement_Table_Unassigned"]
+                            Unassigned
                         </MudChip>
                     }
                 </MudTd>
@@ -215,38 +212,38 @@
                 </MudTd>
                 <MudTd DataLabel="Monthly Rent">
                     <MudText Typo="Typo.body2">
-                        @(context.MonthlyRent?.ToString() ?? L["ResidencesManagement_Table_NA"])
+                        @(context.MonthlyRent?.ToString() ?? "N/A")
                     </MudText>
                 </MudTd>
                 <MudTd DataLabel="Status">
                     @if (context.IsFull)
                     {
-                        <MudChip T="string" Color="Color.Error" Size="Size.Small">@L["ResidencesManagement_Table_Status_Full"]</MudChip>
+                        <MudChip T="string" Color="Color.Error" Size="Size.Small">Full</MudChip>
                     }
                     else if (context.IsActive)
                     {
-                        <MudChip T="string" Color="Color.Success" Size="Size.Small">@L["ResidencesManagement_Table_Status_Active"]</MudChip>
+                        <MudChip T="string" Color="Color.Success" Size="Size.Small">Active</MudChip>
                     }
                     else
                     {
-                        <MudChip T="string" Color="Color.Default" Size="Size.Small">@L["ResidencesManagement_Table_Status_Inactive"]</MudChip>
+                        <MudChip T="string" Color="Color.Default" Size="Size.Small">Inactive</MudChip>
                     }
                 </MudTd>
                 <MudTd DataLabel="Actions">
                     <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
                         <MudMenuItem Icon="@Icons.Material.Filled.Visibility" OnClick="@(() => ViewDetails(context))">
-                            @L["ResidencesManagement_Actions_ViewDetails"]
+                            View Details
                         </MudMenuItem>
                         <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditResidence(context))">
-                            @L["ResidencesManagement_Actions_Edit"]
+                            Edit
                         </MudMenuItem>
                         <MudMenuItem Icon="@Icons.Material.Filled.MeetingRoom" OnClick="@(() => ManageRooms(context))">
-                            @L["ResidencesManagement_Actions_ManageRooms"]
+                            Manage Rooms
                         </MudMenuItem>
                         <MudDivider />
                         <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
                             OnClick="@(() => DeleteResidence(context))">
-                            @L["ResidencesManagement_Actions_Delete"]
+                            Delete
                         </MudMenuItem>
                     </MudMenu>
                 </MudTd>
@@ -265,10 +262,10 @@
     private string _filterStatus = "all";
 
     private List<BreadcrumbItem> _breadcrumbs = new()
-    {
-        new BreadcrumbItem("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
-        new BreadcrumbItem("Residences", href: null, disabled: true)
-    };
+{
+new BreadcrumbItem("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
+new BreadcrumbItem("Residences", href: null, disabled: true)
+};
 
     protected override async Task OnInitializedAsync()
     {
@@ -298,12 +295,12 @@
 
     private async Task OpenCreateDialog()
     {
-        var dialog = await DialogService.ShowAsync<CreateResidenceDialog>(L["ResidencesManagement_Button_Add"]);
+        var dialog = await DialogService.ShowAsync<CreateResidenceDialog>("Add New Residence");
         var result = await dialog.Result;
 
         if (result != null && !result.Canceled)
         {
-            Snackbar.Add(L["ResidencesManagement_Snackbar_Created"], Severity.Success);
+            Snackbar.Add("Residence created successfully", Severity.Success);
             await LoadResidences();
         }
     }
@@ -374,12 +371,12 @@
     {
         var parameters = new DialogParameters
             {
-                ["ContentText"] = string.Format(L["ResidencesManagement_Dialog_ConfirmDelete_Content"], residence.Name),
-                ["ButtonText"] = L["ResidencesManagement_Dialog_ConfirmDelete_Button"],
+                ["ContentText"] = $"Are you sure you want to delete '{residence.Name}'? This action cannot be undone.",
+                ["ButtonText"] = "Delete",
                 ["Color"] = Color.Error
             };
 
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>(L["ResidencesManagement_Dialog_ConfirmDelete_Title"], parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirm Delete", parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
@@ -396,7 +393,7 @@
                     entity.IsActive = false;
                     await context.SaveChangesAsync();
 
-                    Snackbar.Add(string.Format(L["ResidencesManagement_Snackbar_Deleted"], residence.Name), Severity.Success);
+                    Snackbar.Add($"Residence '{residence.Name}' deleted successfully", Severity.Success);
                     await LoadResidences();
                 }
             }

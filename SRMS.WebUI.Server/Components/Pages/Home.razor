@@ -2,9 +2,9 @@
 @rendermode InteractiveServer
 @using SRMS.WebUI.Server.Resources
 @using Microsoft.Extensions.Localization
-@inject IStringLocalizer<Resource> L
+@inject IStringLocalizer<Resources> L
 
-<PageTitle>@L["Home_Title"] - SRMS</PageTitle>
+<PageTitle>Home - SRMS</PageTitle>
 
 <!-- Hero Section -->
 <MudPaper class="pa-6 modern-card">
@@ -21,15 +21,16 @@
             <MudStack Spacing="4" AlignItems="AlignItems.Center">
                 <MudText Typo="Typo.h2"
                     Style="font-weight: 800; font-size: 3.5rem; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-                    @L["Home_Title"]
+                    @L["Wellcome"] to SRMS
                 </MudText>
 
                 <MudText Typo="Typo.h5" Color="Color.Secondary" Style="max-width: 700px;">
-                    @L["Home_Subtitle"]
+                    The Modern Student Residence Management System
                 </MudText>
 
                 <MudText Typo="Typo.body1" Color="Color.Secondary" Style="max-width: 600px; line-height: 1.8;">
-                    @L["Home_Lead"]
+                    Streamline your student housing operations with our comprehensive, cloud-based platform.
+                    Manage residences, students, payments, and more - all in one place.
                 </MudText>
             </MudStack>
 
@@ -39,13 +40,13 @@
                     StartIcon="@Icons.Material.Filled.Rocket"
                     Style="padding: 16px 40px; font-size: 1.1rem; border-radius: 12px;"
                     Class="animate-float animate-pulse animate-bounce">
-                    @L["GetStartedFree"]
+                    Get Started Free
                 </MudButton>
                 <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Href="/about"
                     StartIcon="@Icons.Material.Filled.Info"
                     Style="padding: 16px 40px; font-size: 1.1rem; border-radius: 12px;"
                     Class="animate-float animate-pulse animate-bounce">
-                    @L["LearnMore"]
+                    Learn More
                 </MudButton>
             </MudStack>
         </MudStack>
@@ -53,7 +54,7 @@
         <!-- Features Section -->
         <MudStack Spacing="6" Class="mt-8">
             <MudText Typo="Typo.h4" Align="Align.Center" Class="font-bold">
-                @L["Features_Header"]
+                Everything You Need to Manage Student Housing
             </MudText>
 
             <MudGrid Spacing="4">
@@ -67,9 +68,10 @@
                                 <MudIcon Icon="@Icons.Material.Filled.Apartment" Color="Color.Surface"
                                     Size="Size.Large" />
                             </MudAvatar>
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["Feature_ResidenceManagement_Title"]</MudText>
+                            <MudText Typo="Typo.h6" Class="font-bold">Residence Management</MudText>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                @L["Feature_ResidenceManagement_Desc"]
+                                Efficiently manage multiple residences, rooms, and facilities with our intuitive
+                                interface.
                             </MudText>
                         </MudStack>
                     </MudPaper>
@@ -84,26 +86,9 @@
                                 Style="width: 80px; height: 80px; border-radius: 20px; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);">
                                 <MudIcon Icon="@Icons.Material.Filled.People" Color="Color.Surface" Size="Size.Large" />
                             </MudAvatar>
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["Feature_StudentPortal_Title"]</MudText>
+                            <MudText Typo="Typo.h6" Class="font-bold">Student Portal</MudText>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                @L["Feature_StudentPortal_Desc"]
-                            </MudText>
-                        </MudStack>
-                    </MudPaper>
-                </MudItem>
-
-                <!-- Feature Card 2 -->
-                <MudItem xs="12" sm="6" md="4">
-                    <MudPaper Elevation="2" Class="pa-6 h-100 animate-float glass-card"
-                              Style="border-radius: 16px; transition: all 0.3s ease;">
-                        <MudStack Spacing="3" AlignItems="AlignItems.Center" Class="text-center">
-                            <MudAvatar Size="Size.Large" Color="Color.Success"
-                                       Style="width: 80px; height: 80px; border-radius: 20px; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);">
-                                <MudIcon Icon="@Icons.Material.Filled.People" Color="Color.Surface" Size="Size.Large" />
-                            </MudAvatar>
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["Feature_StudentPortal_Title"]</MudText>
-                            <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                @L["Feature_StudentPortal_Desc"]
+                                Empower students with self-service tools for room selection, payments, and support.
                             </MudText>
                         </MudStack>
                     </MudPaper>
@@ -112,16 +97,16 @@
                 <!-- Feature Card 3 -->
                 <MudItem xs="12" sm="6" md="4">
                     <MudPaper Elevation="2" Class="pa-6 h-100 animate-float glass-card"
-                              Style="border-radius: 16px; transition: all 0.3s ease;">
+                        Style="border-radius: 16px; transition: all 0.3s ease;">
                         <MudStack Spacing="3" AlignItems="AlignItems.Center" Class="text-center">
                             <MudAvatar Size="Size.Large" Color="Color.Info"
-                                       Style="width: 80px; height: 80px; border-radius: 20px;">
+                                Style="width: 80px; height: 80px; border-radius: 20px;">
                                 <MudIcon Icon="@Icons.Material.Filled.Payment" Color="Color.Surface"
-                                         Size="Size.Large" />
+                                    Size="Size.Large" />
                             </MudAvatar>
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["Feature_PaymentProcessing_Title"]</MudText>
+                            <MudText Typo="Typo.h6" Class="font-bold">Payment Processing</MudText>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                @L["Feature_PaymentProcessing_Desc"]
+                                Secure and automated payment collection with multiple payment methods supported.
                             </MudText>
                         </MudStack>
                     </MudPaper>
@@ -130,15 +115,15 @@
                 <!-- Feature Card 4 -->
                 <MudItem xs="12" sm="6" md="4">
                     <MudPaper Elevation="2" Class="pa-6 h-100 animate-float glass-card"
-                              Style="border-radius: 16px; transition: all 0.3s ease;">
+                        Style="border-radius: 16px; transition: all 0.3s ease;">
                         <MudStack Spacing="3" AlignItems="AlignItems.Center" Class="text-center">
                             <MudAvatar Size="Size.Large" Color="Color.Warning"
-                                       Style="width: 80px; height: 80px; border-radius: 20px;">
+                                Style="width: 80px; height: 80px; border-radius: 20px;">
                                 <MudIcon Icon="@Icons.Material.Filled.Report" Color="Color.Surface" Size="Size.Large" />
                             </MudAvatar>
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["Feature_ComplaintManagement_Title"]</MudText>
+                            <MudText Typo="Typo.h6" Class="font-bold">Complaint Management</MudText>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                @L["Feature_ComplaintManagement_Desc"]
+                                Track and resolve student complaints efficiently with our ticketing system.
                             </MudText>
                         </MudStack>
                     </MudPaper>
@@ -147,16 +132,16 @@
                 <!-- Feature Card 5 -->
                 <MudItem xs="12" sm="6" md="4">
                     <MudPaper Elevation="2" Class="pa-6 h-100 animate-float glass-card"
-                              Style="border-radius: 16px; transition: all 0.3s ease;">
+                        Style="border-radius: 16px; transition: all 0.3s ease;">
                         <MudStack Spacing="3" AlignItems="AlignItems.Center" Class="text-center">
                             <MudAvatar Size="Size.Large" Color="Color.Error"
-                                       Style="width: 80px; height: 80px; border-radius: 20px; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);">
+                                Style="width: 80px; height: 80px; border-radius: 20px; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);">
                                 <MudIcon Icon="@Icons.Material.Filled.Analytics" Color="Color.Surface"
-                                         Size="Size.Large" />
+                                    Size="Size.Large" />
                             </MudAvatar>
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["Feature_Analytics_Title"]</MudText>
+                            <MudText Typo="Typo.h6" Class="font-bold">Analytics & Reports</MudText>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                @L["Feature_Analytics_Desc"]
+                                Gain insights with comprehensive reports and real-time analytics dashboards.
                             </MudText>
                         </MudStack>
                     </MudPaper>
@@ -165,16 +150,16 @@
                 <!-- Feature Card 6 -->
                 <MudItem xs="12" sm="6" md="4">
                     <MudPaper Elevation="2" Class="pa-6 h-100 animate-float glass-card"
-                              Style="border-radius: 16px; transition: all 0.3s ease;">
+                        Style="border-radius: 16px; transition: all 0.3s ease;">
                         <MudStack Spacing="3" AlignItems="AlignItems.Center" Class="text-center">
                             <MudAvatar Size="Size.Large" Color="Color.Secondary"
-                                       Style="width: 80px; height: 80px; border-radius: 20px;">
+                                Style="width: 80px; height: 80px; border-radius: 20px;">
                                 <MudIcon Icon="@Icons.Material.Filled.Security" Color="Color.Surface"
-                                         Size="Size.Large" />
+                                    Size="Size.Large" />
                             </MudAvatar>
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["Feature_Security_Title"]</MudText>
+                            <MudText Typo="Typo.h6" Class="font-bold">Security & Privacy</MudText>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                @L["Feature_Security_Desc"]
+                                Enterprise-grade security with role-based access control and audit logging.
                             </MudText>
                         </MudStack>
                     </MudPaper>
@@ -186,47 +171,47 @@
         <MudPaper Elevation="0" Class="glass-card pa-8 mt-8" Style="border-radius: 16px;">
             <MudStack Spacing="6">
                 <MudText Typo="Typo.h4" Align="Align.Center" Class="font-bold">
-                    @L["Stats_Header"]
+                    Trusted by Institutions Worldwide
                 </MudText>
 
                 <MudGrid Spacing="4">
                     <MudItem xs="6" md="3">
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
                             <MudText Typo="Typo.h2" Class="text-gradient"
-                                     Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                                Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                                 10K+
                             </MudText>
-                            <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_ActiveStudents"]</MudText>
+                            <MudText Typo="Typo.body1" Color="Color.Secondary">Active Students</MudText>
                         </MudStack>
                     </MudItem>
 
                     <MudItem xs="6" md="3">
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
                             <MudText Typo="Typo.h2" Class="text-gradient"
-                                     Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                                Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                                 50+
                             </MudText>
-                            <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_Residences"]</MudText>
+                            <MudText Typo="Typo.body1" Color="Color.Secondary">Residences</MudText>
                         </MudStack>
                     </MudItem>
 
                     <MudItem xs="6" md="3">
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
                             <MudText Typo="Typo.h2" Class="text-gradient"
-                                     Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                                Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                                 99.9%
                             </MudText>
-                            <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_Uptime"]</MudText>
+                            <MudText Typo="Typo.body1" Color="Color.Secondary">Uptime</MudText>
                         </MudStack>
                     </MudItem>
 
                     <MudItem xs="6" md="3">
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
                             <MudText Typo="Typo.h2" Class="text-gradient"
-                                     Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                                Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                                 24/7
                             </MudText>
-                            <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_Support"]</MudText>
+                            <MudText Typo="Typo.body1" Color="Color.Secondary">Support</MudText>
                         </MudStack>
                     </MudItem>
                 </MudGrid>
@@ -237,21 +222,22 @@
         <MudPaper Elevation="0" Class="glass-card pa-8 mt-8 text-center" Style="border-radius: 16px;">
             <MudStack Spacing="6" AlignItems="AlignItems.Center">
                 <MudText Typo="Typo.h3" Class="font-bold">
-                    @L["CTA_Header"]
+                    Ready to Transform Your Student Housing?
                 </MudText>
 
                 <MudText Typo="Typo.body1" Color="Color.Secondary" Style="max-width: 600px;">
-                    @L["CTA_Body"]
+                    Join thousands of institutions that trust SRMS to manage their student residences efficiently and
+                    effectively.
                 </MudText>
 
                 <MudStack Row="true" Spacing="3" Justify="Justify.Center">
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Href="/register"
-                               StartIcon="@Icons.Material.Filled.PersonAdd" Style="border-radius: 12px;">
-                        @L["SignUpNow"]
+                        StartIcon="@Icons.Material.Filled.PersonAdd" Style="border-radius: 12px;">
+                        Sign Up Now
                     </MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" Href="/contact"
-                               StartIcon="@Icons.Material.Filled.ContactMail" Style="border-radius: 12px;">
-                        @L["ContactSales"]
+                        StartIcon="@Icons.Material.Filled.ContactMail" Style="border-radius: 12px;">
+                        Contact Sales
                     </MudButton>
                 </MudStack>
             </MudStack>
@@ -262,9 +248,12 @@
 <style>
     /* Keep animation styles */
     @@keyframes float {
-        0%, 100% {
+
+        0%,
+        100% {
             transform: translateY(0px);
         }
+
         50% {
             transform: translateY(-10px);
         }
@@ -279,6 +268,7 @@
             opacity: 0;
             transform: translateY(20px);
         }
+
         to {
             opacity: 1;
             transform: translateY(0);
