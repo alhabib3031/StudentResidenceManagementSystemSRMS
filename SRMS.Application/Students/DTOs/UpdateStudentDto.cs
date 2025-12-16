@@ -52,11 +52,7 @@ public class UpdateStudentDto
     public string? EmergencyContactPhoneCountryCode { get; set; } = "+218";
     public string? EmergencyContactRelation { get; set; }
     
-    // Room Assignment
-    public Guid? RoomId { get; set; }
     
-    // Manager
-    public Guid? ManagerId { get; set; }
     
     // Status
     public StudentStatus Status { get; set; }

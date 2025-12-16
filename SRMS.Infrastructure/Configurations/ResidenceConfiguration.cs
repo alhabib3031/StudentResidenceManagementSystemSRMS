@@ -22,19 +22,12 @@ public class ResidenceConfiguration : IEntityTypeConfiguration<Residence>
             address.Property(a => a.Country).HasColumnName("AddressCountry").HasMaxLength(100);
         });
         
-        builder.OwnsOne(r => r.MonthlyRent, money =>
-        {
-            money.Property(m => m.Amount).HasColumnName("MonthlyRent").HasColumnType("decimal(18,2)");
-            money.Property(m => m.Currency).HasColumnName("Currency").HasMaxLength(3);
-        });
+
         
         builder.Property(r => r.Name).HasMaxLength(200).IsRequired();
         builder.Property(r => r.Description).HasMaxLength(1000);
         
-        builder.HasOne(r => r.Manager)
-            .WithMany(m => m.Residences)
-            .HasForeignKey(r => r.ManagerId)
-            .OnDelete(DeleteBehavior.SetNull);
+        // Residence -> Manager (Many-to-Many via ResidenceManager) - Configured in ResidenceManagerConfiguration
         
         builder.HasMany(r => r.Rooms)
             .WithOne(rm => rm.Residence)

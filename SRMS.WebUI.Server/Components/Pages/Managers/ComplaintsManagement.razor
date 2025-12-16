@@ -140,24 +140,7 @@
                 </MudSelect>
             </MudItem>
 
-            <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="ComplaintCategory?" @bind-Value="_categoryFilter" Label="@Localizer["ComplaintsManagement_Filter_Category"]"
-                           Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true">
-                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Maintenance)">@Localizer["Maintenance"]
-                    </MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Cleanliness)">@Localizer["Cleanliness"]
-                    </MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Noise)">@Localizer["Noise"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Security)">@Localizer["Security"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.RoommateIssue)">@Localizer["RoommateIssue"]
-                    </MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Facilities)">@Localizer["Facilities"]
-                    </MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Internet)">@Localizer["Internet"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Utilities)">@Localizer["Utilities"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintCategory?)ComplaintCategory.Other)">@Localizer["Other"]</MudSelectItem>
-                </MudSelect>
-            </MudItem>
+
         </MudGrid>
     </MudPaper>
 
@@ -192,7 +175,7 @@
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.body2"><strong>@context.StudentName</strong></MudText>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">
-                                @Localizer["ID"]: @context.StudentId.ToString().Substring(0, 8)...
+                                @Localizer["ReservationID"]: @context.ReservationId.ToString().Substring(0, 8)...
                             </MudText>
                         </MudStack>
                     </MudTd>
@@ -201,7 +184,7 @@
                     </MudTd>
                     <MudTd DataLabel="@Localizer["ComplaintsManagement_Table_Header_Category"]">
                         <MudChip T="string" Size="Size.Small" Color="Color.Default">
-                            @context.Category
+                            @context.ComplaintType
                         </MudChip>
                     </MudTd>
                     <MudTd DataLabel="@Localizer["ComplaintsManagement_Table_Header_Priority"]">
@@ -258,7 +241,7 @@
     private string _searchString = "";
     private ComplaintStatus? _statusFilter;
     private ComplaintPriority? _priorityFilter;
-    private ComplaintCategory? _categoryFilter;
+
 
     private int _openCount => _allComplaints.Count(c => c.Status == ComplaintStatus.Open);
     private int _inProgressCount => _allComplaints.Count(c => c.Status == ComplaintStatus.InProgress);
@@ -270,10 +253,10 @@
     c.ComplaintNumber.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
     c.StudentName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
     .Where(c => _statusFilter == null || c.Status == _statusFilter)
-    .Where(c => _priorityFilter == null || c.Priority == _priorityFilter)
-    .Where(c => _categoryFilter == null || c.Category == _categoryFilter);
-
-    protected override async Task OnInitializedAsync()
+	    .Where(c => _priorityFilter == null || c.Priority == _priorityFilter);
+	
+	
+	    protected override async Task OnInitializedAsync()
     {
         await LoadCurrentUserId();
         await LoadComplaints();
@@ -326,7 +309,7 @@
         _searchString = "";
         _statusFilter = null;
         _priorityFilter = null;
-        _categoryFilter = null;
+
         StateHasChanged();
     }
 

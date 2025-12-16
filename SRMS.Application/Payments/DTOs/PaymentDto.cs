@@ -5,7 +5,7 @@ namespace SRMS.Application.Payments.DTOs;
 public class PaymentDto
 {
     public Guid Id { get; set; }
-    public Guid StudentId { get; set; }
+    public Guid ReservationId { get; set; }
     public string StudentName { get; set; } = string.Empty;
     public string Amount { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;

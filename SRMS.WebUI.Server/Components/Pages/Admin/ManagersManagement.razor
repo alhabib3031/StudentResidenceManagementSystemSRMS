@@ -142,8 +142,8 @@
                 <MudTh>@L["ManagersManagement_Table_Header_Manager"]</MudTh>
                 <MudTh>@L["ManagersManagement_Table_Header_Contact"]</MudTh>
                 <MudTh>@L["ManagersManagement_Table_Header_EmployeeNo"]</MudTh>
-                <MudTh>@L["ManagersManagement_Table_Header_Residences"]</MudTh>
-                <MudTh>@L["ManagersManagement_Table_Header_Students"]</MudTh>
+
+
                 <MudTh>@L["ManagersManagement_Table_Header_HireDate"]</MudTh>
                 <MudTh>@L["ManagersManagement_Table_Header_Status"]</MudTh>
                 <MudTh>@L["ManagersManagement_Table_Header_Actions"]</MudTh>
@@ -197,24 +197,8 @@
                         @(context.EmployeeNumber ?? L["ManagersManagement_Table_NA"])
                     </MudChip>
                 </MudTd>
-                <MudTd DataLabel="Residences">
-                    <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
-                        <MudChip T="string" Size="Size.Small" Color="Color.Primary">
-                            @context.Residences.Count
-                        </MudChip>
-                        @if (context.Residences.Any())
-                        {
-                            <MudTooltip Text="@string.Join(", ", context.Residences.Select(r => r.Name))">
-                                <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Color="Color.Info" />
-                            </MudTooltip>
-                        }
-                    </MudStack>
-                </MudTd>
-                <MudTd DataLabel="Students">
-                    <MudChip T="string" Size="Size.Small" Color="Color.Info">
-                        @context.Students.Count
-                    </MudChip>
-                </MudTd>
+
+
                 <MudTd DataLabel="Hire Date">
                     <MudText Typo="Typo.body2">
                         @(context.HireDate?.ToString("MMM dd, yyyy") ?? L["ManagersManagement_Table_NA"])
@@ -232,17 +216,11 @@
                     </MudChip>
                 </MudTd>
                 <MudTd DataLabel="Actions">
-                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
-                        <MudMenuItem Icon="@Icons.Material.Filled.Visibility" OnClick="@(() => ViewDetails(context))">
-                            @L["ManagersManagement_Actions_ViewDetails"]
-                        </MudMenuItem>
-                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditManager(context))">
+	                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+	                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditManager(context))">
                             @L["ManagersManagement_Actions_Edit"]
                         </MudMenuItem>
-                        <MudMenuItem Icon="@Icons.Material.Filled.Assignment"
-                            OnClick="@(() => AssignResidences(context))">
-                            @L["ManagersManagement_Actions_AssignResidences"]
-                        </MudMenuItem>
+
                         <MudDivider />
                         @if (context.Status == ManagerStatus.Active)
                         {
@@ -271,47 +249,5 @@
         </MudTable>
     </MudPaper>
 
-    <!-- Performance Overview -->
-    <MudGrid Class="mt-4">
-        <MudItem xs="12">
-            <MudCard Elevation="2">
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h6">
-                            <MudIcon Icon="@Icons.Material.Filled.Leaderboard" Class="mr-2" Size="Size.Small" />
-                            @L["ManagersManagement_Performance_Header"]
-                        </MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudTable Items="@GetManagerPerformance()" Hover="true" Dense="true">
-                        <HeaderContent>
-                            <MudTh>@L["ManagersManagement_Table_Header_Manager"]</MudTh>
-                            <MudTh>@L["ManagersManagement_Table_Header_Residences"]</MudTh>
-                            <MudTh>@L["ManagersManagement_Table_Header_Students"]</MudTh>
-                            <MudTh>@L["ManagersManagement_Performance_AvgOccupancy"]</MudTh>
-                            <MudTh>@L["ManagersManagement_Performance_Workload"]</MudTh>
-                        </HeaderContent>
-                        <RowTemplate>
-                            <MudTd>@context.Name</MudTd>
-                            <MudTd>@context.ResidenceCount</MudTd>
-                            <MudTd>@context.StudentCount</MudTd>
-                            <MudTd>
-                                <MudProgressLinear Value="@context.OccupancyRate"
-                                    Color="@GetWorkloadColor(context.OccupancyRate)" Size="Size.Small" Rounded="true">
-                                    <MudText Typo="Typo.caption">@context.OccupancyRate.ToString("F0")%</MudText>
-                                </MudProgressLinear>
-                            </MudTd>
-                            <MudTd>
-                                <MudChip T="string" Size="Size.Small"
-                                    Color="@GetWorkloadColorByLevel(context.StudentCount)">
-                                    @GetWorkloadLevel(context.StudentCount)
-                                </MudChip>
-                            </MudTd>
-                        </RowTemplate>
-                    </MudTable>
-                </MudCardContent>
-            </MudCard>
-        </MudItem>
-    </MudGrid>
+
 </MudContainer>

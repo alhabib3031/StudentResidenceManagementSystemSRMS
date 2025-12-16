@@ -5,10 +5,12 @@
 /// </summary>
 public enum StudentStatus
 {
-    Pending = 0,        // في انتظار المراجعة
-    Active = 1,         // نشط
-    Suspended = 2,      // معلق
-    Graduated = 3,      // تخرج
-    Withdrawn = 4,      // انسحب
-    Expelled = 5        // مفصول
+    EmailVerificationPending = 0, // في انتظار التحقق من البريد الإلكتروني
+    ProfileCompletionPending = 1, // في انتظار إكمال الملف الشخصي
+    ManagerApprovalPending = 2,   // في انتظار مراجعة المدير
+    Active = 3,                   // نشط
+    Suspended = 4,      // معلق
+    Graduated = 5,      // تخرج
+    Withdrawn = 6,      // انسحب
+    Expelled = 7        // مفصول
 }

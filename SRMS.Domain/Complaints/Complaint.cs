@@ -1,6 +1,7 @@
 ﻿using SRMS.Domain.Abstractions;
+
+using SRMS.Domain.Reservations;
 using SRMS.Domain.Complaints.Enums;
-using SRMS.Domain.Students;
 
 namespace SRMS.Domain.Complaints;
 
@@ -13,12 +14,13 @@ public class Complaint : Entity
     public string Description { get; set; } = string.Empty;
     public string ComplaintNumber { get; set; } = string.Empty;
     
-    // Student
-    public Guid StudentId { get; set; }
-    public Student Student { get; set; } = null!;
+    // Reservation
+    public Guid ReservationId { get; set; }
+    public Reservation Reservation { get; set; } = null!;
     
-    // Category & Priority
-    public ComplaintCategory Category { get; set; }
+    // Type & Priority
+    public Guid ComplaintTypeId { get; set; }
+    public ComplaintType ComplaintType { get; set; } = null!;
     public ComplaintPriority Priority { get; set; }
     public ComplaintStatus Status { get; set; }
     

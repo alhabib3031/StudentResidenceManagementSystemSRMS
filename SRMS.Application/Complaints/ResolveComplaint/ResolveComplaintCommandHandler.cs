@@ -1,13 +1,14 @@
+using SRMS.Domain.Students;
+using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Complaints;
 ﻿using MediatR;
 using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Notifications.DTOs;
 using SRMS.Application.Notifications.Interfaces;
 using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Complaints;
-using SRMS.Domain.Complaints.Enums;
 using SRMS.Domain.Notifications.Enums;
 using SRMS.Domain.Repositories;
-using SRMS.Domain.Students;
 
 namespace SRMS.Application.Complaints.ResolveComplaint;
 
@@ -70,9 +71,9 @@ public class ResolveComplaintCommandHandler : IRequestHandler<ResolveComplaintCo
         );
 
         // ✅ Send notification to Student
-        if (complaint.StudentId != Guid.Empty)
+        if (complaint.ReservationId != Guid.Empty)
         {
-            var student = await _studentRepository.GetByIdAsync(complaint.StudentId);
+            var student = await _studentRepository.GetByIdAsync(complaint.ReservationId);
             if (student != null && student.Email != null)
             {
                 var notification = new CreateNotificationDto

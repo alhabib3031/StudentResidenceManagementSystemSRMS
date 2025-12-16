@@ -1,8 +1,10 @@
+using SRMS.Domain.Students;
+using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Complaints;
 using MediatR;
 using SRMS.Application.Complaints.DTOs;
 using SRMS.Domain.Complaints;
 using SRMS.Domain.Repositories;
-using SRMS.Domain.Students;
 
 namespace SRMS.Application.Complaints.GetComplaintById;
 
@@ -27,9 +29,9 @@ public class GetComplaintByIdQueryHandler : IRequestHandler<GetComplaintByIdQuer
             return null;
 
         string studentName = "Unknown";
-        if (complaint.StudentId != Guid.Empty)
+        if (complaint.ReservationId != Guid.Empty)
         {
-            var student = await _studentRepository.GetByIdAsync(complaint.StudentId);
+            var student = await _studentRepository.GetByIdAsync(complaint.ReservationId);
             if (student != null)
             {
                 studentName = student.FullName;
@@ -42,11 +44,11 @@ public class GetComplaintByIdQueryHandler : IRequestHandler<GetComplaintByIdQuer
             ComplaintNumber = complaint.ComplaintNumber,
             Title = complaint.Title,
             Description = complaint.Description,
-            Category = complaint.Category,
+            ComplaintType = complaint.ComplaintType.Name,
             Priority = complaint.Priority,
             Status = complaint.Status,
             CreatedAt = complaint.CreatedAt,
-            StudentId = complaint.StudentId,
+            ReservationId = complaint.ReservationId,
             StudentName = studentName,
             IsResolved = complaint.Status == Domain.Complaints.Enums.ComplaintStatus.Resolved,
 

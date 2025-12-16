@@ -96,17 +96,8 @@ public class ManagerConfiguration : IEntityTypeConfiguration<Manager>
         // Relationships Configuration
         // ═══════════════════════════════════════════════════════════
         
-        // Manager -> Residences (One-to-Many)
-        builder.HasMany(m => m.Residences)
-            .WithOne(r => r.Manager)
-            .HasForeignKey(r => r.ManagerId)
-            .OnDelete(DeleteBehavior.SetNull);
-        
-        // Manager -> Students (One-to-Many)
-        builder.HasMany(m => m.Students)
-            .WithOne(s => s.Manager)
-            .HasForeignKey(s => s.ManagerId)
-            .OnDelete(DeleteBehavior.SetNull);
+        // Manager -> Residences (Many-to-Many via ResidenceManager) - Configured in ResidenceManagerConfiguration
+        // Manager -> Students (Link removed as per re-engineering request)
         
         // ═══════════════════════════════════════════════════════════
         // Indexes

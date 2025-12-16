@@ -20,12 +20,10 @@ public class Residence : Entity
     public int AvailableCapacity { get; set; }
     public bool IsFull => AvailableCapacity <= 0;
     
-    // Pricing
-    public Money? MonthlyRent { get; set; }
+
     
-    // Manager
-    public Guid? ManagerId { get; set; }
-    public Manager? Manager { get; set; }
+    // Navigation Properties for M:N with Manager
+    public ICollection<ResidenceManager> ResidenceManagers { get; set; } = new List<ResidenceManager>();
     
     // Facilities
     public bool HasWifi { get; set; }

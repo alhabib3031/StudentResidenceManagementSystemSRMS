@@ -46,15 +46,10 @@
                     <MudTextField @bind-Value="_zipCode" Label='@L["CreateResidenceDialog_ZipCode"]' Variant="Variant.Outlined" />
                 </MudItem>
 
-                <MudItem xs="6">
-                    <MudNumericField @bind-Value="_residence.TotalCapacity" Label='@L["CreateResidenceDialog_TotalCapacity"]' Min="1"
-                        Required="true" Variant="Variant.Outlined" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField @bind-Value="_monthlyRentAmount" Label='@L["CreateResidenceDialog_MonthlyRent"]' Min="0"
-                        Variant="Variant.Outlined" Adornment="Adornment.Start"
-                        AdornmentIcon="@Icons.Material.Filled.AttachMoney" />
-                </MudItem>
+	                <MudItem xs="12">
+	                    <MudNumericField @bind-Value="_residence.TotalCapacity" Label='@L["CreateResidenceDialog_TotalCapacity"]' Min="1"
+	                        Required="true" Variant="Variant.Outlined" />
+	                </MudItem>
 
                 <MudItem xs="12">
                     <MudText Typo="Typo.subtitle2" Class="mb-2">@L["CreateResidenceDialog_Facilities"]</MudText>
@@ -93,8 +88,7 @@
     private string _zipCode = "";
     private string _description = "";
 
-    // Money
-    private decimal _monthlyRentAmount;
+
 
     private void Cancel() => MudDialog.Cancel();
 
@@ -106,13 +100,12 @@
             try
             {
                 // Create Value Objects
-                var address = Address.Create(_street, _city, _state, _country, _zipCode);
-                var rent = Money.Create(_monthlyRentAmount, "USD"); // Default currency
-
-                _residence.Id = Guid.NewGuid();
-                _residence.Address = address;
-                _residence.MonthlyRent = rent;
-                _residence.Description = _description;
+	                // Create Value Objects
+	                var address = Address.Create(_street, _city, _state, _country, _zipCode);
+	
+	                _residence.Id = Guid.NewGuid();
+	                _residence.Address = address;
+	                _residence.Description = _description;
                 _residence.AvailableCapacity = _residence.TotalCapacity; // Initially available = total
 
                 using var scope = ScopeFactory.CreateScope();

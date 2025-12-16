@@ -1,4 +1,6 @@
-﻿using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Students;
+using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Complaints;
 
 namespace SRMS.Application.Complaints.DTOs;
 
@@ -10,15 +12,15 @@ public class ComplaintDetailsDto
     public string Description { get; set; } = string.Empty;
     
     // Student
-    public Guid StudentId { get; set; }
+    public Guid ReservationId { get; set; }
     public string StudentName { get; set; } = string.Empty;
     public string? StudentEmail { get; set; }
     public string? StudentPhone { get; set; }
     public string? StudentRoomNumber { get; set; }
     
     // Classification
-    public ComplaintCategory Category { get; set; }
-    public string CategoryName { get; set; } = string.Empty;
+    public Guid ComplaintTypeId { get; set; }
+    public string ComplaintTypeIdName { get; set; } = string.Empty;
     public ComplaintPriority Priority { get; set; }
     public string PriorityName { get; set; } = string.Empty;
     public ComplaintStatus Status { get; set; }

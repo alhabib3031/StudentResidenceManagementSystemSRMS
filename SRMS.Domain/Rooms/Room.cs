@@ -2,6 +2,8 @@
 using SRMS.Domain.Residences;
 using SRMS.Domain.Rooms.Enums;
 using SRMS.Domain.Students;
+using SRMS.Domain.Reservations;
+using SRMS.Domain.ValueObjects;
 
 namespace SRMS.Domain.Rooms;
 
@@ -24,8 +26,11 @@ public class Room : Entity
     public int OccupiedBeds { get; set; }
     public bool IsFull => OccupiedBeds >= TotalBeds;
 
+    // Pricing
+    public Money? MonthlyRent { get; set; }
+
     // Navigation Properties
     public Guid ResidenceId { get; set; }
     public Residence Residence { get; set; } = null!;
-    public ICollection<Student> Students { get; set; } = new List<Student>();
+    public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 }

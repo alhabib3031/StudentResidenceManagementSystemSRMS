@@ -1,12 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+using SRMS.Domain.Students;
 using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Complaints;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SRMS.Application.Complaints.DTOs;
 
 public class CreateComplaintDto
 {
     [Required]
-    public Guid StudentId { get; set; }
+    public Guid ReservationId { get; set; }
 
     [Required]
     [StringLength(200, MinimumLength = 5)]
@@ -17,7 +19,7 @@ public class CreateComplaintDto
     public string Description { get; set; } = string.Empty;
 
     [Required]
-    public ComplaintCategory Category { get; set; }
+    public Guid ComplaintTypeId { get; set; }
 
     public ComplaintPriority Priority { get; set; } = ComplaintPriority.Medium;
 

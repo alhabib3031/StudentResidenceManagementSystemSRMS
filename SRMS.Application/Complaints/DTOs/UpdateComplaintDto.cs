@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+using SRMS.Domain.Students;
 using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Complaints;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SRMS.Application.Complaints.DTOs;
 
@@ -17,7 +19,7 @@ public class UpdateComplaintDto
     public string Description { get; set; } = string.Empty;
 
     [Required]
-    public ComplaintCategory Category { get; set; }
+    public Guid ComplaintTypeId { get; set; }
 
     [Required]
     public ComplaintPriority Priority { get; set; }

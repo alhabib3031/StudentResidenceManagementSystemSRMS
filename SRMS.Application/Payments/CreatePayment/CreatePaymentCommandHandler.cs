@@ -26,7 +26,7 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
         var payment = new Payment
         {
             Id = Guid.NewGuid(),
-            StudentId = request.Payment.StudentId,
+            ReservationId = request.Payment.ReservationId,
             Description = request.Payment.Description,
             Status = PaymentStatus.Pending,
             Month = request.Payment.Month,
@@ -84,14 +84,14 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             paymentId: created.Id,
             status: "Created",
             amount: created.Amount?.Amount ?? 0,
-            additionalInfo: $"Payment created: {created.PaymentReference} for student {created.StudentId} - Amount: {created.Amount}"
+            additionalInfo: $"Payment created: {created.PaymentReference} for reservation {created.ReservationId} - Amount: {created.Amount}"
         );
 
         return new PaymentDto
         {
             Id = created.Id,
-            StudentId = created.StudentId,
-            StudentName = created.Student?.FullName ?? "",
+            ReservationId = created.ReservationId,
+            StudentName = created.Reservation?.Student?.FullName ?? "",
             Amount = created.Amount?.ToString() ?? "",
             Description = created.Description,
             Status = created.Status,

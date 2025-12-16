@@ -8,7 +8,7 @@ namespace SRMS.Application.Payments.DTOs;
 public class CreatePaymentDto
 {
     [Required]
-    public Guid StudentId { get; set; }
+    public Guid ReservationId { get; set; }
 
     [Required]
     [Range(0.01, double.MaxValue)]

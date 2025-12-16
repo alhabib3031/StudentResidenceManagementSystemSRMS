@@ -178,9 +178,9 @@ public class DashboardStatisticsService : IDashboardStatisticsService
         {
             Name = r.Name,
             Revenue = payments
-                .Where(p => p.Student?.Room?.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
+	                .Where(p => p.Reservation != null && p.Reservation.Room != null && p.Reservation.Room.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
                 .Sum(p => p.Amount?.Amount ?? 0),
-            Students = students.Count(s => s.Room?.ResidenceId == r.Id)
+            Students = students.Count(s => s.Reservations.Any(res => res.Room.ResidenceId == r.Id))
         })
         .OrderByDescending(r => r.Revenue)
         .Take(count)

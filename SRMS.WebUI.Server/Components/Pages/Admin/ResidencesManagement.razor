@@ -136,10 +136,10 @@
             <HeaderContent>
                 <MudTh>@L["ResidencesManagement_Table_Header_Name"]</MudTh>
                 <MudTh>@L["ResidencesManagement_Table_Header_Location"]</MudTh>
-                <MudTh>@L["ResidencesManagement_Table_Header_Manager"]</MudTh>
+
                 <MudTh>@L["ResidencesManagement_Table_Header_Capacity"]</MudTh>
                 <MudTh>@L["ResidencesManagement_Table_Header_Occupancy"]</MudTh>
-                <MudTh>@L["ResidencesManagement_Table_Header_MonthlyRent"]</MudTh>
+
                 <MudTh>@L["ResidencesManagement_Table_Header_Status"]</MudTh>
                 <MudTh>@L["ResidencesManagement_Table_Header_Actions"]</MudTh>
             </HeaderContent>
@@ -183,20 +183,7 @@
                         }
                     </MudText>
                 </MudTd>
-                <MudTd DataLabel="Manager">
-                    @if (context.Manager != null)
-                    {
-                        <MudChip T="string" Size="Size.Small" Color="Color.Default">
-                            @context.Manager.FullName
-                        </MudChip>
-                    }
-                    else
-                    {
-                        <MudChip T="string" Size="Size.Small" Color="Color.Default" Variant="Variant.Outlined">
-                            @L["ResidencesManagement_Table_Unassigned"]
-                        </MudChip>
-                    }
-                </MudTd>
+
                 <MudTd DataLabel="Capacity">
                     <MudText Typo="Typo.body2">
                         @context.AvailableCapacity / @context.TotalCapacity
@@ -213,11 +200,7 @@
                         </MudText>
                     </MudProgressLinear>
                 </MudTd>
-                <MudTd DataLabel="Monthly Rent">
-                    <MudText Typo="Typo.body2">
-                        @(context.MonthlyRent?.ToString() ?? L["ResidencesManagement_Table_NA"])
-                    </MudText>
-                </MudTd>
+
                 <MudTd DataLabel="Status">
                     @if (context.IsFull)
                     {
@@ -284,11 +267,10 @@
             // Create a fresh DbContext for this operation using Factory
             using var context = DbFactory.CreateDbContext();
 
-            // Fetch residences with Manager included
-            _residences = await context.Residences
-            .Include(r => r.Manager)
-            .Where(r => !r.IsDeleted)
-            .ToListAsync();
+	            // Fetch residences
+	            _residences = await context.Residences
+	            .Where(r => !r.IsDeleted)
+	            .ToListAsync();
         }
         finally
         {
@@ -316,9 +298,8 @@
         if (!string.IsNullOrWhiteSpace(_searchString))
         {
             filtered = filtered.Where(r =>
-            r.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-            (r.Address?.City?.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ?? false) ||
-            (r.Manager?.FullName?.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ?? false));
+	            r.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+	            (r.Address?.City?.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ?? false));
         }
 
         // Status filter

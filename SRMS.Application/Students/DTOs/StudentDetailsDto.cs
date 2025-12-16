@@ -35,18 +35,13 @@ public class StudentDetailsDto
     public int? AcademicYear { get; set; }
     
     // Emergency Contact
+    public string? RoomNumber { get; set; }
+    public string? ManagerName { get; set; }
     public string? EmergencyContactName { get; set; }
     public string? EmergencyContactPhone { get; set; }
     public string? EmergencyContactRelation { get; set; }
     
-    // Room Assignment
-    public Guid? RoomId { get; set; }
-    public string? RoomNumber { get; set; }
-    public DateTime? RoomAssignedDate { get; set; }
     
-    // Manager
-    public Guid? ManagerId { get; set; }
-    public string? ManagerName { get; set; }
     
     // Status
     public StudentStatus Status { get; set; }

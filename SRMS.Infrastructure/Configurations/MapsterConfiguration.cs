@@ -98,8 +98,8 @@ public static class MapsterConfiguration
             .Map(dest => dest.AddressCountry, src => src.Address != null ? src.Address.Country : null)
             .Map(dest => dest.FullAddress, src => src.Address != null ? src.Address.GetFullAddress() : null)
             .Map(dest => dest.EmergencyContactPhone, src => src.EmergencyContactPhone != null ? src.EmergencyContactPhone.GetFormatted() : null)
-            .Map(dest => dest.RoomNumber, src => src.Room != null ? src.Room.RoomNumber : null)
-            .Map(dest => dest.ManagerName, src => src.Manager != null ? src.Manager.FullName : null)
+            .Map(dest => dest.RoomNumber, src => src.Reservations.Any(r => r.IsActive) ? src.Reservations.First(r => r.IsActive).Room.RoomNumber : null)
+            .Map(dest => dest.ManagerName, src => src.Reservations.Any(r => r.IsActive) && src.Reservations.First(r => r.IsActive).Room.Residence.ResidenceManagers.Any() ? src.Reservations.First(r => r.IsActive).Room.Residence.ResidenceManagers.First().Manager.FullName : null)
             .Map(dest => dest.PaymentsCount, src => src.Payments != null ? src.Payments.Count : 0)
             .Map(dest => dest.ComplaintsCount, src => src.Complaints != null ? src.Complaints.Count : 0);
         
@@ -143,15 +143,15 @@ public static class MapsterConfiguration
             .Map(dest => dest.WorkingHoursFormatted, src => src.WorkingHoursStart.HasValue && src.WorkingHoursEnd.HasValue
                 ? $"{src.WorkingHoursStart.Value:hh\\:mm} - {src.WorkingHoursEnd.Value:hh\\:mm}"
                 : null)
-            .Map(dest => dest.ResidencesCount, src => src.Residences != null ? src.Residences.Count : 0)
-            .Map(dest => dest.StudentsCount, src => src.Students != null ? src.Students.Count : 0);
+            .Map(dest => dest.ResidencesCount, src => src.ResidenceManagers != null ? src.ResidenceManagers.Count : 0)
+            .Map(dest => dest.StudentsCount, src => src.ResidenceManagers != null ? src.ResidenceManagers.SelectMany(rm => rm.Residence.Rooms).SelectMany(r => r.Reservations).Count() : 0);
         
         
         // ═══════════════════════════════════════════════════════════
         // COMPLAINT MAPPINGS
         // ═══════════════════════════════════════════════════════════
         config.NewConfig<Complaint, ComplaintDto>()
-            .Map(dest => dest.StudentName, src => src.Student != null ? src.Student.FullName : "")
+            .Map(dest => dest.StudentName, src => src.Reservation.Student.FullName)
             .Map(dest => dest.IsResolved, src => src.Status == ComplaintStatus.Resolved);
 
         

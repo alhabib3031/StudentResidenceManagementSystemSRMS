@@ -28,8 +28,11 @@ public class ComplaintConfiguration : IEntityTypeConfiguration<Complaint>
         builder.Property(c => c.Resolution)
             .HasMaxLength(2000);
         
-        builder.Property(c => c.Category)
-            .IsRequired();
+        // Remove static Category enum and use ComplaintType entity
+        builder.HasOne(c => c.ComplaintType)
+            .WithMany(ct => ct.Complaints)
+            .HasForeignKey(c => c.ComplaintTypeId)
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder.Property(c => c.Priority)
             .IsRequired();
@@ -45,14 +48,15 @@ public class ComplaintConfiguration : IEntityTypeConfiguration<Complaint>
             .HasColumnType("nvarchar(max)");
         
         // Relationships
-        builder.HasOne(c => c.Student)
-            .WithMany(s => s.Complaints)
-            .HasForeignKey(c => c.StudentId)
+        // Complaint -> Reservation (Many-to-One)
+        builder.HasOne(c => c.Reservation)
+            .WithMany(r => r.Complaints)
+            .HasForeignKey(c => c.ReservationId)
             .OnDelete(DeleteBehavior.Cascade);
         
         // Indexes
-        builder.HasIndex(c => c.StudentId)
-            .HasDatabaseName("IX_Complaints_StudentId");
+        builder.HasIndex(c => c.ReservationId)
+            .HasDatabaseName("IX_Complaints_ReservationId");
         
         builder.HasIndex(c => c.ComplaintNumber)
             .IsUnique()
@@ -61,8 +65,8 @@ public class ComplaintConfiguration : IEntityTypeConfiguration<Complaint>
         builder.HasIndex(c => c.Status)
             .HasDatabaseName("IX_Complaints_Status");
         
-        builder.HasIndex(c => c.Category)
-            .HasDatabaseName("IX_Complaints_Category");
+        builder.HasIndex(c => c.ComplaintTypeId)
+            .HasDatabaseName("IX_Complaints_ComplaintTypeId");
         
         builder.HasIndex(c => c.Priority)
             .HasDatabaseName("IX_Complaints_Priority");

@@ -1,8 +1,10 @@
+using SRMS.Domain.Students;
+using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Complaints;
 using MediatR;
 using SRMS.Application.Complaints.DTOs;
 using SRMS.Domain.Complaints;
 using SRMS.Domain.Repositories;
-using SRMS.Domain.Students;
 
 namespace SRMS.Application.Complaints.GetStudentComplaints;
 
@@ -21,10 +23,10 @@ public class GetStudentComplaintsQueryHandler : IRequestHandler<GetStudentCompla
 
     public async Task<List<ComplaintDto>> Handle(GetStudentComplaintsQuery request, CancellationToken cancellationToken)
     {
-        var student = await _studentRepository.GetByIdAsync(request.StudentId);
+        var student = await _studentRepository.GetByIdAsync(request.ReservationId);
         var studentName = student?.FullName ?? "Unknown";
 
-        var complaints = await _complaintRepository.FindAsync(c => c.StudentId == request.StudentId && !c.IsDeleted);
+        var complaints = await _complaintRepository.FindAsync(c => c.ReservationId == request.ReservationId && !c.IsDeleted);
 
         var result = complaints
             .OrderByDescending(c => c.CreatedAt)
@@ -33,10 +35,10 @@ public class GetStudentComplaintsQueryHandler : IRequestHandler<GetStudentCompla
                 Id = c.Id,
                 ComplaintNumber = c.ComplaintNumber,
                 Title = c.Title,
-                Category = c.Category,
+                ComplaintType = c.ComplaintType.Name,
                 Priority = c.Priority,
                 Status = c.Status,
-                StudentId = c.StudentId,
+                ReservationId = c.ReservationId,
                 StudentName = studentName,
                 CreatedAt = c.CreatedAt,
                 IsResolved = c.Status == Domain.Complaints.Enums.ComplaintStatus.Resolved

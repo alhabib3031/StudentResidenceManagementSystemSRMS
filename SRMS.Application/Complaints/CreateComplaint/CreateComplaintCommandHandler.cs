@@ -1,3 +1,6 @@
+using SRMS.Domain.Students;
+using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Complaints;
 using Mapster;
 using MediatR;
 using SRMS.Application.AuditLogs.Interfaces;
@@ -6,7 +9,6 @@ using SRMS.Application.Notifications.DTOs;
 using SRMS.Application.Notifications.Interfaces;
 using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Complaints;
-using SRMS.Domain.Complaints.Enums;
 using SRMS.Domain.Identity.Constants;
 using SRMS.Domain.Notifications.Enums;
 using SRMS.Domain.Repositories;
@@ -34,10 +36,10 @@ public class CreateComplaintCommandHandler : IRequestHandler<CreateComplaintComm
         var complaint = new Complaint
         {
             Id = Guid.NewGuid(),
-            StudentId = request.Complaint.StudentId,
+            ReservationId = request.Complaint.ReservationId,
             Title = request.Complaint.Title,
             Description = request.Complaint.Description,
-            Category = request.Complaint.Category,
+            ComplaintTypeId = request.Complaint.ComplaintTypeId,
             Priority = request.Complaint.Priority,
             Status = ComplaintStatus.Open,
             ComplaintNumber = $"CMP-{DateTime.UtcNow:yyyyMMddHHmmss}",
@@ -60,11 +62,11 @@ public class CreateComplaintCommandHandler : IRequestHandler<CreateComplaintComm
             {
                 created.ComplaintNumber,
                 created.Title,
-                created.Category,
+                created.ComplaintTypeId,
                 created.Priority,
-                created.StudentId
+                created.ReservationId
             },
-            additionalInfo: $"Complaint submitted: {created.ComplaintNumber} - {created.Title} (Priority: {created.Priority}, Category: {created.Category})"
+            additionalInfo: $"Complaint submitted: {created.ComplaintNumber} - {created.Title} (Priority: {created.Priority}, ComplaintTypeId: {created.ComplaintTypeId})"
         );
 
         // ✅ Send notification to Managers

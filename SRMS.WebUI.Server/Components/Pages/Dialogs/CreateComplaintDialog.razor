@@ -1,9 +1,14 @@
 @using SRMS.Application.Complaints.DTOs
 @using SRMS.Domain.Complaints.Enums
+@using SRMS.Domain.Complaints
 @using Microsoft.Extensions.Localization
 @using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
 @using MudBlazor
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.EntityFrameworkCore
+@using SRMS.Infrastructure
+@inject IServiceScopeFactory ScopeFactory
 
 <MudDialog>
     <TitleContent>
@@ -22,18 +27,12 @@
                 RequiredError='@L["CreateComplaintDialog_Error_DescriptionRequired"]' Lines="4" Counter="2000" MaxLength="2000"
                 Variant="Variant.Outlined" HelperText='@L["CreateComplaintDialog_Helper_Description"]' Class="mb-3" />
 
-            <MudSelect T="ComplaintCategory" Label='@L["CreateComplaintDialog_Label_Category"]' @bind-Value="Model.Category" Required="true"
+            <MudSelect T="Guid" Label='@L["CreateComplaintDialog_Label_ComplaintType"]' @bind-Value="Model.ComplaintTypeId" Required="true"
                 Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" Class="mb-3">
-                <MudSelectItem Value="ComplaintCategory.Maintenance">@L["CreateComplaintDialog_Category_Maintenance"]</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Cleanliness">@L["CreateComplaintDialog_Category_Cleanliness"]</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Noise">@L["CreateComplaintDialog_Category_Noise"]</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Security">@L["CreateComplaintDialog_Category_Security"]</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.RoommateIssue">@L["CreateComplaintDialog_Category_RoommateIssue"]</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Facilities">@L["CreateComplaintDialog_Category_Facilities"]</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Internet">@L["CreateComplaintDialog_Category_Internet"]</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Utilities">@L["CreateComplaintDialog_Category_Utilities"]</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Management">@L["CreateComplaintDialog_Category_Management"]</MudSelectItem>
-                <MudSelectItem Value="ComplaintCategory.Other">@L["CreateComplaintDialog_Category_Other"]</MudSelectItem>
+                @foreach (var type in _complaintTypes)
+                {
+                    <MudSelectItem Value="@type.Id">@type.Name</MudSelectItem>
+                }
             </MudSelect>
 
             <MudSelect T="ComplaintPriority" Label='@L["CreateComplaintDialog_Label_Priority"]' @bind-Value="Model.Priority" Variant="Variant.Outlined"
@@ -75,21 +74,43 @@
 </MudDialog>
 
 @code {
+    private List<ComplaintType> _complaintTypes = new();
+    private bool _isDataLoading = true;
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
-    [Parameter] public Guid StudentId { get; set; }
+    [Parameter] public Guid ReservationId { get; set; }
 
     private MudForm? _form;
     private bool _success;
 
     public CreateComplaintDto Model { get; set; } = new()
         {
-            Priority = ComplaintPriority.Medium,
-            Category = ComplaintCategory.Maintenance
+            Priority = ComplaintPriority.Medium
         };
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Model.StudentId = StudentId;
+        Model.ReservationId = ReservationId;
+        await LoadComplaintTypes();
+    }
+
+    private async Task LoadComplaintTypes()
+    {
+        _isDataLoading = true;
+        try
+        {
+            using var scope = ScopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            _complaintTypes = await context.ComplaintTypes.Where(ct => ct.IsActive && !ct.IsDeleted).ToListAsync();
+            Model.ComplaintTypeId = _complaintTypes.FirstOrDefault()?.Id ?? Guid.Empty;
+        }
+        catch (Exception ex)
+        {
+            // Log error
+        }
+        finally
+        {
+            _isDataLoading = false;
+        }
     }
 
     private void Cancel() => MudDialog.Cancel();

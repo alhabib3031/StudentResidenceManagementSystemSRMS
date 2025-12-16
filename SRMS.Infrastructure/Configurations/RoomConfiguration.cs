@@ -16,6 +16,13 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
         builder.Property(r => r.RoomNumber)
             .HasMaxLength(50)
             .IsRequired();
+
+        // Configure Value Object Money
+        builder.OwnsOne(r => r.MonthlyRent, money =>
+        {
+            money.Property(m => m.Amount).HasColumnName("MonthlyRent").HasColumnType("decimal(18,2)");
+            money.Property(m => m.Currency).HasColumnName("Currency").HasMaxLength(3);
+        });
         
         builder.Property(r => r.Floor)
             .IsRequired();
@@ -35,10 +42,7 @@ public class RoomConfiguration : IEntityTypeConfiguration<Room>
             .HasForeignKey(r => r.ResidenceId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        builder.HasMany(r => r.Students)
-            .WithOne(s => s.Room)
-            .HasForeignKey(s => s.RoomId)
-            .OnDelete(DeleteBehavior.SetNull);
+        // Room -> Students (Many-to-Many via Reservation) - Configured in ReservationConfiguration
         
         // Indexes
         builder.HasIndex(r => new { r.ResidenceId, r.RoomNumber })

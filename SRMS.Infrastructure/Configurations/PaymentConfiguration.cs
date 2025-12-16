@@ -59,14 +59,14 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
         });
         
         // Relationships
-        builder.HasOne(p => p.Student)
-            .WithMany(s => s.Payments)
-            .HasForeignKey(p => p.StudentId)
+        builder.HasOne(p => p.Reservation)
+            .WithMany(r => r.Payments)
+            .HasForeignKey(p => p.ReservationId)
             .OnDelete(DeleteBehavior.Cascade);
         
         // Indexes
-        builder.HasIndex(p => p.StudentId)
-            .HasDatabaseName("IX_Payments_StudentId");
+        builder.HasIndex(p => p.ReservationId)
+            .HasDatabaseName("IX_Payments_ReservationId");
         
         builder.HasIndex(p => p.Status)
             .HasDatabaseName("IX_Payments_Status");
@@ -74,9 +74,9 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
         builder.HasIndex(p => p.DueDate)
             .HasDatabaseName("IX_Payments_DueDate");
         
-        builder.HasIndex(p => new { p.StudentId, p.Month, p.Year })
+        builder.HasIndex(p => new { p.ReservationId, p.Month, p.Year })
             .IsUnique()
-            .HasDatabaseName("IX_Payments_Student_Period");
+            .HasDatabaseName("IX_Payments_Reservation_Period");
         
         builder.HasIndex(p => p.PaymentReference)
             .IsUnique()

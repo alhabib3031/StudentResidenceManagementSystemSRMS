@@ -39,7 +39,7 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
             UniversityName = request.Student.UniversityName,
             StudentNumber = request.Student.StudentNumber,
             Major = request.Student.Major,
-            AcademicYear = request.Student.AcademicYear,
+            AcademicYear = request.Student.AcademicYear.Value,
 
             // Emergency Contact
             EmergencyContactName = request.Student.EmergencyContactName,

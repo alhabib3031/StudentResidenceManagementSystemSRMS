@@ -34,6 +34,6 @@ public class Manager : Entity
     public ManagerStatus Status { get; set; }
     
     // Navigation Properties
-    public ICollection<Residence> Residences { get; set; } = new List<Residence>();
-    public ICollection<Student> Students { get; set; } = new List<Student>();
+    public ICollection<ResidenceManager> ResidenceManagers { get; set; } = new List<ResidenceManager>();
+
 }

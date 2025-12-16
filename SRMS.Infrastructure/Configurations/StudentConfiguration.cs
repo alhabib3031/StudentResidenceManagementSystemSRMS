@@ -28,6 +28,24 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.Property(s => s.NationalId)
             .HasMaxLength(50);
         
+        builder.Property(s => s.Nationality)
+            .HasMaxLength(100);
+        
+        builder.Property(s => s.DegreeType)
+            .HasMaxLength(100);
+        
+        builder.Property(s => s.BirthCertificatePath)
+            .HasMaxLength(500);
+        
+        builder.Property(s => s.HighSchoolCertificatePath)
+            .HasMaxLength(500);
+        
+        builder.Property(s => s.HealthCertificatePath)
+            .HasMaxLength(500);
+        
+        builder.Property(s => s.ResidencePermitPath)
+            .HasMaxLength(500);
+        
         builder.Property(s => s.StudentNumber)
             .HasMaxLength(50);
         
@@ -36,6 +54,13 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         
         builder.Property(s => s.Major)
             .HasMaxLength(100);
+        
+        builder.Property(s => s.AcademicYear)
+            .IsRequired();
+        
+        builder.Property(s => s.AcademicTerm)
+            .HasMaxLength(50)
+            .IsRequired();
         
         builder.Property(s => s.ImagePath)
             .HasMaxLength(500);
@@ -125,28 +150,22 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         // Relationships Configuration
         // ═══════════════════════════════════════════════════════════
         
-        // Student -> Room (Many-to-One)
-        builder.HasOne(s => s.Room)
-            .WithMany(r => r.Students)
-            .HasForeignKey(s => s.RoomId)
+
+        
+
+        
+        // Student -> College (Many-to-One)
+        builder.HasOne(s => s.College)
+            .WithMany(c => c.Students)
+            .HasForeignKey(s => s.CollegeId)
             .OnDelete(DeleteBehavior.SetNull);
         
-        // Student -> Manager (Many-to-One)
-        builder.HasOne(s => s.Manager)
-            .WithMany(m => m.Students)
-            .HasForeignKey(s => s.ManagerId)
-            .OnDelete(DeleteBehavior.SetNull);
+
         
-        // Student -> Payments (One-to-Many)
-        builder.HasMany(s => s.Payments)
-            .WithOne(p => p.Student)
-            .HasForeignKey(p => p.StudentId)
-            .OnDelete(DeleteBehavior.Cascade);
-        
-        // Student -> Complaints (One-to-Many)
-        builder.HasMany(s => s.Complaints)
-            .WithOne(c => c.Student)
-            .HasForeignKey(c => c.StudentId)
+        // Student -> Reservations (One-to-Many)
+        builder.HasMany(s => s.Reservations)
+            .WithOne(r => r.Student)
+            .HasForeignKey(r => r.StudentId)
             .OnDelete(DeleteBehavior.Cascade);
         
         // ═══════════════════════════════════════════════════════════

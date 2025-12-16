@@ -111,7 +111,7 @@
                     </MudTd>
                     <MudTd DataLabel="Subject">@context.Title</MudTd>
                     <MudTd DataLabel="Category">
-                        <MudChip T="string" Size="Size.Small" Variant="Variant.Text">@context.Category</MudChip>
+                        <MudChip T="string" Size="Size.Small" Variant="Variant.Text">@context.ComplaintType</MudChip>
                     </MudTd>
                     <MudTd DataLabel="Date">@context.CreatedAt.ToShortDateString()</MudTd>
                     <MudTd DataLabel="Status">
@@ -239,7 +239,7 @@
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
             var complaints = await context.Complaints
-            .Where(c => c.StudentId == _currentStudentId && !c.IsDeleted)
+            .Where(c => c.Reservation.StudentId == _currentStudentId && !c.IsDeleted)
             .OrderByDescending(c => c.CreatedAt)
             .ToListAsync();
 
@@ -251,10 +251,10 @@
                     Id = c.Id,
                     ComplaintNumber = c.ComplaintNumber,
                     Title = c.Title,
-                    Category = c.Category,
+                    ComplaintType = c.ComplaintType.Name,
                     Priority = c.Priority,
                     Status = c.Status,
-                    StudentId = c.StudentId,
+                    ReservationId = c.ReservationId,
                     StudentName = studentName,
                     CreatedAt = c.CreatedAt,
                     IsResolved = c.Status == ComplaintStatus.Resolved
@@ -278,10 +278,34 @@
             return;
         }
 
+        // Fetch the current active reservation ID for the student
+        Guid reservationId;
+        try
+        {
+            using var scope = ScopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var reservation = await context.Reservations
+                .Where(r => r.StudentId == _currentStudentId && r.Status == Domain.Reservations.Enums.ReservationStatus.Active)
+                .OrderByDescending(r => r.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            if (reservation == null)
+            {
+                Snackbar.Add("You do not have an active reservation to submit a complaint.", Severity.Warning);
+                return;
+            }
+            reservationId = reservation.Id;
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error checking reservation status: {ex.Message}", Severity.Error);
+            return;
+        }
+
         var parameters = new DialogParameters<CreateComplaintDialog>
-{
-{ x => x.StudentId, _currentStudentId }
-};
+        {
+            { x => x.ReservationId, reservationId }
+        };
 
         var options = new DialogOptions
             {

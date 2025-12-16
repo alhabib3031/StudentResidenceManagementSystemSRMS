@@ -2,15 +2,20 @@
 @using SRMS.Application.AuditLogs.Interfaces
 @using SRMS.Domain.AuditLogs.Enums
 @using SRMS.Domain.Complaints
+@using SRMS.Domain.Complaints.Enums
 @using SRMS.Domain.Payments
 @using SRMS.Domain.Repositories
 @using SRMS.Domain.Residences
+@using SRMS.Domain.Reservations
+@using Microsoft.EntityFrameworkCore
 @using Microsoft.Extensions.Localization
 @using SRMS.WebUI.Server.Resources
 @attribute [Authorize(Roles = "Admin,SuperRoot")]
 @inject IRepositories<Student> StudentRepo
 @inject IRepositories<Payment> PaymentRepo
 @inject IRepositories<Complaint> ComplaintRepo
+@inject IRepositories<Reservation> ReservationRepo
+@inject IRepositories<ComplaintType> ComplaintTypeRepo
 @inject IRepositories<Residence> ResidenceRepo
 @inject IAuditService AuditService
 @inject IStringLocalizer<Resource> L
@@ -306,8 +311,9 @@
     private List<ChartSeries> _revenueSeries = new();
     private double[] _paymentStatusData = Array.Empty<double>();
     private string[] _paymentStatusLabels = Array.Empty<string>();
-    private List<ChartSeries> _complaintSeries = new();
-    private string[] _complaintCategories = Array.Empty<string>();
+	private List<ChartSeries> _complaintSeries = new();
+	private string[] _complaintCategories = Array.Empty<string>();
+	private List<ComplaintType> _allComplaintTypes = new();
 
     private ChartOptions _chartOptions = new()
         {
@@ -360,7 +366,8 @@
         {
             var students = await StudentRepo.GetAllAsync();
             var payments = await PaymentRepo.GetAllAsync();
-            var complaints = await ComplaintRepo.GetAllAsync();
+	            var complaints = await ComplaintRepo.GetAllAsync();
+	            _allComplaintTypes = (await ComplaintTypeRepo.GetAllAsync()).Where(ct => !ct.IsDeleted).ToList();
             var residences = await ResidenceRepo.GetAllAsync();
             var auditLogs = await AuditService.GetAllAsync();
 
@@ -402,9 +409,9 @@
                     {
                         Name = r.Name,
                         Revenue = filteredPayments
-                    .Where(p => p.Student?.Room?.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
+	                    .Where(p => p.Reservation != null && p.Reservation.Room != null && p.Reservation.Room.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
                     .Sum(p => p.Amount?.Amount ?? 0),
-                        Students = students.Count(s => s.Room?.ResidenceId == r.Id)
+	                        Students = students.Count(s => s.Reservations.Any(res => res.Room != null && res.Room.ResidenceId == r.Id))
                     }).OrderByDescending(r => r.Revenue).Take(5).ToList()
                 };
 
@@ -460,21 +467,21 @@
         _paymentStatusLabels = new[] { "Paid", "Pending", "Overdue" };
     }
 
-    private void GenerateComplaintChart(List<Complaint> complaints)
-    {
-        var categories = Enum.GetValues<ComplaintCategory>();
-        var categoryCounts = categories.Select(c => complaints.Count(comp => comp.Category == c)).ToArray();
-
-        _complaintCategories = categories.Select(c => c.ToString()).ToArray();
-        _complaintSeries = new List<ChartSeries>
-        {
-            new ChartSeries
-            {
-                Name = "Complaints",
-                Data = categoryCounts.Select(x => (double)x).ToArray()
-            }
-        };
-    }
+	    private void GenerateComplaintChart(List<Complaint> complaints)
+	    {
+	        var categories = _allComplaintTypes;
+	        var categoryCounts = categories.Select(c => complaints.Count(comp => comp.ComplaintTypeId == c.Id)).ToArray();
+	
+	        _complaintCategories = categories.Select(c => c.Name).ToArray();
+	        _complaintSeries = new List<ChartSeries>
+	        {
+	            new ChartSeries
+	            {
+	                Name = "Complaints",
+	                Data = categoryCounts.Select(x => (double)x).ToArray()
+	            }
+	        };
+	    }
 
     private Color GetOccupancyColor(double rate)
     {

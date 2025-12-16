@@ -1,9 +1,11 @@
+using SRMS.Domain.Students;
+using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Complaints;
 using Mapster;
 using MediatR;
 using SRMS.Application.Complaints.DTOs;
 using SRMS.Domain.Complaints;
 using SRMS.Domain.Repositories;
-using SRMS.Domain.Students;
 
 namespace SRMS.Application.Complaints.GetAllComplaints;
 
@@ -33,7 +35,7 @@ public class GetAllComplaintsQueryHandler : IRequestHandler<GetAllComplaintsQuer
 
         // 2. Extract distinct Student IDs to fetch only necessary students
         var studentIds = complaints
-            .Select(c => c.StudentId)
+            .Select(c => c.ReservationId)
             .Where(id => id != Guid.Empty)
             .Distinct()
             .ToList();
@@ -50,11 +52,11 @@ public class GetAllComplaintsQueryHandler : IRequestHandler<GetAllComplaintsQuer
                 Id = c.Id,
                 ComplaintNumber = c.ComplaintNumber,
                 Title = c.Title,
-                Category = c.Category,
+                ComplaintType = c.ComplaintType.Name,
                 Priority = c.Priority,
                 Status = c.Status,
-                StudentId = c.StudentId,
-                StudentName = studentDict.GetValueOrDefault(c.StudentId, "Unknown"),
+                ReservationId = c.ReservationId,
+                StudentName = studentDict.GetValueOrDefault(c.ReservationId, "Unknown"),
                 CreatedAt = c.CreatedAt,
                 IsResolved = c.Status == Domain.Complaints.Enums.ComplaintStatus.Resolved
             })

@@ -1,9 +1,11 @@
+using SRMS.Domain.Students;
+using SRMS.Domain.Complaints.Enums;
+using SRMS.Domain.Complaints;
 ﻿using MediatR;
 using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Complaints.DTOs;
 using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Complaints;
-using SRMS.Domain.Complaints.Enums;
 using SRMS.Domain.Repositories;
 
 namespace SRMS.Application.Complaints.UpdateComplaint;
@@ -38,7 +40,7 @@ public class UpdateComplaintCommandHandler : IRequestHandler<UpdateComplaintComm
         {
             existing.Title,
             existing.Description,
-            existing.Category,
+            existing.ComplaintTypeId,
             existing.Priority,
             existing.Status,
             existing.AssignedTo,
@@ -47,7 +49,7 @@ public class UpdateComplaintCommandHandler : IRequestHandler<UpdateComplaintComm
 
         existing.Title = request.Complaint.Title;
         existing.Description = request.Complaint.Description;
-        existing.Category = request.Complaint.Category;
+        existing.ComplaintTypeId = request.Complaint.ComplaintTypeId;
         existing.Priority = request.Complaint.Priority;
         existing.Status = request.Complaint.Status;
         existing.AssignedTo = request.Complaint.AssignedTo;
@@ -74,7 +76,7 @@ public class UpdateComplaintCommandHandler : IRequestHandler<UpdateComplaintComm
         {
             updated.Title,
             updated.Description,
-            updated.Category,
+            updated.ComplaintTypeId,
             updated.Priority,
             updated.Status,
             updated.AssignedTo,
@@ -115,11 +117,10 @@ public class UpdateComplaintCommandHandler : IRequestHandler<UpdateComplaintComm
             Id = updated.Id,
             ComplaintNumber = updated.ComplaintNumber,
             Title = updated.Title,
-            Category = updated.Category,
+            ComplaintType = updated.ComplaintType.Name,
             Priority = updated.Priority,
             Status = updated.Status,
-            StudentId = updated.StudentId,
-            StudentName = updated.Student?.FullName ?? "",
+            ReservationId = updated.ReservationId,
             CreatedAt = updated.CreatedAt,
             IsResolved = updated.Status == ComplaintStatus.Resolved
         };

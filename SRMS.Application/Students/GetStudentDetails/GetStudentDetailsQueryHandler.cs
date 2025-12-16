@@ -56,17 +56,6 @@ public class GetStudentDetailsQueryHandler : IRequestHandler<GetStudentDetailsQu
             EmergencyContactPhone = student.EmergencyContactPhone?.GetFormatted(),
             EmergencyContactRelation = student.EmergencyContactRelation,
             
-            // Room Assignment
-            RoomId = student.RoomId,
-            RoomNumber = student.Room?.RoomNumber,
-            RoomAssignedDate = student.RoomAssignedDate,
-            
-            // Manager
-            ManagerId = student.ManagerId,
-            ManagerName = student.Manager != null 
-                ? $"{student.Manager.FirstName} {student.Manager.LastName}" 
-                : null,
-            
             // Status
             Status = student.Status,
             IsActive = student.IsActive,

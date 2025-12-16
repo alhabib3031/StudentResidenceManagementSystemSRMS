@@ -1,6 +1,7 @@
 ﻿using SRMS.Domain.Abstractions;
 using SRMS.Domain.Payments.Enums;
 using SRMS.Domain.Students;
+using SRMS.Domain.Reservations;
 using SRMS.Domain.ValueObjects;
 
 namespace SRMS.Domain.Payments;
@@ -10,8 +11,8 @@ namespace SRMS.Domain.Payments;
 /// </summary>
 public class Payment : Entity
 {
-    public Guid StudentId { get; set; }
-    public Student Student { get; set; } = null!;
+    public Guid ReservationId { get; set; }
+    public Reservation Reservation { get; set; } = null!;
     
     public Money Amount { get; set; } = null!;
     public string Description { get; set; } = string.Empty;

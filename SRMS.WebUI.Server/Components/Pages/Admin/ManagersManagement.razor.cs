@@ -12,8 +12,7 @@ namespace SRMS.WebUI.Server.Components.Pages.Admin;
 public partial class ManagersManagement
 {
     private List<Manager> _managers = new();
-    private List<Residence> _residences = new();
-    private List<Student> _students = new();
+
     private bool _isLoading = true;
     private string _searchString = "";
     private string _filterStatus = "all";
@@ -36,12 +35,7 @@ public partial class ManagersManagement
         {
             using var scope = ScopeFactory.CreateScope();
             var managerRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Manager>>();
-            var residenceRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Residence>>();
-            var studentRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Student>>();
-
-            _managers = (await managerRepo.GetAllAsync()).ToList();
-            _residences = (await residenceRepo.GetAllAsync()).ToList();
-            _students = (await studentRepo.GetAllAsync()).ToList();
+	            _managers = (await managerRepo.GetAllAsync()).ToList();
         }
         finally
         {
@@ -97,73 +91,15 @@ public partial class ManagersManagement
         return $"{years:F1} years";
     }
 
-    private double GetAverageWorkload()
-    {
-        if (!_managers.Any()) return 0;
-        return (double)_students.Count / _managers.Count(m => m.Status == ManagerStatus.Active);
-    }
+	    private double GetAverageWorkload()
+	    {
+	        // Workload calculation is now complex due to M:N relationship, returning 0 for now
+	        return 0;
+	    }
 
-    private List<ManagerPerformance> GetManagerPerformance()
-    {
-        return _managers
-            .Where(m => m.Status == ManagerStatus.Active)
-            .Select(m => new ManagerPerformance
-            {
-                Name = m.FullName,
-                ResidenceCount = m.Residences.Count,
-                StudentCount = m.Students.Count,
-                OccupancyRate = CalculateOccupancyRate(m)
-            })
-            .OrderByDescending(p => p.StudentCount)
-            .ToList();
-    }
 
-    private double CalculateOccupancyRate(Manager manager)
-    {
-        var totalCapacity = manager.Residences.Sum(r => r.TotalCapacity);
-        if (totalCapacity == 0) return 0;
-        var occupied = manager.Residences.Sum(r => r.TotalCapacity - r.AvailableCapacity);
-        return ((double)occupied / totalCapacity) * 100;
-    }
 
-    private Color GetWorkloadColor(double rate)
-    {
-        return rate >= 90 ? Color.Error : rate >= 70 ? Color.Warning : Color.Success;
-    }
 
-    private string GetWorkloadLevel(int studentCount)
-    {
-        return studentCount switch
-        {
-            < 20 => "Low",
-            < 50 => "Medium",
-            _ => "High"
-        };
-    }
-
-    private Color GetStatusColor(ManagerStatus status)
-    {
-        return status switch
-        {
-            ManagerStatus.Active => Color.Success,
-            ManagerStatus.OnLeave => Color.Warning,
-            ManagerStatus.Suspended => Color.Error,
-            ManagerStatus.Terminated => Color.Dark,
-            _ => Color.Default
-        };
-    }
-
-    private Color GetWorkloadColorByLevel(int studentCount)
-    {
-        var level = GetWorkloadLevel(studentCount);
-        return level switch
-        {
-            "Low" => Color.Success,
-            "Medium" => Color.Info,
-            "High" => Color.Warning,
-            _ => Color.Default
-        };
-    }
 
     private void ViewDetails(Manager manager)
     {
@@ -175,10 +111,7 @@ public partial class ManagersManagement
         Navigation.NavigateTo($"/admin/managers/edit/{manager.Id}");
     }
 
-    private void AssignResidences(Manager manager)
-    {
-        Navigation.NavigateTo($"/admin/managers/{manager.Id}/assign-residences");
-    }
+
 
     private async Task SetOnLeave(Manager manager)
     {
@@ -215,7 +148,19 @@ public partial class ManagersManagement
         await LoadData();
     }
 
-    private async Task DeleteManager(Manager manager)
+	    private Color GetStatusColor(ManagerStatus status)
+	    {
+	        return status switch
+	        {
+	            ManagerStatus.Active => Color.Success,
+	            ManagerStatus.OnLeave => Color.Warning,
+	            ManagerStatus.Suspended => Color.Error,
+	            ManagerStatus.Terminated => Color.Dark,
+	            _ => Color.Default
+	        };
+	    }
+	
+	    private async Task DeleteManager(Manager manager)
     {
         var parameters = new DialogParameters<ConfirmDialog>
         {
@@ -248,11 +193,5 @@ public partial class ManagersManagement
         }
     }
 
-    public class ManagerPerformance
-    {
-        public string Name { get; set; } = "";
-        public int ResidenceCount { get; set; }
-        public int StudentCount { get; set; }
-        public double OccupancyRate { get; set; }
-    }
+
 }

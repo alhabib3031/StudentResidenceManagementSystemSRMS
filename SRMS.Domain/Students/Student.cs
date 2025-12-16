@@ -1,7 +1,9 @@
 ﻿using SRMS.Domain.Abstractions;
-using SRMS.Domain.Managers;
+
 using SRMS.Domain.Payments;
 using SRMS.Domain.Rooms;
+using SRMS.Domain.Colleges;
+using SRMS.Domain.Reservations;
 using SRMS.Domain.Students.Enums;
 using SRMS.Domain.ValueObjects;
 using Complaint = SRMS.Domain.Complaints.Complaint;
@@ -26,32 +28,43 @@ public class Student : Entity
     // Profile
     public string? ImagePath { get; set; }
     public string? NationalId { get; set; }
+    public string? Nationality { get; set; } // New property for Country Picker
+    public string? DegreeType { get; set; } // New property for flexible degree list
     public DateTime? DateOfBirth { get; set; }
     public Gender Gender { get; set; }
+
+    // Required Profile Documents (PDF Paths)
+    public string? BirthCertificatePath { get; set; }
+    public string? HighSchoolCertificatePath { get; set; }
+    public string? HealthCertificatePath { get; set; }
+    public string? ResidencePermitPath { get; set; }
     
     // Academic Information
     public string? UniversityName { get; set; }
     public string? StudentNumber { get; set; }
     public string? Major { get; set; }
-    public int? AcademicYear { get; set; }
+
+    // College Relationship
+    public Guid? CollegeId { get; set; }
+    public College? College { get; set; }
     
     // Emergency Contact
     public string? EmergencyContactName { get; set; }
     public PhoneNumber? EmergencyContactPhone { get; set; }
     public string? EmergencyContactRelation { get; set; }
     
-    // Room Assignment
-    public Guid? RoomId { get; set; }
-    public Room? Room { get; set; }
-    public DateTime? RoomAssignedDate { get; set; }
+    // Navigation Properties for M:N with Room via Reservation
+    public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     
-    // Manager
-    public Guid? ManagerId { get; set; }
-    public Manager? Manager { get; set; }
+
     
     // Navigation Properties
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
     public ICollection<Complaint> Complaints { get; set; } = new List<Complaint>();
+
+    // Academic Information (Moved from elsewhere)
+    public int AcademicYear { get; set; } // Added as per request
+    public string AcademicTerm { get; set; } = string.Empty; // Added as per request
     
     // Status
     public StudentStatus Status { get; set; }

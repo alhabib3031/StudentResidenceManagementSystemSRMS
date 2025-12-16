@@ -50,8 +50,6 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             existing.Major,
             existing.AcademicYear,
             existing.Status,
-            existing.RoomId,
-            existing.ManagerId
         };
         
         // ✅ تحديث الخصائص البسيطة
@@ -65,7 +63,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         existing.UniversityName = request.Student.UniversityName;
         existing.StudentNumber = request.Student.StudentNumber;
         existing.Major = request.Student.Major;
-        existing.AcademicYear = request.Student.AcademicYear;
+        existing.AcademicYear = request.Student.AcademicYear.Value;
         
         // ✅ تحديث معلومات الطوارئ
         existing.EmergencyContactName = request.Student.EmergencyContactName;
@@ -73,8 +71,6 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         
         // ✅ تحديث الحالة
         existing.Status = request.Student.Status;
-        existing.RoomId = request.Student.RoomId;
-        existing.ManagerId = request.Student.ManagerId;
         
         // ✅ تحديث Email (Value Object)
         try
@@ -184,8 +180,6 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             updated.Major,
             updated.AcademicYear,
             updated.Status,
-            updated.RoomId,
-            updated.ManagerId
         };
         
         // ✅ Log student update
@@ -207,32 +201,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             );
         }
         
-        // ✅ If room assigned, log room assignment
-        if (oldValues.RoomId != newValues.RoomId)
-        {
-            if (newValues.RoomId.HasValue)
-            {
-                await _audit.LogAsync(
-                    action: AuditAction.RoomAssigned,
-                    entityName: "Student",
-                    entityId: updated.Id.ToString(),
-                    oldValues: new { RoomId = oldValues.RoomId },
-                    newValues: new { RoomId = newValues.RoomId },
-                    additionalInfo: $"Room assigned to student: {updated.FullName}"
-                );
-            }
-            else
-            {
-                await _audit.LogAsync(
-                    action: AuditAction.RoomUnassigned,
-                    entityName: "Student",
-                    entityId: updated.Id.ToString(),
-                    oldValues: new { RoomId = oldValues.RoomId },
-                    newValues: new { RoomId = (Guid?)null },
-                    additionalInfo: $"Room unassigned from student: {updated.FullName}"
-                );
-            }
-        }
+	        // ✅ Room assignment logic removed as per re-engineering
         
         // ✅ إرجاع DTO
         return new StudentDto
