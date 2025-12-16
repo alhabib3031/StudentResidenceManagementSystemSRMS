@@ -14,11 +14,13 @@ using SRMS.Domain.Colleges;
 using SRMS.Domain.Rooms;
 using SRMS.Domain.Students;
 using SRMS.Domain.SystemSettings;
+using SRMS.Domain.ValueObjects; // Added for Email and PhoneNumber Value Objects
 
 using SRMS.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion; // Added for ValueConverter
 
 namespace SRMS.Infrastructure;
 
@@ -63,6 +65,23 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         // ⚠️ مهم: استدعاء base أولاً لتكوين Identity tables
         base.OnModelCreating(modelBuilder);
+
+        // Value Converters for Value Objects
+        modelBuilder.Entity<CollegeRegistrar>()
+            .Property(cr => cr.Email)
+            .HasConversion(
+                v => v == null ? null : v.Value, // Convert Email object to string
+                v => v == null ? null : Email.Create(v)); // Convert string to Email object
+
+        modelBuilder.Entity<CollegeRegistrar>()
+            .Property(cr => cr.PhoneNumber)
+            .HasConversion(
+                v => v == null ? null : JsonConvert.SerializeObject(v), // Convert PhoneNumber object to JSON string
+                v => v == null ? null : JsonConvert.DeserializeObject<PhoneNumber>(v)); // Convert JSON string to PhoneNumber object
+
+        // Ignore computed properties
+        modelBuilder.Entity<CollegeRegistrar>()
+            .Ignore(cr => cr.FullName);
 
         // ═══════════════════════════════════════════════════════════
         // تطبيق Configurations من Fluent API

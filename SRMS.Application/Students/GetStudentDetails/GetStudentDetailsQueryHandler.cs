@@ -65,8 +65,8 @@ public class GetStudentDetailsQueryHandler : IRequestHandler<GetStudentDetailsQu
             UpdatedAt = student.UpdatedAt,
             
             // Related Data Counts
-            PaymentsCount = student.Payments?.Count ?? 0,
-            ComplaintsCount = student.Complaints?.Count ?? 0
+            // PaymentsCount = student.Payments?.Count ?? 0,
+            // ComplaintsCount = student.Complaints?.Count ?? 0
         };
     }
 }

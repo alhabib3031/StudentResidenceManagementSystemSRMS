@@ -41,7 +41,7 @@ public class ManagerConfiguration : IEntityTypeConfiguration<Manager>
             email.Property(e => e.Value)
                 .HasColumnName("Email")
                 .HasMaxLength(256)
-                .IsRequired(false);
+                .IsRequired(true);
             
             // Index على Email للبحث السريع
             email.HasIndex(e => e.Value)
@@ -55,12 +55,12 @@ public class ManagerConfiguration : IEntityTypeConfiguration<Manager>
             phone.Property(p => p.Value)
                 .HasColumnName("PhoneNumber")
                 .HasMaxLength(15)
-                .IsRequired(false);
+                .IsRequired(true);
             
             phone.Property(p => p.CountryCode)
                 .HasColumnName("PhoneCountryCode")
                 .HasMaxLength(5)
-                .IsRequired(false);
+                .IsRequired(true);
         });
         
         // Address Value Object

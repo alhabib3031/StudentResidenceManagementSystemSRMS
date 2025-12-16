@@ -63,8 +63,8 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         existing.UniversityName = request.Student.UniversityName;
         existing.StudentNumber = request.Student.StudentNumber;
         existing.Major = request.Student.Major;
-        existing.AcademicYear = request.Student.AcademicYear.Value;
-        
+        if (request.Student.AcademicYear != null) existing.AcademicYear = request.Student.AcademicYear.Value;
+
         // ✅ تحديث معلومات الطوارئ
         existing.EmergencyContactName = request.Student.EmergencyContactName;
         existing.EmergencyContactRelation = request.Student.EmergencyContactRelation;

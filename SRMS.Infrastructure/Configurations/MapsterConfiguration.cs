@@ -97,11 +97,19 @@ public static class MapsterConfiguration
             .Map(dest => dest.AddressPostalCode, src => src.Address != null ? src.Address.PostalCode : null)
             .Map(dest => dest.AddressCountry, src => src.Address != null ? src.Address.Country : null)
             .Map(dest => dest.FullAddress, src => src.Address != null ? src.Address.GetFullAddress() : null)
-            .Map(dest => dest.EmergencyContactPhone, src => src.EmergencyContactPhone != null ? src.EmergencyContactPhone.GetFormatted() : null)
-            .Map(dest => dest.RoomNumber, src => src.Reservations.Any(r => r.IsActive) ? src.Reservations.First(r => r.IsActive).Room.RoomNumber : null)
-            .Map(dest => dest.ManagerName, src => src.Reservations.Any(r => r.IsActive) && src.Reservations.First(r => r.IsActive).Room.Residence.ResidenceManagers.Any() ? src.Reservations.First(r => r.IsActive).Room.Residence.ResidenceManagers.First().Manager.FullName : null)
-            .Map(dest => dest.PaymentsCount, src => src.Payments != null ? src.Payments.Count : 0)
-            .Map(dest => dest.ComplaintsCount, src => src.Complaints != null ? src.Complaints.Count : 0);
+            .Map(dest => dest.EmergencyContactPhone,
+                src => src.EmergencyContactPhone != null ? src.EmergencyContactPhone.GetFormatted() : null)
+            .Map(dest => dest.RoomNumber,
+                src => src.Reservations.Any(r => r.IsActive)
+                    ? src.Reservations.First(r => r.IsActive).Room.RoomNumber
+                    : null)
+            .Map(dest => dest.ManagerName,
+                src => src.Reservations.Any(r => r.IsActive) &&
+                       src.Reservations.First(r => r.IsActive).Room.Residence.ResidenceManagers.Any()
+                    ? src.Reservations.First(r => r.IsActive).Room.Residence.ResidenceManagers.First().Manager.FullName
+                    : null);
+            // .Map(dest => dest.PaymentsCount, src => src.Payments != null ? src.Payments.Count : 0)
+            // .Map(dest => dest.ComplaintsCount, src => src.Complaints != null ? src.Complaints.Count : 0);
         
         // ═══════════════════════════════════════════════════════════
         // MANAGER MAPPINGS

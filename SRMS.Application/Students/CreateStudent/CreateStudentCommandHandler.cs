@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using System.Diagnostics;
+using Mapster;
 using MapsterMapper;
 using MediatR;
 using SRMS.Application.AuditLogs.Interfaces;
@@ -24,6 +25,8 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
     public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
     {
         // ✅ إنشاء Student جديد
+        Debug.Assert(request.Student.AcademicYear != null, "request.Student.AcademicYear != null");
+        
         var student = new Student
         {
             Id = Guid.NewGuid(),

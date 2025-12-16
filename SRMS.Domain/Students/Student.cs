@@ -59,8 +59,8 @@ public class Student : Entity
 
     
     // Navigation Properties
-    public ICollection<Payment> Payments { get; set; } = new List<Payment>();
-    public ICollection<Complaint> Complaints { get; set; } = new List<Complaint>();
+    // public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    // public ICollection<Complaint> Complaints { get; set; } = new List<Complaint>();
 
     // Academic Information (Moved from elsewhere)
     public int AcademicYear { get; set; } // Added as per request

@@ -6,7 +6,6 @@ using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Notifications.DTOs;
 using SRMS.Application.Notifications.Interfaces;
 using SRMS.Domain.AuditLogs.Enums;
-using SRMS.Domain.Complaints;
 using SRMS.Domain.Notifications.Enums;
 using SRMS.Domain.Repositories;
 

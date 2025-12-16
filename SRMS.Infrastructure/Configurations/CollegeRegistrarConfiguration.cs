@@ -13,9 +13,10 @@ public class CollegeRegistrarConfiguration : IEntityTypeConfiguration<CollegeReg
     {
         builder.HasKey(cr => cr.Id);
 
-        builder.Property(cr => cr.FullName)
-            .HasMaxLength(200)
-            .IsRequired();
+        // Removed FullName configuration as it's a computed property and should not be mapped to the database.
+        // builder.Property(cr => cr.FullName)
+        //     .HasMaxLength(200)
+        //     .IsRequired();
 
         builder.Property(cr => cr.Email)
             .HasMaxLength(256)
