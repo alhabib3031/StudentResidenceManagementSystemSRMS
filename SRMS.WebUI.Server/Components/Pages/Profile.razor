@@ -2,6 +2,8 @@
 @attribute [Authorize]
 @using Microsoft.Extensions.Localization
 @using SRMS.WebUI.Server.Resources
+@using SRMS.Application.Identity.DTOs
+@using SRMS.Application.Identity.Interfaces
 @inject ISnackbar Snackbar
 @inject IUserService UserService
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -32,7 +34,7 @@
             <MudItem xs="12" md="4">
                 <MudPaper Class="glass-card p-6 text-center">
                     <MudPaper Elevation="0" Class="relative inline-block mb-4 bg-transparent">
-                        <MudAvatar Size="Size.Large" Class="w-[120px] h-[120px]">
+                        <MudAvatar Size="Size.Large" Class="w-[120px] h-[120px] shadow-lg">
                             @if (!string.IsNullOrEmpty(_currentUser.ProfilePicture))
                             {
                                 <MudImage Src="@_currentUser.ProfilePicture" />
@@ -43,8 +45,13 @@
                             }
                         </MudAvatar>
                         
-                        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.CameraAlt" Size="Size.Small"
-                            Class="absolute bottom-0 right-0" OnClick="UploadPhoto" />
+                        <div class="absolute bottom-0 right-0">
+                            <MudFileUpload T="IBrowserFile" FilesChanged="HandleAvatarUpload" Accept=".jpg,.png,.jpeg">
+                                <ActivatorContent>
+                                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.CameraAlt" Size="Size.Small" />
+                                </ActivatorContent>
+                            </MudFileUpload>
+                        </div>
                     </MudPaper>
 
                     <MudText Typo="Typo.h5" Class="font-semibold">@_currentUser.FullName</MudText>
@@ -68,7 +75,7 @@
                         @if (_currentUser.Roles.Any())
                         {
                             <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-3">@L["Profile_Roles"]</MudText>
-                            <MudStack Row="true" Class="mt-1">
+                            <MudStack Row="true" Class="mt-1" Wrap="Wrap.Wrap">
                                 @foreach (var role in _currentUser.Roles)
                                 {
                                     <MudChip T="string" Size="Size.Small" Color="@GetRoleColor(role)">@role</MudChip>
@@ -149,6 +156,78 @@
                                 </MudGrid>
                             </EditForm>
                         </MudTabPanel>
+
+                        @if (_userDetails?.StudentDetails != null)
+                        {
+                            <MudTabPanel Text='@L["Profile_Tab_AcademicInfo"]' Icon="@Icons.Material.Filled.School">
+                                <MudGrid>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField Value="@_userDetails.StudentDetails.UniversityName" Label='@L["ProfileCompletion_UniversityName"]' ReadOnly="true" Variant="Variant.Outlined" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField Value="@_userDetails.StudentDetails.CollegeName" Label='@L["ProfileCompletion_College"]' ReadOnly="true" Variant="Variant.Outlined" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField Value="@_userDetails.StudentDetails.StudentNumber" Label='@L["ProfileCompletion_StudentNumber"]' ReadOnly="true" Variant="Variant.Outlined" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField Value="@_userDetails.StudentDetails.Major" Label='@L["ProfileCompletion_Major"]' ReadOnly="true" Variant="Variant.Outlined" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField Value="@($"{_userDetails.StudentDetails.AcademicYear} ({_userDetails.StudentDetails.AcademicTerm})")" Label='@L["Profile_AcademicStatus"]' ReadOnly="true" Variant="Variant.Outlined" />
+                                    </MudItem>
+                                     <MudItem xs="12" sm="6">
+                                        <MudTextField Value="@_userDetails.StudentDetails.NationalId" Label='@L["ProfileCompletion_NationalId"]' ReadOnly="true" Variant="Variant.Outlined" />
+                                    </MudItem>
+                                </MudGrid>
+                            </MudTabPanel>
+                            
+                            <MudTabPanel Text='@L["Profile_Tab_Documents"]' Icon="@Icons.Material.Filled.Description">
+                                <MudList T="string">
+                                    @if (!string.IsNullOrEmpty(_userDetails.StudentDetails.BirthCertificatePath))
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile">
+                                            <div class="d-flex align-center justify-space-between w-100">
+                                                <MudText>@L["ProfileCompletion_BirthCertificate"]</MudText>
+                                                <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@_userDetails.StudentDetails.BirthCertificatePath" Target="_blank">@L["View"]</MudButton>
+                                            </div>
+                                        </MudListItem>
+                                    }
+                                    @if (!string.IsNullOrEmpty(_userDetails.StudentDetails.HighSchoolCertificatePath))
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile">
+                                            <div class="d-flex align-center justify-space-between w-100">
+                                                <MudText>@L["ProfileCompletion_HighSchoolCertificate"]</MudText>
+                                                <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@_userDetails.StudentDetails.HighSchoolCertificatePath" Target="_blank">@L["View"]</MudButton>
+                                            </div>
+                                        </MudListItem>
+                                    }
+                                    @if (!string.IsNullOrEmpty(_userDetails.StudentDetails.HealthCertificatePath))
+                                    {
+                                        <MudListItem Icon="@Icons.Material.Filled.AttachFile">
+                                            <div class="d-flex align-center justify-space-between w-100">
+                                                <MudText>@L["ProfileCompletion_HealthCertificate"]</MudText>
+                                                <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@_userDetails.StudentDetails.HealthCertificatePath" Target="_blank">@L["View"]</MudButton>
+                                            </div>
+                                        </MudListItem>
+                                    }
+                                </MudList>
+                            </MudTabPanel>
+                        }
+
+                        @if (_userDetails?.RegistrarDetails != null)
+                        {
+                            <MudTabPanel Text='@L["Profile_Tab_WorkInfo"]' Icon="@Icons.Material.Filled.Work">
+                                <MudGrid>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField Value="@_userDetails.RegistrarDetails.CollegeName" Label='@L["ProfileCompletion_College"]' ReadOnly="true" Variant="Variant.Outlined" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <MudTextField Value="@_userDetails.RegistrarDetails.EmployeeNumber" Label='@L["ProfileCompletion_EmployeeNumber"]' ReadOnly="true" Variant="Variant.Outlined" />
+                                    </MudItem>
+                                </MudGrid>
+                            </MudTabPanel>
+                        }
 
                         <!-- Security Tab -->
                         <MudTabPanel Text='@L["Profile_Tab_Security"]' Icon="@Icons.Material.Filled.Security">
@@ -244,6 +323,7 @@
 
 @code {
     private UserDto? _currentUser;
+    private UserReviewDetailsDto? _userDetails;
     private bool _isLoading = true;
     private bool _isSaving;
     private bool _isChangingPassword;
@@ -266,10 +346,11 @@
 
             if (user.Identity?.IsAuthenticated == true)
             {
-                var email = user.Identity.Name;
-                if (!string.IsNullOrEmpty(email))
+                var userIdStr = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (Guid.TryParse(userIdStr, out var userId))
                 {
-                    _currentUser = await UserService.GetUserByEmailAsync(email);
+                    _userDetails = await UserService.GetUserReviewDetailsAsync(userId);
+                    _currentUser = _userDetails?.User;
                     
                     if (_currentUser != null)
                     {
@@ -311,6 +392,7 @@
 
             var updateDto = new UpdateUserDto
             {
+                Id = _currentUser.Id,
                 FirstName = _profileModel.FirstName,
                 LastName = _profileModel.LastName,
                 PhoneNumber = _profileModel.PhoneNumber,
@@ -321,7 +403,8 @@
                 PreferredLanguage = _profileModel.PreferredLanguage,
                 Theme = _profileModel.Theme,
                 EmailNotificationsEnabled = _profileModel.EmailNotificationsEnabled,
-                SMSNotificationsEnabled = _profileModel.SMSNotificationsEnabled
+                SMSNotificationsEnabled = _profileModel.SMSNotificationsEnabled,
+                ProfilePicture = _currentUser.ProfilePicture
             };
 
             var success = await UserService.UpdateUserAsync(_currentUser.Id, updateDto);
@@ -329,7 +412,7 @@
             if (success)
             {
                 Snackbar.Add(L["Profile_Snackbar_UpdateSuccess"], Severity.Success);
-                await LoadProfile(); // Reload to get updated data
+                await LoadProfile();
             }
             else
             {
@@ -346,19 +429,43 @@
         }
     }
 
+    private async Task HandleAvatarUpload(IBrowserFile file)
+    {
+        if (file == null || _currentUser == null) return;
+
+        try
+        {
+            using var stream = file.OpenReadStream(maxAllowedSize: 512000); // 500KB
+            var path = await UserService.UpdateProfilePictureAsync(_currentUser.Id, stream, file.Name);
+            
+            if (path != null)
+            {
+                _currentUser.ProfilePicture = path;
+                Snackbar.Add(L["Profile_Snackbar_UpdateSuccess"], Severity.Success);
+                StateHasChanged();
+            }
+            else
+            {
+                Snackbar.Add(L["Profile_Snackbar_UpdateFailed"], Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+    }
+
     private async Task ChangePassword()
     {
         if (_passwordModel.NewPassword != _passwordModel.ConfirmPassword)
         {
             Snackbar.Add(L["Profile_Snackbar_PasswordMismatch"], Severity.Error);
-            await Task.CompletedTask;
+            return;
         }
 
         _isChangingPassword = true;
         try
         {
-            // TODO: Implement password change in UserService
-            // For now, just show a message
             Snackbar.Add(L["Profile_Snackbar_PasswordChangeNotImplemented"], Severity.Info);
             _passwordModel = new PasswordModel();
         }
@@ -374,12 +481,7 @@
 
     private async Task SavePreferences()
     {
-        await SaveProfile(); // Preferences are part of the profile
-    }
-
-    private void UploadPhoto()
-    {
-        Snackbar.Add(L["Profile_Snackbar_UploadNotImplemented"], Severity.Info);
+        await SaveProfile();
     }
 
     private Color GetRoleColor(string role) => role switch
@@ -388,6 +490,7 @@
         "Admin" => Color.Primary,
         "Manager" => Color.Info,
         "Student" => Color.Success,
+        "CollegeRegistrar" => Color.Tertiary,
         _ => Color.Default
     };
 

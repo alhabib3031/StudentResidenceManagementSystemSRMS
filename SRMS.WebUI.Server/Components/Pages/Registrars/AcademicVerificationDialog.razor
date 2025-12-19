@@ -1,0 +1,92 @@
+@using SRMS.Application.Identity.DTOs
+@using SRMS.Application.Identity.Interfaces
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IUserService UserService
+@inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> L
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Verified" Class="mr-3 mb-n1" />
+            @L["Verify"] - @Student.FullName
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudStack Spacing="4">
+            <MudAlert Severity="Severity.Info">
+                Please confirm the academic details for this student are correct according to college records.
+            </MudAlert>
+
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudTextField Label='@L["ProfileCompletion_StudentNumber"]' Value="@Student.StudentNumber"
+                        ReadOnly="true" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField Label='@L["ProfileCompletion_Major"]' Value="@Student.Major" ReadOnly="true"
+                        Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField Label='@L["ProfileCompletion_AcademicYear"]' Value="@Student.AcademicYear"
+                        ReadOnly="true" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField Label='@L["ProfileCompletion_AcademicTerm"]' Value="@Student.AcademicTerm"
+                        ReadOnly="true" Variant="Variant.Outlined" />
+                </MudItem>
+            </MudGrid>
+
+            <MudTextField T="string" @bind-Value="_notes" Label="Verification Notes" Variant="Variant.Outlined" Lines="2" Placeholder="Optional notes..." />
+
+            <MudCheckBox T="bool" @bind-Value="_certified"
+                Label="I certify that I have reviewed the student's academic documents and they are authentic."
+                Color="Color.Primary" />
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@L["Cancel"]</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Text" OnClick='() => Submit(false)' Disabled="_processing">@L["Reject"]</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick='() => Submit(true)' Disabled='!_certified || _processing'>
+            @if (_processing) { <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2"/> }
+            @L["Verify"]
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+
+    [Parameter] public StudentReviewDto Student { get; set; } = new();
+    [Parameter] public Guid StudentId { get; set; }
+
+    private bool _certified;
+    private bool _processing;
+    private string _notes = string.Empty;
+
+    private async Task Submit(bool isApproved) 
+    {
+        if (isApproved && !_certified) return;
+
+        _processing = true;
+        try
+        {
+            var result = await UserService.AcademicallyVerifyStudentAsync(StudentId, isApproved, _notes);
+            if (result)
+            {
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            else
+            {
+                Snackbar.Add("Verification failed.", Severity.Error);
+            }
+        }
+        finally
+        {
+            _processing = false;
+        }
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}

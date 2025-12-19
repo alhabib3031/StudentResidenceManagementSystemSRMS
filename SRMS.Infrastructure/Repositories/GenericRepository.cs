@@ -7,17 +7,22 @@ namespace SRMS.Infrastructure.Repositories;
 
 /// <summary>
 /// GenericRepository - Repository عام لكل الكيانات
+/// يستخدم IDbContextFactory لإنشاء DbContext جديد في كل عملية لتجنب مشاكل Threading في Blazor Server
 /// </summary>
 /// <typeparam name="T">نوع الكيان (يجب أن يرث من Entity)</typeparam>
 public class GenericRepository<T> : IRepositories<T> where T : Entity
 {
-    protected readonly IDbContextFactory<ApplicationDbContext> _context;
-    protected readonly DbSet<T> _dbSet;
+    protected readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
 
-    public GenericRepository(IDbContextFactory<ApplicationDbContext> context)
+    public GenericRepository(IDbContextFactory<ApplicationDbContext> contextFactory)
     {
-        _context = context;
-        _dbSet = context.CreateDbContext().Set<T>();
+        _contextFactory = contextFactory;
+    }
+
+    public virtual IQueryable<T> Query()
+    {
+        var context = _contextFactory.CreateDbContext();
+        return context.Set<T>().AsQueryable().Where(e => !e.IsDeleted);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -29,7 +34,8 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<IEnumerable<T>> GetAllAsync()
     {
-        return await _dbSet
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        return await context.Set<T>()
             .Where(e => !e.IsDeleted)  // Soft Delete Filter
             .ToListAsync();
     }
@@ -39,7 +45,8 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<T?> GetByIdAsync(Guid id)
     {
-        return await _dbSet
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        return await context.Set<T>()
             .FirstOrDefaultAsync(e => e.Id == id && !e.IsDeleted);
     }
 
@@ -56,7 +63,8 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
     {
-        return await _dbSet
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        return await context.Set<T>()
             .Where(e => !e.IsDeleted)
             .Where(predicate)
             .ToListAsync();
@@ -67,7 +75,8 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate)
     {
-        return await _dbSet
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        return await context.Set<T>()
             .Where(e => !e.IsDeleted)
             .FirstOrDefaultAsync(predicate);
     }
@@ -81,13 +90,15 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<T> CreateAsync(T entity)
     {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
         entity.CreatedAt = DateTime.UtcNow;
         entity.UpdatedAt = DateTime.UtcNow;
         entity.IsDeleted = false;
         entity.IsActive = true;
 
-        await _dbSet.AddAsync(entity);
-        await SaveChangesAsync();
+        await context.Set<T>().AddAsync(entity);
+        await context.SaveChangesAsync();
 
         return entity;
     }
@@ -97,10 +108,12 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<T> UpdateAsync(T entity)
     {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
         entity.UpdatedAt = DateTime.UtcNow;
 
-        _dbSet.Update(entity);
-        await SaveChangesAsync();
+        context.Set<T>().Update(entity);
+        await context.SaveChangesAsync();
 
         return entity;
     }
@@ -110,7 +123,11 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<bool> DeleteAsync(Guid id)
     {
-        var entity = await GetByIdAsync(id);
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
+        var entity = await context.Set<T>()
+            .FirstOrDefaultAsync(e => e.Id == id && !e.IsDeleted);
+
         if (entity == null)
             return false;
 
@@ -118,18 +135,21 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
         entity.IsDeleted = true;
         entity.DeletedAt = DateTime.UtcNow;
         entity.IsActive = false;
+        entity.UpdatedAt = DateTime.UtcNow;
 
-        await UpdateAsync(entity);
+        context.Set<T>().Update(entity);
+        await context.SaveChangesAsync();
 
         return true;
     }
 
     /// <summary>
-    /// حفظ التغييرات
+    /// حفظ التغييرات - لم يعد مستخدماً مع DbContextFactory
     /// </summary>
     public virtual async Task SaveChangesAsync()
     {
-        await _context.CreateDbContext().SaveChangesAsync();
+        // لا شيء - كل عملية تحفظ التغييرات بشكل منفصل
+        await Task.CompletedTask;
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -141,7 +161,8 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<int> CountAsync()
     {
-        return await _dbSet.CountAsync(e => !e.IsDeleted);
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        return await context.Set<T>().CountAsync(e => !e.IsDeleted);
     }
 
     /// <summary>
@@ -149,7 +170,11 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<int> CountAsync(Expression<Func<T, bool>> predicate)
     {
-        return await _dbSet.CountAsync(e => !e.IsDeleted && predicate.Compile()(e));
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        return await context.Set<T>()
+            .Where(e => !e.IsDeleted)
+            .Where(predicate)
+            .CountAsync();
     }
 
     /// <summary>
@@ -157,7 +182,8 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<bool> ExistsAsync(Guid id)
     {
-        return await _dbSet.AnyAsync(e => e.Id == id && !e.IsDeleted);
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        return await context.Set<T>().AnyAsync(e => e.Id == id && !e.IsDeleted);
     }
 
     /// <summary>
@@ -165,7 +191,11 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
     {
-        return await _dbSet.AnyAsync(e => !e.IsDeleted && predicate.Compile()(e));
+        await using var context = await _contextFactory.CreateDbContextAsync();
+        return await context.Set<T>()
+            .Where(e => !e.IsDeleted)
+            .Where(predicate)
+            .AnyAsync();
     }
 
     /// <summary>
@@ -177,7 +207,9 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
         Expression<Func<T, bool>>? filter = null,
         Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null)
     {
-        IQueryable<T> query = _dbSet.Where(e => !e.IsDeleted);
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
+        IQueryable<T> query = context.Set<T>().Where(e => !e.IsDeleted);
 
         if (filter != null)
             query = query.Where(filter);
@@ -200,12 +232,14 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<bool> HardDeleteAsync(Guid id)
     {
-        var entity = await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
+        var entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
         if (entity == null)
             return false;
 
-        _dbSet.Remove(entity);
-        await SaveChangesAsync();
+        context.Set<T>().Remove(entity);
+        await context.SaveChangesAsync();
 
         return true;
     }
@@ -215,7 +249,9 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
     /// </summary>
     public virtual async Task<bool> RestoreAsync(Guid id)
     {
-        var entity = await _dbSet
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
+        var entity = await context.Set<T>()
             .IgnoreQueryFilters()  // تجاهل Query Filter
             .FirstOrDefaultAsync(e => e.Id == id && e.IsDeleted);
 
@@ -227,7 +263,8 @@ public class GenericRepository<T> : IRepositories<T> where T : Entity
         entity.IsActive = true;
         entity.UpdatedAt = DateTime.UtcNow;
 
-        await SaveChangesAsync();
+        context.Set<T>().Update(entity);
+        await context.SaveChangesAsync();
 
         return true;
     }

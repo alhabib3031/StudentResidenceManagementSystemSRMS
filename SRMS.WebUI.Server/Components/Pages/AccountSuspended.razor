@@ -1,0 +1,38 @@
+@page "/account-suspended"
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
+    <MudPaper Elevation="4" Class="pa-8 rounded-3xl text-center glass-card animate-fade-in border-t-4 border-warning">
+        <MudStack AlignItems="AlignItems.Center" Spacing="6">
+            <MudPaper Elevation="0"
+                Class="w-24 h-24 rounded-full bg-warning/20 flex items-center justify-center shadow-lg">
+                <MudIcon Icon="@Icons.Material.Filled.Block" Color="Color.Warning" Size="Size.Large" />
+            </MudPaper>
+
+            <MudStack Spacing="1">
+                <MudText Typo="Typo.h4" Class="font-bold text-warning">Account Suspended</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                    Your account has been suspended by the administration.
+                </MudText>
+            </MudStack>
+
+            <MudAlert Severity="Severity.Warning" Variant="Variant.Filled" Class="rounded-2xl w-full">
+                You currently do not have access to the system.
+            </MudAlert>
+
+            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                If you believe this is a mistake, please contact the student affairs office.
+            </MudText>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Href="/login"
+                Class="rounded-xl w-full py-3 mt-4">
+                Return to Login
+            </MudButton>
+
+            <MudLink Href="/logout" Color="Color.Secondary">Sign Out</MudLink>
+        </MudStack>
+    </MudPaper>
+</MudContainer>

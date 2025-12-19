@@ -1,0 +1,199 @@
+@page "/registrar"
+@using SRMS.Application.Identity.Interfaces
+@using SRMS.Application.Identity.DTOs
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@using System.Security.Claims
+@inject IUserService UserService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> L
+@attribute [Authorize(Roles = "CollegeRegistrar")]
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-8 mb-12">
+    <!-- Header -->
+    <MudPaper Elevation="0"
+        Class="pa-8 rounded-3xl bg-gradient-to-r from-cyan-600 to-blue-700 relative overflow-hidden mb-8">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="relative z-10">
+            <MudStack Spacing="1">
+                <MudText Typo="Typo.h3" Class="text-white font-bold">@L["WelcomeBack"], @_registrarName!</MudText>
+                <MudText Typo="Typo.h6" Class="text-white/80">
+                    <MudIcon Icon="@Icons.Material.Filled.AccountBalance" Size="Size.Small" Class="mr-1" />
+                    @_registrarDetails?.CollegeName
+                </MudText>
+            </MudStack>
+            <MudAvatar Size="Size.Large" Color="Color.Surface" Style="height:80px; width:80px;" Class="shadow-xl">
+                <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Size="Size.Large" />
+            </MudAvatar>
+        </MudStack>
+    </MudPaper>
+
+    <MudGrid>
+        <!-- Info Cards -->
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="4" Class="pa-6 rounded-3xl hover-lift border-b-4 border-blue-500">
+                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                    <MudStack Spacing="0">
+                        <MudText Typo="Typo.caption" Class="opacity-60 font-bold uppercase">
+                            @L["Registrar_TotalStudents"]</MudText>
+                        <MudText Typo="Typo.h4" Class="font-bold">@_students.Count</MudText>
+                    </MudStack>
+                    <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Class="rounded-2xl">
+                        <MudIcon Icon="@Icons.Material.Filled.People" />
+                    </MudAvatar>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="4" Class="pa-6 rounded-3xl hover-lift border-b-4 border-orange-500">
+                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                    <MudStack Spacing="0">
+                        <MudText Typo="Typo.caption" Class="opacity-60 font-bold uppercase">
+                            @L["Registrar_PendingVerification_Title"]</MudText>
+                        <MudText Typo="Typo.h4" Class="font-bold">@_pendingCount</MudText>
+                    </MudStack>
+                    <MudAvatar Color="Color.Warning" Variant="Variant.Filled" Class="rounded-2xl">
+                        <MudIcon Icon="@Icons.Material.Filled.PendingActions" />
+                    </MudAvatar>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Students List -->
+        <MudItem xs="12">
+            <MudTable Items="@_students" Hover="true" Breakpoint="Breakpoint.Sm" Elevation="4"
+                Class="rounded-3xl overflow-hidden" Loading="@_loading"
+                Filter="new Func<StudentReviewDto,bool>(FilterFunc)">
+                <HeaderContent>
+                    <MudTh>@L["User_FullName"]</MudTh>
+                    <MudTh>@L["ProfileCompletion_StudentNumber"]</MudTh>
+                    <MudTh>@L["ProfileCompletion_Major"]</MudTh>
+                    <MudTh>@L["ProfileCompletion_AcademicYear"]</MudTh>
+                    <MudTh>@L["Status"]</MudTh>
+                    <MudTh>@L["Actions"]</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.FullName</MudTd>
+                    <MudTd>@context.StudentNumber</MudTd>
+                    <MudTd>@context.Major</MudTd>
+                    <MudTd>@context.AcademicYear (@context.AcademicTerm)</MudTd>
+                    <MudTd>
+                        <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)" Variant="Variant.Text">
+                            @context.Status.ToString()
+                        </MudChip>
+                    </MudTd>
+                    <MudTd>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Class="rounded-xl"
+                            OnClick="@(() => VerifyStudent(context))" Disabled='context.Status == SRMS.Domain.Students.Enums.StudentStatus.Active'>
+                            @L["Verify"]
+                        </MudButton>
+                    </MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudAlert Severity="Severity.Info">No students found for this college.</MudAlert>
+                </NoRecordsContent>
+            </MudTable>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+<style>
+    .hover-lift {
+        transition: transform 0.3s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-5px);
+    }
+</style>
+
+@code {
+    private List<StudentReviewDto> _students = new();
+    private RegistrarReviewDto? _registrarDetails;
+    private string _registrarName = "Registrar";
+    private bool _loading = true;
+    private int _pendingCount = 0;
+    private string _searchString = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            _registrarName = user.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? user.Identity.Name ?? "Registrar";
+            var email = user.Identity.Name;
+            if (email != null)
+            {
+                var userDto = await UserService.GetUserByEmailAsync(email);
+                if (userDto?.RegistrarId != null)
+                {
+                    _registrarDetails = await UserService.GetRegistrarByIdAsync(userDto.RegistrarId.Value);
+
+                    if (_registrarDetails != null)
+                    {
+                        await LoadStudents();
+                    }
+                }
+            }
+        }
+        _loading = false;
+    }
+
+    private async Task LoadStudents()
+    {
+        if (_registrarDetails == null) return;
+
+        _loading = true;
+        try
+        {
+            _students = await UserService.GetStudentsByCollegeAsync(_registrarDetails.CollegeId);
+            _pendingCount = _students.Count(s => s.Status != SRMS.Domain.Students.Enums.StudentStatus.Active);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private async Task VerifyStudent(StudentReviewDto student)
+    {
+        var parameters = new DialogParameters<AcademicVerificationDialog>
+{
+{ x => x.Student, student },
+{ x => x.StudentId, student.Id }
+};
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+
+        var dialog = await DialogService.ShowAsync<AcademicVerificationDialog>(L["Verify"], parameters, options);
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled)
+        {
+            Snackbar.Add($"{student.FullName} verified successfully.", Severity.Success);
+            await LoadStudents();
+        }
+    }
+
+    private bool FilterFunc(StudentReviewDto student)
+    {
+        if (string.IsNullOrWhiteSpace(_searchString)) return true;
+        if (student.StudentNumber.Contains(_searchString, StringComparison.OrdinalIgnoreCase)) return true;
+        if (student.Major.Contains(_searchString, StringComparison.OrdinalIgnoreCase)) return true;
+        return false;
+    }
+
+    private Color GetStatusColor(SRMS.Domain.Students.Enums.StudentStatus status) => status switch
+    {
+        SRMS.Domain.Students.Enums.StudentStatus.Active => Color.Success,
+        SRMS.Domain.Students.Enums.StudentStatus.ManagerApprovalPending => Color.Warning,
+        SRMS.Domain.Students.Enums.StudentStatus.Rejected => Color.Error,
+        SRMS.Domain.Students.Enums.StudentStatus.Suspended => Color.Dark,
+        _ => Color.Default
+    };
+}

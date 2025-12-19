@@ -2,9 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SRMS.Application.AuditLogs.Interfaces;
+using SRMS.Application.Colleges;
 using SRMS.Application.Common.Interfaces;
 using SRMS.Application.Identity.Interfaces;
+using SRMS.Application.Dashboards.Interfaces;
 using SRMS.Application.Notifications.Interfaces;
+using SRMS.Application.Payments.Interfaces;
 using SRMS.Application.SuperRoot.Interfaces;
 using SRMS.Domain.Repositories;
 using SRMS.Infrastructure.Configurations.Services;
@@ -58,6 +61,11 @@ public static class DependencyInjection
         services.AddTransient<IEmailService, EmailService>();
         services.AddScoped<ISMSService, SMSService>();
         services.AddScoped<ISuperRootService, SuperRootService>();
+        services.AddScoped<IFileStorageService, FileStorageService>();
+        services.AddScoped<ICollegeService, CollegeService>();
+        services.AddScoped<INationalityService, NationalityService>();
+        services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<IDashboardStatisticsService, DashboardStatisticsService>();
 
         // ════════════════════════════════════════════════════════════
         // Singleton Services (نسخة واحدة طوال عمر التطبيق)

@@ -1,0 +1,90 @@
+@page "/admin/user-reviews"
+@using SRMS.Application.Identity.Interfaces
+@using SRMS.Application.Identity.DTOs
+@using SRMS.Domain.Identity.Enums
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IUserService UserService
+@inject NavigationManager Navigation
+@inject IStringLocalizer<Resource> L
+@attribute [Authorize(Roles = "SuperRoot,Admin")]
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-8">
+    <MudText Typo="Typo.h4" Class="mb-6 font-bold text-gradient">@L["Admin_UserReviews_Title"]</MudText>
+
+    <MudTable Items="@_pendingUsers" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" Elevation="4"
+        Class="rounded-3xl overflow-hidden">
+        <HeaderContent>
+            <MudTh>@L["User_FullName"]</MudTh>
+            <MudTh>@L["User_Email"]</MudTh>
+            <MudTh>@L["User_RegistrationDate"]</MudTh>
+            <MudTh>@L["User_AccountType"]</MudTh>
+            <MudTh>@L["Actions"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel='@L["User_FullName"]'>
+                <MudStack Row="true" AlignItems="AlignItems.Center">
+                    <MudAvatar Color="Color.Primary" Size="Size.Small">@context.FirstName[0]</MudAvatar>
+                    <MudText>@context.FullName</MudText>
+                </MudStack>
+            </MudTd>
+            <MudTd DataLabel='@L["User_Email"]'>@context.Email</MudTd>
+            <MudTd DataLabel='@L["User_RegistrationDate"]'>@context.CreatedAt.ToLocalTime().ToString("g")</MudTd>
+            <MudTd DataLabel='@L["User_AccountType"]'>
+                @if (context.StudentId.HasValue)
+                {
+                    <MudChip T="string" Color="Color.Secondary" Size="Size.Small">@L["AccountType_Student"]</MudChip>
+                }
+                else if (context.RegistrarId.HasValue)
+                {
+                    <MudChip T="string" Color="Color.Info" Size="Size.Small">@L["AccountType_CollegeRegistrar"]</MudChip>
+                }
+                else
+                {
+                    <MudChip T="string" Color="Color.Default" Size="Size.Small">@L["Unknown"]</MudChip>
+                }
+            </MudTd>
+            <MudTd>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Visibility"
+                    OnClick='() => ViewDetails(context.Id)' Class="rounded-xl">
+                    @L["ViewDetails"]
+                </MudButton>
+            </MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudAlert Severity="Severity.Info" Class="ma-4">@L["Admin_UserReviews_NoPending"]</MudAlert>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText Class="pa-4">@L["Loading"]...</MudText>
+        </LoadingContent>
+    </MudTable>
+</MudContainer>
+
+@code {
+    private List<UserDto> _pendingUsers = new();
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _loading = true;
+        try
+        {
+            _pendingUsers = await UserService.GetUsersByStatusAsync(UserProfileStatus.PendingApproval);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private void ViewDetails(Guid userId)
+    {
+        Navigation.NavigateTo($"/admin/user-reviews/{userId}");
+    }
+}

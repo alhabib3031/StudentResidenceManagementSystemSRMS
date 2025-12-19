@@ -1,0 +1,91 @@
+@using SRMS.Domain.Colleges
+@using SRMS.Application.Colleges
+@inject ICollegeService CollegeService
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <DialogContent>
+        <MudStack Spacing="4">
+            <MudStack Row="true" AlignItems="AlignItems.Center">
+                <MudTextField @bind-Value="_newMajorName" Label="New Major Name" Variant="Variant.Outlined"
+                    Dense="true" />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddMajor"
+                    Disabled='string.IsNullOrWhiteSpace(_newMajorName)'>Add</MudButton>
+            </MudStack>
+
+            <MudDivider />
+
+            <MudTable Items="_majors" Dense="true" Hover="true">
+                <HeaderContent>
+                    <MudTh>Major Name</MudTh>
+                    <MudTh Style="width: 50px"></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Name</MudTd>
+                    <MudTd>
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small"
+                            OnClick="() => DeleteMajor(context.Id)" />
+                    </MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudText Align="Align.Center">No majors added yet.</MudText>
+                </NoRecordsContent>
+            </MudTable>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Close">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public College College { get; set; } = new();
+
+    private List<Major> _majors = new();
+    private string _newMajorName = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMajors();
+    }
+
+    private async Task LoadMajors()
+    {
+        _majors = await CollegeService.GetMajorsByCollegeAsync(College.Id);
+    }
+
+    private async Task AddMajor()
+    {
+        if (string.IsNullOrWhiteSpace(_newMajorName)) return;
+
+        var major = new Major
+        {
+            Id = Guid.NewGuid(),
+            Name = _newMajorName,
+            CollegeId = College.Id
+        };
+
+        var success = await CollegeService.CreateMajorAsync(major);
+
+        if (success)
+        {
+            _newMajorName = "";
+            await LoadMajors();
+            Snackbar.Add("Major added", Severity.Success);
+        }
+    }
+
+
+    private async Task DeleteMajor(Guid id)
+    {
+        var success = await CollegeService.DeleteMajorAsync(id);
+        if (success)
+        {
+            await LoadMajors();
+            Snackbar.Add("Major deleted", Severity.Info);
+        }
+    }
+
+    private void Close() => MudDialog.Close();
+}

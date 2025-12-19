@@ -44,7 +44,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public required DbSet<Room> Rooms { get; set; }
     public required DbSet<Reservation> Reservations { get; set; } // New M:N entity
     public required DbSet<College> Colleges { get; set; } // New entity
+    public required DbSet<Major> Majors { get; set; } // New entity
     public required DbSet<CollegeRegistrar> CollegeRegistrars { get; set; } // New entity
+    public required DbSet<SRMS.Domain.Common.Nationality> Nationalities { get; set; } // New entity
     public required DbSet<Notification> Notifications { get; set; }
 
     // Financial & Administrative
@@ -97,6 +99,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         modelBuilder.ApplyConfiguration(new ResidenceManagerConfiguration());
         modelBuilder.ApplyConfiguration(new ReservationConfiguration());
         modelBuilder.ApplyConfiguration(new CollegeConfiguration());
+        modelBuilder.ApplyConfiguration(new MajorConfiguration());
         modelBuilder.ApplyConfiguration(new CollegeRegistrarConfiguration());
         modelBuilder.ApplyConfiguration(new FeesConfigurationConfiguration());
         modelBuilder.ApplyConfiguration(new AuditLogConfiguration());

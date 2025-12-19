@@ -26,6 +26,12 @@ public class CollegeConfiguration : IEntityTypeConfiguration<College>
             .HasForeignKey<CollegeRegistrar>(cr => cr.CollegeId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // College -> Majors (One-to-Many)
+        builder.HasMany(c => c.Majors)
+            .WithOne(m => m.College)
+            .HasForeignKey(m => m.CollegeId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasQueryFilter(c => !c.IsDeleted);
 
         builder.ToTable("Colleges");

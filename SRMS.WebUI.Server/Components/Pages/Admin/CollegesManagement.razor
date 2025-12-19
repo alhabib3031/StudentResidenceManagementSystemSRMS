@@ -1,0 +1,128 @@
+@page "/admin/colleges"
+@using SRMS.Application.Colleges
+@using SRMS.Domain.Colleges
+@using SRMS.Domain.Colleges.Enums
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject ICollegeService CollegeService
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IStringLocalizer<Resource> L
+@attribute [Authorize(Roles = "SuperRoot,Admin")]
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-8 mb-16">
+    <MudPaper Elevation="4" Class="pa-8 rounded-3xl glass-card">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-8">
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.h4" Class="font-bold text-gradient">@L["CollegesManagement_Title"]</MudText>
+                <MudText Typo="Typo.body2" Class="opacity-60">Manage university colleges and study systems.</MudText>
+            </MudStack>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
+                OnClick="() => OpenCollegeDialog()" Class="rounded-xl py-3 px-6 shadow-lg">
+                @L["AddCollege"]
+            </MudButton>
+        </MudStack>
+
+        <MudTable Items="_colleges" Hover="true" Breakpoint="Breakpoint.Sm" Loading="_loading"
+            Class="rounded-2xl overflow-hidden shadow-sm" Elevation="0">
+            <HeaderContent>
+                <MudTh Class="font-bold">@L["Name"]</MudTh>
+                <MudTh Class="font-bold">@L["StudySystem"]</MudTh>
+                <MudTh Class="font-bold text-right">@L["Actions"]</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel='@L["Name"]'>
+                    <MudText Typo="Typo.body1" Class="font-medium">@context.Name</MudText>
+                </MudTd>
+                <MudTd DataLabel='@L["StudySystem"]'>
+                    <MudChip T="string" Size="Size.Small" Color="Color.Info" Variant="Variant.Text" Class="font-bold">
+                        @context.StudySystem.ToString()
+                    </MudChip>
+                </MudTd>
+                <MudTd DataLabel='@L["Actions"]' Class="text-right">
+                    <MudIconButton Icon="@Icons.Material.Filled.List" Color="Color.Info" Size="Size.Small"
+                        OnClick="() => ManageMajors(context)" Title="Manage Majors" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small"
+                        OnClick="() => OpenCollegeDialog(context)" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small"
+                        OnClick="() => DeleteCollege(context)" />
+                </MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <MudText Align="Align.Center" Class="pa-8">No colleges found.</MudText>
+            </NoRecordsContent>
+            <LoadingContent>
+                <MudText Align="Align.Center" Class="pa-8">@L["Loading"]...</MudText>
+            </LoadingContent>
+        </MudTable>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private List<College> _colleges = new();
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadColleges();
+    }
+
+    private async Task LoadColleges()
+    {
+        _loading = true;
+        _colleges = await CollegeService.GetAllCollegesAsync();
+        _loading = false;
+    }
+
+    private async Task OpenCollegeDialog(College? college = null)
+    {
+        var parameters = new DialogParameters();
+        bool isEdit = college != null;
+
+        var model = isEdit ? new College { Id = college!.Id, Name = college.Name, StudySystem = college.StudySystem } : new
+        College();
+        parameters.Add("Model", model);
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, FullWidth = true };
+        var title = isEdit ? L["EditCollege"] : L["AddCollege"];
+
+        var dialog = await DialogService.ShowAsync<CollegeDialog>(title, parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            await LoadColleges();
+        }
+    }
+
+    private async Task ManageMajors(College college)
+    {
+        var parameters = new DialogParameters { ["College"] = college };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+        
+        await DialogService.ShowAsync<MajorsManagementDialog>("Manage Majors - " + college.Name, parameters, options);
+    }
+
+    private async Task DeleteCollege(College college)
+    {
+        bool? confirm = await DialogService.ShowMessageBox(
+        L["Delete"],
+        (MarkupString)$"Are you sure you want to delete <b>{college.Name}</b>?",
+        yesText: L["Delete"].Value, cancelText: L["Cancel"].Value);
+
+        if (confirm == true)
+        {
+            var success = await CollegeService.DeleteCollegeAsync(college.Id);
+            if (success)
+            {
+                Snackbar.Add("College deleted successfully.", Severity.Success);
+                await LoadColleges();
+            }
+            else
+            {
+                Snackbar.Add("Failed to delete college.", Severity.Error);
+            }
+        }
+    }
+}

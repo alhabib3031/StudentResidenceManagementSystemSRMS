@@ -1,0 +1,88 @@
+@page "/admin/nationalities"
+@using SRMS.Application.Common.Interfaces
+@using SRMS.Domain.Common
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject INationalityService NationalityService
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IStringLocalizer<Resource> L
+@attribute [Authorize(Roles = "SuperRoot,Admin")]
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-6">
+        <MudText Typo="Typo.h4" Class="font-bold text-gradient">Nationalities Management</MudText>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
+            OnClick="() => OpenNationalityDialog()" Class="rounded-xl px-6 py-2">
+            Add Nationality
+        </MudButton>
+    </MudStack>
+
+    <MudTable Items="@_nationalities" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" Elevation="4"
+        Class="rounded-3xl overflow-hidden">
+        <HeaderContent>
+            <MudTh>Name (AR)</MudTh>
+            <MudTh>Name (EN)</MudTh>
+            <MudTh>Country Code</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name (AR)">@context.Name</MudTd>
+            <MudTd DataLabel="Name (EN)">@context.NameEn</MudTd>
+            <MudTd DataLabel="Code">@context.CountryCode</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="() => OpenNationalityDialog(context)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="() => DeleteNationality(context.Id)" />
+            </MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudAlert Severity="Severity.Info">No nationalities found.</MudAlert>
+        </NoRecordsContent>
+    </MudTable>
+</MudContainer>
+
+@code {
+    private List<Nationality> _nationalities = new();
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _loading = true;
+        _nationalities = await NationalityService.GetAllAsync();
+        _loading = false;
+    }
+
+    private async Task OpenNationalityDialog(Nationality? nationality = null)
+    {
+        var parameters = new DialogParameters { ["Nationality"] = nationality ?? new Nationality() };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+        
+        var dialog = await DialogService.ShowAsync<NationalityDialog>(nationality == null ? "Add Nationality" : "Edit Nationality", parameters, options);
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled)
+        {
+            await LoadData();
+        }
+    }
+
+    private async Task DeleteNationality(Guid id)
+    {
+        bool? result = await DialogService.ShowMessageBox("Delete", "Are you sure you want to delete this nationality?", yesText: "Delete", cancelText: "Cancel");
+        if (result == true)
+        {
+            var success = await NationalityService.DeleteAsync(id);
+            if (success)
+            {
+                Snackbar.Add("Deleted successfully", Severity.Success);
+                await LoadData();
+            }
+        }
+    }
+}

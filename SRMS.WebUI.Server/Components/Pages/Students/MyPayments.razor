@@ -1,4 +1,12 @@
 @page "/student/payments"
+@using SRMS.Application.Payments.Interfaces
+@using SRMS.Application.Payments.DTOs
+@using SRMS.Application.Identity.Interfaces
+@using System.Security.Claims
+@inject IPaymentService PaymentService
+@inject IUserService UserService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ISnackbar Snackbar
 @attribute [Authorize(Roles = "Student")]
 @rendermode InteractiveServer
 
@@ -20,21 +28,21 @@
         <MudItem xs="12" md="4">
             <MudPaper Class="glass-card p-4 text-center" Elevation="0">
                 <MudIcon Icon="@Icons.Material.Filled.AccountBalanceWallet" Size="Size.Large" Color="Color.Warning" />
-                <MudText Typo="Typo.h5" Class="mt-2">$150.00</MudText>
+                <MudText Typo="Typo.h5" Class="mt-2">@_pendingAmount LYD</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">Pending Dues</MudText>
             </MudPaper>
         </MudItem>
         <MudItem xs="12" md="4">
             <MudPaper Class="glass-card pa-4 text-center" Elevation="0">
                 <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large" Color="Color.Success" />
-                <MudText Typo="Typo.h5" Class="mt-2">$450.00</MudText>
+                <MudText Typo="Typo.h5" Class="mt-2">@_totalPaidAmount LYD</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">Total Paid</MudText>
             </MudPaper>
         </MudItem>
         <MudItem xs="12" md="4">
             <MudPaper Class="glass-card pa-4 text-center" Elevation="0">
                 <MudIcon Icon="@Icons.Material.Filled.History" Size="Size.Large" Color="Color.Info" />
-                <MudText Typo="Typo.h5" Class="mt-2">3</MudText>
+                <MudText Typo="Typo.h5" Class="mt-2">@_payments.Count</MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">Transactions</MudText>
             </MudPaper>
         </MudItem>
@@ -49,17 +57,21 @@
             <MudTh>Action</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Date">@context.Date.ToShortDateString()</MudTd>
+            <MudTd DataLabel="Date">@context.DueDate.ToShortDateString()</MudTd>
             <MudTd DataLabel="Description">@context.Description</MudTd>
-            <MudTd DataLabel="Amount" Class="font-bold">$@context.Amount</MudTd>
+            <MudTd DataLabel="Amount" Class="font-bold">@context.Amount @context.Currency</MudTd>
             <MudTd DataLabel="Status">
-                @if (context.Status == "Paid")
+                @if (context.Status == SRMS.Domain.Payments.Enums.PaymentStatus.Paid)
                 {
-                    <MudChip T="string" Color="Color.Success" Size="Size.Small">Paid</MudChip>
+                    <MudChip T="string" Color="Color.Success" Size="Size.Small">@context.Status.ToString()</MudChip>
+                }
+                else if (context.Status == SRMS.Domain.Payments.Enums.PaymentStatus.Overdue)
+                {
+                    <MudChip T="string" Color="Color.Error" Size="Size.Small">@context.Status.ToString()</MudChip>
                 }
                 else
                 {
-                    <MudChip T="string" Color="Color.Warning" Size="Size.Small">Pending</MudChip>
+                    <MudChip T="string" Color="Color.Warning" Size="Size.Small">@context.Status.ToString()</MudChip>
                 }
             </MudTd>
             <MudTd DataLabel="Action">
@@ -70,20 +82,35 @@
 </MudContainer>
 
 @code {
-    private List<PaymentRecord> _payments = new()
-{
-new PaymentRecord { Date = DateTime.Now.AddDays(-5), Description = "November Rent", Amount = 150.00m, Status = "Paid" },
-new PaymentRecord { Date = DateTime.Now.AddDays(-35), Description = "October Rent", Amount = 150.00m, Status = "Paid" },
-new PaymentRecord { Date = DateTime.Now.AddDays(-65), Description = "September Rent", Amount = 150.00m, Status = "Paid"
-},
-new PaymentRecord { Date = DateTime.Now, Description = "December Rent", Amount = 150.00m, Status = "Pending" },
-};
+    private List<PaymentDto> _payments = new();
+    private decimal _pendingAmount = 0;
+    private decimal _totalPaidAmount = 0;
+    private Guid _currentUserId;
 
-    public class PaymentRecord
+    protected override async Task OnInitializedAsync()
     {
-        public DateTime Date { get; set; }
-        public string Description { get; set; } = "";
-        public decimal Amount { get; set; }
-        public string Status { get; set; } = "";
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            var email = user.Identity.Name;
+            if (email != null)
+            {
+                var userDto = await UserService.GetUserByEmailAsync(email);
+                if (userDto != null)
+                {
+                    _currentUserId = userDto.Id;
+                    await LoadData();
+                }
+            }
+        }
+    }
+
+    private async Task LoadData()
+    {
+        _payments = await PaymentService.GetStudentPaymentsAsync(_currentUserId);
+        _pendingAmount = await PaymentService.GetPendingDuesAmountAsync(_currentUserId);
+        _totalPaidAmount = await PaymentService.GetTotalPaidAmountAsync(_currentUserId);
     }
 }

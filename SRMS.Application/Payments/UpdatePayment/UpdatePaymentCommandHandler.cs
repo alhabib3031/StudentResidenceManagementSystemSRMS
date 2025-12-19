@@ -179,7 +179,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
             Id = updated.Id,
             ReservationId = updated.ReservationId,
             StudentName = updated.Reservation?.Student?.FullName ?? "",
-            Amount = updated.Amount?.ToString() ?? "",
+            Amount = updated.Amount?.Amount ?? 0m,
             Description = updated.Description,
             Status = updated.Status,
             Month = updated.Month,
@@ -187,7 +187,6 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
             Period = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(updated.Month)} {updated.Year}",
             DueDate = updated.DueDate,
             PaidAt = updated.PaidAt,
-            IsOverdue = updated.DueDate < DateTime.UtcNow && updated.Status != PaymentStatus.Paid,
             CreatedAt = updated.CreatedAt
         };
     }

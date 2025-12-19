@@ -11,11 +11,11 @@ public class College : Entity
 {
     public string Name { get; set; } = string.Empty;
     public StudySystem StudySystem { get; set; }
-    
+
     // Future properties can be added here
-    
+
     // Navigation Properties
+    public ICollection<Major> Majors { get; set; } = new List<Major>();
     public ICollection<Student> Students { get; set; } = new List<Student>();
     public CollegeRegistrar? CollegeRegistrar { get; set; }
-
 }

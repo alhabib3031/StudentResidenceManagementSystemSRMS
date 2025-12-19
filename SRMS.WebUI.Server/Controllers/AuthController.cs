@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SRMS.Application.Identity.DTOs;
 using SRMS.Domain.Identity;
+using SRMS.Domain.Identity.Enums;
 
 namespace SRMS.WebUI.Server.Controllers;
 
@@ -86,6 +87,11 @@ public class AuthController : ControllerBase
 
         if (result.Succeeded)
         {
+            if (user.ProfileStatus == UserProfileStatus.PendingAccountTypeSelection)
+            {
+                return Redirect("/account-type-selection");
+            }
+
             var roles = await _userManager.GetRolesAsync(user);
             var role = roles.FirstOrDefault();
 

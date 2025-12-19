@@ -92,7 +92,7 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             Id = created.Id,
             ReservationId = created.ReservationId,
             StudentName = created.Reservation?.Student?.FullName ?? "",
-            Amount = created.Amount?.ToString() ?? "",
+            Amount = created.Amount?.Amount ?? 0m,
             Description = created.Description,
             Status = created.Status,
             Month = created.Month,
@@ -100,7 +100,6 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
             Period = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(created.Month)} {created.Year}",
             DueDate = created.DueDate,
             PaidAt = created.PaidAt,
-            IsOverdue = created.DueDate < DateTime.UtcNow && created.Status != PaymentStatus.Paid,
             CreatedAt = created.CreatedAt
         };
     }

@@ -1,4 +1,6 @@
-﻿namespace SRMS.Domain.ValueObjects;
+﻿using Newtonsoft.Json;
+
+namespace SRMS.Domain.ValueObjects;
 
 /// <summary>
 /// PhoneNumber Value Object
@@ -8,6 +10,9 @@ public class PhoneNumber : ValueObject
     public string Value { get; set; }
     public string CountryCode { get; private set; }
 
+    private PhoneNumber() { }
+
+    [JsonConstructor]
     private PhoneNumber(string value, string countryCode)
     {
         Value = value;

@@ -9,6 +9,9 @@ using SRMS.Domain.Payments.Enums;
 using SRMS.Domain.Repositories;
 using SRMS.Domain.Residences;
 using SRMS.Domain.Students;
+using SRMS.Domain.Reservations;
+using SRMS.Domain.Notifications;
+using Microsoft.EntityFrameworkCore;
 
 namespace SRMS.Infrastructure.Configurations.Services;
 
@@ -19,19 +22,25 @@ public class DashboardStatisticsService : IDashboardStatisticsService
     private readonly IRepositories<Residence> _residenceRepo;
     private readonly IRepositories<Payment> _paymentRepo;
     private readonly IRepositories<Complaint> _complaintRepo;
+    private readonly IRepositories<Reservation> _reservationRepo;
+    private readonly IRepositories<Notification> _notificationRepo;
 
     public DashboardStatisticsService(
         IRepositories<Student> studentRepo,
         IRepositories<Manager> managerRepo,
         IRepositories<Residence> residenceRepo,
         IRepositories<Payment> paymentRepo,
-        IRepositories<Complaint> complaintRepo)
+        IRepositories<Complaint> complaintRepo,
+        IRepositories<Reservation> reservationRepo,
+        IRepositories<Notification> notificationRepo)
     {
         _studentRepo = studentRepo;
         _managerRepo = managerRepo;
         _residenceRepo = residenceRepo;
         _paymentRepo = paymentRepo;
         _complaintRepo = complaintRepo;
+        _reservationRepo = reservationRepo;
+        _notificationRepo = notificationRepo;
     }
 
     public async Task<DashboardOverviewDto> GetDashboardOverviewAsync()
@@ -56,21 +65,21 @@ public class DashboardStatisticsService : IDashboardStatisticsService
             TotalCapacity = totalCapacity,
             OccupiedCapacity = occupiedCapacity,
             OccupancyRate = totalCapacity > 0 ? (double)occupiedCapacity / totalCapacity * 100 : 0,
-            
-            PendingComplaints = complaints.Count(c => 
+
+            PendingComplaints = complaints.Count(c =>
                 c.Status == ComplaintStatus.Open || c.Status == ComplaintStatus.InProgress),
             ResolvedComplaints = complaints.Count(c => c.Status == ComplaintStatus.Resolved),
-            
+
             ResidencesGrowth = residences.Count(r => r.CreatedAt >= lastMonth),
-            ManagerAvailability = managers.Any() ? 
+            ManagerAvailability = managers.Any() ?
                 (double)managers.Count(m => m.Status == ManagerStatus.Active) / managers.Count() * 100 : 0,
-            
+
             MonthlyRevenue = payments
-                .Where(p => p.CreatedAt.Month == now.Month && 
-                           p.CreatedAt.Year == now.Year && 
+                .Where(p => p.CreatedAt.Month == now.Month &&
+                           p.CreatedAt.Year == now.Year &&
                            p.Status == PaymentStatus.Paid)
                 .Sum(p => p.Amount?.Amount ?? 0),
-            
+
             RevenueGrowth = CalculateRevenueGrowth(payments.ToList(), now)
         };
     }
@@ -88,7 +97,7 @@ public class DashboardStatisticsService : IDashboardStatisticsService
             ActiveManagers = activeManagers,
             OnLeaveManagers = managers.Count(m => m.Status == ManagerStatus.OnLeave),
             SuspendedManagers = managers.Count(m => m.Status == ManagerStatus.Suspended),
-            AverageWorkload = activeManagers > 0 ? 
+            AverageWorkload = activeManagers > 0 ?
                 (double)students.Count() / activeManagers : 0
         };
     }
@@ -106,7 +115,7 @@ public class DashboardStatisticsService : IDashboardStatisticsService
             TotalCapacity = totalCapacity,
             AvailableCapacity = availableCapacity,
             OccupiedCapacity = totalCapacity - availableCapacity,
-            AverageOccupancy = totalCapacity > 0 ? 
+            AverageOccupancy = totalCapacity > 0 ?
                 (double)(totalCapacity - availableCapacity) / totalCapacity * 100 : 0,
             FullResidences = residences.Count(r => r.IsFull)
         };
@@ -163,7 +172,7 @@ public class DashboardStatisticsService : IDashboardStatisticsService
             Name = r.Name,
             Total = r.TotalCapacity,
             Occupied = r.TotalCapacity - r.AvailableCapacity,
-            Rate = r.TotalCapacity > 0 ? 
+            Rate = r.TotalCapacity > 0 ?
                 ((double)(r.TotalCapacity - r.AvailableCapacity) / r.TotalCapacity) * 100 : 0
         }).ToList();
     }
@@ -178,7 +187,7 @@ public class DashboardStatisticsService : IDashboardStatisticsService
         {
             Name = r.Name,
             Revenue = payments
-	                .Where(p => p.Reservation != null && p.Reservation.Room != null && p.Reservation.Room.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
+                    .Where(p => p.Reservation != null && p.Reservation.Room != null && p.Reservation.Room.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
                 .Sum(p => p.Amount?.Amount ?? 0),
             Students = students.Count(s => s.Reservations.Any(res => res.Room.ResidenceId == r.Id))
         })
@@ -187,30 +196,84 @@ public class DashboardStatisticsService : IDashboardStatisticsService
         .ToList();
     }
 
+    public async Task<StudentDashboardDataDto> GetStudentDashboardDataAsync(Guid studentId)
+    {
+        var student = await _studentRepo.GetByIdAsync(studentId);
+        if (student == null) return new StudentDashboardDataDto();
+
+        var reservations = (await _reservationRepo.FindAsync(r => r.StudentId == studentId)).ToList();
+        var reservationIds = reservations.Select(r => r.Id).ToList();
+        var activeReservation = reservations.OrderByDescending(r => r.CreatedAt).FirstOrDefault(r => r.Status == SRMS.Domain.Reservations.Enums.ReservationStatus.Approved || r.Status == SRMS.Domain.Reservations.Enums.ReservationStatus.Active);
+
+        var complaints = await _complaintRepo.FindAsync(c => reservationIds.Contains(c.ReservationId));
+        var payments = await _paymentRepo.FindAsync(p => reservationIds.Contains(p.ReservationId));
+        var notifications = await _notificationRepo.FindAsync(n => n.UserId == studentId || (student.Email != null && n.UserEmail == student.Email.Value));
+
+        var dto = new StudentDashboardDataDto
+        {
+            Status = student.Status,
+            ActiveComplaintsCount = complaints.Count(c => c.Status != ComplaintStatus.Resolved && c.Status != ComplaintStatus.Closed),
+            DueAmount = payments.Where(p => p.Status == PaymentStatus.Pending || p.Status == PaymentStatus.Overdue).Sum(p => p.Amount?.Amount ?? 0)
+        };
+
+        if (activeReservation != null)
+        {
+            var room = await _reservationRepo.Query().Where(r => r.Id == activeReservation.Id).Select(r => r.Room).FirstOrDefaultAsync();
+            if (room != null)
+            {
+                dto.RoomNumber = room.RoomNumber;
+                var residence = await _residenceRepo.GetByIdAsync(room.ResidenceId);
+                dto.ResidenceName = residence?.Name;
+            }
+        }
+
+        // Add recent activities
+        var recentNotifications = notifications.OrderByDescending(n => n.CreatedAt).Take(5).Select(n => new RecentActivityDto
+        {
+            Title = n.Title,
+            Timestamp = n.CreatedAt,
+            Type = "Notification"
+        });
+
+        var recentPayments = payments.OrderByDescending(p => p.CreatedAt).Take(5).Select(p => new RecentActivityDto
+        {
+            Title = $"Payment of {p.Amount?.Amount} LYD",
+            Timestamp = p.CreatedAt,
+            Type = "Payment"
+        });
+
+        dto.RecentActivities = recentNotifications.Concat(recentPayments)
+            .OrderByDescending(a => a.Timestamp)
+            .Take(10)
+            .ToList();
+
+        return dto;
+    }
+
     // Private helper methods
     private double CalculateRevenueGrowth(List<Payment> payments, DateTime now)
     {
         var currentMonth = payments
-            .Where(p => p.CreatedAt.Month == now.Month && 
-                       p.CreatedAt.Year == now.Year && 
+            .Where(p => p.CreatedAt.Month == now.Month &&
+                       p.CreatedAt.Year == now.Year &&
                        p.Status == PaymentStatus.Paid)
             .Sum(p => p.Amount?.Amount ?? 0);
-        
+
         var lastMonth = payments
-            .Where(p => p.CreatedAt.Month == now.AddMonths(-1).Month && 
-                       p.CreatedAt.Year == now.AddMonths(-1).Year && 
+            .Where(p => p.CreatedAt.Month == now.AddMonths(-1).Month &&
+                       p.CreatedAt.Year == now.AddMonths(-1).Year &&
                        p.Status == PaymentStatus.Paid)
             .Sum(p => p.Amount?.Amount ?? 0);
 
         if (lastMonth == 0) return 0;
-        
+
         return ((double)(currentMonth - lastMonth) / (double)lastMonth) * 100;
     }
 
     private List<ChartDataPointDto> GetWeeklyTrend(List<Student> students, DateTime now)
     {
         var data = new List<ChartDataPointDto>();
-        
+
         for (int i = 6; i >= 0; i--)
         {
             var date = now.AddDays(-i);
@@ -221,7 +284,7 @@ public class DashboardStatisticsService : IDashboardStatisticsService
                 Value = count
             });
         }
-        
+
         return data;
     }
 
@@ -230,29 +293,29 @@ public class DashboardStatisticsService : IDashboardStatisticsService
         var data = new List<ChartDataPointDto>();
         var daysInMonth = DateTime.DaysInMonth(now.Year, now.Month);
         var interval = Math.Max(1, daysInMonth / 7);
-        
+
         for (int i = 1; i <= daysInMonth; i += interval)
         {
             var startDate = new DateTime(now.Year, now.Month, i);
             var endDate = new DateTime(now.Year, now.Month, Math.Min(i + interval - 1, daysInMonth));
             var count = students.Count(s => s.CreatedAt.Date >= startDate && s.CreatedAt.Date <= endDate);
-            
+
             data.Add(new ChartDataPointDto
             {
                 Label = $"{i}-{Math.Min(i + interval - 1, daysInMonth)}",
                 Value = count
             });
         }
-        
+
         return data;
     }
 
     private List<ChartDataPointDto> GetYearlyTrend(List<Student> students, DateTime now)
     {
         var data = new List<ChartDataPointDto>();
-        var monthNames = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+        var monthNames = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                                 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-        
+
         for (int i = 0; i < 12; i++)
         {
             var month = i + 1;
@@ -263,7 +326,7 @@ public class DashboardStatisticsService : IDashboardStatisticsService
                 Value = count
             });
         }
-        
+
         return data;
     }
 }

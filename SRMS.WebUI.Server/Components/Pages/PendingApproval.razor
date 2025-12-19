@@ -1,0 +1,62 @@
+@page "/pending-approval"
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@using SRMS.Application.Identity.Interfaces
+@using SRMS.Application.Identity.DTOs
+@inject IStringLocalizer<Resource> L
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IUserService UserService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
+    <MudPaper Elevation="4" Class="pa-8 rounded-3xl text-center glass-card animate-fade-in relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+
+        <MudStack AlignItems="AlignItems.Center" Spacing="6">
+            <MudPaper Elevation="0"
+                Class="w-24 h-24 rounded-full bg-orange-500/20 flex items-center justify-center shadow-lg">
+                <MudIcon Icon="@Icons.Material.Filled.HourglassEmpty" Color="Color.Warning" Size="Size.Large"
+                    Class="animate-pulse" />
+            </MudPaper>
+
+            <MudStack Spacing="1">
+                <MudText Typo="Typo.h4" Class="font-bold">@L["ReviewDetails_Title"]</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                    Your account is currently being reviewed by our administration team.
+                </MudText>
+            </MudStack>
+
+            <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="rounded-2xl">
+                This process usually takes 24-48 business hours. You will be notified once your account is activated.
+            </MudAlert>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="CheckStatus"
+                Class="rounded-xl px-8 py-3">
+                Check Status Again
+            </MudButton>
+
+            <MudLink Href="/logout" Color="Color.Secondary">Sign Out</MudLink>
+        </MudStack>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private async Task CheckStatus()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            var email = user.Identity.Name;
+            if (email != null)
+            {
+                var userDto = await UserService.GetUserByEmailAsync(email);
+                if (userDto != null && userDto.ProfileStatus == SRMS.Domain.Identity.Enums.UserProfileStatus.Active)
+                {
+                    Navigation.NavigateTo("/login", true); // Reload will trigger Login.razor logic
+                }
+            }
+        }
+    }
+}

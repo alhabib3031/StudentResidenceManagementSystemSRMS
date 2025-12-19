@@ -3186,4 +3186,93 @@
   <data name="ComplaintsManagement_Table_Header_Category" xml:space="preserve">
     <value>التصنيف</value>
   </data>
+
+  <!-- Account Type Selection -->
+  <data name="AccountType_PageTitle" xml:space="preserve">
+    <value>اختيار نوع الحساب</value>
+  </data>
+  <data name="AccountType_Selection" xml:space="preserve">
+    <value>اختر نوع حسابك</value>
+  </data>
+  <data name="AccountType_SelectMessage" xml:space="preserve">
+    <value>يرجى تحديد نوع الحساب الذي تريد إنشاؤه. سيحدد هذا صلاحياتك والميزات المتاحة لك في النظام.</value>
+  </data>
+  <data name="AccountType_Student" xml:space="preserve">
+    <value>طالب</value>
+  </data>
+  <data name="AccountType_Student_Description" xml:space="preserve">
+    <value>قدم طلب سكن، أدر غرفتك، ادفع الرسوم وقدم طلبات الصيانة.</value>
+  </data>
+  <data name="AccountType_ChooseStudent" xml:space="preserve">
+    <value>اختر كطالب</value>
+  </data>
+  <data name="AccountType_CollegeRegistrar" xml:space="preserve">
+    <value>مسجل الكلية</value>
+  </data>
+  <data name="AccountType_Registrar_Description" xml:space="preserve">
+    <value>أدر تسجيلات الطلاب، تحقق من المستندات ونسق مع إدارة السكن.</value>
+  </data>
+  <data name="AccountType_ChooseRegistrar" xml:space="preserve">
+    <value>اختر كمسجل</value>
+  </data>
+  <!-- Profile Completion -->
+  <data name="ProfileCompletion_Student_Title" xml:space="preserve"><value>إكمال ملف الطالب</value></data>
+  <data name="ProfileCompletion_Registrar_Title" xml:space="preserve"><value>إكمال ملف مسجل الكلية</value></data>
+  <data name="ProfileCompletion_Step_Personal" xml:space="preserve"><value>المعلومات الشخصية</value></data>
+  <data name="ProfileCompletion_Step_Academic" xml:space="preserve"><value>التفاصيل الأكاديمية</value></data>
+  <data name="ProfileCompletion_Step_Address" xml:space="preserve"><value>العنوان والطوارئ</value></data>
+  <data name="ProfileCompletion_Step_Documents" xml:space="preserve"><value>رفع المستندات</value></data>
+  <data name="ProfileCompletion_NationalId" xml:space="preserve"><value>الرقم الوطني / جواز السفر</value></data>
+  <data name="ProfileCompletion_Nationality" xml:space="preserve"><value>الجنسية</value></data>
+  <data name="ProfileCompletion_DOB" xml:space="preserve"><value>تاريخ الميلاد</value></data>
+  <data name="ProfileCompletion_Gender" xml:space="preserve"><value>الجنس</value></data>
+  <data name="ProfileCompletion_University" xml:space="preserve"><value>اسم الجامعة</value></data>
+  <data name="ProfileCompletion_StudentNumber" xml:space="preserve"><value>الرقم الدراسي</value></data>
+  <data name="ProfileCompletion_Major" xml:space="preserve"><value>التخصص / القسم</value></data>
+  <data name="ProfileCompletion_College" xml:space="preserve"><value>الكلية</value></data>
+  <data name="ProfileCompletion_AcademicYear" xml:space="preserve"><value>السنة الدراسية</value></data>
+  <data name="ProfileCompletion_AcademicTerm" xml:space="preserve"><value>الفصل الدراسي</value></data>
+  <data name="ProfileCompletion_EmergencyName" xml:space="preserve"><value>اسم جهة الاتصال في حالات الطوارئ</value></data>
+  <data name="ProfileCompletion_EmergencyPhone" xml:space="preserve"><value>هاتف الطوارئ</value></data>
+  <data name="ProfileCompletion_EmergencyRelation" xml:space="preserve"><value>صلة القرابة</value></data>
+  <data name="ProfileCompletion_Doc_Birth" xml:space="preserve"><value>شهادة الميلاد</value></data>
+  <data name="ProfileCompletion_Doc_HighSchool" xml:space="preserve"><value>الشهادة الثانوية</value></data>
+  <data name="ProfileCompletion_Doc_Health" xml:space="preserve"><value>الشهادة الصحية</value></data>
+  <data name="ProfileCompletion_Doc_Residence" xml:space="preserve"><value>تصريح الإقامة (لغير الليبيين)</value></data>
+  <data name="ProfileCompletion_Submit" xml:space="preserve"><value>إرسال للمراجعة</value></data>
+  <data name="ProfileCompletion_Success" xml:space="preserve"><value>تم إرسال الملف بنجاح! يرجى انتظار موافقة المسؤول.</value></data>
+  <data name="ProfileCompletion_Error" xml:space="preserve"><value>حدث خطأ أثناء إرسال الملف. يرجى التحقق من بياناتك.</value></data>
+  <data name="ProfileCompletion_EmployeeNumber" xml:space="preserve"><value>الرقم الوظيفي</value></data>
+  <data name="Profile_Status_PendingApproval" xml:space="preserve"><value>قيد المراجعة</value></data>
+  <data name="Profile_Status_Rejected" xml:space="preserve"><value>تم رفض الملف</value></data>
+  <data name="Profile_RejectionReason" xml:space="preserve"><value>سبب الرفض:</value></data>
+  <data name="Profile_Status_Message_Pending" xml:space="preserve"><value>ملفك الشخصي حالياً قيد المراجعة من قبل الإدارة. سيتم إخطارك بمجرد الموافقة عليه.</value></data>
+  <data name="Profile_Status_Message_Rejected" xml:space="preserve"><value>للأسف، تم رفض طلب ملفك الشخصي. يرجى مراجعة السبب أدناه وتحديث ملفك.</value></data>
+  <data name="Profile_Button_UpdateProfile" xml:space="preserve"><value>تحديث الملف الشخصي</value></data>
+  <data name="Admin_UserReviews_Title" xml:space="preserve"><value>طلبات مراجعة الحسابات</value></data>
+  <data name="Admin_UserReviews_NoPending" xml:space="preserve"><value>لا توجد طلبات معلقة حالياً.</value></data>
+  <data name="User_FullName" xml:space="preserve"><value>الاسم الكامل</value></data>
+  <data name="User_RegistrationDate" xml:space="preserve"><value>تاريخ التسجيل</value></data>
+  <data name="User_AccountType" xml:space="preserve"><value>النوع المطلوب</value></data>
+  <data name="Actions" xml:space="preserve"><value>الإجراءات</value></data>
+  <data name="ViewDetails" xml:space="preserve"><value>عرض التفاصيل</value></data>
+  <data name="Approve" xml:space="preserve"><value>موافقة</value></data>
+  <data name="Reject" xml:space="preserve"><value>رفض</value></data>
+  <data name="RejectionReason_Required" xml:space="preserve"><value>يرجى ذكر سبب الرفض.</value></data>
+  <data name="ConfirmApprove" xml:space="preserve"><value>هل أنت متأكد من الموافقة على هذا الملف؟</value></data>
+  <data name="ReviewDetails_Title" xml:space="preserve"><value>مراجعة ملف المستخدم</value></data>
+  <data name="Documents" xml:space="preserve"><value>المستندات</value></data>
+  <data name="Back" xml:space="preserve"><value>رجوع</value></data>
+  <data name="Cancel" xml:space="preserve"><value>إلغاء</value></data>
+  <data name="Loading" xml:space="preserve"><value>جاري التحميل</value></data>
+  <data name="Refresh" xml:space="preserve"><value>تحديث</value></data>
+  <data name="Logout" xml:space="preserve"><value>تسجيل الخروج</value></data>
+  <data name="Unknown" xml:space="preserve"><value>غير معروف</value></data>
+  <data name="Registrar_Dashboard_Title" xml:space="preserve"><value>لوحة تحكم مسجل الكلية</value></data>
+  <data name="Registrar_MyCollege" xml:space="preserve"><value>كليتي</value></data>
+  <data name="Registrar_TotalStudents" xml:space="preserve"><value>إجمالي الطلاب</value></data>
+  <data name="Registrar_PendingVerification_Title" xml:space="preserve"><value>طلاب بانتظار التحقق الأكاديمي</value></data>
+  <data name="Student_AcademicStatus" xml:space="preserve"><value>الحالة الأكاديمية</value></data>
+  <data name="Verify" xml:space="preserve"><value>تحقق</value></data>
+  <data name="Verified" xml:space="preserve"><value>تم التحقق</value></data>
 </root>

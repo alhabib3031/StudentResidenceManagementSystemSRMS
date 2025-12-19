@@ -14,4 +14,5 @@ public interface IDashboardStatisticsService
     Task<List<ChartDataPointDto>> GetRevenueTrendAsync(DateTime startDate, DateTime endDate);
     Task<List<OccupancyDataDto>> GetOccupancyByResidenceAsync();
     Task<List<TopResidenceDataDto>> GetTopRevenueResidencesAsync(int count = 5);
+    Task<StudentDashboardDataDto> GetStudentDashboardDataAsync(Guid studentId);
 }

@@ -1,0 +1,181 @@
+@page "/account-type-selection"
+@using SRMS.Domain.Identity.Enums
+@using SRMS.Application.Identity.Interfaces
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@using System.Security.Claims
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ISnackbar Snackbar
+@inject IUserService UserService
+@inject IStringLocalizer<Resource> L
+@rendermode InteractiveServer
+
+<PageTitle>@L["AccountType_PageTitle"]</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="min-h-screen flex items-center justify-center py-12">
+    <MudStack Spacing="8" AlignItems="AlignItems.Center" Class="w-full">
+        <MudStack AlignItems="AlignItems.Center" Spacing="2">
+            <MudText Typo="Typo.h3"
+                Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent text-center">
+                @L["AccountType_Selection"]
+            </MudText>
+            <MudText Typo="Typo.h6" Color="Color.Secondary" Class="text-center max-w-lg">
+                @L["AccountType_SelectMessage"]
+            </MudText>
+        </MudStack>
+
+        <MudGrid Spacing="6" Justify="Justify.Center" Class="w-full max-w-5xl">
+            <!-- Student Option -->
+            <MudItem xs="12" sm="6">
+                <MudPaper Elevation="0"
+                    Class="glass-card p-10 rounded-[32px] cursor-pointer hover-lift border-2 border-white/5 hover:border-purple-500/50 transition-all duration-500 group relative overflow-hidden h-full"
+                @onclick='() => SelectAccountType("Student")'>
+
+                    <div
+                        class="absolute -top-12 -right-12 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl group-hover:bg-purple-500/20 transition-all duration-700">
+                    </div>
+
+                    <MudStack AlignItems="AlignItems.Center" Spacing="5" Class="relative z-10">
+                        <MudPaper Elevation="0"
+                            Class="w-28 h-28 bg-purple-500/10 rounded-3xl flex items-center justify-center group-hover:bg-purple-500 group-hover:shadow-[0_20px_40px_rgba(139,92,246,0.3)] transition-all duration-500 transform group-hover:rotate-6">
+                            <MudIcon Icon="@Icons.Material.Filled.School"
+                                Class="text-purple-500 group-hover:text-white transition-colors" Size="Size.Large"
+                                Style="font-size: 3.5rem;" />
+                        </MudPaper>
+
+                        <MudStack Spacing="2" AlignItems="AlignItems.Center">
+                            <MudText Typo="Typo.h4" Class="font-bold text-slate-800 dark:text-white">
+                                @L["AccountType_Student"]</MudText>
+                            <MudText Typo="Typo.body1" Color="Color.Secondary" Class="text-center leading-relaxed">
+                                @L["AccountType_Student_Description"]
+                            </MudText>
+                        </MudStack>
+
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large"
+                            Class="rounded-2xl px-12 py-4 mt-4 font-bold tracking-wide shadow-lg group-hover:shadow-purple-500/30 transition-all"
+                            Disabled="_isProcessing">
+                            @L["AccountType_ChooseStudent"]
+                        </MudButton>
+                    </MudStack>
+                </MudPaper>
+            </MudItem>
+
+            <!-- College Registrar Option -->
+            <MudItem xs="12" sm="6">
+                <MudPaper Elevation="0"
+                    Class="glass-card p-10 rounded-[32px] cursor-pointer hover-lift border-2 border-white/5 hover:border-blue-500/50 transition-all duration-500 group relative overflow-hidden h-full"
+                @onclick='() => SelectAccountType("Registrar")'>
+
+                    <div
+                        class="absolute -top-12 -right-12 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all duration-700">
+                    </div>
+
+                    <MudStack AlignItems="AlignItems.Center" Spacing="5" Class="relative z-10">
+                        <MudPaper Elevation="0"
+                            Class="w-28 h-28 bg-blue-500/10 rounded-3xl flex items-center justify-center group-hover:bg-blue-500 group-hover:shadow-[0_20px_40px_rgba(59,130,246,0.3)] transition-all duration-500 transform group-hover:-rotate-6">
+                            <MudIcon Icon="@Icons.Material.Filled.AccountBalance"
+                                Class="text-blue-500 group-hover:text-white transition-colors" Size="Size.Large"
+                                Style="font-size: 3.5rem;" />
+                        </MudPaper>
+
+                        <MudStack Spacing="2" AlignItems="AlignItems.Center">
+                            <MudText Typo="Typo.h4" Class="font-bold text-slate-800 dark:text-white">
+                                @L["AccountType_CollegeRegistrar"]</MudText>
+                            <MudText Typo="Typo.body1" Color="Color.Secondary" Class="text-center leading-relaxed">
+                                @L["AccountType_Registrar_Description"]
+                            </MudText>
+                        </MudStack>
+
+                        <MudButton Variant="Variant.Filled" Color="Color.Info" Size="Size.Large"
+                            Class="rounded-2xl px-12 py-4 mt-4 font-bold tracking-wide shadow-lg group-hover:shadow-blue-500/30 transition-all"
+                            Disabled="_isProcessing">
+                            @L["AccountType_ChooseRegistrar"]
+                        </MudButton>
+                    </MudStack>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudStack>
+</MudContainer>
+
+<style>
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+    }
+
+    .dark .glass-card {
+        background: rgba(30, 41, 59, 0.5);
+    }
+
+    .hover-lift {
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-12px);
+    }
+</style>
+
+@code {
+    private bool _isProcessing = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated != true)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        var profileStatus = user.Claims.FirstOrDefault(c => c.Type == "ProfileStatus")?.Value;
+        if (profileStatus != UserProfileStatus.PendingAccountTypeSelection.ToString())
+        {
+            RedirectToAppropriatePage(user);
+        }
+    }
+
+    private async Task SelectAccountType(string type)
+    {
+        if (_isProcessing) return;
+        _isProcessing = true;
+
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var userId = authState.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (Guid.TryParse(userId, out var id))
+        {
+            var success = await UserService.SetAccountTypeAsync(id, type);
+            if (success)
+            {
+                if (type == "Student") Navigation.NavigateTo("/complete-student-profile");
+                else Navigation.NavigateTo("/complete-registrar-profile");
+            }
+            else
+            {
+                Snackbar.Add("Failed to set account type.", Severity.Error);
+            }
+        }
+        _isProcessing = false;
+    }
+
+    private void RedirectToAppropriatePage(ClaimsPrincipal user)
+    {
+        var role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+        var redirectUrl = role switch
+        {
+            "SuperRoot" => "/superroot",
+            "Admin" => "/admin",
+            "Manager" => "/manager",
+            "Student" => "/student",
+            _ => "/"
+        };
+
+        Navigation.NavigateTo(redirectUrl, replace: true);
+    }
+}

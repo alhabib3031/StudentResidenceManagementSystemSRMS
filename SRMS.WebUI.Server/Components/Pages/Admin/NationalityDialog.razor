@@ -1,0 +1,63 @@
+@using SRMS.Domain.Common
+@using SRMS.Application.Common.Interfaces
+@inject INationalityService NationalityService
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <DialogContent>
+        <MudStack Spacing="4">
+            <MudTextField @bind-Value="Nationality.Name" Label="Name (Arabic)" Variant="Variant.Outlined"
+                Required="true" />
+            <MudTextField @bind-Value="Nationality.NameEn" Label="Name (English)" Variant="Variant.Outlined"
+                Required="true" />
+            <MudTextField @bind-Value="Nationality.CountryCode" Label="Country Code (e.g. LY)"
+                Variant="Variant.Outlined" Required="true" MaxLength="2" />
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Disabled="_processing">
+            @if (_processing)
+            {
+                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+            }
+            Save
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public Nationality Nationality { get; set; } = new();
+
+    private bool _processing;
+
+    private async Task Submit()
+    {
+        if (string.IsNullOrWhiteSpace(Nationality.Name)) return;
+
+        _processing = true;
+        bool success;
+        if (Nationality.Id == Guid.Empty)
+        {
+            success = await NationalityService.CreateAsync(Nationality);
+        }
+        else
+        {
+            success = await NationalityService.UpdateAsync(Nationality);
+        }
+
+        if (success)
+        {
+            Snackbar.Add("Saved successfully", Severity.Success);
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+        else
+        {
+            Snackbar.Add("Failed to save", Severity.Error);
+        }
+        _processing = false;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}

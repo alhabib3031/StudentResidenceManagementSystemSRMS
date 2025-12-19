@@ -1,0 +1,291 @@
+@page "/complete-student-profile"
+@using SRMS.Application.Identity.DTOs
+@using SRMS.Application.Identity.Interfaces
+@using SRMS.Application.Colleges
+@using SRMS.Domain.Students.Enums
+@using SRMS.Domain.Colleges
+@using SRMS.Domain.Common
+@using SRMS.Application.Common.Interfaces
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IUserService UserService
+@inject ICollegeService CollegeService
+@inject INationalityService NationalityService
+@inject IFileStorageService FileStorageService
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> L
+@inject AuthenticationStateProvider AuthStateProvider
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="my-10">
+    <MudPaper Elevation="4" Class="pa-8 pb-12 rounded-3xl">
+        <MudText Typo="Typo.h4" Class="mb-6 font-bold text-gradient">@L["ProfileCompletion_Student_Title"]</MudText>
+
+        <MudStepper NonLinear="false" CenterLabels="true" Class="mud-width-full">
+            <!-- Step 1: Personal Info -->
+            <MudStep Title='@L["ProfileCompletion_Step_Personal"]'>
+                <EditForm Model="@_model">
+                    <MudGrid>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_model.NationalId" Label='@L["ProfileCompletion_NationalId"]'
+                                Variant="Variant.Outlined" Required="true" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudSelect T="string" @bind-Value="_model.Nationality" Label='@L["ProfileCompletion_Nationality"]'
+                                Variant="Variant.Outlined" Required="true" AnchorOrigin="Origin.BottomCenter">
+                                @foreach (var nat in _nationalities)
+                                {
+                                    <MudSelectItem Value="@nat.Name">@nat.Name</MudSelectItem>
+                                }
+                                @if (!_nationalities.Any())
+                                {
+                                    <MudSelectItem Value='@("ليبيا")'>ليبيا</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudDatePicker @bind-Date="_model.DateOfBirth" Label='@L["ProfileCompletion_DOB"]'
+                                Variant="Variant.Outlined" Required="true" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudSelect T="Gender" @bind-Value="_model.Gender" Label='@L["ProfileCompletion_Gender"]'
+                                Variant="Variant.Outlined">
+                                <MudSelectItem Value="Gender.Male">@L["Male"]</MudSelectItem>
+                                <MudSelectItem Value="Gender.Female">@L["Female"]</MudSelectItem>
+                            </MudSelect>
+                        </MudItem>
+                    </MudGrid>
+                </EditForm>
+            </MudStep>
+
+            <!-- Step 2: Academic Details -->
+            <MudStep Title='@L["ProfileCompletion_Step_Academic"]'>
+                <EditForm Model="@_model">
+                    <MudGrid>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_model.UniversityName" Label='@L["ProfileCompletion_University"]'
+                                Variant="Variant.Outlined" Required="true" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_model.StudentNumber"
+                                Label='@L["ProfileCompletion_StudentNumber"]' Variant="Variant.Outlined"
+                                Required="true" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudSelect T="Guid" @bind-Value="_model.CollegeId" Label='@L["ProfileCompletion_College"]'
+                                Variant="Variant.Outlined" Required="true" SelectedValuesChanged="OnCollegeChanged">
+                                @foreach (var college in _colleges)
+                                {
+                                    <MudSelectItem Value="@college.Id">@college.Name</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudSelect T="string" @bind-Value="_model.Major" Label='@L["ProfileCompletion_Major"]'
+                                Variant="Variant.Outlined" Required="true" Disabled="!_majors.Any()">
+                                @foreach (var major in _majors)
+                                {
+                                    <MudSelectItem Value="@major.Name">@major.Name</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudNumericField @bind-Value="_model.AcademicYear"
+                                Label='@L["ProfileCompletion_AcademicYear"]' Variant="Variant.Outlined" Min="1"
+                                Max="7" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_model.AcademicTerm" Label='@L["ProfileCompletion_AcademicTerm"]'
+                                Variant="Variant.Outlined" />
+                        </MudItem>
+                    </MudGrid>
+                </EditForm>
+            </MudStep>
+
+            <!-- Step 3: Address & Emergency -->
+            <MudStep Title='@L["ProfileCompletion_Step_Address"]'>
+                <EditForm Model="@_model">
+                    <MudGrid>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_model.City" Label='@L["City"]' Variant="Variant.Outlined"
+                                Required="true" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_model.Street" Label='@L["Street"]' Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_model.EmergencyContactName"
+                                Label='@L["ProfileCompletion_EmergencyName"]' Variant="Variant.Outlined"
+                                Required="true" />
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_model.EmergencyContactPhone"
+                                Label='@L["ProfileCompletion_EmergencyPhone"]' Variant="Variant.Outlined"
+                                Required="true" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_model.EmergencyContactRelation"
+                                Label='@L["ProfileCompletion_EmergencyRelation"]' Variant="Variant.Outlined" />
+                        </MudItem>
+                    </MudGrid>
+                </EditForm>
+            </MudStep>
+
+            <!-- Step 4: Documents -->
+            <MudStep Title='@L["ProfileCompletion_Step_Documents"]'>
+                <MudGrid>
+                    <MudItem xs="12" sm="6">
+                        <MudFileUpload T="IBrowserFile" FilesChanged='(file) => UploadDoc(file, "Birth")'
+                            Accept=".pdf,.jpg,.png">
+                            <ActivatorContent>
+                                <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary"
+                                    StartIcon="@Icons.Material.Filled.CloudUpload">
+                                    @L["ProfileCompletion_Doc_Birth"]
+                                </MudButton>
+                            </ActivatorContent>
+                        </MudFileUpload>
+                        @if (!string.IsNullOrEmpty(_model.BirthCertificatePath))
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" />
+                        }
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudFileUpload T="IBrowserFile" FilesChanged='(file) => UploadDoc(file, "HighSchool")'
+                            Accept=".pdf,.jpg,.png">
+                            <ActivatorContent>
+                                <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary"
+                                    StartIcon="@Icons.Material.Filled.CloudUpload">
+                                    @L["ProfileCompletion_Doc_HighSchool"]
+                                </MudButton>
+                            </ActivatorContent>
+                        </MudFileUpload>
+                        @if (!string.IsNullOrEmpty(_model.HighSchoolCertificatePath))
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" />
+                        }
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudFileUpload T="IBrowserFile" FilesChanged='(file) => UploadDoc(file, "Health")'
+                            Accept=".pdf,.jpg,.png">
+                            <ActivatorContent>
+                                <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary"
+                                    StartIcon="@Icons.Material.Filled.CloudUpload">
+                                    @L["ProfileCompletion_Doc_Health"]
+                                </MudButton>
+                            </ActivatorContent>
+                        </MudFileUpload>
+                        @if (!string.IsNullOrEmpty(_model.HealthCertificatePath))
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" />
+                        }
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6">
+                        <MudButton Variant="Variant.Filled" Color="Color.Success" Class="w-full py-4 mt-8"
+                            OnClick="SubmitProfile" Disabled="_isSubmitting">
+                            @if (_isSubmitting)
+                            {
+                                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                            }
+                            @L["ProfileCompletion_Submit"]
+                        </MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudStep>
+        </MudStepper>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private CompleteStudentProfileDto _model = new();
+    private List<College> _colleges = new();
+    private List<Major> _majors = new();
+    private List<SRMS.Domain.Common.Nationality> _nationalities = new();
+    private bool _isSubmitting;
+    private Guid _userId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated != true)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        var userIdClaim = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (Guid.TryParse(userIdClaim, out var id))
+        {
+            _userId = id;
+        }
+
+        _colleges = await CollegeService.GetAllCollegesAsync();
+        _nationalities = await NationalityService.GetAllAsync();
+    }
+
+    private async Task OnCollegeChanged()
+    {
+        if (_model.CollegeId != Guid.Empty)
+        {
+            _majors = await CollegeService.GetMajorsByCollegeAsync(_model.CollegeId);
+            _model.Major = string.Empty;
+        }
+    }
+
+    private async Task UploadDoc(IBrowserFile file, string type)
+    {
+        try
+        {
+            if (file != null)
+            {
+                using var stream = file.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024); // 5MB
+                var path = await FileStorageService.SaveFileAsync(stream, file.Name, "certificates");
+
+                switch (type)
+                {
+                    case "Birth": _model.BirthCertificatePath = path; break;
+                    case "HighSchool": _model.HighSchoolCertificatePath = path; break;
+                    case "Health": _model.HealthCertificatePath = path; break;
+                    case "Residence": _model.ResidencePermitPath = path; break;
+                }
+
+                Snackbar.Add($"{file.Name} uploaded", Severity.Success);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Upload failed: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task SubmitProfile()
+    {
+        _isSubmitting = true;
+        try
+        {
+            var success = await UserService.CompleteStudentProfileAsync(_userId, _model);
+            if (success)
+            {
+                Snackbar.Add(L["ProfileCompletion_Success"], Severity.Success);
+                Navigation.NavigateTo("/"); 
+            }
+            else
+            {
+                Snackbar.Add(L["ProfileCompletion_Error"], Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+}

@@ -9,6 +9,7 @@ public interface IRepositories<T> where T : class
     Task<T?> GetByIdAsync(string id); // For Identity users with string IDs
     Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
     Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
+    IQueryable<T> Query();
 
     // Write Operations
     Task<T> CreateAsync(T entity);

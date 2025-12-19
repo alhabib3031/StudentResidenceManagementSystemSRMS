@@ -13,6 +13,7 @@ using SRMS.Application.Notifications.Interfaces;
 using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Identity;
 using SRMS.Domain.Identity.Constants;
+using SRMS.Domain.Identity.Enums;
 
 namespace SRMS.Infrastructure.Configurations.Services;
 
@@ -70,7 +71,8 @@ public class AuthService : IAuthService
             DateOfBirth = dto.DateOfBirth,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
-            IsActive = true
+            IsActive = true,
+            ProfileStatus = UserProfileStatus.PendingAccountTypeSelection
         };
 
         var result = await _userManager.CreateAsync(user, dto.Password);
@@ -90,8 +92,8 @@ public class AuthService : IAuthService
             };
         }
 
-        // Assign default role
-        await _userManager.AddToRoleAsync(user, Roles.Student);
+        // Default role will be assigned after account type selection
+        // await _userManager.AddToRoleAsync(user, Roles.Student);
 
         // Generate email confirmation token
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -236,6 +238,8 @@ public class AuthService : IAuthService
                 ProfilePicture = user.ProfilePicture,
                 Roles = roles.ToList(),
                 IsActive = user.IsActive,
+                ProfileStatus = user.ProfileStatus,
+                RejectionReason = user.RejectionReason,
                 CreatedAt = user.CreatedAt,
                 LastLoginAt = user.LastLoginAt,
                 LoginCount = user.LoginCount
@@ -434,7 +438,8 @@ public class AuthService : IAuthService
                     GoogleId = payload.Subject,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow,
-                    IsActive = true
+                    IsActive = true,
+                    ProfileStatus = UserProfileStatus.PendingAccountTypeSelection
                 };
 
                 var result = await _userManager.CreateAsync(user);
@@ -454,7 +459,8 @@ public class AuthService : IAuthService
                     };
                 }
 
-                await _userManager.AddToRoleAsync(user, Roles.Student);
+                // Default role will be assigned after account type selection
+                // await _userManager.AddToRoleAsync(user, Roles.Student);
 
                 // ✅ Log new user via Google
                 await _audit.LogCrudAsync(
@@ -507,6 +513,8 @@ public class AuthService : IAuthService
                     ProfilePicture = user.ProfilePicture,
                     Roles = roles.ToList(),
                     IsActive = user.IsActive,
+                    ProfileStatus = user.ProfileStatus,
+                    RejectionReason = user.RejectionReason,
                     CreatedAt = user.CreatedAt,
                     LastLoginAt = user.LastLoginAt,
                     LoginCount = user.LoginCount

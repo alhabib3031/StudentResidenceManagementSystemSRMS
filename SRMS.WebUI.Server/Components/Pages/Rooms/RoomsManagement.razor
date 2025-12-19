@@ -6,7 +6,7 @@
 @using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
 @attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
-@rendermode InteractiveServer   
+@rendermode InteractiveServer
 
 <PageTitle>@L["RoomsManagement_PageTitle"]</PageTitle>
 
@@ -23,10 +23,7 @@
                     @L["RoomsManagement_Subheader"]
                 </MudText>
             </div>
-            <MudButton 
-                Variant="Variant.Filled" 
-                Color="Color.Primary"
-                StartIcon="@Icons.Material.Filled.Add"
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
                 OnClick="@CreateRoom">
                 @L["RoomsManagement_Button_Add"]
             </MudButton>
@@ -45,7 +42,8 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_Total"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_Total"]
+                            </MudText>
                             <MudText Typo="Typo.h4">@_rooms.Count</MudText>
                         </div>
                         <MudAvatar Color="Color.Primary" Size="Size.Large">
@@ -61,7 +59,8 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_Available"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_Available"]
+                            </MudText>
                             <MudText Typo="Typo.h4" Color="Color.Success">
                                 @_rooms.Count(r => !r.IsFull)
                             </MudText>
@@ -79,7 +78,8 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_TotalBeds"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_TotalBeds"]
+                            </MudText>
                             <MudText Typo="Typo.h4">@_rooms.Sum(r => r.TotalBeds)</MudText>
                         </div>
                         <MudAvatar Color="Color.Info" Size="Size.Large">
@@ -95,7 +95,8 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_OccupancyRate"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                @L["RoomsManagement_Stats_OccupancyRate"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Warning">
                                 @GetOccupancyRate()%
                             </MudText>
@@ -112,26 +113,17 @@
     <!-- Rooms Grid/List Toggle -->
     <MudPaper Elevation="2" Class="pa-3 mb-4">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-            <MudTextField 
-                @bind-Value="_searchString"
-                Label='@L["RoomsManagement_SearchPlaceholder"]'
-                Variant="Variant.Outlined"
-                Adornment="Adornment.Start"
-                AdornmentIcon="@Icons.Material.Filled.Search"
-                Margin="Margin.Dense"
-                Class="max-w-[300px]" />
-            
+            <MudTextField @bind-Value="_searchString" Label='@L["RoomsManagement_SearchPlaceholder"]'
+                Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                Margin="Margin.Dense" Class="max-w-[300px]" />
+
             <MudButtonGroup Variant="Variant.Outlined">
-                <MudButton 
-                    Color="@(_viewMode == "grid" ? Color.Primary : Color.Default)"
-                    OnClick="@(() => _viewMode = "grid")"
-                    StartIcon="@Icons.Material.Filled.GridView">
+                <MudButton Color="@(_viewMode == "grid" ? Color.Primary : Color.Default)"
+                    OnClick="@(() => _viewMode = "grid")" StartIcon="@Icons.Material.Filled.GridView">
                     @L["RoomsManagement_View_Grid"]
                 </MudButton>
-                <MudButton 
-                    Color="@(_viewMode == "list" ? Color.Primary : Color.Default)"
-                    OnClick="@(() => _viewMode = "list")"
-                    StartIcon="@Icons.Material.Filled.ViewList">
+                <MudButton Color="@(_viewMode == "list" ? Color.Primary : Color.Default)"
+                    OnClick="@(() => _viewMode = "list")" StartIcon="@Icons.Material.Filled.ViewList">
                     @L["RoomsManagement_View_List"]
                 </MudButton>
             </MudButtonGroup>
@@ -157,41 +149,34 @@
                                 </MudText>
                             </CardHeaderContent>
                             <CardHeaderActions>
-                                <MudChip 
-                                    T="bool"
-                                    Size="Size.Small" 
-                                    Color="@(room.IsFull ? Color.Error : Color.Success)">
-                                    @(room.IsFull ? L["RoomsManagement_Card_Status_Full"] : L["RoomsManagement_Card_Status_Available"])
+                                <MudChip T="bool" Size="Size.Small" Color="@(room.IsFull ? Color.Error : Color.Success)">
+                                    @(room.IsFull ? L["RoomsManagement_Card_Status_Full"] :
+                                        L["RoomsManagement_Card_Status_Available"])
                                 </MudChip>
                             </CardHeaderActions>
                         </MudCardHeader>
-                        
+
                         <MudCardContent>
                             <!-- Beds Info -->
                             <MudStack Spacing="2">
-                                <MudProgressLinear 
-                                    Value="@GetOccupancyPercentage(room)" 
-                                    Color="@GetOccupancyColor(room)"
-                                    Size="Size.Medium"
-                                    Class="mb-2" />
-                                
+                                <MudProgressLinear Value="@GetOccupancyPercentage(room)" Color="@GetOccupancyColor(room)"
+                                    Size="Size.Medium" Class="mb-2" />
+
                                 <MudText Typo="Typo.body2">
                                     <MudIcon Icon="@Icons.Material.Filled.Hotel" Size="Size.Small" Class="mr-1" />
-                                    <strong>@room.OccupiedBeds/@room.TotalBeds</strong> @L["RoomsManagement_Card_BedsOccupied", room.OccupiedBeds, room.TotalBeds]
+                                    <strong>@room.OccupiedBeds/@room.TotalBeds</strong> @L["RoomsManagement_Card_BedsOccupied",
+                            room.OccupiedBeds, room.TotalBeds]
                                 </MudText>
-                                
+
                                 <MudText Typo="Typo.body2">
                                     <MudIcon Icon="@Icons.Material.Filled.Home" Size="Size.Small" Class="mr-1" />
                                     @room.ResidenceName
                                 </MudText>
                             </MudStack>
                         </MudCardContent>
-                        
+
                         <MudCardActions>
-                            <MudButton 
-                                Size="Size.Small" 
-                                Variant="Variant.Text"
-                                Color="Color.Primary"
+                            <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
                                 Href="@($"/rooms/{room.Id}")">
                                 @L["RoomsManagement_Card_ViewDetails"]
                             </MudButton>
@@ -199,7 +184,8 @@
                                 <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRoom(room.Id))">
                                     @L["RoomsManagement_Card_Edit"]
                                 </MudMenuItem>
-                                <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error" OnClick="@(() => DeleteRoom(room.Id))">
+                                <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
+                                    OnClick="@(() => DeleteRoom(room.Id))">
                                     @L["RoomsManagement_Card_Delete"]
                                 </MudMenuItem>
                             </MudMenu>
@@ -226,26 +212,33 @@
                 <RowTemplate>
                     <MudTd DataLabel="Room">
                         <MudStack Spacing="0">
-                            <MudText Typo="Typo.body2"><strong>@string.Format(L["RoomsManagement_Card_Room"], context.RoomNumber)</strong></MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@string.Format(L["RoomsManagement_Card_Floor"], context.Floor)</MudText>
+                            <MudText Typo="Typo.body2"><strong>@string.Format(L["RoomsManagement_Card_Room"],
+                                context.RoomNumber)</strong></MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                @string.Format(L["RoomsManagement_Card_Floor"], context.Floor)</MudText>
                         </MudStack>
                     </MudTd>
                     <MudTd DataLabel="Residence">@context.ResidenceName</MudTd>
                     <MudTd DataLabel="Type">@context.RoomType</MudTd>
                     <MudTd DataLabel="Beds">@context.OccupiedBeds/@context.TotalBeds</MudTd>
                     <MudTd DataLabel="Occupancy">
-                        <MudProgressLinear Value="@GetOccupancyPercentage(context)" Color="@GetOccupancyColor(context)" Size="Size.Small" />
+                        <MudProgressLinear Value="@GetOccupancyPercentage(context)" Color="@GetOccupancyColor(context)"
+                            Size="Size.Small" />
                     </MudTd>
                     <MudTd DataLabel="Status">
                         <MudChip T="bool" Size="Size.Small" Color="@(context.IsFull ? Color.Error : Color.Success)">
-                            @(context.IsFull ? L["RoomsManagement_Card_Status_Full"] : L["RoomsManagement_Card_Status_Available"])
+                            @(context.IsFull ? L["RoomsManagement_Card_Status_Full"] :
+                            L["RoomsManagement_Card_Status_Available"])
                         </MudChip>
                     </MudTd>
                     <MudTd DataLabel="Actions" Class="text-right">
                         <MudButtonGroup Variant="Variant.Outlined" Size="Size.Small">
-                            <MudIconButton Icon="@Icons.Material.Filled.Visibility" Color="Color.Info" Size="Size.Small" Href="@($"/rooms/{context.Id}")" />
-                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small" OnClick="@(() => EditRoom(context.Id))" />
-                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => DeleteRoom(context.Id))" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Visibility" Color="Color.Info" Size="Size.Small"
+                                Href="@($"/rooms/{context.Id}")" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small"
+                                OnClick="@(() => EditRoom(context.Id))" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small"
+                                OnClick="@(() => DeleteRoom(context.Id))" />
                         </MudButtonGroup>
                     </MudTd>
                 </RowTemplate>
@@ -256,11 +249,11 @@
 
 @code {
     private List<RoomDto> _rooms = new();
-    private IEnumerable<RoomDto> FilteredRooms => _rooms.Where(r => 
-        string.IsNullOrWhiteSpace(_searchString) || 
-        r.RoomNumber.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-        r.ResidenceName.Contains(_searchString, StringComparison.OrdinalIgnoreCase));
-    
+    private IEnumerable<RoomDto> FilteredRooms => _rooms.Where(r =>
+    string.IsNullOrWhiteSpace(_searchString) ||
+    r.RoomNumber.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+    r.ResidenceName.Contains(_searchString, StringComparison.OrdinalIgnoreCase));
+
     private bool _isLoading = true;
     private string _searchString = "";
     private string _viewMode = "grid";
@@ -275,9 +268,12 @@
         _isLoading = true;
         try
         {
-            // TODO: Implement GetAllRoomsQuery
-            await Task.Delay(500);
-            _rooms = new List<RoomDto>(); // Replace with actual query
+            _rooms = await Sender.Send(new Application.Rooms.GetAllRooms.GetAllRoomsQuery());
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading rooms: {ex.Message}", Severity.Error);
+            _rooms = new List<RoomDto>();
         }
         finally
         {
@@ -285,9 +281,16 @@
         }
     }
 
-    private void CreateRoom()
+    private async Task CreateRoom()
     {
-        Snackbar.Add(L["RoomsManagement_Snackbar_CreateNotImplemented"], Severity.Info);
+        var dialog = await DialogService.ShowAsync<Dialogs.CreateRoomDialog>(L["RoomsManagement_Button_Add"]);
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled)
+        {
+            Snackbar.Add(L["RoomsManagement_Snackbar_Created"], Severity.Success);
+            await LoadRooms();
+        }
     }
 
     private void EditRoom(Guid roomId)
@@ -298,11 +301,11 @@
     private async Task DeleteRoom(Guid roomId)
     {
         var parameters = new DialogParameters
-        {
-            ["ContentText"] = L["RoomsManagement_Dialog_ConfirmDelete_Content"],
-            ["ButtonText"] = L["RoomsManagement_Dialog_ConfirmDelete_Button"],
-            ["Color"] = Color.Error
-        };
+            {
+                ["ContentText"] = L["RoomsManagement_Dialog_ConfirmDelete_Content"],
+                ["ButtonText"] = L["RoomsManagement_Dialog_ConfirmDelete_Button"],
+                ["Color"] = Color.Error
+            };
 
         var dialog = await DialogService.ShowAsync<ConfirmDialog>(L["RoomsManagement_Dialog_ConfirmDelete_Title"], parameters);
         var result = await dialog.Result;

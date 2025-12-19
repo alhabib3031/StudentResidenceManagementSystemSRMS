@@ -1,0 +1,65 @@
+@page "/profile-rejected"
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@using SRMS.Application.Identity.Interfaces
+@using SRMS.Application.Identity.DTOs
+@inject IStringLocalizer<Resource> L
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IUserService UserService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center">
+    <MudPaper Elevation="4" Class="pa-8 rounded-3xl text-center glass-card animate-fade-in border-t-4 border-error">
+        <MudStack AlignItems="AlignItems.Center" Spacing="6">
+            <MudPaper Elevation="0"
+                Class="w-24 h-24 rounded-full bg-error/20 flex items-center justify-center shadow-lg">
+                <MudIcon Icon="@Icons.Material.Filled.Cancel" Color="Color.Error" Size="Size.Large" />
+            </MudPaper>
+
+            <MudStack Spacing="1">
+                <MudText Typo="Typo.h4" Class="font-bold text-error">Profile Rejected</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                    Unfortunately, your profile registration has been rejected.
+                </MudText>
+            </MudStack>
+
+            <MudPaper Elevation="0"
+                Class="pa-4 rounded-2xl bg-gray-50 dark:bg-gray-800/50 border border-error/20 w-full">
+                <MudText Typo="Typo.h6" Class="font-bold mb-2">Reason:</MudText>
+                <MudText Typo="Typo.body1">@(_rejectionReason ?? "No reason provided. Please contact support.")
+                </MudText>
+            </MudPaper>
+
+            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                Please review the reason above and contact the university administration for further information.
+            </MudText>
+
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="mailto:support@university.edu"
+                Class="rounded-xl w-full py-3 mt-4">
+                Contact Support
+            </MudButton>
+
+            <MudLink Href="/logout" Color="Color.Secondary">Sign Out</MudLink>
+        </MudStack>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private string? _rejectionReason;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            var email = user.Identity.Name;
+            if (email != null)
+            {
+                var userDto = await UserService.GetUserByEmailAsync(email);
+                _rejectionReason = userDto?.RejectionReason;
+            }
+        }
+    }
+}

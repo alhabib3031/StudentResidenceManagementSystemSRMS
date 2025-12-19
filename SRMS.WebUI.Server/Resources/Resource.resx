@@ -259,4 +259,161 @@
   <data name="RolesManagement.Desc.Student" xml:space="preserve">
     <value>Access to personal dashboard and submit complaints</value>
   </data>
+
+  <!-- Account Type Selection -->
+  <data name="AccountType_PageTitle" xml:space="preserve">
+    <value>Account Type Selection</value>
+  </data>
+  <data name="AccountType_Selection" xml:space="preserve">
+    <value>Choose Your Account Type</value>
+  </data>
+  <data name="AccountType_SelectMessage" xml:space="preserve">
+    <value>Please select the type of account you want to create. This will determine your access and features in the system.</value>
+  </data>
+  <data name="AccountType_Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="AccountType_Student_Description" xml:space="preserve">
+    <value>Apply for residence, manage your room, pay fees and submit maintenance requests.</value>
+  </data>
+  <data name="AccountType_ChooseStudent" xml:space="preserve">
+    <value>Select as Student</value>
+  </data>
+  <data name="AccountType_CollegeRegistrar" xml:space="preserve">
+    <value>College Registrar</value>
+  </data>
+  <data name="AccountType_Registrar_Description" xml:space="preserve">
+    <value>Manage student registrations, verify documents and coordinate with the residence management.</value>
+  </data>
+  <data name="AccountType_ChooseRegistrar" xml:space="preserve">
+    <value>Select as Registrar</value>
+  </data>
+  <!-- Profile Completion -->
+  <data name="ProfileCompletion_Student_Title" xml:space="preserve"><value>Student Profile Completion</value></data>
+  <data name="ProfileCompletion_Registrar_Title" xml:space="preserve"><value>Registrar Profile Completion</value></data>
+  <data name="ProfileCompletion_Step_Personal" xml:space="preserve"><value>Personal Info</value></data>
+  <data name="ProfileCompletion_Step_Academic" xml:space="preserve"><value>Academic Details</value></data>
+  <data name="ProfileCompletion_Step_Address" xml:space="preserve"><value>Address &amp; Emergency</value></data>
+  <data name="ProfileCompletion_Step_Documents" xml:space="preserve"><value>Documents Upload</value></data>
+  <data name="ProfileCompletion_NationalId" xml:space="preserve"><value>National ID / Passport</value></data>
+  <data name="ProfileCompletion_Nationality" xml:space="preserve"><value>Nationality</value></data>
+  <data name="ProfileCompletion_DOB" xml:space="preserve"><value>Date of Birth</value></data>
+  <data name="ProfileCompletion_Gender" xml:space="preserve"><value>Gender</value></data>
+  <data name="ProfileCompletion_University" xml:space="preserve"><value>University Name</value></data>
+  <data name="ProfileCompletion_StudentNumber" xml:space="preserve"><value>Student ID Number</value></data>
+  <data name="ProfileCompletion_Major" xml:space="preserve"><value>Major / Department</value></data>
+  <data name="ProfileCompletion_College" xml:space="preserve"><value>College</value></data>
+  <data name="ProfileCompletion_AcademicYear" xml:space="preserve"><value>Academic Year</value></data>
+  <data name="ProfileCompletion_AcademicTerm" xml:space="preserve"><value>Academic Term</value></data>
+  <data name="ProfileCompletion_EmergencyName" xml:space="preserve"><value>Emergency Contact Name</value></data>
+  <data name="ProfileCompletion_EmergencyPhone" xml:space="preserve"><value>Emergency Contact Phone</value></data>
+  <data name="ProfileCompletion_EmergencyRelation" xml:space="preserve"><value>Relationship</value></data>
+  <data name="ProfileCompletion_Doc_Birth" xml:space="preserve"><value>Birth Certificate</value></data>
+  <data name="ProfileCompletion_Doc_HighSchool" xml:space="preserve"><value>High School Certificate</value></data>
+  <data name="ProfileCompletion_Doc_Health" xml:space="preserve"><value>Health Certificate</value></data>
+  <data name="ProfileCompletion_Doc_Residence" xml:space="preserve"><value>Residence Permit (Non-Libyans)</value></data>
+  <data name="ProfileCompletion_Submit" xml:space="preserve"><value>Submit for Review</value></data>
+  <data name="ProfileCompletion_Success" xml:space="preserve"><value>Profile submitted successfully! Please wait for admin approval.</value></data>
+  <data name="ProfileCompletion_Error" xml:space="preserve"><value>Error submitting profile. Please check your data.</value></data>
+  <data name="ProfileCompletion_EmployeeNumber" xml:space="preserve"><value>Employee Number</value></data>
+  <data name="Profile_Status_PendingApproval" xml:space="preserve"><value>Pending Approval</value></data>
+  <data name="Profile_Status_Rejected" xml:space="preserve"><value>Profile Rejected</value></data>
+  <data name="Profile_RejectionReason" xml:space="preserve"><value>Reason for rejection:</value></data>
+  <data name="Profile_Status_Message_Pending" xml:space="preserve"><value>Your profile is currently under review by the administration. You will be notified once it is approved.</value></data>
+  <data name="Profile_Status_Message_Rejected" xml:space="preserve"><value>Unfortunately, your profile request has been rejected. Please review the reason below and update your profile.</value></data>
+  <data name="Profile_Button_UpdateProfile" xml:space="preserve"><value>Update Profile</value></data>
+  <data name="Admin_UserReviews_Title" xml:space="preserve"><value>Pending User Reviews</value></data>
+  <data name="Admin_UserReviews_NoPending" xml:space="preserve"><value>No pending profile requests at the moment.</value></data>
+  <data name="User_FullName" xml:space="preserve"><value>Full Name</value></data>
+  <data name="User_RegistrationDate" xml:space="preserve"><value>Registration Date</value></data>
+  <data name="User_AccountType" xml:space="preserve"><value>Requested Type</value></data>
+  <data name="Actions" xml:space="preserve"><value>Actions</value></data>
+  <data name="ViewDetails" xml:space="preserve"><value>View Details</value></data>
+  <data name="Approve" xml:space="preserve"><value>Approve</value></data>
+  <data name="Reject" xml:space="preserve"><value>Reject</value></data>
+  <data name="RejectionReason_Required" xml:space="preserve"><value>Please provide a reason for rejection.</value></data>
+  <data name="ConfirmApprove" xml:space="preserve"><value>Are you sure you want to approve this profile?</value></data>
+  <data name="ReviewDetails_Title" xml:space="preserve"><value>Review User Profile</value></data>
+  <data name="Documents" xml:space="preserve"><value>Documents</value></data>
+  <data name="Back" xml:space="preserve"><value>Back</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="Loading" xml:space="preserve"><value>Loading</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Refresh</value></data>
+  <data name="Logout" xml:space="preserve"><value>Logout</value></data>
+  <data name="Unknown" xml:space="preserve"><value>Unknown</value></data>
+  <data name="Registrar_Dashboard_Title" xml:space="preserve"><value>College Registrar Dashboard</value></data>
+  <data name="Registrar_MyCollege" xml:space="preserve"><value>My College</value></data>
+  <data name="Registrar_TotalStudents" xml:space="preserve"><value>Total Students</value></data>
+  <data name="Registrar_PendingVerification_Title" xml:space="preserve"><value>Students Pending Verification</value></data>
+  <data name="Student_AcademicStatus" xml:space="preserve"><value>Academic Status</value></data>
+  <data name="Verify" xml:space="preserve"><value>Verify</value></data>
+  <data name="Verified" xml:space="preserve"><value>Verified</value></data>
+  <data name="Profile_Tab_AcademicInfo" xml:space="preserve"><value>Academic Info</value></data>
+  <data name="Profile_Tab_WorkInfo" xml:space="preserve"><value>Work Info</value></data>
+  <data name="Profile_Tab_Documents" xml:space="preserve"><value>My Documents</value></data>
+  <data name="Profile_Header" xml:space="preserve"><value>My Profile</value></data>
+  <data name="Profile_PageTitle" xml:space="preserve"><value>Profile - SRMS</value></data>
+  <data name="Profile_MemberSince" xml:space="preserve"><value>Member Since</value></data>
+  <data name="Profile_LastLogin" xml:space="preserve"><value>Last Login</value></data>
+  <data name="Profile_Never" xml:space="preserve"><value>Never</value></data>
+  <data name="Profile_Roles" xml:space="preserve"><value>Roles</value></data>
+  <data name="Profile_Tab_PersonalInfo" xml:space="preserve"><value>Personal Info</value></data>
+  <data name="Profile_Tab_Security" xml:space="preserve"><value>Security</value></data>
+  <data name="Profile_Tab_Preferences" xml:space="preserve"><value>Preferences</value></data>
+  <data name="Profile_Label_FirstName" xml:space="preserve"><value>First Name</value></data>
+  <data name="Profile_Label_LastName" xml:space="preserve"><value>Last Name</value></data>
+  <data name="Profile_Label_Email" xml:space="preserve"><value>Email Address</value></data>
+  <data name="Profile_Label_PhoneNumber" xml:space="preserve"><value>Phone Number</value></data>
+  <data name="Profile_Label_City" xml:space="preserve"><value>City</value></data>
+  <data name="Profile_Label_Country" xml:space="preserve"><value>Country</value></data>
+  <data name="Profile_Label_Street" xml:space="preserve"><value>Street</value></data>
+  <data name="Profile_Label_PostalCode" xml:space="preserve"><value>Postal Code</value></data>
+  <data name="Profile_Label_PreferredLanguage" xml:space="preserve"><value>Preferred Language</value></data>
+  <data name="Profile_Label_EmailNotifications" xml:space="preserve"><value>Email Notifications</value></data>
+  <data name="Profile_Helper_EmailNotifications" xml:space="preserve"><value>Receive important updates and alerts via email.</value></data>
+  <data name="Profile_Label_SMSNotifications" xml:space="preserve"><value>SMS Notifications</value></data>
+  <data name="Profile_Helper_SMSNotifications" xml:space="preserve"><value>Receive urgent alerts via SMS.</value></data>
+  <data name="Profile_Label_Theme" xml:space="preserve"><value>Visual Theme</value></data>
+  <data name="Profile_Theme_Light" xml:space="preserve"><value>Light Mode</value></data>
+  <data name="Profile_Theme_Dark" xml:space="preserve"><value>Dark Mode</value></data>
+  <data name="Profile_Theme_Auto" xml:space="preserve"><value>System Default</value></data>
+  <data name="Profile_Button_SaveChanges" xml:space="preserve"><value>Save Changes</value></data>
+  <data name="Profile_Button_Saving" xml:space="preserve"><value>Saving...</value></data>
+  <data name="Profile_Button_ChangePassword" xml:space="preserve"><value>Change Password</value></data>
+  <data name="Profile_Button_Changing" xml:space="preserve"><value>Changing...</value></data>
+  <data name="Profile_Button_SavePreferences" xml:space="preserve"><value>Save Preferences</value></data>
+  <data name="Profile_Label_CurrentPassword" xml:space="preserve"><value>Current Password</value></data>
+  <data name="Profile_Label_NewPassword" xml:space="preserve"><value>New Password</value></data>
+  <data name="Profile_Label_ConfirmNewPassword" xml:space="preserve"><value>Confirm New Password</value></data>
+  <data name="Profile_Snackbar_UpdateSuccess" xml:space="preserve"><value>Profile updated successfully!</value></data>
+  <data name="Profile_Snackbar_UpdateFailed" xml:space="preserve"><value>Failed to update profile.</value></data>
+  <data name="Profile_Snackbar_PasswordMismatch" xml:space="preserve"><value>New passwords do not match.</value></data>
+  <data name="Profile_Snackbar_PasswordChangeNotImplemented" xml:space="preserve"><value>Password change is coming soon!</value></data>
+  <data name="Profile_Snackbar_UploadNotImplemented" xml:space="preserve"><value>Avatar upload is coming soon!</value></data>
+  <data name="Profile_Status_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="Profile_Status_Inactive" xml:space="preserve"><value>Inactive</value></data>
+  <data name="Profile_Error_Load" xml:space="preserve"><value>Error loading profile: {0}</value></data>
+
+  <!-- CreateRoomDialog -->
+  <data name="CreateRoomDialog_Title" xml:space="preserve"><value>Add New Room</value></data>
+  <data name="CreateRoomDialog_Residence" xml:space="preserve"><value>Select Residence</value></data>
+  <data name="CreateRoomDialog_RoomNumber" xml:space="preserve"><value>Room Number</value></data>
+  <data name="CreateRoomDialog_RoomNumber_Required" xml:space="preserve"><value>Room number is required</value></data>
+  <data name="CreateRoomDialog_Floor" xml:space="preserve"><value>Floor</value></data>
+  <data name="CreateRoomDialog_TotalBeds" xml:space="preserve"><value>Total Beds</value></data>
+  <data name="CreateRoomDialog_RoomType" xml:space="preserve"><value>Room Type</value></data>
+  <data name="CreateRoomDialog_Amenities" xml:space="preserve"><value>Room Amenities</value></data>
+  <data name="CreateRoomDialog_Amenity_Bathroom" xml:space="preserve"><value>Private Bathroom</value></data>
+  <data name="CreateRoomDialog_Amenity_AC" xml:space="preserve"><value>Air Conditioning</value></data>
+  <data name="CreateRoomDialog_Amenity_Heating" xml:space="preserve"><value>Heating</value></data>
+  <data name="CreateRoomDialog_Amenity_WiFi" xml:space="preserve"><value>WiFi</value></data>
+  <data name="CreateRoomDialog_Amenity_Desk" xml:space="preserve"><value>Desk</value></data>
+  <data name="CreateRoomDialog_Amenity_Wardrobe" xml:space="preserve"><value>Wardrobe</value></data>
+  <data name="CreateRoomDialog_Amenity_Balcony" xml:space="preserve"><value>Balcony</value></data>
+  <data name="CreateRoomDialog_Button_Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="CreateRoomDialog_Button_Create" xml:space="preserve"><value>Create Room</value></data>
+  <data name="CreateRoomDialog_Snackbar_Success" xml:space="preserve"><value>Room created successfully!</value></data>
+  <data name="CreateRoomDialog_Snackbar_Error" xml:space="preserve"><value>Failed to create room.</value></data>
+  <data name="CreateRoomDialog_Snackbar_Exception" xml:space="preserve"><value>Error: {0}</value></data>
+  <data name="RoomsManagement_Snackbar_Created" xml:space="preserve"><value>Room created successfully!</value></data>
 </root>

@@ -24,16 +24,17 @@ else
 {
     <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center py-8">
         <MudPaper Elevation="0" Class="glass-card w-full max-w-md p-8 rounded-2xl animate-fade-in">
-            
+
             <!-- Header Section -->
             <MudStack AlignItems="AlignItems.Center" Spacing="3" Class="mb-6">
                 <MudPaper Elevation="0"
                     Class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)]">
                     <MudIcon Icon="@Icons.Material.Filled.Lock" Color="Color.Surface" Size="Size.Large" />
                 </MudPaper>
-                
+
                 <MudStack Spacing="1" AlignItems="AlignItems.Center">
-                    <MudText Typo="Typo.h4" Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                    <MudText Typo="Typo.h4"
+                        Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
                         @L["Login_WelcomeBack"]
                     </MudText>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
@@ -48,53 +49,35 @@ else
 
                 <MudStack Spacing="4">
                     <!-- Email Field -->
-                    <MudTextField 
-                        @bind-Value="_loginModel.Email"
-                        Label='@(L["Login_Label_EmailAddress"])'
-                        Variant="Variant.Outlined"
-                        InputType="InputType.Email"
-                        Adornment="Adornment.Start"
-                        AdornmentIcon="@Icons.Material.Filled.Email"
-                        Required="true"
-                        Class="rounded-xl"
+                    <MudTextField @bind-Value="_loginModel.Email" Label='@(L["Login_Label_EmailAddress"])'
+                        Variant="Variant.Outlined" InputType="InputType.Email" Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Email" Required="true" Class="rounded-xl"
                         UserAttributes="@(new Dictionary<string, object> { { "name", "Email" } })" />
 
                     <!-- Password Field -->
-                    <MudTextField 
-                        @bind-Value="_loginModel.Password"
-                        Label='@(L["Login_Label_Password"])'
-                        Variant="Variant.Outlined"
-                        InputType="@(_showPassword ? InputType.Text : InputType.Password)"
+                    <MudTextField @bind-Value="_loginModel.Password" Label='@(L["Login_Label_Password"])'
+                        Variant="Variant.Outlined" InputType="@(_showPassword ? InputType.Text : InputType.Password)"
                         Adornment="Adornment.End"
                         AdornmentIcon="@(_showPassword ? Icons.Material.Filled.Visibility : Icons.Material.Filled.VisibilityOff)"
-                        OnAdornmentClick="TogglePasswordVisibility"
-                        Required="true"
-                        Class="rounded-xl"
+                        OnAdornmentClick="TogglePasswordVisibility" Required="true" Class="rounded-xl"
                         UserAttributes="@(new Dictionary<string, object> { { "name", "Password" } })" />
 
                     <!-- Remember Me & Forgot Password -->
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <MudCheckBox 
-                            @bind-Value="_loginModel.RememberMe" 
-                            Color="Color.Primary"
-                            Dense="true"
+                        <MudCheckBox @bind-Value="_loginModel.RememberMe" Color="Color.Primary" Dense="true"
                             UserAttributes="@(new Dictionary<string, object> { { "name", "RememberMe" }, { "value", "true" } })">
                             <MudText Typo="Typo.body2">@(L["Login_RememberMe"])</MudText>
-                        </MudCheckBox>
+                            </MudCheckBox>
 
-                        <MudLink Href="/forgot-password" Typo="Typo.body2" Class="text-purple-500 hover:text-purple-600 transition-colors">
-                            @(L["Login_ForgotPassword"])
+                            <MudLink Href="/forgot-password" Typo="Typo.body2"
+                                Class="text-purple-500 hover:text-purple-600 transition-colors">
+                                @(L["Login_ForgotPassword"])
                         </MudLink>
                     </MudStack>
 
                     <!-- Login Button -->
-                    <MudButton 
-                        ButtonType="ButtonType.Submit"
-                        Variant="Variant.Filled"
-                        Color="Color.Primary"
-                        FullWidth="true"
-                        Size="Size.Large"
-                        StartIcon="@Icons.Material.Filled.Login"
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
+                        FullWidth="true" Size="Size.Large" StartIcon="@Icons.Material.Filled.Login"
                         Class="btn-modern btn-primary h-12 rounded-xl font-semibold">
                         @(L["Login_Button_SignIn"])
                     </MudButton>
@@ -103,17 +86,13 @@ else
                     <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2" Class="my-2">
                         <MudDivider Class="flex-1" />
                         <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Login_OR"])</MudText>
-                        <MudDivider Class="flex-1" />
-                    </MudStack>
+                            <MudDivider Class="flex-1" />
+                        </MudStack>
 
-                    <!-- Google Login -->
-                    <MudButton 
-                        Href="/api/auth/google-login"
-                        Variant="Variant.Outlined"
-                        FullWidth="true"
-                        StartIcon="@Icons.Custom.Brands.Google"
-                        Class="rounded-xl h-12 font-semibold border-2 hover-lift">
-                        @(L["Login_Button_SignInWithGoogle"])
+                        <!-- Google Login -->
+                        <MudButton Href="/api/auth/google-login" Variant="Variant.Outlined" FullWidth="true"
+                            StartIcon="@Icons.Custom.Brands.Google" Class="rounded-xl h-12 font-semibold border-2 hover-lift">
+                            @(L["Login_Button_SignInWithGoogle"])
                     </MudButton>
 
                     <!-- Register Link -->
@@ -121,12 +100,8 @@ else
                         <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-2">
                             @(L["Login_Question_NoAccount"])
                         </MudText>
-                        <MudButton 
-                            Href="/register"
-                            Variant="Variant.Text"
-                            Color="Color.Primary"
-                            StartIcon="@Icons.Material.Filled.PersonAdd"
-                            Class="font-semibold">
+                        <MudButton Href="/register" Variant="Variant.Text" Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.PersonAdd" Class="font-semibold">
                             @(L["Login_CreateAccount"])
                         </MudButton>
                     </MudPaper>
@@ -134,8 +109,8 @@ else
                     <!-- Test Account Info -->
                     <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Dense="true" Class="rounded-xl">
                         <MudText Typo="Typo.caption" Class="font-semibold mb-1">@(L["Login_TestAccountLabel"])</MudText>
-                        <MudText Typo="Typo.caption" Class="font-mono">
-                            @(L["Login_TestAccountCredentials"])
+                            <MudText Typo="Typo.caption" Class="font-mono">
+                                @(L["Login_TestAccountCredentials"])
                         </MudText>
                     </MudAlert>
                 </MudStack>
@@ -161,7 +136,50 @@ else
 
             if (user.Identity?.IsAuthenticated == true)
             {
+                // Check Profile Status from claims or fetch user info
+                // Note: UserDto in LoginResponse might not be enough if we just refreshed the page.
+                // But during login, it's available. For refreshed pages, we might need a claim.
+
+                var profileStatusClaim = user.Claims.FirstOrDefault(c => c.Type == "ProfileStatus")?.Value;
+
                 var role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+                if (profileStatusClaim == "PendingAccountTypeSelection")
+                {
+                    Navigation.NavigateTo("/account-type-selection", replace: true);
+                    return;
+                }
+
+                if (profileStatusClaim == "PendingApproval")
+                {
+                    Navigation.NavigateTo("/pending-approval", replace: true);
+                    return;
+                }
+
+                if (profileStatusClaim == "PendingProfileCompletion")
+                {
+                    var completionUrl = role switch
+                    {
+                        "Student" => "/complete-student-profile",
+                        "CollegeRegistrar" => "/complete-registrar-profile",
+                        _ => "/account-type-selection"
+                    };
+
+                    Navigation.NavigateTo(completionUrl, replace: true);
+                    return;
+                }
+
+                if (profileStatusClaim == "Rejected")
+                {
+                    Navigation.NavigateTo("/profile-rejected", replace: true);
+                    return;
+                }
+
+                if (profileStatusClaim == "Suspended")
+                {
+                    Navigation.NavigateTo("/account-suspended", replace: true);
+                    return;
+                }
 
                 var redirectUrl = role switch
                 {
@@ -169,11 +187,13 @@ else
                     "Admin" => "/admin",
                     "Manager" => "/manager",
                     "Student" => "/student",
+                    "CollegeRegistrar" => "/registrar",
                     _ => "/"
                 };
 
                 Navigation.NavigateTo(redirectUrl, replace: true);
                 return;
+
             }
 
             if (!string.IsNullOrEmpty(Error))

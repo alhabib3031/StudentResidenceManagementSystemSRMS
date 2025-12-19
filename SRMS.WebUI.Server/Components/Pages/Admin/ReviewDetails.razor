@@ -1,0 +1,289 @@
+@page "/admin/user-reviews/{UserId:guid}"
+@using SRMS.Application.Identity.Interfaces
+@using SRMS.Application.Identity.DTOs
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@using Microsoft.EntityFrameworkCore
+@inject IUserService UserService
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IStringLocalizer<Resource> L
+@attribute [Authorize(Roles = "SuperRoot,Admin")]
+@rendermode InteractiveServer
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8 mb-16">
+    @if (_loading)
+    {
+        <MudStack AlignItems="AlignItems.Center" Class="mt-20">
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+            <MudText Typo="Typo.h6">@L["Loading"]...</MudText>
+        </MudStack>
+    }
+    else if (_details == null)
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Class="rounded-xl">User not found or no details available.</MudAlert>
+    }
+    else
+    {
+        <MudStack Spacing="6">
+            <MudLink Href="/admin/user-reviews" Underline="Underline.None" Class="mb-4 d-flex align-center">
+                <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Class="mr-2" /> @L["Back"]
+            </MudLink>
+
+            <MudPaper Elevation="4" Class="pa-8 rounded-3xl glass-card">
+                <MudText Typo="Typo.h4" Class="font-bold mb-6 text-gradient">@L["ReviewDetails_Title"]</MudText>
+
+                <MudGrid>
+                    <!-- User Basic Info -->
+                    <MudItem xs="12" md="4">
+                        <MudStack AlignItems="AlignItems.Center" Spacing="4" Class="pa-4 rounded-2xl bg-white/5 border border-white/10">
+                            <MudAvatar Color="Color.Primary" Style="height:140px; width:140px; font-size:4rem;" Class="shadow-xl">@_details.User.FirstName[0]</MudAvatar>
+                            <MudStack AlignItems="AlignItems.Center" Spacing="0">
+                                <MudText Typo="Typo.h5" Class="font-bold text-center">@_details.User.FullName</MudText>
+                                <MudText Typo="Typo.body1" Color="Color.Secondary">@_details.User.Email</MudText>
+                            </MudStack>
+                            <MudChip T="string" Color='(_details.StudentDetails != null ? Color.Secondary : Color.Info)' Variant="Variant.Filled" Class="px-6 py-2">
+                                @(_details.StudentDetails != null ? L["AccountType_Student"] : L["AccountType_CollegeRegistrar"])
+                            </MudChip>
+                        </MudStack>
+                    </MudItem>
+
+                    <!-- Type Specific Details -->
+                    <MudItem xs="12" md="8">
+                        @if (_details.StudentDetails != null)
+                        {
+                            <MudGrid>
+                                <MudItem xs="12" sm="6">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_NationalId"]</MudText>
+                                    <MudText Typo="Typo.h6">@_details.StudentDetails.NationalId</MudText>
+                                </MudItem>
+                                <MudItem xs="12" sm="6">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_Nationality"]</MudText>
+                                    <MudText Typo="Typo.h6">@_details.StudentDetails.Nationality</MudText>
+                                </MudItem>
+                                <MudItem xs="12" sm="6">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_DOB"]</MudText>
+                                    <MudText Typo="Typo.h6">@_details.StudentDetails.DateOfBirth?.ToString("d")</MudText>
+                                </MudItem>
+                                <MudItem xs="12" sm="6">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_StudentNumber"]</MudText>
+                                    <MudText Typo="Typo.h6">@_details.StudentDetails.StudentNumber</MudText>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudDivider Class="my-4 opacity-10" />
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudText Typo="Typo.subtitle1" Class="font-bold text-primary">@L["ProfileCompletion_Step_Academic"]</MudText>
+                                </MudItem>
+                                <MudItem xs="12" sm="6">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_University"]</MudText>
+                                    <MudText Typo="Typo.body1" Class="font-medium">@_details.StudentDetails.UniversityName</MudText>
+                                </MudItem>
+                                <MudItem xs="12" sm="6">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_College"]</MudText>
+                                    <MudText Typo="Typo.body1" Class="font-medium">@_details.StudentDetails.CollegeName</MudText>
+                                </MudItem>
+                                <MudItem xs="12" sm="6">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_Major"]</MudText>
+                                    <MudText Typo="Typo.body1" Class="font-medium">@_details.StudentDetails.Major</MudText>
+                                </MudItem>
+                                <MudItem xs="12" sm="6">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_AcademicYear"]</MudText>
+                                    <MudText Typo="Typo.body1" Class="font-medium">@_details.StudentDetails.AcademicYear</MudText>
+                                </MudItem>
+                            </MudGrid>
+                        }
+                        else if (_details.RegistrarDetails != null)
+                        {
+                            <MudGrid>
+                                <MudItem xs="12">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_EmployeeNumber"]</MudText>
+                                    <MudText Typo="Typo.h6">@_details.RegistrarDetails.EmployeeNumber</MudText>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudText Typo="Typo.caption" Color="Color.Default" Class="font-bold uppercase opacity-50">@L["ProfileCompletion_College"]</MudText>
+                                    <MudText Typo="Typo.h6">@_details.RegistrarDetails.CollegeName</MudText>
+                                </MudItem>
+                            </MudGrid>
+                        }
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+
+            <!-- Documents -->
+            @if (_details.StudentDetails != null)
+            {
+                <MudPaper Elevation="4" Class="pa-8 rounded-3xl glass-card">
+                    <MudText Typo="Typo.h5" Class="font-bold mb-6 text-primary">@L["Documents"]</MudText>
+                    <MudGrid>
+                        <MudItem xs="12" sm="4">
+                            <MudCard Class="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all">
+                                <MudCardContent>
+                                    <MudStack AlignItems="AlignItems.Center" Spacing="3">
+                                        <MudIcon Icon="@Icons.Material.Filled.Badge" Size="Size.Large" Color="Color.Primary" />
+                                        <MudText Typo="Typo.subtitle1" Class="font-bold text-center">@L["ProfileCompletion_Doc_Birth"]</MudText>
+                                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" 
+                                            StartIcon="@Icons.Material.Filled.OpenInNew"
+                                            Href="@_details.StudentDetails.BirthCertificatePath" Target="_blank"
+                                            FullWidth="true"
+                                            Disabled='string.IsNullOrEmpty(_details.StudentDetails.BirthCertificatePath)'
+                                            Class="rounded-xl">
+                                            @L["ViewDetails"]
+                                        </MudButton>
+                                    </MudStack>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudCard Class="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all">
+                                <MudCardContent>
+                                    <MudStack AlignItems="AlignItems.Center" Spacing="3">
+                                        <MudIcon Icon="@Icons.Material.Filled.HistoryEdu" Size="Size.Large" Color="Color.Primary" />
+                                        <MudText Typo="Typo.subtitle1" Class="font-bold text-center">@L["ProfileCompletion_Doc_HighSchool"]</MudText>
+                                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" 
+                                            StartIcon="@Icons.Material.Filled.OpenInNew"
+                                            Href="@_details.StudentDetails.HighSchoolCertificatePath" Target="_blank"
+                                            FullWidth="true"
+                                            Disabled='string.IsNullOrEmpty(_details.StudentDetails.HighSchoolCertificatePath)'
+                                            Class="rounded-xl">
+                                            @L["ViewDetails"]
+                                        </MudButton>
+                                    </MudStack>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudCard Class="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all">
+                                <MudCardContent>
+                                    <MudStack AlignItems="AlignItems.Center" Spacing="3">
+                                        <MudIcon Icon="@Icons.Material.Filled.HealthAndSafety" Size="Size.Large" Color="Color.Primary" />
+                                        <MudText Typo="Typo.subtitle1" Class="font-bold text-center">@L["ProfileCompletion_Doc_Health"]</MudText>
+                                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" 
+                                            StartIcon="@Icons.Material.Filled.OpenInNew"
+                                            Href="@_details.StudentDetails.HealthCertificatePath" Target="_blank"
+                                            FullWidth="true"
+                                            Disabled='string.IsNullOrEmpty(_details.StudentDetails.HealthCertificatePath)'
+                                            Class="rounded-xl">
+                                            @L["ViewDetails"]
+                                        </MudButton>
+                                    </MudStack>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    </MudGrid>
+                </MudPaper>
+            }
+
+            <!-- Action Buttons -->
+            <MudStack Row="true" Spacing="4" Class="justify-end mt-4">
+                <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Block" 
+                    OnClick="OpenRejectDialog" Class="rounded-2xl py-4 px-10 shadow-lg" Disabled="_processing">
+                    @L["Reject"]
+                </MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.CheckCircle" 
+                    OnClick="ApproveProfile" Class="rounded-2xl py-4 px-10 shadow-lg" Disabled="_processing">
+                     @if (_processing) { <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2"/> }
+                    @L["Approve"]
+                </MudButton>
+            </MudStack>
+        </MudStack>
+    }
+</MudContainer>
+
+<MudDialog @bind-IsVisible="_rejectDialogVisible" Options="new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, CloseButton = true }">
+    <TitleContent>
+        <MudText Typo="Typo.h6" Class="font-bold">@L["Reject"]</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText Class="mb-4">@L["RejectionReason_Required"]</MudText>
+        <MudTextField T="string" Label='@L["Profile_RejectionReason"]' @bind-Value="_rejectionReason" 
+            Lines="3" Variant="Variant.Outlined" Required="true" Class="rounded-xl" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick='() => _rejectDialogVisible = false' Class="rounded-xl">@L["Cancel"]</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="ConfirmReject" Class="rounded-xl px-6">@L["Reject"]</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter] public Guid UserId { get; set; }
+    private UserReviewDetailsDto? _details;
+    private bool _loading = true;
+    private bool _processing = false;
+    private bool _rejectDialogVisible = false;
+    private string _rejectionReason = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _loading = true;
+        _details = await UserService.GetUserReviewDetailsAsync(UserId);
+        _loading = false;
+    }
+
+    private async Task ApproveProfile()
+    {
+        bool? result = await DialogService.ShowMessageBox(
+            L["Approve"], 
+            (MarkupString)L["ConfirmApprove"].Value, 
+            yesText: L["Approve"].Value, cancelText: L["Cancel"].Value);
+
+        if (result == true)
+        {
+            _processing = true;
+            try
+            {
+                var success = await UserService.ApproveProfileAsync(UserId);
+                if (success)
+                {
+                    Snackbar.Add("Profile approved successfully.", Severity.Success);
+                    Navigation.NavigateTo("/admin/user-reviews");
+                }
+                else
+                {
+                    Snackbar.Add("Approval failed.", Severity.Error);
+                }
+            }
+            finally
+            {
+                _processing = false;
+            }
+        }
+    }
+
+    private void OpenRejectDialog()
+    {
+        _rejectionReason = string.Empty;
+        _rejectDialogVisible = true;
+    }
+
+    private async Task ConfirmReject()
+    {
+        if (string.IsNullOrWhiteSpace(_rejectionReason))
+        {
+            Snackbar.Add(L["RejectionReason_Required"], Severity.Warning);
+            return;
+        }
+
+        _processing = true;
+        try
+        {
+            var success = await UserService.RejectProfileAsync(UserId, _rejectionReason);
+            if (success)
+            {
+                Snackbar.Add("Profile rejected.", Severity.Info);
+                _rejectDialogVisible = false;
+                Navigation.NavigateTo("/admin/user-reviews");
+            }
+        }
+        finally
+        {
+            _processing = false;
+        }
+    }
+}

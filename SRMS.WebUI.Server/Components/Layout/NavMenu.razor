@@ -16,7 +16,7 @@
         Style="font-weight: 700; background: linear-gradient(135deg, var(--primary-400) 0%, var(--secondary-500) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         @L["Brand_Title"]
     </MudText>
-    <MudText Typo="Typo.caption" Align="Align.Center"  Color="Color.Secondary">
+    <MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Secondary">
         @L["Brand_Subtitle"]
     </MudText>
 </MudPaper>
@@ -27,12 +27,16 @@
             <!-- SuperRoot Menu -->
             <AuthorizeView Roles="SuperRoot">
                 <MudNavGroup Title='@(L["SuperRootPanel"])' Icon="@Icons.Material.Filled.Shield" IconColor="Color.Error"
-                     Expanded="true" Class="modern-nav-group">
+                    Expanded="true" Class="modern-nav-group">
                     <MudNavLink Href="/superroot" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
                         @L["Dashboard"]
                     </MudNavLink>
                     <MudNavLink Href="/superroot/users" Icon="@Icons.Material.Filled.People" Class="modern-nav-link">
                         @L["ManageUsers"]
+                    </MudNavLink>
+                    <MudNavLink Href="/admin/user-reviews" Icon="@Icons.Material.Filled.RateReview"
+                        Class="modern-nav-link">
+                        @L["Admin_UserReviews_Title"]
                     </MudNavLink>
                     <MudNavLink Href="/superroot/roles" Icon="@Icons.Material.Filled.AdminPanelSettings"
                         Class="modern-nav-link">
@@ -51,7 +55,7 @@
             <!-- Admin Menu -->
             <AuthorizeView Roles="Admin,SuperRoot">
                 <MudNavGroup Title='@(L["Administration"])' Icon="@Icons.Material.Filled.AdminPanelSettings"
-                      IconColor="Color.Primary" Expanded="@IsAdmin()" Class="modern-nav-group">
+                    IconColor="Color.Primary" Expanded="@IsAdmin()" Class="modern-nav-group">
                     <MudNavLink Href="/admin" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
                         @L["AdminDashboard"]
                     </MudNavLink>
@@ -66,13 +70,25 @@
                     <MudNavLink Href="/admin/reports" Icon="@Icons.Material.Filled.Assessment" Class="modern-nav-link">
                         @L["Reports"]
                     </MudNavLink>
+                    <MudNavLink Href="/admin/colleges" Icon="@Icons.Material.Filled.AccountBalance"
+                        Class="modern-nav-link">
+                        @L["Admin_Colleges_Title"]
+                    </MudNavLink>
+                    <MudNavLink Href="/admin/nationalities" Icon="@Icons.Material.Filled.Public"
+                        Class="modern-nav-link">
+                        Nationalities
+                    </MudNavLink>
+                    <MudNavLink Href="/admin/user-reviews" Icon="@Icons.Material.Filled.RateReview"
+                        Class="modern-nav-link">
+                        @L["Admin_UserReviews_Title"]
+                    </MudNavLink>
                 </MudNavGroup>
             </AuthorizeView>
 
             <!-- Manager Menu -->
             <AuthorizeView Roles="Manager,Admin,SuperRoot">
-                <MudNavGroup Title='@(L["Management"])' Icon="@Icons.Material.Filled.ManageAccounts" IconColor="Color.Info"
-                      Expanded="@IsManager()" Class="modern-nav-group">
+                <MudNavGroup Title='@(L["Management"])' Icon="@Icons.Material.Filled.ManageAccounts"
+                    IconColor="Color.Info" Expanded="@IsManager()" Class="modern-nav-group">
                     <MudNavLink Href="/manager" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
                         @L["ManagerDashboard"]
                     </MudNavLink>
@@ -91,14 +107,27 @@
                 </MudNavGroup>
             </AuthorizeView>
 
+            <!-- College Registrar Menu -->
+            <AuthorizeView Roles="CollegeRegistrar">
+                <MudNavGroup Title='@(L["Registrar_Dashboard_Title"])' Icon="@Icons.Material.Filled.AccountBalance"
+                    IconColor="Color.Info" Expanded="true" Class="modern-nav-group">
+                    <MudNavLink Href="/registrar" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
+                        @L["Dashboard"]
+                    </MudNavLink>
+                    <MudNavLink Href="/profile" Icon="@Icons.Material.Filled.Person" Class="modern-nav-link">
+                        @L["MyProfile"]
+                    </MudNavLink>
+                </MudNavGroup>
+            </AuthorizeView>
+
             <!-- Student Menu -->
             <AuthorizeView Roles="Student">
-                <MudNavGroup Title='@(L["StudentPortalLabel"])' Icon="@Icons.Material.Filled.School" IconColor="Color.Success"
-                      Expanded="true" Class="modern-nav-group">
+                <MudNavGroup Title='@(L["StudentPortalLabel"])' Icon="@Icons.Material.Filled.School"
+                    IconColor="Color.Success" Expanded="true" Class="modern-nav-group">
                     <MudNavLink Href="/student" Icon="@Icons.Material.Filled.Dashboard" Class="modern-nav-link">
                         @L["MyDashboard"]
                     </MudNavLink>
-                    <MudNavLink Href="/student/profile" Icon="@Icons.Material.Filled.Person" Class="modern-nav-link">
+                    <MudNavLink Href="/profile" Icon="@Icons.Material.Filled.Person" Class="modern-nav-link">
                         @L["MyProfile"]
                     </MudNavLink>
                     <MudNavLink Href="/student/room" Icon="@Icons.Material.Filled.MeetingRoom" Class="modern-nav-link">
@@ -114,14 +143,15 @@
             </AuthorizeView>
 
             <!-- Common Links -->
-            @* <MudDivider Class="my-3" Style="border-color: var(--border-color);" /> *@
-            @* *@
-            @* <MudNavLink Href="/notifications" Icon="@Icons.Material.Filled.Notifications" Class="modern-nav-link"> *@
-            @*     <MudPaper Class="flex align-items-center justify-space-between w-100"> *@
-            @*         <span>Notifications</span> *@
-            @*         <MudBadge Content="@_notificationCount" Color="Color.Error" Overlap="false" Class="animate-pulse" Visible="@(_notificationCount > 0)" /> *@
-            @*     </MudPaper> *@
-            @* </MudNavLink> *@
+            <MudDivider Class="my-3" Style="border-color: var(--border-color);" />
+
+            <MudNavLink Href="/notifications" Icon="@Icons.Material.Filled.Notifications" Class="modern-nav-link">
+                <div class="d-flex align-center justify-space-between w-100">
+                    <span>@L["Notifications_Header"]</span>
+                    <MudBadge Content="@_notificationCount" Color="Color.Error" Overlap="false" Class="animate-pulse"
+                        Visible="@(_notificationCount > 0)" />
+                </div>
+            </MudNavLink>
 
             <MudNavLink Href="/help" Icon="@Icons.Material.Filled.Help" Class="modern-nav-link">
                 @L["HelpSupport"]
@@ -206,25 +236,24 @@
     [CascadingParameter]
     private Task<AuthenticationState>? AuthenticationStateTask { get; set; }
 
-    // private int _notificationCount = 0;
+    private int _notificationCount = 0;
 
     protected override async Task OnInitializedAsync()
     {
-        //if (AuthenticationStateTask != null)
-        //{
-         //   var authState = await AuthenticationStateTask;
-          //  var user = authState.User;
+        if (AuthenticationStateTask != null)
+        {
+            var authState = await AuthenticationStateTask;
+            var user = authState.User;
 
-           // if (user.Identity?.IsAuthenticated == true)
-           // {
-               // var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-             //   if (Guid.TryParse(userIdStr, out var userId))
-              //  {
-                    // _notificationCount = await NotificationService.GetUnreadCountAsync(userId);
-           //     }
-           // }
-        //}
-        await Task.CompletedTask;
+            if (user.Identity?.IsAuthenticated == true)
+            {
+                var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (Guid.TryParse(userIdStr, out var userId))
+                {
+                    _notificationCount = await NotificationService.GetUnreadCountAsync(userId);
+                }
+            }
+        }
     }
 
     private bool IsAdmin()

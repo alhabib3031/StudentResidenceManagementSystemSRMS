@@ -35,6 +35,67 @@ namespace SRMS.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Colleges",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    StudySystem = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Colleges", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ComplaintTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ComplaintTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FeesConfigurations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Nationality = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    StudyType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsMonthly = table.Column<bool>(type: "bit", nullable: false),
+                    FeeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    FeeCurrency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FeesConfigurations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Managers",
                 columns: table => new
                 {
@@ -65,6 +126,26 @@ namespace SRMS.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Managers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Nationalities",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NameEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CountryCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nationalities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,6 +184,41 @@ namespace SRMS.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Notifications", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Residences",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    AddressCity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    AddressStreet = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    AddressState = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    AddressPostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    AddressCountry = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    TotalCapacity = table.Column<int>(type: "int", nullable: false),
+                    AvailableCapacity = table.Column<int>(type: "int", nullable: false),
+                    HasWifi = table.Column<bool>(type: "bit", nullable: false),
+                    HasParking = table.Column<bool>(type: "bit", nullable: false),
+                    HasLaundry = table.Column<bool>(type: "bit", nullable: false),
+                    HasGym = table.Column<bool>(type: "bit", nullable: false),
+                    HasSwimmingPool = table.Column<bool>(type: "bit", nullable: false),
+                    HasSecurity = table.Column<bool>(type: "bit", nullable: false),
+                    HasKitchen = table.Column<bool>(type: "bit", nullable: false),
+                    HasStudyRoom = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Residences", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,8 +262,11 @@ namespace SRMS.Infrastructure.Migrations
                     LoginCount = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProfileStatus = table.Column<int>(type: "int", nullable: false),
+                    RejectionReason = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RegistrarId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     GoogleId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GoogleAccessToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GoogleRefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -176,31 +295,17 @@ namespace SRMS.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Residences",
+                name: "CollegeRegistrars",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    AddressCity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    AddressStreet = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    AddressState = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    AddressPostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    AddressCountry = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    TotalCapacity = table.Column<int>(type: "int", nullable: false),
-                    AvailableCapacity = table.Column<int>(type: "int", nullable: false),
-                    MonthlyRent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
-                    ManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    HasWifi = table.Column<bool>(type: "bit", nullable: false),
-                    HasParking = table.Column<bool>(type: "bit", nullable: false),
-                    HasLaundry = table.Column<bool>(type: "bit", nullable: false),
-                    HasGym = table.Column<bool>(type: "bit", nullable: false),
-                    HasSwimmingPool = table.Column<bool>(type: "bit", nullable: false),
-                    HasSecurity = table.Column<bool>(type: "bit", nullable: false),
-                    HasKitchen = table.Column<bool>(type: "bit", nullable: false),
-                    HasStudyRoom = table.Column<bool>(type: "bit", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployeeNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
+                    CollegeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
@@ -210,13 +315,162 @@ namespace SRMS.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Residences", x => x.Id);
+                    table.PrimaryKey("PK_CollegeRegistrars", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Residences_Managers_ManagerId",
+                        name: "FK_CollegeRegistrars_Colleges_CollegeId",
+                        column: x => x.CollegeId,
+                        principalTable: "Colleges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Majors",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    CollegeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Majors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Majors_Colleges_CollegeId",
+                        column: x => x.CollegeId,
+                        principalTable: "Colleges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    PhoneCountryCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    AddressCity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    AddressStreet = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    AddressState = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    AddressPostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    AddressCountry = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ImagePath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    NationalId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Nationality = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DegreeType = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    BirthCertificatePath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    HighSchoolCertificatePath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    HealthCertificatePath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    ResidencePermitPath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    UniversityName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    StudentNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Major = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CollegeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    EmergencyContactName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    EmergencyContactPhone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
+                    EmergencyContactPhoneCountryCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    EmergencyContactRelation = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    AcademicYear = table.Column<int>(type: "int", nullable: false),
+                    AcademicTerm = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Students_Colleges_CollegeId",
+                        column: x => x.CollegeId,
+                        principalTable: "Colleges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ResidenceManagers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ResidenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssignmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ResidenceManagers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ResidenceManagers_Managers_ManagerId",
                         column: x => x.ManagerId,
                         principalTable: "Managers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ResidenceManagers_Residences_ResidenceId",
+                        column: x => x.ResidenceId,
+                        principalTable: "Residences",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rooms",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Floor = table.Column<int>(type: "int", nullable: false),
+                    RoomType = table.Column<int>(type: "int", nullable: false),
+                    HasPrivateBathroom = table.Column<bool>(type: "bit", nullable: false),
+                    HasAirConditioning = table.Column<bool>(type: "bit", nullable: false),
+                    HasHeating = table.Column<bool>(type: "bit", nullable: false),
+                    HasWifi = table.Column<bool>(type: "bit", nullable: false),
+                    HasDesk = table.Column<bool>(type: "bit", nullable: false),
+                    HasWardrobe = table.Column<bool>(type: "bit", nullable: false),
+                    HasBalcony = table.Column<bool>(type: "bit", nullable: false),
+                    TotalBeds = table.Column<int>(type: "int", nullable: false),
+                    OccupiedBeds = table.Column<int>(type: "int", nullable: false),
+                    MonthlyRent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
+                    ResidenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rooms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rooms_Residences_ResidenceId",
+                        column: x => x.ResidenceId,
+                        principalTable: "Residences",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -326,71 +580,14 @@ namespace SRMS.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rooms",
+                name: "Reservations",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoomNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Floor = table.Column<int>(type: "int", nullable: false),
-                    RoomType = table.Column<int>(type: "int", nullable: false),
-                    HasPrivateBathroom = table.Column<bool>(type: "bit", nullable: false),
-                    HasAirConditioning = table.Column<bool>(type: "bit", nullable: false),
-                    HasHeating = table.Column<bool>(type: "bit", nullable: false),
-                    HasWifi = table.Column<bool>(type: "bit", nullable: false),
-                    HasDesk = table.Column<bool>(type: "bit", nullable: false),
-                    HasWardrobe = table.Column<bool>(type: "bit", nullable: false),
-                    HasBalcony = table.Column<bool>(type: "bit", nullable: false),
-                    TotalBeds = table.Column<int>(type: "int", nullable: false),
-                    OccupiedBeds = table.Column<int>(type: "int", nullable: false),
-                    ResidenceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rooms", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Rooms_Residences_ResidenceId",
-                        column: x => x.ResidenceId,
-                        principalTable: "Residences",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    PhoneCountryCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
-                    AddressCity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    AddressStreet = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    AddressState = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    AddressPostalCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    AddressCountry = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ImagePath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    NationalId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    UniversityName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    StudentNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Major = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    AcademicYear = table.Column<int>(type: "int", nullable: true),
-                    EmergencyContactName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    EmergencyContactPhone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    EmergencyContactPhoneCountryCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
-                    EmergencyContactRelation = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RoomAssignedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ManagerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -401,19 +598,19 @@ namespace SRMS.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Students", x => x.Id);
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Managers_ManagerId",
-                        column: x => x.ManagerId,
-                        principalTable: "Managers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
-                    table.ForeignKey(
-                        name: "FK_Students_Rooms_RoomId",
+                        name: "FK_Reservations_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -424,8 +621,8 @@ namespace SRMS.Infrastructure.Migrations
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     ComplaintNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Category = table.Column<int>(type: "int", nullable: false),
+                    ReservationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ComplaintTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     AssignedTo = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -446,9 +643,15 @@ namespace SRMS.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Complaints", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Complaints_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
+                        name: "FK_Complaints_ComplaintTypes_ComplaintTypeId",
+                        column: x => x.ComplaintTypeId,
+                        principalTable: "ComplaintTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Complaints_Reservations_ReservationId",
+                        column: x => x.ReservationId,
+                        principalTable: "Reservations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -458,7 +661,7 @@ namespace SRMS.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReservationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
@@ -484,9 +687,9 @@ namespace SRMS.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
+                        name: "FK_Payments_Reservations_ReservationId",
+                        column: x => x.ReservationId,
+                        principalTable: "Reservations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -512,20 +715,33 @@ namespace SRMS.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CollegeRegistrars_CollegeId",
+                table: "CollegeRegistrars",
+                column: "CollegeId",
+                unique: true,
+                filter: "[CollegeId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CollegeRegistrars_Email",
+                table: "CollegeRegistrars",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Complaints_AssignedTo",
                 table: "Complaints",
                 column: "AssignedTo");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Complaints_Category",
-                table: "Complaints",
-                column: "Category");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Complaints_ComplaintNumber",
                 table: "Complaints",
                 column: "ComplaintNumber",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Complaints_ComplaintTypeId",
+                table: "Complaints",
+                column: "ComplaintTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Complaints_CreatedAt",
@@ -543,6 +759,11 @@ namespace SRMS.Infrastructure.Migrations
                 column: "Priority");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Complaints_ReservationId",
+                table: "Complaints",
+                column: "ReservationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Complaints_Status",
                 table: "Complaints",
                 column: "Status");
@@ -553,9 +774,21 @@ namespace SRMS.Infrastructure.Migrations
                 columns: new[] { "Status", "Priority" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Complaints_StudentId",
-                table: "Complaints",
-                column: "StudentId");
+                name: "IX_ComplaintTypes_Name",
+                table: "ComplaintTypes",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FeesConfigurations_Nationality_StudyType",
+                table: "FeesConfigurations",
+                columns: new[] { "Nationality", "StudyType" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Majors_CollegeId",
+                table: "Majors",
+                column: "CollegeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Managers_CreatedAt",
@@ -607,25 +840,41 @@ namespace SRMS.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_Reservation_Period",
+                table: "Payments",
+                columns: new[] { "ReservationId", "Month", "Year" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_ReservationId",
+                table: "Payments",
+                column: "ReservationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Payments_Status",
                 table: "Payments",
                 column: "Status");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_Student_Period",
-                table: "Payments",
-                columns: new[] { "StudentId", "Month", "Year" },
-                unique: true);
+                name: "IX_Reservations_RoomId",
+                table: "Reservations",
+                column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_StudentId",
-                table: "Payments",
+                name: "IX_Reservations_StudentId",
+                table: "Reservations",
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Residences_ManagerId",
-                table: "Residences",
+                name: "IX_ResidenceManagers_ManagerId",
+                table: "ResidenceManagers",
                 column: "ManagerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ResidenceManagers_ResidenceId_ManagerId",
+                table: "ResidenceManagers",
+                columns: new[] { "ResidenceId", "ManagerId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Residences_Name",
@@ -656,6 +905,11 @@ namespace SRMS.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Students_CollegeId",
+                table: "Students",
+                column: "CollegeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_CreatedAt",
                 table: "Students",
                 column: "CreatedAt");
@@ -672,20 +926,10 @@ namespace SRMS.Infrastructure.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_ManagerId",
-                table: "Students",
-                column: "ManagerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Students_NationalId",
                 table: "Students",
                 column: "NationalId",
                 filter: "[NationalId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_RoomId",
-                table: "Students",
-                column: "RoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_Status",
@@ -739,13 +983,28 @@ namespace SRMS.Infrastructure.Migrations
                 name: "AuditLogs");
 
             migrationBuilder.DropTable(
+                name: "CollegeRegistrars");
+
+            migrationBuilder.DropTable(
                 name: "Complaints");
+
+            migrationBuilder.DropTable(
+                name: "FeesConfigurations");
+
+            migrationBuilder.DropTable(
+                name: "Majors");
+
+            migrationBuilder.DropTable(
+                name: "Nationalities");
 
             migrationBuilder.DropTable(
                 name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "Payments");
+
+            migrationBuilder.DropTable(
+                name: "ResidenceManagers");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
@@ -763,7 +1022,13 @@ namespace SRMS.Infrastructure.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Students");
+                name: "ComplaintTypes");
+
+            migrationBuilder.DropTable(
+                name: "Reservations");
+
+            migrationBuilder.DropTable(
+                name: "Managers");
 
             migrationBuilder.DropTable(
                 name: "Roles");
@@ -775,10 +1040,13 @@ namespace SRMS.Infrastructure.Migrations
                 name: "Rooms");
 
             migrationBuilder.DropTable(
+                name: "Students");
+
+            migrationBuilder.DropTable(
                 name: "Residences");
 
             migrationBuilder.DropTable(
-                name: "Managers");
+                name: "Colleges");
         }
     }
 }

@@ -12,5 +12,6 @@ public enum StudentStatus
     Suspended = 4,      // معلق
     Graduated = 5,      // تخرج
     Withdrawn = 6,      // انسحب
-    Expelled = 7        // مفصول
+    Expelled = 7,       // مفصول
+    Rejected = 8        // مرفوض
 }

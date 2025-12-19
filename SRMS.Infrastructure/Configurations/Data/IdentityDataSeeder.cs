@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SRMS.Domain.Identity;
 using SRMS.Domain.Identity.Constants;
+using SRMS.Domain.Identity.Enums;
 
 namespace SRMS.Infrastructure.Configurations.Data;
 
@@ -12,53 +13,62 @@ public static class IdentityDataSeeder
     {
         // Seed Roles
         await SeedRolesAsync(roleManager);
-        
+
         // Seed SuperRoot User
         await SeedSuperRootAsync(userManager);
     }
-    
+
     private static async Task SeedRolesAsync(RoleManager<ApplicationRole> roleManager)
     {
         var roles = new[]
         {
-            new ApplicationRole 
-            { 
+            new ApplicationRole
+            {
                 Id = Guid.NewGuid(),
-                Name = Roles.SuperRoot, 
+                Name = Roles.SuperRoot,
                 NormalizedName = Roles.SuperRoot.ToUpper(),
                 Description = "Super Administrator with full system access",
                 IsSystemRole = true,
                 CreatedAt = DateTime.UtcNow
             },
-            new ApplicationRole 
-            { 
+            new ApplicationRole
+            {
                 Id = Guid.NewGuid(),
-                Name = Roles.Admin, 
+                Name = Roles.Admin,
                 NormalizedName = Roles.Admin.ToUpper(),
                 Description = "Administrator with management privileges",
                 IsSystemRole = true,
                 CreatedAt = DateTime.UtcNow
             },
-            new ApplicationRole 
-            { 
+            new ApplicationRole
+            {
                 Id = Guid.NewGuid(),
-                Name = Roles.Manager, 
+                Name = Roles.Manager,
                 NormalizedName = Roles.Manager.ToUpper(),
                 Description = "Residence Manager",
                 IsSystemRole = true,
                 CreatedAt = DateTime.UtcNow
             },
-            new ApplicationRole 
-            { 
+            new ApplicationRole
+            {
                 Id = Guid.NewGuid(),
-                Name = Roles.Student, 
+                Name = Roles.Student,
                 NormalizedName = Roles.Student.ToUpper(),
                 Description = "Student User",
                 IsSystemRole = true,
                 CreatedAt = DateTime.UtcNow
+            },
+            new ApplicationRole
+            {
+                Id = Guid.NewGuid(),
+                Name = Roles.CollegeRegistrar,
+                NormalizedName = Roles.CollegeRegistrar.ToUpper(),
+                Description = "College Registrar User",
+                IsSystemRole = true,
+                CreatedAt = DateTime.UtcNow
             }
         };
-        
+
         foreach (var role in roles)
         {
             if (!await roleManager.RoleExistsAsync(role.Name!))
@@ -67,15 +77,15 @@ public static class IdentityDataSeeder
             }
         }
     }
-    
+
     private static async Task SeedSuperRootAsync(UserManager<ApplicationUser> userManager)
     {
         var superRootEmail = "superroot@srms.edu.ly";
-        
+
         var existingUser = await userManager.FindByEmailAsync(superRootEmail);
         if (existingUser != null)
             return;
-        
+
         var superRoot = new ApplicationUser
         {
             Id = Guid.NewGuid(),
@@ -90,11 +100,12 @@ public static class IdentityDataSeeder
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
-            SecurityStamp = Guid.NewGuid().ToString()
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ProfileStatus = UserProfileStatus.Active // SuperRoot is already fully active
         };
-        
+
         var result = await userManager.CreateAsync(superRoot, "SuperRoot@123!");
-        
+
         if (result.Succeeded)
         {
             await userManager.AddToRoleAsync(superRoot, Roles.SuperRoot);

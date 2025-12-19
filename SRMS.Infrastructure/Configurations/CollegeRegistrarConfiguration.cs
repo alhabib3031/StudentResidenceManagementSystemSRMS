@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SRMS.Domain.Colleges;
+using SRMS.Domain.ValueObjects;
 
 namespace SRMS.Infrastructure.Configurations;
 

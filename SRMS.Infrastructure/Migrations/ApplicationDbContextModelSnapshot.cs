@@ -17,7 +17,7 @@ namespace SRMS.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.10")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -189,6 +189,184 @@ namespace SRMS.Infrastructure.Migrations
                     b.ToTable("AuditLogs", (string)null);
                 });
 
+            modelBuilder.Entity("SRMS.Domain.Colleges.College", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("StudySystem")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Colleges", (string)null);
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Colleges.CollegeRegistrar", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CollegeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("EmployeeNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollegeId")
+                        .IsUnique()
+                        .HasFilter("[CollegeId] IS NOT NULL");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("CollegeRegistrars", (string)null);
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Colleges.Major", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CollegeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollegeId");
+
+                    b.ToTable("Majors", (string)null);
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Common.Nationality", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Nationalities");
+                });
+
             modelBuilder.Entity("SRMS.Domain.Complaints.Complaint", b =>
                 {
                     b.Property<Guid>("Id")
@@ -204,13 +382,13 @@ namespace SRMS.Infrastructure.Migrations
                     b.Property<string>("AttachmentsJson")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
                     b.Property<string>("ComplaintNumber")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("ComplaintTypeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -235,6 +413,9 @@ namespace SRMS.Infrastructure.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("ReservationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Resolution")
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
@@ -247,9 +428,6 @@ namespace SRMS.Infrastructure.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -267,12 +445,12 @@ namespace SRMS.Infrastructure.Migrations
                     b.HasIndex("AssignedTo")
                         .HasDatabaseName("IX_Complaints_AssignedTo");
 
-                    b.HasIndex("Category")
-                        .HasDatabaseName("IX_Complaints_Category");
-
                     b.HasIndex("ComplaintNumber")
                         .IsUnique()
                         .HasDatabaseName("IX_Complaints_ComplaintNumber");
+
+                    b.HasIndex("ComplaintTypeId")
+                        .HasDatabaseName("IX_Complaints_ComplaintTypeId");
 
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_Complaints_CreatedAt");
@@ -283,16 +461,58 @@ namespace SRMS.Infrastructure.Migrations
                     b.HasIndex("Priority")
                         .HasDatabaseName("IX_Complaints_Priority");
 
+                    b.HasIndex("ReservationId")
+                        .HasDatabaseName("IX_Complaints_ReservationId");
+
                     b.HasIndex("Status")
                         .HasDatabaseName("IX_Complaints_Status");
-
-                    b.HasIndex("StudentId")
-                        .HasDatabaseName("IX_Complaints_StudentId");
 
                     b.HasIndex("Status", "Priority")
                         .HasDatabaseName("IX_Complaints_Status_Priority");
 
                     b.ToTable("Complaints", (string)null);
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Complaints.ComplaintType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("ComplaintTypes", (string)null);
                 });
 
             modelBuilder.Entity("SRMS.Domain.Identity.ApplicationRole", b =>
@@ -444,6 +664,15 @@ namespace SRMS.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProfileStatus")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("RegistrarId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RejectionReason")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("SMSNotificationsEnabled")
@@ -702,11 +931,11 @@ namespace SRMS.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<Guid>("ReservationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("StudentId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TransactionId")
                         .HasMaxLength(100)
@@ -730,17 +959,65 @@ namespace SRMS.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Payments_Reference");
 
+                    b.HasIndex("ReservationId")
+                        .HasDatabaseName("IX_Payments_ReservationId");
+
                     b.HasIndex("Status")
                         .HasDatabaseName("IX_Payments_Status");
 
-                    b.HasIndex("StudentId")
-                        .HasDatabaseName("IX_Payments_StudentId");
-
-                    b.HasIndex("StudentId", "Month", "Year")
+                    b.HasIndex("ReservationId", "Month", "Year")
                         .IsUnique()
-                        .HasDatabaseName("IX_Payments_Student_Period");
+                        .HasDatabaseName("IX_Payments_Reservation_Period");
 
                     b.ToTable("Payments", (string)null);
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Reservations.Reservation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("SRMS.Domain.Residences.Residence", b =>
@@ -798,9 +1075,6 @@ namespace SRMS.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("ManagerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -814,11 +1088,52 @@ namespace SRMS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ManagerId");
-
                     b.HasIndex("Name");
 
                     b.ToTable("Residences", (string)null);
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Residences.ResidenceManager", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AssignmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ManagerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResidenceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManagerId");
+
+                    b.HasIndex("ResidenceId", "ManagerId")
+                        .IsUnique();
+
+                    b.ToTable("ResidenceManagers", (string)null);
                 });
 
             modelBuilder.Entity("SRMS.Domain.Rooms.Room", b =>
@@ -904,14 +1219,30 @@ namespace SRMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("AcademicYear")
+                    b.Property<string>("AcademicTerm")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("AcademicYear")
                         .HasColumnType("int");
+
+                    b.Property<string>("BirthCertificatePath")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("CollegeId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DegreeType")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
@@ -935,6 +1266,14 @@ namespace SRMS.Infrastructure.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
+                    b.Property<string>("HealthCertificatePath")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("HighSchoolCertificatePath")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("ImagePath")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -954,18 +1293,17 @@ namespace SRMS.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid?>("ManagerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("NationalId")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime?>("RoomAssignedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Nationality")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid?>("RoomId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ResidencePermitPath")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -983,19 +1321,17 @@ namespace SRMS.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CollegeId");
+
                     b.HasIndex("CreatedAt")
                         .HasDatabaseName("IX_Students_CreatedAt");
 
                     b.HasIndex("IsDeleted")
                         .HasDatabaseName("IX_Students_IsDeleted");
 
-                    b.HasIndex("ManagerId");
-
                     b.HasIndex("NationalId")
                         .HasDatabaseName("IX_Students_NationalId")
                         .HasFilter("[NationalId] IS NOT NULL");
-
-                    b.HasIndex("RoomId");
 
                     b.HasIndex("Status")
                         .HasDatabaseName("IX_Students_Status");
@@ -1009,6 +1345,55 @@ namespace SRMS.Infrastructure.Migrations
                         .HasDatabaseName("IX_Students_Status_Active_Deleted");
 
                     b.ToTable("Students", (string)null);
+                });
+
+            modelBuilder.Entity("SRMS.Domain.SystemSettings.FeesConfiguration", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsMonthly")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("StudyType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Nationality", "StudyType")
+                        .IsUnique();
+
+                    b.ToTable("FeesConfigurations", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1062,15 +1447,44 @@ namespace SRMS.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SRMS.Domain.Complaints.Complaint", b =>
+            modelBuilder.Entity("SRMS.Domain.Colleges.CollegeRegistrar", b =>
                 {
-                    b.HasOne("SRMS.Domain.Students.Student", "Student")
-                        .WithMany("Complaints")
-                        .HasForeignKey("StudentId")
+                    b.HasOne("SRMS.Domain.Colleges.College", "College")
+                        .WithOne("CollegeRegistrar")
+                        .HasForeignKey("SRMS.Domain.Colleges.CollegeRegistrar", "CollegeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("College");
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Colleges.Major", b =>
+                {
+                    b.HasOne("SRMS.Domain.Colleges.College", "College")
+                        .WithMany("Majors")
+                        .HasForeignKey("CollegeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Student");
+                    b.Navigation("College");
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Complaints.Complaint", b =>
+                {
+                    b.HasOne("SRMS.Domain.Complaints.ComplaintType", "ComplaintType")
+                        .WithMany("Complaints")
+                        .HasForeignKey("ComplaintTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SRMS.Domain.Reservations.Reservation", "Reservation")
+                        .WithMany("Complaints")
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ComplaintType");
+
+                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("SRMS.Domain.Managers.Manager", b =>
@@ -1119,6 +1533,7 @@ namespace SRMS.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Value")
+                                .IsRequired()
                                 .HasMaxLength(256)
                                 .HasColumnType("nvarchar(256)")
                                 .HasColumnName("Email");
@@ -1141,11 +1556,13 @@ namespace SRMS.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("CountryCode")
+                                .IsRequired()
                                 .HasMaxLength(5)
                                 .HasColumnType("nvarchar(5)")
                                 .HasColumnName("PhoneCountryCode");
 
                             b1.Property<string>("Value")
+                                .IsRequired()
                                 .HasMaxLength(15)
                                 .HasColumnType("nvarchar(15)")
                                 .HasColumnName("PhoneNumber");
@@ -1167,9 +1584,9 @@ namespace SRMS.Infrastructure.Migrations
 
             modelBuilder.Entity("SRMS.Domain.Payments.Payment", b =>
                 {
-                    b.HasOne("SRMS.Domain.Students.Student", "Student")
+                    b.HasOne("SRMS.Domain.Reservations.Reservation", "Reservation")
                         .WithMany("Payments")
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("ReservationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1178,7 +1595,8 @@ namespace SRMS.Infrastructure.Migrations
                             b1.Property<Guid>("PaymentId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<decimal>("Amount")
+                            b1.Property<decimal?>("Amount")
+                                .IsRequired()
                                 .HasColumnType("decimal(18,2)")
                                 .HasColumnName("Amount");
 
@@ -1223,16 +1641,30 @@ namespace SRMS.Infrastructure.Migrations
 
                     b.Navigation("LateFee");
 
+                    b.Navigation("Reservation");
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Reservations.Reservation", b =>
+                {
+                    b.HasOne("SRMS.Domain.Rooms.Room", "Room")
+                        .WithMany("Reservations")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SRMS.Domain.Students.Student", "Student")
+                        .WithMany("Reservations")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
                     b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SRMS.Domain.Residences.Residence", b =>
                 {
-                    b.HasOne("SRMS.Domain.Managers.Manager", "Manager")
-                        .WithMany("Residences")
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.OwnsOne("SRMS.Domain.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("ResidenceId")
@@ -1276,9 +1708,39 @@ namespace SRMS.Infrastructure.Migrations
                                 .HasForeignKey("ResidenceId");
                         });
 
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Residences.ResidenceManager", b =>
+                {
+                    b.HasOne("SRMS.Domain.Managers.Manager", "Manager")
+                        .WithMany("ResidenceManagers")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SRMS.Domain.Residences.Residence", "Residence")
+                        .WithMany("ResidenceManagers")
+                        .HasForeignKey("ResidenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Manager");
+
+                    b.Navigation("Residence");
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Rooms.Room", b =>
+                {
+                    b.HasOne("SRMS.Domain.Residences.Residence", "Residence")
+                        .WithMany("Rooms")
+                        .HasForeignKey("ResidenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("SRMS.Domain.ValueObjects.Money", "MonthlyRent", b1 =>
                         {
-                            b1.Property<Guid>("ResidenceId")
+                            b1.Property<Guid>("RoomId")
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal?>("Amount")
@@ -1291,42 +1753,24 @@ namespace SRMS.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(3)")
                                 .HasColumnName("Currency");
 
-                            b1.HasKey("ResidenceId");
+                            b1.HasKey("RoomId");
 
-                            b1.ToTable("Residences");
+                            b1.ToTable("Rooms");
 
                             b1.WithOwner()
-                                .HasForeignKey("ResidenceId");
+                                .HasForeignKey("RoomId");
                         });
 
-                    b.Navigation("Address");
-
-                    b.Navigation("Manager");
-
                     b.Navigation("MonthlyRent");
-                });
-
-            modelBuilder.Entity("SRMS.Domain.Rooms.Room", b =>
-                {
-                    b.HasOne("SRMS.Domain.Residences.Residence", "Residence")
-                        .WithMany("Rooms")
-                        .HasForeignKey("ResidenceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Residence");
                 });
 
             modelBuilder.Entity("SRMS.Domain.Students.Student", b =>
                 {
-                    b.HasOne("SRMS.Domain.Managers.Manager", "Manager")
+                    b.HasOne("SRMS.Domain.Colleges.College", "College")
                         .WithMany("Students")
-                        .HasForeignKey("ManagerId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("SRMS.Domain.Rooms.Room", "Room")
-                        .WithMany("Students")
-                        .HasForeignKey("RoomId")
+                        .HasForeignKey("CollegeId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.OwnsOne("SRMS.Domain.ValueObjects.Address", "Address", b1 =>
@@ -1373,6 +1817,7 @@ namespace SRMS.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Value")
+                                .IsRequired()
                                 .HasMaxLength(256)
                                 .HasColumnType("nvarchar(256)")
                                 .HasColumnName("Email");
@@ -1418,11 +1863,13 @@ namespace SRMS.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("CountryCode")
+                                .IsRequired()
                                 .HasMaxLength(5)
                                 .HasColumnType("nvarchar(5)")
                                 .HasColumnName("PhoneCountryCode");
 
                             b1.Property<string>("Value")
+                                .IsRequired()
                                 .HasMaxLength(15)
                                 .HasColumnType("nvarchar(15)")
                                 .HasColumnName("PhoneNumber");
@@ -1437,39 +1884,85 @@ namespace SRMS.Infrastructure.Migrations
 
                     b.Navigation("Address");
 
+                    b.Navigation("College");
+
                     b.Navigation("Email");
 
                     b.Navigation("EmergencyContactPhone");
 
-                    b.Navigation("Manager");
-
                     b.Navigation("PhoneNumber");
-
-                    b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("SRMS.Domain.Managers.Manager", b =>
+            modelBuilder.Entity("SRMS.Domain.SystemSettings.FeesConfiguration", b =>
                 {
-                    b.Navigation("Residences");
+                    b.OwnsOne("SRMS.Domain.ValueObjects.Money", "FeeAmount", b1 =>
+                        {
+                            b1.Property<Guid>("FeesConfigurationId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<decimal?>("Amount")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("FeeAmount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("nvarchar(3)")
+                                .HasColumnName("FeeCurrency");
+
+                            b1.HasKey("FeesConfigurationId");
+
+                            b1.ToTable("FeesConfigurations");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FeesConfigurationId");
+                        });
+
+                    b.Navigation("FeeAmount")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Colleges.College", b =>
+                {
+                    b.Navigation("CollegeRegistrar");
+
+                    b.Navigation("Majors");
 
                     b.Navigation("Students");
                 });
 
+            modelBuilder.Entity("SRMS.Domain.Complaints.ComplaintType", b =>
+                {
+                    b.Navigation("Complaints");
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Managers.Manager", b =>
+                {
+                    b.Navigation("ResidenceManagers");
+                });
+
+            modelBuilder.Entity("SRMS.Domain.Reservations.Reservation", b =>
+                {
+                    b.Navigation("Complaints");
+
+                    b.Navigation("Payments");
+                });
+
             modelBuilder.Entity("SRMS.Domain.Residences.Residence", b =>
                 {
+                    b.Navigation("ResidenceManagers");
+
                     b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("SRMS.Domain.Rooms.Room", b =>
                 {
-                    b.Navigation("Students");
+                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("SRMS.Domain.Students.Student", b =>
                 {
-                    b.Navigation("Complaints");
-
-                    b.Navigation("Payments");
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

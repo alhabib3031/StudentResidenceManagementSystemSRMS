@@ -15,6 +15,7 @@ using SRMS.Infrastructure;
 using SRMS.Infrastructure.Configurations.Data;
 using SRMS.WebUI.Server.Components;
 using SRMS.WebUI.Server.Services;
+using SRMS.Infrastructure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,7 +64,8 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
     options.SignIn.RequireConfirmedEmail = true;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders();
+.AddDefaultTokenProviders()
+.AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
 
 // Authentication State Provider for Blazor
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
