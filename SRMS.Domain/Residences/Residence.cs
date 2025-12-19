@@ -18,6 +18,8 @@ public class Residence : Entity
     // Capacity
     public int TotalCapacity { get; set; }
     public int AvailableCapacity { get; set; }
+    public int CurrentRoomsCount { get; set; } // New property to track current number of rooms
+    public int MaxRoomsCount { get; set; } // New property for max number of rooms
     public bool IsFull => AvailableCapacity <= 0;
     
 

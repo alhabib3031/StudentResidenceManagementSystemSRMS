@@ -34,6 +34,10 @@ public class UpdateResidenceDto
     [Range(0, 10000)]
     public int AvailableCapacity { get; set; }
 
+    [Required]
+    [Range(1, 1000)] // Assuming a reasonable max number of rooms
+    public int MaxRoomsCount { get; set; }
+
     // Pricing
     [Required]
     [Range(0.01, double.MaxValue)]

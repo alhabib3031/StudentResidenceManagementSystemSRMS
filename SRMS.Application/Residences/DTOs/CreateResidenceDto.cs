@@ -28,6 +28,10 @@ public class CreateResidenceDto
     [Range(1, 10000)]
     public int TotalCapacity { get; set; }
 
+    [Required]
+    [Range(1, 1000)] // Assuming a reasonable max number of rooms
+    public int MaxRoomsCount { get; set; }
+
     // Pricing
     [Required]
     [Range(0.01, double.MaxValue)]
