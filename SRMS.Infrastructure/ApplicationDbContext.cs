@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SRMS.Domain.AuditLogs;
@@ -103,6 +103,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         modelBuilder.ApplyConfiguration(new CollegeRegistrarConfiguration());
         modelBuilder.ApplyConfiguration(new FeesConfigurationConfiguration());
         modelBuilder.ApplyConfiguration(new AuditLogConfiguration());
+
+        // Configure Money as an owned entity for Reservation.TotalAmount
+        modelBuilder.Entity<Reservation>().OwnsOne(r => r.TotalAmount, money =>
+        {
+            money.Property(m => m.Amount).HasColumnName("TotalAmount_Amount");
+            money.Property(m => m.Currency).HasColumnName("TotalAmount_Currency");
+        });
 
         // ═══════════════════════════════════════════════════════════
         // تخصيص أسماء Identity Tables (اختياري)

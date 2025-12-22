@@ -75,7 +75,6 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
             .HasDatabaseName("IX_Payments_DueDate");
         
         builder.HasIndex(p => new { p.ReservationId, p.Month, p.Year })
-            .IsUnique()
             .HasDatabaseName("IX_Payments_Reservation_Period");
         
         builder.HasIndex(p => p.PaymentReference)

@@ -1,0 +1,243 @@
+@page "/student/reserve-room/{ResidenceId:guid}/{RoomId:guid}"
+@attribute [Authorize(Roles = "Student")]
+@using SRMS.Application.Reservations.DTOs
+@using SRMS.Domain.Rooms.Enums
+@using SRMS.Application.Rooms.DTOs
+@inject HttpClient Http
+@inject AuthenticationStateProvider AuthStateProvider
+
+<h3>Room Reservation</h3>
+
+@if (room == null || studentId == Guid.Empty)
+{
+    <p><em>Loading room details or student information...</em></p>
+}
+else
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            <h4>Selected Room: @room.RoomNumber</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Residence:</strong> @room.ResidenceName</p>
+            <p><strong>Floor:</strong> @room.Floor</p>
+            <p><strong>Room Type:</strong> @room.RoomType</p>
+            <p><strong>Total Beds:</strong> @room.TotalBeds</p>
+            <p><strong>Occupied Beds:</strong> @room.OccupiedBeds</p>
+            <p><strong>Current Status:</strong> @room.Status</p>
+            <p><strong>Amenities:</strong>
+                @(room.HasPrivateBathroom ? "Private Bathroom, " : "")
+                @(room.HasAirConditioning ? "Air Conditioning, " : "")
+                @(room.HasHeating ? "Heating, " : "")
+                @(room.HasWifi ? "Wi-Fi, " : "")
+                @(room.HasDesk ? "Desk, " : "")
+                @(room.HasWardrobe ? "Wardrobe, " : "")
+                @(room.HasBalcony ? "Balcony" : "")
+            </p>
+
+            <hr />
+            <h5>Reservation Details</h5>
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <InputDate id="startDate" class="form-control" @bind-Value="startDate" />
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <InputDate id="endDate" class="form-control" @bind-Value="endDate" />
+            </div>
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger mt-2">@errorMessage</div>
+            }
+            <button class="btn btn-primary mt-3" @onclick="CalculateFeeAndShowPayment">Confirm & Pay</button>
+
+            @if (showPaymentConfirmation)
+            {
+                <div class="mt-4 p-3 border rounded">
+                    <h5>Payment Confirmation</h5>
+                    <p>Calculated Fee: <strong>@calculatedFeeAmount @calculatedFeeCurrency</strong></p>
+                    <p>Please confirm to proceed with payment.</p>
+                    <button class="btn btn-success" @onclick="ProcessReservation">Pay Now</button>
+                    <button class="btn btn-secondary" @onclick="(() => showPaymentConfirmation = false)">Cancel</button>
+                </div>
+            }
+
+            @if (reservationResponse != null)
+            {
+                <div class="alert alert-success mt-4">
+                    Reservation Successful!
+                    <p>Reservation ID: @reservationResponse.ReservationId</p>
+                    <p>Payment ID: @reservationResponse.PaymentId</p>
+                    <p>Amount Paid: @reservationResponse.AmountPaid.Amount @reservationResponse.AmountPaid.Currency</p>
+                    <p>Status: @reservationResponse.Status</p>
+                    <p><a href="/student/residences">Go back to Residences</a></p>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid ResidenceId { get; set; }
+
+    [Parameter]
+    public Guid RoomId { get; set; }
+
+    private RoomDto? room; // Using RoomDto to display details
+    private Guid studentId = Guid.Empty; // Placeholder for authenticated student ID
+    private DateTime startDate = DateTime.Today;
+    private DateTime endDate = DateTime.Today.AddMonths(1);
+    private bool showPaymentConfirmation = false;
+    private decimal calculatedFeeAmount;
+    private string calculatedFeeCurrency = "LYD";
+    private string errorMessage = string.Empty;
+    private ReserveRoomResponse? reservationResponse;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // In a real application, retrieve the student ID from the authenticated user's context.
+        // For demonstration, we'll try to get it from AuthenticationState.
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            // Assuming StudentId is stored as a claim, e.g., "sub" or a custom claim
+            var studentIdClaim = user.FindFirst("StudentId") ?? user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            if (Guid.TryParse(studentIdClaim?.Value, out var parsedStudentId))
+            {
+                studentId = parsedStudentId;
+            }
+            else
+            {
+                errorMessage = "Could not retrieve student ID from authentication. Cannot proceed with reservation.";
+                return;
+            }
+        }
+        else
+        {
+            errorMessage = "User not authenticated. Cannot proceed with reservation.";
+            return;
+        }
+
+        try
+        {
+            // Fetch room details for display
+            room = await Http.GetFromJsonAsync<RoomDto>($"api/admin/AdminRooms/{RoomId}");
+            if (room != null && room.ResidenceId != ResidenceId)
+            {
+                errorMessage = "Room does not belong to the specified residence.";
+                room = null; // Invalidate room if mismatch
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            errorMessage = $"Error fetching room details: {ex.Message}";
+            Console.WriteLine(errorMessage);
+        }
+    }
+
+    private async Task CalculateFeeAndShowPayment()
+    {
+        errorMessage = string.Empty; // Clear previous errors
+
+        if (startDate >= endDate)
+        {
+            errorMessage = "End Date must be after Start Date.";
+            return;
+        }
+
+        // To get the calculated fee without making a full reservation,
+        // we ideally need a separate endpoint for fee calculation.
+        // For simplicity in this dummy setup, we will attempt a reservation,
+        // but first, we'll create a temporary ReserveRoomRequest
+        // and send it to the backend to get the calculated fee from the response.
+        // This is a simplification; a dedicated GET endpoint for fee estimation would be better.
+
+        // We can't actually just "calculate" the fee from the backend without initiating payment.
+        // The ReserveRoomAsync on the backend integrates fee calculation and payment.
+        // So, we'll present a generic "Confirm & Pay" which then calls the actual reservation endpoint.
+        // The fee will be part of the successful reservation response.
+
+        // The user experience expects to see the fee *before* confirming payment.
+        // Since our backend ReserveRoomAsync integrates calculation AND payment,
+        // I will first call the backend to get the RoomDetailsDto for the student to get the adjusted price.
+        // This requires a new endpoint or modifying an existing one to just get the details.
+        
+        // For now, I will simulate getting a calculated fee by just showing a dummy amount
+        // or by making an early call to the full reservation endpoint and catching errors.
+        // A dedicated API endpoint to calculate *just* the fee would be ideal.
+
+        // Simulating fee calculation by directly calling an API that might return a fee
+        // Or, more accurately, we know the fee is handled server-side, so we just
+        // show the payment confirmation and the fee will be in the final success message.
+        // For a true "show calculated fee before pay" flow, the backend would need a separate endpoint.
+        // Given the prompt, I'll proceed with a dummy payment screen shown after "Confirm & Pay".
+        // The actual fee will be in the reservationResponse.
+
+        // For this frontend, let's just use the room's base monthly rent for display
+        // as a placeholder, then the actual calculated fee will come from the backend.
+        if (room?.MonthlyRentAmount != null)
+        {
+            calculatedFeeAmount = room.MonthlyRentAmount.Value;
+            calculatedFeeCurrency = room.MonthlyRentCurrency ?? "LYD";
+            showPaymentConfirmation = true;
+        }
+        else
+        {
+            errorMessage = "Room monthly rent not available to calculate fee.";
+        }
+    }
+
+
+    private async Task ProcessReservation()
+    {
+        errorMessage = string.Empty; // Clear previous errors
+        showPaymentConfirmation = false; // Hide payment confirmation UI
+
+        if (studentId == Guid.Empty)
+        {
+            errorMessage = "Student ID is missing. Cannot make reservation.";
+            return;
+        }
+        if (room == null)
+        {
+            errorMessage = "Room details are missing. Cannot make reservation.";
+            return;
+        }
+
+        var request = new ReservationRequestDto
+        {
+            StudentId = studentId,
+            RoomId = RoomId,
+            StartDate = DateOnly.FromDateTime(startDate),
+            EndDate = DateOnly.FromDateTime(endDate)
+        };
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/student/StudentReservations/reserve-room", request);
+            if (!response.IsSuccessStatusCode) // Throws HttpRequestException for 4xx/5xx errors
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                errorMessage = error;
+                return;
+            }
+
+            reservationResponse = await response.Content.ReadFromJsonAsync<ReserveRoomResponse>();
+            // Update UI to show success
+        }
+        catch (HttpRequestException ex)
+        {
+            var errorContent = await SRMS.WebUI.Server.Extensions.HttpRequestExceptionExtensions.GetContentAs<dynamic>(ex);
+            errorMessage = errorContent?.message ?? "An unknown error occurred during reservation.";
+            Console.WriteLine($"Error during reservation: {ex.Message}. Details: {errorContent?.message}");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An unexpected error occurred: {ex.Message}";
+            Console.WriteLine(errorMessage);
+        }
+    }
+}

@@ -22,7 +22,7 @@ public class PaymentService : IPaymentService
         _reservationRepo = reservationRepo;
     }
 
-    public async Task<List<PaymentDto>> GetStudentPaymentsAsync(Guid studentId)
+    public async Task<IEnumerable<PaymentDto>> GetStudentPaymentsAsync(Guid studentId)
     {
         var reservations = await _reservationRepo.Query()
             .Where(r => r.StudentId == studentId)
@@ -31,7 +31,7 @@ public class PaymentService : IPaymentService
 
         var reservationIds = reservations.Select(r => r.Id).ToList();
 
-        var payments = await _paymentRepo.FindAsync(p => reservationIds.Contains(p.ReservationId));
+        var payments = await _paymentRepo.FindAsync(p => p.ReservationId.HasValue && reservationIds.Contains(p.ReservationId.Value));
 
         return payments.Select(p =>
         {
@@ -39,7 +39,7 @@ public class PaymentService : IPaymentService
             return new PaymentDto
             {
                 Id = p.Id,
-                ReservationId = p.ReservationId,
+                ReservationId = p.ReservationId!.Value,
                 StudentName = res?.Student?.FullName ?? "N/A",
                 Amount = p.Amount?.Amount ?? 0,
                 Currency = p.Amount?.Currency ?? "LYD",
@@ -137,7 +137,7 @@ public class PaymentService : IPaymentService
             .Select(r => r.Id)
             .ToListAsync();
 
-        var payments = await _paymentRepo.FindAsync(p => reservationIds.Contains(p.ReservationId) && p.Status == PaymentStatus.Paid);
+        var payments = await _paymentRepo.FindAsync(p => p.ReservationId.HasValue && reservationIds.Contains(p.ReservationId.Value) && p.Status == PaymentStatus.Paid);
         return payments.Sum(p => p.Amount?.Amount ?? 0);
     }
 
@@ -148,7 +148,15 @@ public class PaymentService : IPaymentService
             .Select(r => r.Id)
             .ToListAsync();
 
-        var payments = await _paymentRepo.FindAsync(p => reservationIds.Contains(p.ReservationId) && (p.Status == PaymentStatus.Pending || p.Status == PaymentStatus.Overdue));
+        var payments = await _paymentRepo.FindAsync(p => p.ReservationId.HasValue && reservationIds.Contains(p.ReservationId.Value) && (p.Status == PaymentStatus.Pending || p.Status == PaymentStatus.Overdue));
         return payments.Sum(p => p.Amount?.Amount ?? 0);
+    }
+
+    // Implementation for IPaymentService.ProcessDummyPaymentAsync
+    public Task<Guid?> ProcessDummyPaymentAsync(PaymentRequestDto request)
+    {
+        // For a dummy payment, we can simulate success by returning a new Guid
+        // In a real scenario, this would involve integrating with a payment gateway
+        return Task.FromResult<Guid?>(Guid.NewGuid());
     }
 }

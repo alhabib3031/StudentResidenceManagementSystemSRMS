@@ -39,6 +39,7 @@ public class ApplicationUser : IdentityUser<Guid>
     // Profile Status
     public UserProfileStatus ProfileStatus { get; set; } = UserProfileStatus.PendingAccountTypeSelection;
     public string? RejectionReason { get; set; }
+    public string? AccountType { get; set; }
 
     // Related Entities (optional)
     public Guid? StudentId { get; set; }

@@ -1,0 +1,56 @@
+@page "/student/residences"
+@attribute [Authorize(Roles = "Student")]
+@using SRMS.Application.Reservations.DTOs
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<h3>Available Residences</h3>
+
+@if (residences == null)
+{
+    <p><em>Loading residences...</em></p>
+}
+else
+{
+    @if (!residences.Any())
+    {
+        <p>No residences currently available.</p>
+    }
+    else
+    {
+        <div class="card-columns">
+            @foreach (var residence in residences)
+            {
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@residence.Name</h5>
+                        <p class="card-text">Location: @residence.Location</p>
+                        <button class="btn btn-primary" @onclick="(() => NavigateToVacantRooms(residence.Id))">View Vacant Rooms</button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+    private IEnumerable<ResidenceDto>? residences;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            residences = await Http.GetFromJsonAsync<IEnumerable<ResidenceDto>>("api/student/StudentReservations/residences");
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Error fetching residences: {ex.Message}");
+            // Handle error, e.g., display a user-friendly message
+        }
+    }
+
+    private void NavigateToVacantRooms(Guid residenceId)
+    {
+        Navigation.NavigateTo($"/student/residences/{residenceId}/vacant-rooms");
+    }
+}

@@ -1,0 +1,106 @@
+@using Microsoft.AspNetCore.Components
+@using MudBlazor
+@using SRMS.Application.Rooms.DTOs
+@using SRMS.Application.Rooms.Interfaces
+@using SRMS.Domain.Rooms.Enums
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> L
+@inject IRoomService RoomService
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-2" /> @L["EditRoomDialog_Title"]
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (RoomToEdit == null)
+        {
+            <MudText>@L["Common_Loading"]</MudText>
+        }
+        else
+        {
+            <MudForm @ref="_form" Model="@RoomToEdit" EnableI18nText="@true">
+                <MudGrid>
+                    <MudItem xs="12" md="6">
+                        <MudTextField @bind-Value="RoomToEdit.RoomNumber" Label="@L["Room_RoomNumber"]" Required="true" RequiredError="@L["Room_RoomNumber_Required"]" />
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudNumericField @bind-Value="RoomToEdit.Floor" Label="@L["Room_Floor"]" Required="true" RequiredError="@L["Room_Floor_Required"]" />
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudSelect T="RoomType" @bind-Value="RoomToEdit.RoomType" Label="@L["Room_RoomType"]" Required="true" RequiredError="@L["Room_RoomType_Required"]">
+                            @foreach (RoomType type in Enum.GetValues(typeof(RoomType)))
+                            {
+                                <MudSelectItem Value="@type">@type.ToString()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudNumericField @bind-Value="RoomToEdit.TotalBeds" Label="@L["Room_TotalBeds"]" Required="true" RequiredError="@L["Room_TotalBeds_Required"]" />
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudNumericField @bind-Value="RoomToEdit.MonthlyRentAmount" Label="@L["Room_MonthlyRentAmount"]" Required="true" RequiredError="@L["Room_MonthlyRentAmount_Required"]" />
+                    </MudItem>
+                    <MudItem xs="12" md="6">
+                        <MudSelect T="string" @bind-Value="RoomToEdit.MonthlyRentCurrency" Label="@L["Room_MonthlyRentCurrency"]" Required="true" RequiredError="@L["Room_MonthlyRentCurrency_Required"]">
+                            <MudSelectItem Value="@("USD")">USD</MudSelectItem>
+                            <MudSelectItem Value="@("LYD")">LYD</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudCheckBox T="bool" @bind-Checked="RoomToEdit.IsAvailable" Label="@L["Room_IsAvailable"]" Color="Color.Primary" />
+                    </MudItem>
+                </MudGrid>
+            </MudForm>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@L["Common_Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(_form?.IsValid != true)">@L["Common_Save"]</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public UpdateRoomDto RoomToEdit { get; set; } = new();
+
+    private MudForm? _form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // If RoomToEdit is null (e.g., dialog opened without a room),
+        // we might want to fetch it or handle error.
+        // For now, assuming it's always passed.
+    }
+
+    private async Task Submit()
+    {
+        await _form!.Validate();
+        if (_form.IsValid)
+        {
+            try
+            {
+                var result = await RoomService.UpdateRoomAsync(RoomToEdit);
+                if (result != null)
+                {
+                    Snackbar.Add(L["EditRoomDialog_Success"], Severity.Success);
+                    MudDialog.Close(DialogResult.Ok(true));
+                }
+                else
+                {
+                    Snackbar.Add("An error occurred while updating the room.", Severity.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}

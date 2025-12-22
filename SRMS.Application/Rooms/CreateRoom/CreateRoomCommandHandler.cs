@@ -5,8 +5,8 @@ using SRMS.Domain.AuditLogs.Enums;
 using SRMS.Domain.Repositories;
 using SRMS.Domain.Rooms;
 using SRMS.Domain.Residences; // Added
-using SRMS.Application.Common.Exceptions; // Added
-using System.ComponentModel.DataAnnotations; // Added
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore; // Added
 
 namespace SRMS.Application.Rooms.CreateRoom;
 
@@ -31,17 +31,17 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
         var residence = await _residenceRepository.GetByIdAsync(request.Room.ResidenceId);
         if (residence == null)
         {
-            throw new NotFoundException(nameof(Residence), request.Room.ResidenceId);
+            throw new Exception($"Residence with ID {request.Room.ResidenceId} not found");
         }
 
-        // 1. Check MaxRoomsCount
-        if (residence.CurrentRoomsCount >= residence.MaxRoomsCount)
+        // 1. Check MaxRoomsCount (only if a maximum is set)
+        if (residence.MaxRoomsCount > 0 && residence.CurrentRoomsCount >= residence.MaxRoomsCount)
         {
             throw new ValidationException($"Residence {residence.Name} has reached its maximum room capacity of {residence.MaxRoomsCount}.");
         }
 
         // 2. Check for duplicate room number in the same residence
-        var existingRoom = await _roomRepository.GetSingleAsync(r => r.ResidenceId == request.Room.ResidenceId && r.RoomNumber == request.Room.RoomNumber);
+        var existingRoom = await _roomRepository.Query().FirstOrDefaultAsync<Room>(r => r.ResidenceId == request.Room.ResidenceId && r.RoomNumber == request.Room.RoomNumber, cancellationToken);
         if (existingRoom != null)
         {
             throw new ValidationException($"Room number {request.Room.RoomNumber} already exists in residence {residence.Name}.");
@@ -101,7 +101,6 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
             RoomType = created.RoomType,
             TotalBeds = created.TotalBeds,
             OccupiedBeds = created.OccupiedBeds,
-            AvailableBeds = created.TotalBeds - created.OccupiedBeds,
             IsFull = created.IsFull,
             ResidenceName = created.Residence?.Name ?? "",
             IsActive = created.IsActive

@@ -47,7 +47,7 @@
                 </MudItem>
 
 	                <MudItem xs="12">
-	                    <MudNumericField @bind-Value="_residence.TotalCapacity" Label='@L["CreateResidenceDialog_TotalCapacity"]' Min="1"
+	                    <MudNumericField @bind-Value="_maxRoomsCount" Label="Max Rooms Count" Min="1"
 	                        Required="true" Variant="Variant.Outlined" />
 	                </MudItem>
 
@@ -87,6 +87,7 @@
     private string _country = "";
     private string _zipCode = "";
     private string _description = "";
+    private int _maxRoomsCount = 0;
 
 
 
@@ -100,13 +101,16 @@
             try
             {
                 // Create Value Objects
-	                // Create Value Objects
 	                var address = Address.Create(_street, _city, _state, _country, _zipCode);
 	
 	                _residence.Id = Guid.NewGuid();
 	                _residence.Address = address;
 	                _residence.Description = _description;
-                _residence.AvailableCapacity = _residence.TotalCapacity; // Initially available = total
+	                _residence.MaxRoomsCount = _maxRoomsCount;
+                // Initialize capacities based on MaxRoomsCount
+                _residence.TotalCapacity = _residence.MaxRoomsCount;
+                _residence.AvailableCapacity = _residence.MaxRoomsCount;
+                _residence.CurrentRoomsCount = 0;
 
                 using var scope = ScopeFactory.CreateScope();
                 var repo = scope.ServiceProvider.GetRequiredService<IRepositories<Residence>>();
@@ -121,3 +125,4 @@
         }
     }
 }
+

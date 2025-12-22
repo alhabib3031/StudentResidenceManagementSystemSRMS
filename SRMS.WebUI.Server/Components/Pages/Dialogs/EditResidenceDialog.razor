@@ -1,0 +1,151 @@
+@using SRMS.Domain.Residences
+@using SRMS.Domain.ValueObjects
+@using SRMS.Domain.Repositories
+@using MudBlazor
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@using SRMS.Infrastructure
+@inject ISnackbar Snackbar
+@inject IServiceScopeFactory ScopeFactory
+@inject IStringLocalizer<Resource> L
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-2" />
+            @L["EditResidenceDialog_Title"] - @_residence.Name
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm @ref="_form" @bind-IsValid="_success">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_residence.Name" Label='@L["EditResidenceDialog_Name"]' Required="true"
+                                  RequiredError='@L["EditResidenceDialog_Name_Required"]' Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_residence.Description" Label='@L["EditResidenceDialog_Description"]' Variant="Variant.Outlined" Lines="3" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudText Typo="Typo.subtitle2" Class="mb-2">@L["EditResidenceDialog_Address"]</MudText>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="_street" Label='@L["EditResidenceDialog_Street"]' Required="true" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="_city" Label='@L["EditResidenceDialog_City"]' Required="true" Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField @bind-Value="_state" Label='@L["EditResidenceDialog_State"]' Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField @bind-Value="_country" Label='@L["EditResidenceDialog_Country"]' Variant="Variant.Outlined" />
+                </MudItem>
+                <MudItem xs="4">
+                    <MudTextField @bind-Value="_zipCode" Label='@L["EditResidenceDialog_ZipCode"]' Variant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudNumericField @bind-Value="_residence.MaxRoomsCount" Label='@L["EditResidenceDialog_MaxRoomsCount"]' Min="1"
+                                     Required="true" Variant="Variant.Outlined" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudText Typo="Typo.subtitle2" Class="mb-2">@L["EditResidenceDialog_Facilities"]</MudText>
+                    <MudStack Row="true" Wrap="Wrap.Wrap">
+                        <MudCheckBox @bind-Value="@_residence.HasWifi" Label='@L["EditResidenceDialog_Facility_WiFi"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasParking" Label='@L["EditResidenceDialog_Facility_Parking"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasLaundry" Label='@L["EditResidenceDialog_Facility_Laundry"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasGym" Label='@L["EditResidenceDialog_Facility_Gym"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasSwimmingPool" Label='@L["EditResidenceDialog_Facility_Pool"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasSecurity" Label='@L["EditResidenceDialog_Facility_Security"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasKitchen" Label='@L["EditResidenceDialog_Facility_Kitchen"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_residence.HasStudyRoom" Label='@L["EditResidenceDialog_Facility_StudyRoom"]' Color="Color.Primary" />
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@L["EditResidenceDialog_Button_Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(!_success)">@L["EditResidenceDialog_Button_Save"]</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public Residence ResidenceToEdit { get; set; } = default!;
+
+    private MudForm _form;
+    private bool _success;
+    private Residence _residence = new();
+
+    // Address fields
+    private string _street = "";
+    private string _city = "";
+    private string _state = "";
+    private string _country = "";
+    private string _zipCode = "";
+
+    protected override void OnInitialized()
+    {
+        // Manually copy properties from ResidenceToEdit to _residence
+        _residence.Id = ResidenceToEdit.Id;
+        _residence.Name = ResidenceToEdit.Name;
+        _residence.Description = ResidenceToEdit.Description;
+        _residence.ImagePath = ResidenceToEdit.ImagePath;
+        _residence.MaxRoomsCount = ResidenceToEdit.MaxRoomsCount;
+        _residence.TotalCapacity = ResidenceToEdit.TotalCapacity;
+        _residence.AvailableCapacity = ResidenceToEdit.AvailableCapacity;
+        _residence.CurrentRoomsCount = ResidenceToEdit.CurrentRoomsCount;
+        _residence.HasWifi = ResidenceToEdit.HasWifi;
+        _residence.HasParking = ResidenceToEdit.HasParking;
+        _residence.HasLaundry = ResidenceToEdit.HasLaundry;
+        _residence.HasGym = ResidenceToEdit.HasGym;
+        _residence.HasSwimmingPool = ResidenceToEdit.HasSwimmingPool;
+        _residence.HasSecurity = ResidenceToEdit.HasSecurity;
+        _residence.HasKitchen = ResidenceToEdit.HasKitchen;
+        _residence.HasStudyRoom = ResidenceToEdit.HasStudyRoom;
+        _residence.IsActive = ResidenceToEdit.IsActive;
+
+        // Pre-populate address fields
+        if (ResidenceToEdit.Address != null)
+        {
+            _street = ResidenceToEdit.Address.Street;
+            _city = ResidenceToEdit.Address.City;
+            _state = ResidenceToEdit.Address.State;
+            _country = ResidenceToEdit.Address.Country;
+            _zipCode = ResidenceToEdit.Address.PostalCode;
+        }
+    }
+    
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task Submit()
+    {
+        await _form.Validate();
+        if (_form.IsValid)
+        {
+            try
+            {
+                // Update Address Value Object
+                _residence.Address = Address.Create(_street, _city, _state, _country, _zipCode);
+
+                using var scope = ScopeFactory.CreateScope();
+                var repo = scope.ServiceProvider.GetRequiredService<IRepositories<Residence>>();
+                
+                // Ensure to update the existing entity rather than creating a new one.
+                await repo.UpdateAsync(_residence);
+                
+                Snackbar.Add(string.Format(L["EditResidenceDialog_Snackbar_Updated"], _residence.Name), Severity.Success);
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(string.Format(L["EditResidenceDialog_Snackbar_Error"], ex.Message), Severity.Error);
+            }
+        }
+    }
+}

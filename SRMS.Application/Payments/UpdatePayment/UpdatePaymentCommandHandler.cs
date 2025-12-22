@@ -177,7 +177,7 @@ public class UpdatePaymentCommandHandler : IRequestHandler<UpdatePaymentCommand,
         return new PaymentDto
         {
             Id = updated.Id,
-            ReservationId = updated.ReservationId,
+            ReservationId = updated.ReservationId.Value,
             StudentName = updated.Reservation?.Student?.FullName ?? "",
             Amount = updated.Amount?.Amount ?? 0m,
             Description = updated.Description,

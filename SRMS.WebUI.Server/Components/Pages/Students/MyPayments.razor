@@ -109,7 +109,7 @@
 
     private async Task LoadData()
     {
-        _payments = await PaymentService.GetStudentPaymentsAsync(_currentUserId);
+        _payments = (await PaymentService.GetStudentPaymentsAsync(_currentUserId)).ToList();
         _pendingAmount = await PaymentService.GetPendingDuesAmountAsync(_currentUserId);
         _totalPaidAmount = await PaymentService.GetTotalPaidAmountAsync(_currentUserId);
     }

@@ -357,6 +357,114 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose as Registrar.
+        /// </summary>
+        public static string AccountType_ChooseRegistrar {
+            get {
+                return ResourceManager.GetString("AccountType_ChooseRegistrar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose as Student.
+        /// </summary>
+        public static string AccountType_ChooseStudent {
+            get {
+                return ResourceManager.GetString("AccountType_ChooseStudent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to College Registrar.
+        /// </summary>
+        public static string AccountType_CollegeRegistrar {
+            get {
+                return ResourceManager.GetString("AccountType_CollegeRegistrar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Account Type.
+        /// </summary>
+        public static string AccountType_PageTitle {
+            get {
+                return ResourceManager.GetString("AccountType_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage student enrollments, verify documents and coordinate with housing administration..
+        /// </summary>
+        public static string AccountType_Registrar_Description {
+            get {
+                return ResourceManager.GetString("AccountType_Registrar_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Your Account Type.
+        /// </summary>
+        public static string AccountType_Selection {
+            get {
+                return ResourceManager.GetString("AccountType_Selection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select the type of account you want to create. This will determine your permissions and available features in the system..
+        /// </summary>
+        public static string AccountType_SelectMessage {
+            get {
+                return ResourceManager.GetString("AccountType_SelectMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student.
+        /// </summary>
+        public static string AccountType_Student {
+            get {
+                return ResourceManager.GetString("AccountType_Student", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apply for housing, manage your room, pay fees and submit maintenance requests..
+        /// </summary>
+        public static string AccountType_Student_Description {
+            get {
+                return ResourceManager.GetString("AccountType_Student_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        public static string Actions {
+            get {
+                return ResourceManager.GetString("Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No pending requests at the moment..
+        /// </summary>
+        public static string Admin_UserReviews_NoPending {
+            get {
+                return ResourceManager.GetString("Admin_UserReviews_NoPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Review Requests.
+        /// </summary>
+        public static string Admin_UserReviews_Title {
+            get {
+                return ResourceManager.GetString("Admin_UserReviews_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Admin Dashboard.
         /// </summary>
         public static string AdminDashboard {
@@ -600,11 +708,92 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Air Conditioning.
+        /// </summary>
+        public static string Amenity_AC {
+            get {
+                return ResourceManager.GetString("Amenity_AC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balcony.
+        /// </summary>
+        public static string Amenity_Balcony {
+            get {
+                return ResourceManager.GetString("Amenity_Balcony", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private Bathroom.
+        /// </summary>
+        public static string Amenity_Bathroom {
+            get {
+                return ResourceManager.GetString("Amenity_Bathroom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desk.
+        /// </summary>
+        public static string Amenity_Desk {
+            get {
+                return ResourceManager.GetString("Amenity_Desk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Heating.
+        /// </summary>
+        public static string Amenity_Heating {
+            get {
+                return ResourceManager.GetString("Amenity_Heating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wardrobe.
+        /// </summary>
+        public static string Amenity_Wardrobe {
+            get {
+                return ResourceManager.GetString("Amenity_Wardrobe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WiFi.
+        /// </summary>
+        public static string Amenity_WiFi {
+            get {
+                return ResourceManager.GetString("Amenity_WiFi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apartment.
+        /// </summary>
+        public static string Apartment {
+            get {
+                return ResourceManager.GetString("Apartment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Appearance.
         /// </summary>
         public static string Appearance {
             get {
                 return ResourceManager.GetString("Appearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approve.
+        /// </summary>
+        public static string Approve {
+            get {
+                return ResourceManager.GetString("Approve", resourceCulture);
             }
         }
         
@@ -825,6 +1014,24 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Available.
+        /// </summary>
+        public static string Available {
+            get {
+                return ResourceManager.GetString("Available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blue.
         /// </summary>
         public static string Blue {
@@ -852,11 +1059,182 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear Cache.
         /// </summary>
         public static string ClearCache {
             get {
                 return ResourceManager.GetString("ClearCache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        public static string Common_Actions {
+            get {
+                return ResourceManager.GetString("Common_Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audit Info.
+        /// </summary>
+        public static string Common_AuditInfo {
+            get {
+                return ResourceManager.GetString("Common_AuditInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to by.
+        /// </summary>
+        public static string Common_by {
+            get {
+                return ResourceManager.GetString("Common_by", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Common_Cancel {
+            get {
+                return ResourceManager.GetString("Common_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Common_Close {
+            get {
+                return ResourceManager.GetString("Common_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Deletion.
+        /// </summary>
+        public static string Common_ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("Common_ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Common_Create {
+            get {
+                return ResourceManager.GetString("Common_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created at.
+        /// </summary>
+        public static string Common_Created {
+            get {
+                return ResourceManager.GetString("Common_Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Common_Delete {
+            get {
+                return ResourceManager.GetString("Common_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Common_Edit {
+            get {
+                return ResourceManager.GetString("Common_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: {0}.
+        /// </summary>
+        public static string Common_Error_Exception {
+            get {
+                return ResourceManager.GetString("Common_Error_Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unexpected error occurred..
+        /// </summary>
+        public static string Common_Error_Unexpected {
+            get {
+                return ResourceManager.GetString("Common_Error_Unexpected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last modified at.
+        /// </summary>
+        public static string Common_LastModified {
+            get {
+                return ResourceManager.GetString("Common_LastModified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string Common_Loading {
+            get {
+                return ResourceManager.GetString("Common_Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string Common_No {
+            get {
+                return ResourceManager.GetString("Common_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Common_Save {
+            get {
+                return ResourceManager.GetString("Common_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Details.
+        /// </summary>
+        public static string Common_ViewDetails {
+            get {
+                return ResourceManager.GetString("Common_ViewDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Common_Yes {
+            get {
+                return ResourceManager.GetString("Common_Yes", resourceCulture);
             }
         }
         
@@ -1226,6 +1604,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string ComplaintsManagement_Table_Header_Title {
             get {
                 return ResourceManager.GetString("ComplaintsManagement_Table_Header_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to approve this profile?.
+        /// </summary>
+        public static string ConfirmApprove {
+            get {
+                return ResourceManager.GetString("ConfirmApprove", resourceCulture);
             }
         }
         
@@ -2427,6 +2814,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add New Room.
+        /// </summary>
+        public static string CreateRoomDialog_Title {
+            get {
+                return ResourceManager.GetString("CreateRoomDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string CreateUserDialog_Button_Cancel {
@@ -2594,6 +2990,24 @@ namespace SRMS.WebUI.Server.Resources {
         public static string CTA_Header {
             get {
                 return ResourceManager.GetString("CTA_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LYD.
+        /// </summary>
+        public static string Currency_LYD {
+            get {
+                return ResourceManager.GetString("Currency_LYD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USD.
+        /// </summary>
+        public static string Currency_USD {
+            get {
+                return ResourceManager.GetString("Currency_USD", resourceCulture);
             }
         }
         
@@ -2999,6 +3413,42 @@ namespace SRMS.WebUI.Server.Resources {
         public static string Dialog_OK {
             get {
                 return ResourceManager.GetString("Dialog_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documents.
+        /// </summary>
+        public static string Documents {
+            get {
+                return ResourceManager.GetString("Documents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Double.
+        /// </summary>
+        public static string Double {
+            get {
+                return ResourceManager.GetString("Double", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room updated successfully..
+        /// </summary>
+        public static string EditRoomDialog_Success {
+            get {
+                return ResourceManager.GetString("EditRoomDialog_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Room.
+        /// </summary>
+        public static string EditRoomDialog_Title {
+            get {
+                return ResourceManager.GetString("EditRoomDialog_Title", resourceCulture);
             }
         }
         
@@ -3669,6 +4119,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading.
+        /// </summary>
+        public static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign In.
         /// </summary>
         public static string Login_Button_SignIn {
@@ -3867,6 +4326,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logging Out.
         /// </summary>
         public static string Logout_LoggingOut {
@@ -3908,6 +4376,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string LogoutAllDevices {
             get {
                 return ResourceManager.GetString("LogoutAllDevices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintenance.
+        /// </summary>
+        public static string Maintenance {
+            get {
+                return ResourceManager.GetString("Maintenance", resourceCulture);
             }
         }
         
@@ -4826,6 +5303,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string NotificationSettings {
             get {
                 return ResourceManager.GetString("NotificationSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occupied.
+        /// </summary>
+        public static string Occupied {
+            get {
+                return ResourceManager.GetString("Occupied", resourceCulture);
             }
         }
         
@@ -6387,6 +6873,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Profile.
+        /// </summary>
+        public static string Profile_Button_UpdateProfile {
+            get {
+                return ResourceManager.GetString("Profile_Button_UpdateProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not load profile data. Please try again..
         /// </summary>
         public static string Profile_Error_Load {
@@ -6594,6 +7089,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rejection Reason:.
+        /// </summary>
+        public static string Profile_RejectionReason {
+            get {
+                return ResourceManager.GetString("Profile_RejectionReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Roles.
         /// </summary>
         public static string Profile_Roles {
@@ -6666,6 +7170,42 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your profile is currently under review by the administration. You will be notified once it is approved..
+        /// </summary>
+        public static string Profile_Status_Message_Pending {
+            get {
+                return ResourceManager.GetString("Profile_Status_Message_Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfortunately, your profile request was rejected. Please review the reason below and update your profile..
+        /// </summary>
+        public static string Profile_Status_Message_Rejected {
+            get {
+                return ResourceManager.GetString("Profile_Status_Message_Rejected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pending Approval.
+        /// </summary>
+        public static string Profile_Status_PendingApproval {
+            get {
+                return ResourceManager.GetString("Profile_Status_PendingApproval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile Rejected.
+        /// </summary>
+        public static string Profile_Status_Rejected {
+            get {
+                return ResourceManager.GetString("Profile_Status_Rejected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Personal Info.
         /// </summary>
         public static string Profile_Tab_PersonalInfo {
@@ -6720,6 +7260,249 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Academic Term.
+        /// </summary>
+        public static string ProfileCompletion_AcademicTerm {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_AcademicTerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Academic Year.
+        /// </summary>
+        public static string ProfileCompletion_AcademicYear {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_AcademicYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to College.
+        /// </summary>
+        public static string ProfileCompletion_College {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_College", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date of Birth.
+        /// </summary>
+        public static string ProfileCompletion_DOB {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_DOB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Birth Certificate.
+        /// </summary>
+        public static string ProfileCompletion_Doc_Birth {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Doc_Birth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Health Certificate.
+        /// </summary>
+        public static string ProfileCompletion_Doc_Health {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Doc_Health", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High School Certificate.
+        /// </summary>
+        public static string ProfileCompletion_Doc_HighSchool {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Doc_HighSchool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Residence Permit (for non-Libyans).
+        /// </summary>
+        public static string ProfileCompletion_Doc_Residence {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Doc_Residence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Emergency Contact Name.
+        /// </summary>
+        public static string ProfileCompletion_EmergencyName {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_EmergencyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Emergency Phone.
+        /// </summary>
+        public static string ProfileCompletion_EmergencyPhone {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_EmergencyPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship.
+        /// </summary>
+        public static string ProfileCompletion_EmergencyRelation {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_EmergencyRelation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee Number.
+        /// </summary>
+        public static string ProfileCompletion_EmployeeNumber {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_EmployeeNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while submitting the profile. Please check your data..
+        /// </summary>
+        public static string ProfileCompletion_Error {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender.
+        /// </summary>
+        public static string ProfileCompletion_Gender {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Gender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Major / Department.
+        /// </summary>
+        public static string ProfileCompletion_Major {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Major", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to National ID / Passport.
+        /// </summary>
+        public static string ProfileCompletion_NationalId {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_NationalId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nationality.
+        /// </summary>
+        public static string ProfileCompletion_Nationality {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Nationality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to College Registrar Profile Completion.
+        /// </summary>
+        public static string ProfileCompletion_Registrar_Title {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Registrar_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Academic Details.
+        /// </summary>
+        public static string ProfileCompletion_Step_Academic {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Step_Academic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address &amp; Emergency.
+        /// </summary>
+        public static string ProfileCompletion_Step_Address {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Step_Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Documents.
+        /// </summary>
+        public static string ProfileCompletion_Step_Documents {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Step_Documents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personal Information.
+        /// </summary>
+        public static string ProfileCompletion_Step_Personal {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Step_Personal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student Profile Completion.
+        /// </summary>
+        public static string ProfileCompletion_Student_Title {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Student_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student Number.
+        /// </summary>
+        public static string ProfileCompletion_StudentNumber {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_StudentNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit for Review.
+        /// </summary>
+        public static string ProfileCompletion_Submit {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile submitted successfully! Please wait for admin approval..
+        /// </summary>
+        public static string ProfileCompletion_Success {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to University Name.
+        /// </summary>
+        public static string ProfileCompletion_University {
+            get {
+                return ResourceManager.GetString("ProfileCompletion_University", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pacific Time.
         /// </summary>
         public static string PST {
@@ -6761,6 +7544,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string Red {
             get {
                 return ResourceManager.GetString("Red", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
             }
         }
         
@@ -7076,6 +7868,60 @@ namespace SRMS.WebUI.Server.Resources {
         public static string Register_TermsAndConditions {
             get {
                 return ResourceManager.GetString("Register_TermsAndConditions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to College Registrar Dashboard.
+        /// </summary>
+        public static string Registrar_Dashboard_Title {
+            get {
+                return ResourceManager.GetString("Registrar_Dashboard_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My College.
+        /// </summary>
+        public static string Registrar_MyCollege {
+            get {
+                return ResourceManager.GetString("Registrar_MyCollege", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Students Pending Academic Verification.
+        /// </summary>
+        public static string Registrar_PendingVerification_Title {
+            get {
+                return ResourceManager.GetString("Registrar_PendingVerification_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Students.
+        /// </summary>
+        public static string Registrar_TotalStudents {
+            get {
+                return ResourceManager.GetString("Registrar_TotalStudents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reject.
+        /// </summary>
+        public static string Reject {
+            get {
+                return ResourceManager.GetString("Reject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please provide a reason for rejection..
+        /// </summary>
+        public static string RejectionReason_Required {
+            get {
+                return ResourceManager.GetString("RejectionReason_Required", resourceCulture);
             }
         }
         
@@ -8025,6 +8871,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Review User Profile.
+        /// </summary>
+        public static string ReviewDetails_Title {
+            get {
+                return ResourceManager.GetString("ReviewDetails_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create New Role.
         /// </summary>
         public static string RolesManagement_CreateNewRole {
@@ -8210,6 +9065,267 @@ namespace SRMS.WebUI.Server.Resources {
         public static string RolesManagement_Title {
             get {
                 return ResourceManager.GetString("RolesManagement.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amenities.
+        /// </summary>
+        public static string Room_Amenities {
+            get {
+                return ResourceManager.GetString("Room_Amenities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Floor.
+        /// </summary>
+        public static string Room_Floor {
+            get {
+                return ResourceManager.GetString("Room_Floor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Floor is required..
+        /// </summary>
+        public static string Room_Floor_Required {
+            get {
+                return ResourceManager.GetString("Room_Floor_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available.
+        /// </summary>
+        public static string Room_IsAvailable {
+            get {
+                return ResourceManager.GetString("Room_IsAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Rent.
+        /// </summary>
+        public static string Room_MonthlyRent {
+            get {
+                return ResourceManager.GetString("Room_MonthlyRent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly Rent.
+        /// </summary>
+        public static string Room_MonthlyRentAmount {
+            get {
+                return ResourceManager.GetString("Room_MonthlyRentAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monthly rent is required..
+        /// </summary>
+        public static string Room_MonthlyRentAmount_Required {
+            get {
+                return ResourceManager.GetString("Room_MonthlyRentAmount_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency.
+        /// </summary>
+        public static string Room_MonthlyRentCurrency {
+            get {
+                return ResourceManager.GetString("Room_MonthlyRentCurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency is required..
+        /// </summary>
+        public static string Room_MonthlyRentCurrency_Required {
+            get {
+                return ResourceManager.GetString("Room_MonthlyRentCurrency_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occupied Beds.
+        /// </summary>
+        public static string Room_OccupiedBeds {
+            get {
+                return ResourceManager.GetString("Room_OccupiedBeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Residence.
+        /// </summary>
+        public static string Room_Residence {
+            get {
+                return ResourceManager.GetString("Room_Residence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Number.
+        /// </summary>
+        public static string Room_RoomNumber {
+            get {
+                return ResourceManager.GetString("Room_RoomNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room number is required..
+        /// </summary>
+        public static string Room_RoomNumber_Required {
+            get {
+                return ResourceManager.GetString("Room_RoomNumber_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Type.
+        /// </summary>
+        public static string Room_RoomType {
+            get {
+                return ResourceManager.GetString("Room_RoomType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room type is required..
+        /// </summary>
+        public static string Room_RoomType_Required {
+            get {
+                return ResourceManager.GetString("Room_RoomType_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Room_Status {
+            get {
+                return ResourceManager.GetString("Room_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Beds.
+        /// </summary>
+        public static string Room_TotalBeds {
+            get {
+                return ResourceManager.GetString("Room_TotalBeds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total beds is required..
+        /// </summary>
+        public static string Room_TotalBeds_Required {
+            get {
+                return ResourceManager.GetString("Room_TotalBeds_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Details.
+        /// </summary>
+        public static string RoomDetailsDialog_Title {
+            get {
+                return ResourceManager.GetString("RoomDetailsDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Room.
+        /// </summary>
+        public static string RoomManagement_Button_Add {
+            get {
+                return ResourceManager.GetString("RoomManagement_Button_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete room {0}?.
+        /// </summary>
+        public static string RoomManagement_Dialog_ConfirmDelete_Content {
+            get {
+                return ResourceManager.GetString("RoomManagement_Dialog_ConfirmDelete_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Status.
+        /// </summary>
+        public static string RoomManagement_Filter_RoomStatus {
+            get {
+                return ResourceManager.GetString("RoomManagement_Filter_RoomStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Type.
+        /// </summary>
+        public static string RoomManagement_Filter_RoomType {
+            get {
+                return ResourceManager.GetString("RoomManagement_Filter_RoomType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Management.
+        /// </summary>
+        public static string RoomManagement_Header {
+            get {
+                return ResourceManager.GetString("RoomManagement_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room Management.
+        /// </summary>
+        public static string RoomManagement_PageTitle {
+            get {
+                return ResourceManager.GetString("RoomManagement_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search for a room....
+        /// </summary>
+        public static string RoomManagement_SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("RoomManagement_SearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room created successfully..
+        /// </summary>
+        public static string RoomManagement_Snackbar_Created {
+            get {
+                return ResourceManager.GetString("RoomManagement_Snackbar_Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room {0} deleted successfully..
+        /// </summary>
+        public static string RoomManagement_Snackbar_Deleted {
+            get {
+                return ResourceManager.GetString("RoomManagement_Snackbar_Deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room updated successfully..
+        /// </summary>
+        public static string RoomManagement_Snackbar_Updated {
+            get {
+                return ResourceManager.GetString("RoomManagement_Snackbar_Updated", resourceCulture);
             }
         }
         
@@ -8547,6 +9663,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shared.
+        /// </summary>
+        public static string Shared {
+            get {
+                return ResourceManager.GetString("Shared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign In.
         /// </summary>
         public static string SignIn {
@@ -8561,6 +9686,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string SignUpNow {
             get {
                 return ResourceManager.GetString("SignUpNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Single.
+        /// </summary>
+        public static string Single {
+            get {
+                return ResourceManager.GetString("Single", resourceCulture);
             }
         }
         
@@ -8682,6 +9816,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Academic Status.
+        /// </summary>
+        public static string Student_AcademicStatus {
+            get {
+                return ResourceManager.GetString("Student_AcademicStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Student Portal.
         /// </summary>
         public static string StudentPortalLabel {
@@ -8696,6 +9839,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string StudentsLabel {
             get {
                 return ResourceManager.GetString("StudentsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suite.
+        /// </summary>
+        public static string Suite {
+            get {
+                return ResourceManager.GetString("Suite", resourceCulture);
             }
         }
         
@@ -8741,6 +9893,42 @@ namespace SRMS.WebUI.Server.Resources {
         public static string TwoFactorAuthentication {
             get {
                 return ResourceManager.GetString("TwoFactorAuthentication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        public static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Requested Type.
+        /// </summary>
+        public static string User_AccountType {
+            get {
+                return ResourceManager.GetString("User_AccountType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Name.
+        /// </summary>
+        public static string User_FullName {
+            get {
+                return ResourceManager.GetString("User_FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration Date.
+        /// </summary>
+        public static string User_RegistrationDate {
+            get {
+                return ResourceManager.GetString("User_RegistrationDate", resourceCulture);
             }
         }
         
@@ -8943,6 +10131,24 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Verified.
+        /// </summary>
+        public static string Verified {
+            get {
+                return ResourceManager.GetString("Verified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify.
+        /// </summary>
+        public static string Verify {
+            get {
+                return ResourceManager.GetString("Verify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to Login.
         /// </summary>
         public static string VerifyEmail_Button_BackToLogin {
@@ -9092,6 +10298,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string VersionInfo {
             get {
                 return ResourceManager.GetString("VersionInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Details.
+        /// </summary>
+        public static string ViewDetails {
+            get {
+                return ResourceManager.GetString("ViewDetails", resourceCulture);
             }
         }
         

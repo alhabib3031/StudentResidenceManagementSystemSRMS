@@ -162,6 +162,7 @@ public class SuperRootService : ISuperRootService
                 Address = Address.Create("Tripoli", "University Street", "Tripoli", "1000", "Libya"),
                 TotalCapacity = 100,
                 AvailableCapacity = 100,
+                MaxRoomsCount = 50, // Ensure MaxRoomsCount is set for dummy data
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
             };
@@ -225,6 +226,11 @@ public class SuperRootService : ISuperRootService
     {
         _isMaintenanceMode = false;
         return Task.FromResult(true);
+    }
+
+    public Task<bool> IsMaintenanceModeEnabled()
+    {
+        return Task.FromResult(_isMaintenanceMode);
     }
 
     public Task<bool> ClearAllCacheAsync()

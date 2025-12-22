@@ -28,7 +28,6 @@ public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, List<Ro
                 RoomType = r.RoomType,
                 TotalBeds = r.TotalBeds,
                 OccupiedBeds = r.OccupiedBeds,
-                AvailableBeds = r.TotalBeds - r.OccupiedBeds,
                 IsFull = r.OccupiedBeds >= r.TotalBeds,
                 ResidenceName = r.Residence.Name,
                 IsActive = r.IsActive

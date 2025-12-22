@@ -1,15 +1,14 @@
-﻿using SRMS.Domain.Abstractions;
+using SRMS.Domain.Abstractions;
 using SRMS.Domain.Rooms;
 using SRMS.Domain.Students;
+using SRMS.Domain.ValueObjects;
 using SRMS.Domain.Reservations.Enums;
-using SRMS.Domain.Complaints;
-using SRMS.Domain.Payments;
+using System.Security.AccessControl;
+using SRMS.Domain.Complaints; // Added for Complaints navigation property
+using SRMS.Domain.Payments;   // Added for Payments navigation property
 
 namespace SRMS.Domain.Reservations;
 
-/// <summary>
-/// Intermediate entity for the Many-to-Many relationship between Student and Room, representing a Reservation.
-/// </summary>
 public class Reservation : Entity
 {
     public Guid StudentId { get; set; }
@@ -18,11 +17,17 @@ public class Reservation : Entity
     public Guid RoomId { get; set; }
     public Room Room { get; set; } = null!;
 
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public ReservationStatus Status { get; set; } = ReservationStatus.Pending;
+    public Guid ResidenceId { get; set; } // New property
 
-    // Navigation Properties
+    public DateOnly StartDate { get; set; }
+    public DateOnly EndDate { get; set; }
+    public DateTime ReservationDate { get; set; }
+    public bool IsPaid { get; set; }
+    public Money? TotalAmount { get; set; }
+    public ReservationStatus Status { get; set; }
+    
+    // Navigation properties for relationships
     public ICollection<Complaint> Complaints { get; set; } = new List<Complaint>();
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    
 }

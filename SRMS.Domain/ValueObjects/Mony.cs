@@ -14,7 +14,7 @@ public class Money : ValueObject
         Currency = currency;
     }
 
-    public static Money Create(decimal amount, string currency = "SAR")
+    public static Money Create(decimal amount, string currency = "LY")
     {
         if (amount < 0)
             throw new ArgumentException("Amount cannot be negative");

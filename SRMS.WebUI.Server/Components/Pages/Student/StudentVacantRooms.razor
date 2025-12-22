@@ -1,0 +1,66 @@
+@page "/student/residences/{ResidenceId:guid}/vacant-rooms"
+@attribute [Authorize(Roles = "Student")]
+@using SRMS.Application.Reservations.DTOs
+@using SRMS.Domain.Rooms.Enums
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<h3>Vacant Rooms in Residence</h3>
+
+@if (vacantRooms == null)
+{
+    <p><em>Loading vacant rooms...</em></p>
+}
+else
+{
+    @if (!vacantRooms.Any())
+    {
+        <p>No vacant rooms currently available in this residence.</p>
+    }
+    else
+    {
+        <div class="card-columns">
+            @foreach (var room in vacantRooms)
+            {
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Room @room.RoomNumber</h5>
+                        <p class="card-text">Floor: @room.Floor</p>
+                        <p class="card-text">Type: @room.RoomType</p>
+                        <p class="card-text">Beds: @room.OccupiedBeds / @room.TotalBeds</p>
+                        <p class="card-text">Status: @room.Status</p>
+                        <p class="card-text">Monthly Rent: @room.MonthlyRent?.Amount @room.MonthlyRent?.Currency</p>
+                        <button class="btn btn-success" @onclick="(() => SelectRoomForReservation(room.Id))">Select for Reservation</button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+    [Parameter]
+    public Guid ResidenceId { get; set; }
+
+    private IEnumerable<RoomAvailabilityDto>? vacantRooms;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            vacantRooms = await Http.GetFromJsonAsync<IEnumerable<RoomAvailabilityDto>>($"api/student/StudentReservations/residences/{ResidenceId}/vacant-rooms");
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Error fetching vacant rooms: {ex.Message}");
+            // Handle error
+        }
+    }
+
+    private void SelectRoomForReservation(Guid roomId)
+    {
+        // Navigate to a reservation confirmation page, passing room and residence IDs
+        Navigation.NavigateTo($"/student/reserve-room/{ResidenceId}/{roomId}");
+    }
+}

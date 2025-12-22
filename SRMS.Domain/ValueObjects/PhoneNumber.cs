@@ -10,8 +10,6 @@ public class PhoneNumber : ValueObject
     public string Value { get; set; }
     public string CountryCode { get; private set; }
 
-    private PhoneNumber() { }
-
     [JsonConstructor]
     private PhoneNumber(string value, string countryCode)
     {

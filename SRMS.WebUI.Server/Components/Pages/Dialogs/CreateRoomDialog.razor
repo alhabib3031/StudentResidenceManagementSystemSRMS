@@ -23,95 +23,85 @@
         <MudForm @ref="_form" @bind-IsValid="_success">
             <MudGrid>
                 <MudItem xs="12" sm="6">
-                    <MudSelect @bind-Value="_model.ResidenceId" Label='@L["CreateRoomDialog_Residence"]' 
-                        Required="true" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
-                        @foreach (var residence in _residences)
-                        {
-                            <MudSelectItem Value="@residence.Id">@residence.Name</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudItem>
-                
-                <MudItem xs="12" sm="6">
-                    <MudTextField @bind-Value="_model.RoomNumber" Label='@L["CreateRoomDialog_RoomNumber"]' 
-                        Required="true" RequiredError='@L["CreateRoomDialog_RoomNumber_Required"]' 
+                    <MudTextField @bind-Value="_model.RoomNumber" Label='@L["Room_RoomNumber"]' 
+                        Required="true" RequiredError='@L["Room_RoomNumber_Required"]' 
                         Variant="Variant.Outlined" />
                 </MudItem>
                 
                 <MudItem xs="12" sm="6">
-                    <MudNumericField @bind-Value="_model.Floor" Label='@L["CreateRoomDialog_Floor"]' 
+                    <MudNumericField @bind-Value="_model.Floor" Label='@L["Room_Floor"]' 
                         Min="0" Max="100" Required="true" Variant="Variant.Outlined" />
                 </MudItem>
                 
                 <MudItem xs="12" sm="6">
-                    <MudNumericField @bind-Value="_model.TotalBeds" Label='@L["CreateRoomDialog_TotalBeds"]' 
+                    <MudNumericField @bind-Value="_model.TotalBeds" Label='@L["Room_TotalBeds"]' 
                         Min="1" Max="10" Required="true" Variant="Variant.Outlined" />
                 </MudItem>
-                
-                <MudItem xs="12">
-                    <MudSelect @bind-Value="_model.RoomType" Label='@L["CreateRoomDialog_RoomType"]' 
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @bind-Value="_model.RoomType" Label='@L["Room_RoomType"]' 
                         Required="true" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
                         @foreach (RoomType type in Enum.GetValues(typeof(RoomType)))
                         {
-                            <MudSelectItem Value="@type">@type.ToString()</MudSelectItem>
+                            <MudSelectItem Value="@type">@L[type.ToString()]</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
                 
+                <MudItem xs="12" sm="6">
+                    <MudNumericField @bind-Value="_model.MonthlyRentAmount" Label='@L["Room_MonthlyRentAmount"]'
+                                     Required="true" RequiredError='@L["Room_MonthlyRentAmount_Required"]'
+                                     Variant="Variant.Outlined" Min="0" />
+                </MudItem>
+
+                <MudItem xs="12" sm="6">
+                    <MudSelect @bind-Value="_model.MonthlyRentCurrency" Label='@L["Room_MonthlyRentCurrency"]'
+                               Required="true" RequiredError='@L["Room_MonthlyRentCurrency_Required"]'
+                               Variant="Variant.Outlined">
+                        <MudSelectItem Value="@("USD")">@L["Currency_USD"]</MudSelectItem>
+                        <MudSelectItem Value="@("LYD")">@L["Currency_LYD"]</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+                
                 <MudItem xs="12">
-                    <MudText Typo="Typo.subtitle2" Class="mb-2">@L["CreateRoomDialog_Amenities"]</MudText>
+                    <MudText Typo="Typo.subtitle2" Class="mb-2">@L["Room_Amenities"]</MudText>
                     <MudStack Row="true" Wrap="Wrap.Wrap">
-                        <MudCheckBox @bind-Value="@_model.HasPrivateBathroom" Label='@L["CreateRoomDialog_Amenity_Bathroom"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_model.HasAirConditioning" Label='@L["CreateRoomDialog_Amenity_AC"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_model.HasHeating" Label='@L["CreateRoomDialog_Amenity_Heating"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_model.HasWifi" Label='@L["CreateRoomDialog_Amenity_WiFi"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_model.HasDesk" Label='@L["CreateRoomDialog_Amenity_Desk"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_model.HasWardrobe" Label='@L["CreateRoomDialog_Amenity_Wardrobe"]' Color="Color.Primary" />
-                        <MudCheckBox @bind-Value="@_model.HasBalcony" Label='@L["CreateRoomDialog_Amenity_Balcony"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_model.HasPrivateBathroom" Label='@L["Amenity_Bathroom"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_model.HasAirConditioning" Label='@L["Amenity_AC"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_model.HasHeating" Label='@L["Amenity_Heating"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_model.HasWifi" Label='@L["Amenity_WiFi"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_model.HasDesk" Label='@L["Amenity_Desk"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_model.HasWardrobe" Label='@L["Amenity_Wardrobe"]' Color="Color.Primary" />
+                        <MudCheckBox @bind-Value="@_model.HasBalcony" Label='@L["Amenity_Balcony"]' Color="Color.Primary" />
                     </MudStack>
                 </MudItem>
             </MudGrid>
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["CreateRoomDialog_Button_Cancel"]</MudButton>
+        <MudButton OnClick="Cancel">@L["Common_Cancel"]</MudButton>
         <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(!_success || _isSubmitting)">
             @if (_isSubmitting)
             {
                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
             }
-            @L["CreateRoomDialog_Button_Create"]
+            @L["Common_Create"]
         </MudButton>
     </DialogActions>
 </MudDialog>
 
 @code {
     [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
+    [Parameter] public Guid ResidenceId { get; set; }
 
     private MudForm _form = null!;
     private bool _success;
     private bool _isSubmitting;
     private CreateRoomDto _model = new();
-    private List<Residence> _residences = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await LoadResidences();
-    }
-
-    private async Task LoadResidences()
-    {
-        try
-        {
-            await using var context = await DbFactory.CreateDbContextAsync();
-            _residences = await context.Residences
-                .Where(r => !r.IsDeleted && r.IsActive)
-                .ToListAsync();
-        }
-        catch (Exception ex)
-        {
-            Snackbar.Add($"Error loading residences: {ex.Message}", Severity.Error);
-        }
+        _model.ResidenceId = ResidenceId;
     }
 
     private void Cancel() => MudDialog.Cancel();
@@ -119,32 +109,31 @@
     private async Task Submit()
     {
         await _form.Validate();
-        if (_form.IsValid)
+        if (!_form.IsValid) return;
+
+        _isSubmitting = true;
+        try
         {
-            _isSubmitting = true;
-            try
+            var command = new CreateRoomCommand { Room = _model };
+            var result = await Sender.Send(command);
+            
+            if (result != null)
             {
-                var command = new CreateRoomCommand { Room = _model };
-                var result = await Sender.Send(command);
-                
-                if (result != null)
-                {
-                    Snackbar.Add(L["CreateRoomDialog_Snackbar_Success"], Severity.Success);
-                    MudDialog.Close(DialogResult.Ok(result));
-                }
-                else
-                {
-                    Snackbar.Add(L["CreateRoomDialog_Snackbar_Error"], Severity.Error);
-                }
+                Snackbar.Add(L["RoomManagement_Snackbar_Created"], Severity.Success);
+                MudDialog.Close(DialogResult.Ok(result));
             }
-            catch (Exception ex)
+            else
             {
-                Snackbar.Add(string.Format(L["CreateRoomDialog_Snackbar_Exception"], ex.Message), Severity.Error);
+                Snackbar.Add(L["Common_Error_Unexpected"], Severity.Error);
             }
-            finally
-            {
-                _isSubmitting = false;
-            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(string.Format(L["Common_Error_Exception"], ex.Message), Severity.Error);
+        }
+        finally
+        {
+            _isSubmitting = false;
         }
     }
 }

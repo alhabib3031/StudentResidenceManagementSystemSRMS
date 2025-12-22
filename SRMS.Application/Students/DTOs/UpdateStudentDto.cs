@@ -25,7 +25,7 @@ public class UpdateStudentDto
 
     [Phone(ErrorMessage = "Invalid phone number")]
     public string? PhoneNumber { get; set; }
-    
+
     public string? PhoneCountryCode { get; set; } = "+218";
 
     // Address
@@ -34,26 +34,26 @@ public class UpdateStudentDto
     public string? AddressState { get; set; }
     public string? AddressPostalCode { get; set; }
     public string? AddressCountry { get; set; } = "Libya";
-    
+
     // Profile
     public string? NationalId { get; set; }
+    public Guid? NationalityId { get; set; }
+    public StudyLevel StudyLevel { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public Gender Gender { get; set; }
-    
+
     // Academic Information
     public string? UniversityName { get; set; }
     public string? StudentNumber { get; set; }
     public string? Major { get; set; }
     public int? AcademicYear { get; set; }
-    
+
     // Emergency Contact
     public string? EmergencyContactName { get; set; }
     public string? EmergencyContactPhone { get; set; }
     public string? EmergencyContactPhoneCountryCode { get; set; } = "+218";
     public string? EmergencyContactRelation { get; set; }
-    
-    
-    
+
     // Status
     public StudentStatus Status { get; set; }
 }

@@ -13,17 +13,17 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
 {
     private readonly IRepositories<Student> _studentRepository;
     private readonly IAuditService _audit;
-    
+
     public UpdateStudentCommandHandler(IRepositories<Student> studentRepository, IAuditService audit)
     {
         _studentRepository = studentRepository;
         _audit = audit;
     }
-    
+
     public async Task<StudentDto?> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
     {
         var existing = await _studentRepository.GetByIdAsync(request.Student.Id);
-        
+
         if (existing == null)
         {
             await _audit.LogAsync(
@@ -34,7 +34,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             );
             return null;
         }
-        
+
         // ✅ Store old values for audit
         var oldValues = new
         {
@@ -51,14 +51,16 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             existing.AcademicYear,
             existing.Status,
         };
-        
+
         // ✅ تحديث الخصائص البسيطة
         existing.FirstName = request.Student.FirstName;
         existing.LastName = request.Student.LastName;
         existing.NationalId = request.Student.NationalId;
+        existing.NationalityId = request.Student.NationalityId;
+        existing.StudyLevel = request.Student.StudyLevel;
         existing.DateOfBirth = request.Student.DateOfBirth;
         existing.Gender = request.Student.Gender;
-        
+
         // ✅ تحديث المعلومات الأكاديمية
         existing.UniversityName = request.Student.UniversityName;
         existing.StudentNumber = request.Student.StudentNumber;
@@ -68,10 +70,10 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
         // ✅ تحديث معلومات الطوارئ
         existing.EmergencyContactName = request.Student.EmergencyContactName;
         existing.EmergencyContactRelation = request.Student.EmergencyContactRelation;
-        
+
         // ✅ تحديث الحالة
         existing.Status = request.Student.Status;
-        
+
         // ✅ تحديث Email (Value Object)
         try
         {
@@ -89,13 +91,13 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             );
             throw new InvalidOperationException($"Invalid email: {ex.Message}");
         }
-        
+
         // ✅ تحديث PhoneNumber (Value Object)
         try
         {
             existing.PhoneNumber = !string.IsNullOrWhiteSpace(request.Student.PhoneNumber)
                 ? PhoneNumber.Create(
-                    request.Student.PhoneNumber, 
+                    request.Student.PhoneNumber,
                     request.Student.PhoneCountryCode ?? "+218")
                 : null;
         }
@@ -109,7 +111,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             );
             throw new InvalidOperationException($"Invalid phone number: {ex.Message}");
         }
-        
+
         // ✅ تحديث Emergency Contact Phone (Value Object)
         try
         {
@@ -129,7 +131,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             );
             throw new InvalidOperationException($"Invalid emergency contact phone: {ex.Message}");
         }
-        
+
         // ✅ تحديث Address (Value Object) - بالقيم الجديدة من DTO
         try
         {
@@ -158,13 +160,13 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             );
             throw new InvalidOperationException($"Invalid address: {ex.Message}");
         }
-        
+
         // ✅ تحديث Audit fields
         existing.UpdatedAt = DateTime.UtcNow;
-        
+
         // ✅ حفظ التغييرات
         var updated = await _studentRepository.UpdateAsync(existing);
-        
+
         // ✅ Store new values for audit
         var newValues = new
         {
@@ -181,7 +183,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             updated.AcademicYear,
             updated.Status,
         };
-        
+
         // ✅ Log student update
         await _audit.LogCrudAsync(
             action: AuditAction.Update,
@@ -189,7 +191,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
             newEntity: newValues,
             additionalInfo: $"Student updated: {updated.FullName}"
         );
-        
+
         // ✅ If status changed, log status change
         if (oldValues.Status != newValues.Status)
         {
@@ -200,9 +202,9 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand,
                 reason: "Status changed via update"
             );
         }
-        
-	        // ✅ Room assignment logic removed as per re-engineering
-        
+
+        // ✅ Room assignment logic removed as per re-engineering
+
         // ✅ إرجاع DTO
         return new StudentDto
         {

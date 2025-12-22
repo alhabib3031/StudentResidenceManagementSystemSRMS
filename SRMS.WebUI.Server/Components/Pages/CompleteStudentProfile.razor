@@ -32,15 +32,11 @@
                                 Variant="Variant.Outlined" Required="true" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <MudSelect T="string" @bind-Value="_model.Nationality" Label='@L["ProfileCompletion_Nationality"]'
+                            <MudSelect T="Guid" @bind-Value="_model.NationalityId" Label='@L["ProfileCompletion_Nationality"]'
                                 Variant="Variant.Outlined" Required="true" AnchorOrigin="Origin.BottomCenter">
                                 @foreach (var nat in _nationalities)
                                 {
-                                    <MudSelectItem Value="@nat.Name">@nat.Name</MudSelectItem>
-                                }
-                                @if (!_nationalities.Any())
-                                {
-                                    <MudSelectItem Value='@("ليبيا")'>ليبيا</MudSelectItem>
+                                    <MudSelectItem Value="@nat.Id">@nat.Name</MudSelectItem>
                                 }
                             </MudSelect>
                         </MudItem>

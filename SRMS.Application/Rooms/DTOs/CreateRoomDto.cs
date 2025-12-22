@@ -1,30 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
 using SRMS.Domain.Rooms.Enums;
 
 namespace SRMS.Application.Rooms.DTOs;
 
-// ============================================================
-// DTOs
-// ============================================================
 public class CreateRoomDto
 {
-    [Required]
-    public Guid ResidenceId { get; set; }
-
-    [Required]
-    [StringLength(50)]
     public string RoomNumber { get; set; } = string.Empty;
-
-    [Required]
-    [Range(0, 100)]
     public int Floor { get; set; }
-
-    [Required]
     public RoomType RoomType { get; set; }
-
-    [Required]
-    [Range(1, 10)]
     public int TotalBeds { get; set; }
+    public decimal MonthlyRentAmount { get; set; } // Using decimal for currency
+    public string MonthlyRentCurrency { get; set; } = "SAR";
+    public Guid ResidenceId { get; set; }
 
     // Amenities
     public bool HasPrivateBathroom { get; set; }

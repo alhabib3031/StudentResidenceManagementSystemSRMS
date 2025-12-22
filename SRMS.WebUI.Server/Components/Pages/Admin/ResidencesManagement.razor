@@ -186,7 +186,7 @@
 
                 <MudTd DataLabel="Capacity">
                     <MudText Typo="Typo.body2">
-                        @context.AvailableCapacity / @context.TotalCapacity
+                        @context.Rooms.Count() / @context.TotalCapacity
                     </MudText>
                 </MudTd>
                 <MudTd DataLabel="Occupancy">
@@ -269,6 +269,7 @@
 
 	            // Fetch residences
 	            _residences = await context.Residences
+	            .Include(r => r.Rooms) // Eagerly load rooms
 	            .Where(r => !r.IsDeleted)
 	            .ToListAsync();
         }
@@ -336,14 +337,22 @@
         return ((double)totalOccupied / totalCapacity) * 100;
     }
 
-    private void ViewDetails(Residence residence)
+    private async Task ViewDetails(Residence residence)
     {
-        Navigation.NavigateTo($"/admin/residences/{residence.Id}");
+        var parameters = new DialogParameters { ["Residence"] = residence };
+        await DialogService.ShowAsync<ResidenceDetailsDialog>(L["ResidenceDetailsDialog_Title"], parameters);
     }
 
-    private void EditResidence(Residence residence)
+    private async Task EditResidence(Residence residence)
     {
-        Navigation.NavigateTo($"/admin/residences/edit/{residence.Id}");
+        var parameters = new DialogParameters { ["ResidenceToEdit"] = residence };
+        var dialog = await DialogService.ShowAsync<EditResidenceDialog>(L["EditResidenceDialog_Title"], parameters);
+        var result = await dialog.Result;
+
+        if (result != null && !result.Canceled)
+        {
+            await LoadResidences();
+        }
     }
 
     private void ManageRooms(Residence residence)
@@ -368,21 +377,29 @@
             try
             {
                 using var context = DbFactory.CreateDbContext();
-                // Attach entity to delete it, or find it first
+                Console.WriteLine($"Attempting to delete residence with ID: {residence.Id}");
                 var entity = await context.Residences.FindAsync(residence.Id);
                 if (entity != null)
                 {
+                    Console.WriteLine($"Found residence: {entity.Name}. Marking as deleted.");
                     entity.IsDeleted = true; // Soft delete
                     entity.DeletedAt = DateTime.UtcNow;
                     entity.IsActive = false;
                     await context.SaveChangesAsync();
+                    Console.WriteLine($"Residence {entity.Name} (ID: {entity.Id}) marked as deleted and changes saved.");
 
                     Snackbar.Add(string.Format(L["ResidencesManagement_Snackbar_Deleted"], residence.Name), Severity.Success);
                     await LoadResidences();
                 }
+                else
+                {
+                    Console.WriteLine($"Residence with ID: {residence.Id} not found for deletion.");
+                    Snackbar.Add(string.Format(L["ResidencesManagement_Snackbar_NotFound"], residence.Name), Severity.Warning);
+                }
             }
             catch (Exception ex)
             {
+                Console.Error.WriteLine($"Error during residence deletion: {ex.Message}");
                 Snackbar.Add($"Error: {ex.Message}", Severity.Error);
             }
         }

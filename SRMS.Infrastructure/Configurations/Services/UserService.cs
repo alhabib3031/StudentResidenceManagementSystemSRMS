@@ -199,6 +199,7 @@ public class UserService : IUserService
                 UniversityName = dto.UniversityName,
                 StudentNumber = dto.StudentNumber,
                 Major = dto.Major,
+                StudyLevel = dto.StudyLevel,
                 CollegeId = dto.CollegeId != Guid.Empty ? dto.CollegeId : null,
                 AcademicYear = dto.AcademicYear,
                 AcademicTerm = dto.AcademicTerm ?? "",
@@ -282,20 +283,11 @@ public class UserService : IUserService
         if (user == null) return false;
 
         user.ProfileStatus = UserProfileStatus.PendingProfileCompletion;
+        user.AccountType = accountType; // Set the account type instead of assigning a role
         user.UpdatedAt = DateTime.UtcNow;
 
         var result = await _userManager.UpdateAsync(user);
-        if (!result.Succeeded) return false;
-
-        // Add temporary role for navigation
-        string role = accountType == "Student" ? SRMS.Domain.Identity.Constants.Roles.Student : SRMS.Domain.Identity.Constants.Roles.CollegeRegistrar;
-
-        if (!await _userManager.IsInRoleAsync(user, role))
-        {
-            await _userManager.AddToRoleAsync(user, role);
-        }
-
-        return true;
+        return result.Succeeded;
     }
 
     public async Task<List<UserDto>> GetUsersByStatusAsync(UserProfileStatus status)
@@ -453,7 +445,7 @@ public class UserService : IUserService
                     HealthCertificatePath = student.HealthCertificatePath,
                     ResidencePermitPath = student.ResidencePermitPath,
                     NationalId = student.NationalId,
-                    Nationality = student.Nationality,
+                    Nationality = student.Nationality?.ToString(),
                     DateOfBirth = student.DateOfBirth,
                     Status = student.Status
                 };
@@ -519,7 +511,7 @@ public class UserService : IUserService
             HealthCertificatePath = student.HealthCertificatePath,
             ResidencePermitPath = student.ResidencePermitPath,
             NationalId = student.NationalId,
-            Nationality = student.Nationality,
+            Nationality = student.Nationality?.ToString(),
             DateOfBirth = student.DateOfBirth,
             Status = student.Status
         }).ToList();
@@ -546,6 +538,7 @@ public class UserService : IUserService
             IsActive = user.IsActive,
             ProfileStatus = user.ProfileStatus,
             RejectionReason = user.RejectionReason,
+            AccountType = user.AccountType,
             CreatedAt = user.CreatedAt,
             LastLoginAt = user.LastLoginAt,
             LoginCount = user.LoginCount,

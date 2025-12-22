@@ -1,3 +1,4 @@
+using SRMS.Domain.Common;
 using SRMS.Domain.Students.Enums;
 
 namespace SRMS.Application.Identity.DTOs;
@@ -6,7 +7,8 @@ public class CompleteStudentProfileDto
 {
     // Personal & Identity
     public string NationalId { get; set; } = string.Empty;
-    public string Nationality { get; set; } = string.Empty;
+    public Guid NationalityId { get; set; }
+    public Nationality? Nationality { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public Gender Gender { get; set; }
 
@@ -14,6 +16,7 @@ public class CompleteStudentProfileDto
     public string UniversityName { get; set; } = string.Empty;
     public string StudentNumber { get; set; } = string.Empty;
     public string Major { get; set; } = string.Empty;
+    public StudyLevel StudyLevel { get; set; }
     public Guid CollegeId { get; set; }
     public int AcademicYear { get; set; }
     public string AcademicTerm { get; set; } = string.Empty;

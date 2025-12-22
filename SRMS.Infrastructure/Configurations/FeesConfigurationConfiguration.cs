@@ -1,24 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SRMS.Domain.SystemSettings;
+using SRMS.Domain.Common;
 
 namespace SRMS.Infrastructure.Configurations;
 
-/// <summary>
-/// FeesConfigurationConfiguration
-/// </summary>
 public class FeesConfigurationConfiguration : IEntityTypeConfiguration<FeesConfiguration>
 {
     public void Configure(EntityTypeBuilder<FeesConfiguration> builder)
     {
         builder.HasKey(fc => fc.Id);
 
-        builder.Property(fc => fc.Nationality)
-            .HasMaxLength(100)
-            .IsRequired();
-
-        builder.Property(fc => fc.StudyType)
-            .HasMaxLength(100)
+        builder.Property(fc => fc.StudyLevel)
             .IsRequired();
 
         builder.Property(fc => fc.IsMonthly)
@@ -34,7 +27,13 @@ public class FeesConfigurationConfiguration : IEntityTypeConfiguration<FeesConfi
         builder.Property(fc => fc.Description)
             .HasMaxLength(500);
 
-        builder.HasIndex(fc => new { fc.Nationality, fc.StudyType })
+        builder.HasOne(fc => fc.Nationality)
+            .WithMany()
+            .HasForeignKey(fc => fc.NationalityId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Unique constraint on Nationality + StudyLevel
+        builder.HasIndex(fc => new { fc.NationalityId, fc.StudyLevel })
             .IsUnique();
 
         builder.HasQueryFilter(fc => !fc.IsDeleted);

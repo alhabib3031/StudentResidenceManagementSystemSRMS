@@ -12,6 +12,7 @@ using SRMS.Domain.Students;
 using SRMS.Domain.Reservations;
 using SRMS.Domain.Notifications;
 using Microsoft.EntityFrameworkCore;
+using SRMS.Domain.Reservations.Enums;
 
 namespace SRMS.Infrastructure.Configurations.Services;
 
@@ -203,10 +204,10 @@ public class DashboardStatisticsService : IDashboardStatisticsService
 
         var reservations = (await _reservationRepo.FindAsync(r => r.StudentId == studentId)).ToList();
         var reservationIds = reservations.Select(r => r.Id).ToList();
-        var activeReservation = reservations.OrderByDescending(r => r.CreatedAt).FirstOrDefault(r => r.Status == SRMS.Domain.Reservations.Enums.ReservationStatus.Approved || r.Status == SRMS.Domain.Reservations.Enums.ReservationStatus.Active);
+        var activeReservation = reservations.OrderByDescending(r => r.CreatedAt).FirstOrDefault(r => r.Status == ReservationStatus.Confirmed || r.Status == ReservationStatus.Confirmed);
 
         var complaints = await _complaintRepo.FindAsync(c => reservationIds.Contains(c.ReservationId));
-        var payments = await _paymentRepo.FindAsync(p => reservationIds.Contains(p.ReservationId));
+        var payments = await _paymentRepo.FindAsync(p => p.ReservationId.HasValue && reservationIds.Contains(p.ReservationId.Value)); // تم اصلاح مشكلة عدم القدرة علي تمرير قيمة يحتمل ان تكون فارغة بوضع الشرط
         var notifications = await _notificationRepo.FindAsync(n => n.UserId == studentId || (student.Email != null && n.UserEmail == student.Email.Value));
 
         var dto = new StudentDashboardDataDto

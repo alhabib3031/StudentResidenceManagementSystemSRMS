@@ -1,0 +1,84 @@
+@using SRMS.Domain.Residences
+@using SRMS.Domain.ValueObjects
+@using MudBlazor
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@inject IStringLocalizer<Resource> L
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Info" Class="mr-2" />
+            @L["ResidenceDetailsDialog_Title"] - @_residence.Name
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudText Typo="Typo.h6">@_residence.Name</MudText>
+                @if (!string.IsNullOrEmpty(_residence.Description))
+                {
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">@_residence.Description</MudText>
+                }
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudText Typo="Typo.subtitle2">@L["ResidenceDetailsDialog_Address"]</MudText>
+                @if (_residence.Address != null)
+                {
+                    <MudText Typo="Typo.body2">@_residence.Address.Street, @_residence.Address.City</MudText>
+                    <MudText Typo="Typo.body2">@_residence.Address.State, @_residence.Address.Country</MudText>
+                    <MudText Typo="Typo.body2">@_residence.Address.PostalCode</MudText>
+                }
+                else
+                {
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">@L["ResidenceDetailsDialog_NoAddress"]</MudText>
+                }
+            </MudItem>
+
+            <MudItem xs="12" md="6">
+                <MudText Typo="Typo.subtitle2">@L["ResidenceDetailsDialog_Capacity"]</MudText>
+                <MudText Typo="Typo.body2">@L["ResidenceDetailsDialog_TotalRooms"]: @_residence.MaxRoomsCount</MudText>
+                <MudText Typo="Typo.body2">@L["ResidenceDetailsDialog_CurrentRooms"]: @_residence.CurrentRoomsCount</MudText>
+                <MudText Typo="Typo.body2">@L["ResidenceDetailsDialog_AvailableRooms"]: @_residence.AvailableCapacity</MudText>
+                <MudText Typo="Typo.body2">@L["ResidenceDetailsDialog_IsFull"]: @(_residence.IsFull ? L["Yes"] : L["No"])</MudText>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle2">@L["ResidenceDetailsDialog_Facilities"]</MudText>
+                <MudStack Row="true" Wrap="Wrap.Wrap" Spacing="1">
+                    @if (_residence.HasWifi) { <MudChip T="string" Icon="@Icons.Material.Filled.Wifi">@L["ResidenceDetailsDialog_Facility_WiFi"]</MudChip> }
+                    @if (_residence.HasParking) { <MudChip T="string" Icon="@Icons.Material.Filled.LocalParking">@L["ResidenceDetailsDialog_Facility_Parking"]</MudChip> }
+                    @if (_residence.HasLaundry) { <MudChip T="string" Icon="@Icons.Material.Filled.LocalLaundryService">@L["ResidenceDetailsDialog_Facility_Laundry"]</MudChip> }
+                    @if (_residence.HasGym) { <MudChip T="string" Icon="@Icons.Material.Filled.FitnessCenter">@L["ResidenceDetailsDialog_Facility_Gym"]</MudChip> }
+                    @if (_residence.HasSwimmingPool) { <MudChip T="string" Icon="@Icons.Material.Filled.Pool">@L["ResidenceDetailsDialog_Facility_SwimmingPool"]</MudChip> }
+                    @if (_residence.HasSecurity) { <MudChip T="string" Icon="@Icons.Material.Filled.Security">@L["ResidenceDetailsDialog_Facility_Security"]</MudChip> }
+                    @if (_residence.HasKitchen) { <MudChip T="string" Icon="@Icons.Material.Filled.Kitchen">@L["ResidenceDetailsDialog_Facility_Kitchen"]</MudChip> }
+                    @if (_residence.HasStudyRoom) { <MudChip T="string" Icon="@Icons.Material.Filled.School">@L["ResidenceDetailsDialog_Facility_StudyRoom"]</MudChip> }
+                    @if (!(_residence.HasWifi || _residence.HasParking || _residence.HasLaundry || _residence.HasGym || _residence.HasSwimmingPool || _residence.HasSecurity || _residence.HasKitchen || _residence.HasStudyRoom))
+                    {
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@L["ResidenceDetailsDialog_NoFacilities"]</MudText>
+                    }
+                </MudStack>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@L["ResidenceDetailsDialog_Button_Close"]</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+
+    [Parameter] public Residence Residence { get; set; } = default!;
+
+    private Residence _residence = new();
+
+    protected override void OnParametersSet()
+    {
+        _residence = Residence;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}

@@ -25,6 +25,7 @@ public class Room : Entity
     public int TotalBeds { get; set; }
     public int OccupiedBeds { get; set; }
     public bool IsFull => OccupiedBeds >= TotalBeds;
+    public RoomStatus Status { get; set; } = RoomStatus.Available;
 
     // Pricing
     public Money? MonthlyRent { get; set; }

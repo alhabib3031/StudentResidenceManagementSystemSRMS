@@ -11,7 +11,7 @@ namespace SRMS.Domain.Payments;
 /// </summary>
 public class Payment : Entity
 {
-    public Guid ReservationId { get; set; }
+    public Guid? ReservationId { get; set; }
     public Reservation Reservation { get; set; } = null!;
     
     public Money Amount { get; set; } = null!;

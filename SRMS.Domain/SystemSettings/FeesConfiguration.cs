@@ -1,5 +1,8 @@
 ﻿using SRMS.Domain.Abstractions;
+using SRMS.Domain.Students.Enums;
 using SRMS.Domain.ValueObjects;
+using SRMS.Domain.Common; // Added
+
 
 namespace SRMS.Domain.SystemSettings;
 
@@ -8,24 +11,13 @@ namespace SRMS.Domain.SystemSettings;
 /// </summary>
 public class FeesConfiguration : Entity
 {
-    public string Nationality { get; set; } = string.Empty; // e.g., "Libya", "Palestine", "Other"
-    public string StudyType { get; set; } = string.Empty; // e.g., "Bachelor", "Master", "PhD"
-    public bool IsMonthly { get; set; } = true; // Monthly or for the whole stay
-    public Money FeeAmount { get; set; } = Money.Zero("SAR"); // Default to 0 SAR
+    public Guid? NationalityId { get; set; }
+    public Nationality? Nationality { get; set; }
 
-    // Admin control properties
-    public new bool IsActive { get; set; } = true;
+    public StudyLevel StudyLevel { get; set; }
+
+    public bool IsMonthly { get; set; } = true; // true = Monthly, false = One Time (Season)
+    public Money FeeAmount { get; set; } = Money.Zero("SAR");
+
     public string? Description { get; set; }
-
-    public static FeesConfiguration CreateDefault(string nationality, string studyType, decimal amount, string currency, bool isMonthly, string description)
-    {
-        return new FeesConfiguration
-        {
-            Nationality = nationality,
-            StudyType = studyType,
-            FeeAmount = Money.Create(amount, currency),
-            IsMonthly = isMonthly,
-            Description = description
-        };
-    }
 }

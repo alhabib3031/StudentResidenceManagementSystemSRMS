@@ -2,6 +2,10 @@
 using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
+using SRMS.Application.Rooms.Interfaces;
+using SRMS.Application.Payments.Interfaces;
+using SRMS.Application.Reservations.Interfaces;
+using SRMS.Application.SystemSettings.Interfaces;
 using MediatR;
 // using SRMS.Application.Common.Behaviors;
 

@@ -285,7 +285,7 @@
             using var scope = ScopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             var reservation = await context.Reservations
-                .Where(r => r.StudentId == _currentStudentId && r.Status == Domain.Reservations.Enums.ReservationStatus.Active)
+                .Where(r => r.StudentId == _currentStudentId && r.Status == Domain.Reservations.Enums.ReservationStatus.Confirmed)
                 .OrderByDescending(r => r.CreatedAt)
                 .FirstOrDefaultAsync();
 

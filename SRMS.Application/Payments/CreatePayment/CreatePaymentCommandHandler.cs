@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using MediatR;
 using SRMS.Application.AuditLogs.Interfaces;
 using SRMS.Application.Payments.DTOs;
@@ -90,7 +90,7 @@ public class CreatePaymentCommandHandler : IRequestHandler<CreatePaymentCommand,
         return new PaymentDto
         {
             Id = created.Id,
-            ReservationId = created.ReservationId,
+            ReservationId = created.ReservationId!.Value,
             StudentName = created.Reservation?.Student?.FullName ?? "",
             Amount = created.Amount?.Amount ?? 0m,
             Description = created.Description,

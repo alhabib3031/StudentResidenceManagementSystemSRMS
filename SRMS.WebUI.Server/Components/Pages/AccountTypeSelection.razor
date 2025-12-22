@@ -152,6 +152,8 @@
             var success = await UserService.SetAccountTypeAsync(id, type);
             if (success)
             {
+                // Force a reload to refresh the auth state.
+                // The app's main router will then redirect the user appropriately.
                 if (type == "Student") Navigation.NavigateTo("/complete-student-profile");
                 else Navigation.NavigateTo("/complete-registrar-profile");
             }
@@ -165,14 +167,32 @@
 
     private void RedirectToAppropriatePage(ClaimsPrincipal user)
     {
-        var role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+        var profileStatusStr = user.Claims.FirstOrDefault(c => c.Type == "ProfileStatus")?.Value;
 
+        // First, handle users who need to complete their profile.
+        if (profileStatusStr == UserProfileStatus.PendingProfileCompletion.ToString())
+        {
+            var accountType = user.Claims.FirstOrDefault(c => c.Type == "AccountType")?.Value;
+            if (accountType == "Student")
+            {
+                Navigation.NavigateTo("/complete-student-profile", replace: true);
+                return; // Exit after redirecting
+            }
+            if (accountType == "Registrar")
+            {
+                Navigation.NavigateTo("/complete-registrar-profile", replace: true);
+                return; // Exit after redirecting
+            }
+        }
+
+        // If the profile is not pending completion, then check roles (existing logic).
+        var role = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
         var redirectUrl = role switch
         {
             "SuperRoot" => "/superroot",
             "Admin" => "/admin",
             "Manager" => "/manager",
-            "Student" => "/student",
+            "Student" => "/student", // This is for an approved, active student
             _ => "/"
         };
 

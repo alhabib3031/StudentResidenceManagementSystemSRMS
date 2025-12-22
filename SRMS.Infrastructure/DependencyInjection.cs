@@ -12,6 +12,9 @@ using SRMS.Application.SuperRoot.Interfaces;
 using SRMS.Domain.Repositories;
 using SRMS.Infrastructure.Configurations.Services;
 using SRMS.Infrastructure.Repositories;
+using SRMS.Application.Rooms.Interfaces;
+using SRMS.Application.Reservations.Interfaces;
+using SRMS.Application.SystemSettings.Interfaces;
 
 namespace SRMS.Infrastructure;
 
@@ -66,6 +69,12 @@ public static class DependencyInjection
         services.AddScoped<INationalityService, NationalityService>();
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IDashboardStatisticsService, DashboardStatisticsService>();
+
+        services.AddScoped<IRoomService, RoomService>();
+        services.AddScoped<IPaymentService, DummyPaymentService>();
+        services.AddScoped<IReservationService, ReservationService>();
+        services.AddScoped<IRoomPricingService, RoomPricingService>();
+        services.AddScoped<IFeesConfigurationService, FeesConfigurationService>();
 
         // ════════════════════════════════════════════════════════════
         // Singleton Services (نسخة واحدة طوال عمر التطبيق)

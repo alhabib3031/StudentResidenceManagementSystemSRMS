@@ -1,0 +1,272 @@
+@page "/admin/residences/{ResidenceId:guid}/rooms"
+@using MudBlazor
+@using SRMS.Application.Rooms.DTOs
+@using SRMS.Application.Rooms.Interfaces
+@using SRMS.Domain.Rooms.Enums
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
+@using SRMS.WebUI.Server.Components.Pages.Dialogs
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@inject IStringLocalizer<Resource> L
+@inject IRoomService RoomService
+
+@attribute [Authorize(Roles = "Admin,SuperRoot")]
+@rendermode InteractiveServer
+
+<PageTitle>@L["RoomManagement_PageTitle"] - @ResidenceName</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+    <!-- Header -->
+    <MudPaper Elevation="0" Class="pa-4 mb-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+            <div>
+                <MudText Typo="Typo.h4">
+                    <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Class="mr-2" />
+                    @L["RoomManagement_Header"] - @ResidenceName
+                </MudText>
+                <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
+            </div>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
+                OnClick="OpenCreateRoomDialog">
+                @L["RoomManagement_Button_Add"]
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    <!-- Room Table -->
+    <MudPaper Elevation="2">
+        <MudTable Items="@_rooms" Hover="true" Striped="true" Loading="@_isLoading"
+            LoadingProgressColor="Color.Primary" Filter="new Func<RoomDto, bool>(FilterRooms)">
+            <ToolBarContent>
+                <MudTextField @bind-Value="_searchString" Placeholder='@L["RoomManagement_SearchPlaceholder"]'
+                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                    Variant="Variant.Text" Clearable="true" Immediate="true"></MudTextField>
+                <MudSpacer />
+                <MudSelect T="RoomType?" @bind-Value="_filterRoomType" Label="@L["RoomManagement_Filter_RoomType"]"
+                    Variant="Variant.Text" Clearable="true">
+                    @foreach (RoomType type in Enum.GetValues(typeof(RoomType)))
+                    {
+                        <MudSelectItem T="RoomType?" Value="@((RoomType?)type)">@L[type.ToString()]</MudSelectItem>
+                    }
+                </MudSelect>
+                <MudSelect T="RoomStatus?" @bind-Value="_filterRoomStatus" Label="@L["RoomManagement_Filter_RoomStatus"]"
+                    Variant="Variant.Text" Clearable="true">
+                    @foreach (RoomStatus status in Enum.GetValues(typeof(RoomStatus)))
+                    {
+                        <MudSelectItem T="RoomStatus?" Value="@((RoomStatus?)status)">@L[status.ToString()]</MudSelectItem>
+                    }
+                </MudSelect>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>@L["Room_RoomNumber"]</MudTh>
+                <MudTh>@L["Room_Floor"]</MudTh>
+                <MudTh>@L["Room_RoomType"]</MudTh>
+                <MudTh>@L["Room_MonthlyRent"]</MudTh>
+                <MudTh>@L["Room_TotalBeds"]</MudTh>
+                <MudTh>@L["Room_OccupiedBeds"]</MudTh>
+                <MudTh>@L["Room_Status"]</MudTh>
+                <MudTh>@L["Common_Actions"]</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="@L["Room_RoomNumber"]">@context.RoomNumber</MudTd>
+                <MudTd DataLabel="@L["Room_Floor"]">@context.Floor</MudTd>
+                <MudTd DataLabel="@L["Room_RoomType"]">@L[context.RoomType.ToString()]</MudTd>
+                <MudTd DataLabel="@L["Room_MonthlyRent"]">
+                    @context.MonthlyRentAmount
+                    @if (!string.IsNullOrEmpty(context.MonthlyRentCurrency))
+                    {
+                        @L[context.MonthlyRentCurrency]
+                    }
+                </MudTd>
+                <MudTd DataLabel="@L["Room_TotalBeds"]">@context.TotalBeds</MudTd>
+                <MudTd DataLabel="@L["Room_OccupiedBeds"]">@context.OccupiedBeds</MudTd>
+                <MudTd DataLabel="@L["Room_Status"]">
+                    <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)">@L[context.Status.ToString()]</MudChip>
+                </MudTd>
+                <MudTd DataLabel="@L["Common_Actions"]">
+                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Visibility" OnClick="@(() => ViewRoomDetails(context))">
+                            @L["Common_ViewDetails"]
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => OpenEditRoomDialog(context))">
+                            @L["Common_Edit"]
+                        </MudMenuItem>
+                        <MudDivider />
+                        <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
+                            OnClick="@(() => DeleteRoom(context))">
+                            @L["Common_Delete"]
+                        </MudMenuItem>
+                    </MudMenu>
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[] { 10, 25, 50 }" />
+            </PagerContent>
+        </MudTable>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    [Parameter] public Guid ResidenceId { get; set; }
+    private string ResidenceName { get; set; } = "Loading...";
+    private List<RoomDto> _rooms = new();
+    private bool _isLoading = true;
+    private string _searchString = "";
+    private RoomType? _filterRoomType = null;
+    private RoomStatus? _filterRoomStatus = null;
+
+    private List<BreadcrumbItem> _breadcrumbs = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        _isLoading = true;
+        await Task.WhenAll(LoadRooms(), SetBreadcrumbs());
+        _isLoading = false;
+    }
+
+    private async Task SetBreadcrumbs()
+    {
+        var residenceName = await RoomService.GetResidenceNameAsync(ResidenceId);
+        if (!string.IsNullOrEmpty(residenceName))
+        {
+            ResidenceName = residenceName;
+        }
+
+        _breadcrumbs = new()
+        {
+            new BreadcrumbItem("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
+            new BreadcrumbItem("Residences", href: "/admin/residences", icon: Icons.Material.Filled.Apartment),
+            new BreadcrumbItem(ResidenceName, href: null, disabled: true)
+        };
+    }
+
+    private async Task LoadRooms()
+    {
+        try
+        {
+            var result = await RoomService.GetRoomsByResidenceIdAsync(ResidenceId);
+            _rooms = result.ToList();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(string.Format(L["Common_Error_Exception"], ex.Message), Severity.Error);
+        }
+    }
+
+    private bool FilterRooms(RoomDto room)
+    {
+        var isMatch = true;
+
+        if (_filterRoomType.HasValue && room.RoomType != _filterRoomType.Value)
+            isMatch = false;
+
+        if (_filterRoomStatus.HasValue && room.Status != _filterRoomStatus.Value)
+            isMatch = false;
+
+        if (!string.IsNullOrWhiteSpace(_searchString))
+        {
+            if (!room.RoomNumber.Contains(_searchString, StringComparison.OrdinalIgnoreCase) &&
+                !room.Floor.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            {
+                isMatch = false;
+            }
+        }
+
+        return isMatch;
+    }
+
+    private Color GetStatusColor(RoomStatus status)
+    {
+        return status switch
+        {
+            RoomStatus.Available => Color.Success,
+            RoomStatus.Occupied => Color.Warning,
+            RoomStatus.Maintenance => Color.Error,
+            _ => Color.Default
+        };
+    }
+
+    private async Task OpenCreateRoomDialog()
+    {
+        var parameters = new DialogParameters { ["ResidenceId"] = ResidenceId };
+        var dialog = await DialogService.ShowAsync<CreateRoomDialog>(L["CreateRoomDialog_Title"], parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            await LoadRooms();
+        }
+    }
+
+    private async Task ViewRoomDetails(RoomDto room)
+    {
+        var parameters = new DialogParameters { ["Room"] = room };
+        await DialogService.ShowAsync<RoomDetailsDialog>(L["RoomDetailsDialog_Title"], parameters);
+    }
+
+    private async Task OpenEditRoomDialog(RoomDto room)
+    {
+        var updateRoomDto = new UpdateRoomDto
+        {
+            Id = room.Id,
+            ResidenceId = room.ResidenceId,
+            RoomNumber = room.RoomNumber,
+            Floor = room.Floor,
+            RoomType = room.RoomType,
+            TotalBeds = room.TotalBeds,
+            MonthlyRentAmount = room.MonthlyRentAmount.GetValueOrDefault(),
+            MonthlyRentCurrency = room.MonthlyRentCurrency,
+            IsAvailable = room.Status == RoomStatus.Available
+        };
+
+        var parameters = new DialogParameters { ["RoomToEdit"] = updateRoomDto };
+        var dialog = await DialogService.ShowAsync<EditRoomDialog>(L["EditRoomDialog_Title"], parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            await LoadRooms();
+        }
+    }
+
+    private async Task DeleteRoom(RoomDto room)
+    {
+        var parameters = new DialogParameters
+        {
+            ["ContentText"] = string.Format(L["RoomManagement_Dialog_ConfirmDelete_Content"], room.RoomNumber),
+            ["ButtonText"] = L["Common_Delete"],
+            ["Color"] = Color.Error
+        };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(L["Common_ConfirmDeletion"], parameters);
+        var result = await dialog.Result;
+
+        if (result is { Canceled: false })
+        {
+            try
+            {
+                var deleteResult = await RoomService.DeleteRoomAsync(room.Id);
+                if (deleteResult)
+                {
+                    Snackbar.Add(string.Format(L["RoomManagement_Snackbar_Deleted"], room.RoomNumber), Severity.Success);
+                    await LoadRooms();
+                }
+                else
+                {
+                    Snackbar.Add(L["Common_Error_Unexpected"], Severity.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(string.Format(L["Common_Error_Exception"], ex.Message), Severity.Error);
+            }
+        }
+    }
+}

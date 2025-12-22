@@ -15,6 +15,7 @@ public class UserDto
     public bool IsActive { get; set; }
     public UserProfileStatus ProfileStatus { get; set; }
     public string? RejectionReason { get; set; }
+    public string? AccountType { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? LastLoginAt { get; set; }
     public int LoginCount { get; set; }
