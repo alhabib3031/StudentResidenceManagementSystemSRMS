@@ -3,6 +3,7 @@
 @using SRMS.Domain.AuditLogs
 @using SRMS.Infrastructure
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.Extensions.Localization
 @attribute [Authorize(Roles = "SuperRoot")]
 @* @inject IUserService UserService
 @inject IRoleService RoleService *@
@@ -11,9 +12,10 @@
 @inject NavigationManager Navigation
 @inject IServiceScopeFactory ScopeFactory
 @inject IApplicationInfoService AppInfo
+@inject IStringLocalizer<Resource> Localizer
 @rendermode InteractiveServer
 
-<PageTitle>SuperRoot Dashboard</PageTitle>
+<PageTitle>@Localizer["SuperRoot_Dashboard_Title"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
@@ -22,10 +24,10 @@
             <div>
                 <MudText Typo="Typo.h4" Color="Color.Primary">
                     <MudIcon Icon="@Icons.Material.Filled.Shield" Class="mr-2" />
-                    SuperRoot Control Panel
+                    @Localizer["SuperRoot_Control_Panel"]
                 </MudText>
                 <MudText Typo="Typo.body2" Color="Color.Secondary">
-                    Full system access and control
+                    @Localizer["Full_System_Access"]
                 </MudText>
             </div>
             <MudButton 
@@ -34,7 +36,7 @@
                 StartIcon="@Icons.Material.Filled.Warning"
                 OnClick="@ShowDangerZone"
                 Class="btn-modern h-12 rounded-xl font-semibold">
-                Danger Zone
+                @Localizer["Danger_Zone"]
             </MudButton>
         </MudStack>
     </MudPaper>
@@ -51,7 +53,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Users</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["Total_Users"]</MudText>
                             <MudText Typo="Typo.h4">@_stats.TotalUsers</MudText>
                         </div>
                         <MudAvatar Color="Color.Primary" Size="Size.Large">
@@ -67,7 +69,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Active Users</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["Active_Users"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Success">@_stats.ActiveUsers</MudText>
                         </div>
                         <MudAvatar Color="Color.Success" Size="Size.Large">
@@ -83,7 +85,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Total Roles</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["Total_Roles"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Info">@_stats.TotalRoles</MudText>
                         </div>
                         <MudAvatar Color="Color.Info" Size="Size.Large">
@@ -99,7 +101,7 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">System Uptime</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["System_Uptime"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Warning">@_stats.SystemUptime<small>d</small></MudText>
                         </div>
                         <MudAvatar Color="Color.Warning" Size="Size.Large">
@@ -119,20 +121,20 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.People" Class="mr-2" Size="Size.Small" />
-                            User Management
+                            @Localizer["User_Management"]
                         </MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudList T="string" Dense="true">
                         <MudListItem Icon="@Icons.Material.Filled.PersonAdd" OnClick="@CreateNewUser" Class="btn-modern h-12 rounded-xl font-semibold">
-                            Create New User
+                            @Localizer["Create_New_User"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/users" Class="btn-modern h-12 rounded-xl font-semibold">
-                            View All Users
+                            @Localizer["View_All_Users"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Block" OnClick="@ManageInactiveUsers" Class="btn-modern h-12 rounded-xl font-semibold">
-                            Manage Inactive Users
+                            @Localizer["Manage_Inactive_Users"]
                         </MudListItem>
                     </MudList>
                 </MudCardContent>
@@ -145,20 +147,20 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" Size="Size.Small" />
-                            Role Management
+                            @Localizer["Role_Management"]
                         </MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudList T="string" Dense="true">
                         <MudListItem Icon="@Icons.Material.Filled.Add" OnClick="@CreateNewRole" Class="btn-modern h-12 rounded-xl font-semibold">
-                            Create New Role
+                            @Localizer["Create_New_Role"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.List" Href="/superroot/roles" Class="btn-modern h-12 rounded-xl font-semibold">
-                            View All Roles
+                            @Localizer["View_All_Roles"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Security" Href="/superroot/permissions" Class="btn-modern h-12 rounded-xl font-semibold">
-                            Manage Permissions
+                            @Localizer["Manage_Permissions"]
                         </MudListItem>
                     </MudList>
                 </MudCardContent>
@@ -171,20 +173,20 @@
                     <CardHeaderContent>
                         <MudText Typo="Typo.h6">
                             <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" Size="Size.Small" />
-                            System Settings
+                            @Localizer["System_Settings"]
                         </MudText>
                     </CardHeaderContent>
                 </MudCardHeader>
                 <MudCardContent>
                     <MudList T="string" Dense="true">
                         <MudListItem Icon="@Icons.Material.Filled.Email" Href="/superroot/email-config" Class="btn-modern h-12 rounded-xl font-semibold">
-                            Email Configuration
+                            @Localizer["Email_Configuration"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Sms" Href="/superroot/sms-config" Class="btn-modern h-12 rounded-xl font-semibold">
-                            SMS Configuration
+                            @Localizer["SMS_Configuration"]
                         </MudListItem>
                         <MudListItem Icon="@Icons.Material.Filled.Dataset" OnClick="@ShowDatabaseTools" Class="btn-modern h-12 rounded-xl font-semibold">
-                            Database Tools
+                            @Localizer["Database_Tools"]
                         </MudListItem>
                     </MudList>
                 </MudCardContent>
@@ -235,12 +237,12 @@
     private async Task CreateNewUser()
     {
         var parameters = new DialogParameters<CreateUserDialog>();
-        var dialog = await DialogService.ShowAsync<CreateUserDialog>("Create New User", parameters);
+        var dialog = await DialogService.ShowAsync<CreateUserDialog>(Localizer["Create_New_User"].Value, parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
         {
-            Snackbar.Add("User created successfully!", Severity.Success);
+            Snackbar.Add(Localizer["User_Created_Successfully"].Value, Severity.Success);
             await LoadStatistics();
         }
     }
@@ -249,12 +251,12 @@
     {
         var parameters = new DialogParameters<CreateRoleDialog>();
         var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true };
-        var dialog = await DialogService.ShowAsync<CreateRoleDialog>("Create New Role", parameters, options);
+        var dialog = await DialogService.ShowAsync<CreateRoleDialog>(Localizer["Create_New_Role"].Value, parameters, options);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
         {
-            Snackbar.Add("Role created successfully!", Severity.Success);
+            Snackbar.Add(Localizer["Role_Created_Successfully"].Value, Severity.Success);
             await LoadStatistics(); // تحديث الإحصائيات
         }
     }
@@ -268,20 +270,20 @@
     private async Task ShowDatabaseTools()
     {
         var options = new DialogOptions { MaxWidth = MaxWidth.Medium, FullWidth = true };
-        await DialogService.ShowAsync<DatabaseToolsDialog>("Database Management", options);
+        await DialogService.ShowAsync<DatabaseToolsDialog>(Localizer["Database_Tools"].Value, options);
     }
 
     private async Task ShowDangerZone()
     {
         var parameters = new DialogParameters
         {
-            ["ContentText"] = "You are about to enter the Danger Zone. Actions here are irreversible and can affect the entire system.",
-            ["ButtonText"] = "I Understand",
+            ["ContentText"] = Localizer["Danger_Zone_Warning"].Value,
+            ["ButtonText"] = Localizer["I_Understand"].Value,
             ["Color"] = Color.Error
         };
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small };
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>("⚠️ Warning", parameters, options);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>($"⚠️ {Localizer["Warning"].Value}", parameters, options);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })

@@ -2,7 +2,6 @@
 @using SRMS.Application.Common.Interfaces
 @using SRMS.Domain.Common
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject INationalityService NationalityService
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
@@ -14,7 +13,7 @@
     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-6">
         <MudText Typo="Typo.h4" Class="font-bold text-gradient">Nationalities Management</MudText>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-            OnClick="() => OpenNationalityDialog()" Class="rounded-xl px-6 py-2">
+            OnClick="@(() => OpenNationalityDialog())" Class="rounded-xl px-6 py-2">
             Add Nationality
         </MudButton>
     </MudStack>
@@ -32,8 +31,8 @@
             <MudTd DataLabel="Name (EN)">@context.NameEn</MudTd>
             <MudTd DataLabel="Code">@context.CountryCode</MudTd>
             <MudTd>
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="() => OpenNationalityDialog(context)" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="() => DeleteNationality(context.Id)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Info" OnClick="@(() => OpenNationalityDialog(context))" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteNationality(context.Id))" />
             </MudTd>
         </RowTemplate>
         <NoRecordsContent>

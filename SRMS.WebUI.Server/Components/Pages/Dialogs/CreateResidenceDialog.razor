@@ -3,8 +3,6 @@
 @using SRMS.Domain.Repositories
 @using Microsoft.Extensions.DependencyInjection
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
-@using MudBlazor
 @inject ISnackbar Snackbar
 @inject IServiceScopeFactory ScopeFactory
 @inject IStringLocalizer<Resource> L
@@ -68,8 +66,8 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["CreateResidenceDialog_Button_Cancel"]</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(!_success)">@L["CreateResidenceDialog_Button_Create"]</MudButton>
+        <MudButton OnClick="@Cancel">@L["CreateResidenceDialog_Button_Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="@Submit" Disabled="@(!_success)">@L["CreateResidenceDialog_Button_Create"]</MudButton>
     </DialogActions>
 </MudDialog>
 

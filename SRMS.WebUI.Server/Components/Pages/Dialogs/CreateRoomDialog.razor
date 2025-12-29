@@ -1,14 +1,7 @@
-@using SRMS.Domain.Rooms
 @using SRMS.Domain.Rooms.Enums
-@using SRMS.Domain.Residences
-@using SRMS.Application.Rooms.DTOs
 @using SRMS.Application.Rooms.CreateRoom
-@using Microsoft.EntityFrameworkCore
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
-@using MudBlazor
 @inject ISnackbar Snackbar
-@inject IDbContextFactory<SRMS.Infrastructure.ApplicationDbContext> DbFactory
 @inject ISender Sender
 @inject IStringLocalizer<Resource> L
 
@@ -79,8 +72,8 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["Common_Cancel"]</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(!_success || _isSubmitting)">
+        <MudButton OnClick="@Cancel">@L["Common_Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="@Submit" Disabled="@(!_success || _isSubmitting)">
             @if (_isSubmitting)
             {
                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
@@ -97,7 +90,7 @@
     private MudForm _form = null!;
     private bool _success;
     private bool _isSubmitting;
-    private CreateRoomDto _model = new();
+    private readonly CreateRoomDto _model = new();
 
     protected override void OnInitialized()
     {
@@ -116,16 +109,9 @@
         {
             var command = new CreateRoomCommand { Room = _model };
             var result = await Sender.Send(command);
-            
-            if (result != null)
-            {
-                Snackbar.Add(L["RoomManagement_Snackbar_Created"], Severity.Success);
-                MudDialog.Close(DialogResult.Ok(result));
-            }
-            else
-            {
-                Snackbar.Add(L["Common_Error_Unexpected"], Severity.Error);
-            }
+
+            Snackbar.Add(L["RoomManagement_Snackbar_Created"], Severity.Success);
+            MudDialog.Close(DialogResult.Ok(result));
         }
         catch (Exception ex)
         {

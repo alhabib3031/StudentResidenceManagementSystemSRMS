@@ -2,19 +2,14 @@
 @using SRMS.Application.AuditLogs.Interfaces
 @using SRMS.Domain.AuditLogs.Enums
 @using SRMS.Domain.Complaints
-@using SRMS.Domain.Complaints.Enums
 @using SRMS.Domain.Payments
 @using SRMS.Domain.Repositories
 @using SRMS.Domain.Residences
-@using SRMS.Domain.Reservations
-@using Microsoft.EntityFrameworkCore
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @attribute [Authorize(Roles = "Admin,SuperRoot")]
 @inject IRepositories<Student> StudentRepo
 @inject IRepositories<Payment> PaymentRepo
 @inject IRepositories<Complaint> ComplaintRepo
-@inject IRepositories<Reservation> ReservationRepo
 @inject IRepositories<ComplaintType> ComplaintTypeRepo
 @inject IRepositories<Residence> ResidenceRepo
 @inject IAuditService AuditService
@@ -46,11 +41,11 @@
         <MudGrid>
             <MudItem xs="12" md="4">
                 <MudDatePicker Date="_startDate"
-                    DateChanged="@((DateTime? date) => { _startDate = date; LoadReports(); })" Label='@L["ReportsAndAnalytics_Label_StartDate"]'
+                    DateChanged="@(async (DateTime? date) => { _startDate = date; await LoadReports(); })" Label='@L["ReportsAndAnalytics_Label_StartDate"]'
                     Variant="Variant.Outlined" />
             </MudItem>
             <MudItem xs="12" md="4">
-                <MudDatePicker Date="_endDate" DateChanged="@((DateTime? date) => { _endDate = date; LoadReports(); })"
+                <MudDatePicker Date="_endDate" DateChanged="@(async (DateTime? date) => { _endDate = date; await LoadReports(); })"
                     Label='@L["ReportsAndAnalytics_Label_EndDate"]' Variant="Variant.Outlined" />
             </MudItem>
             <MudItem xs="12" md="4">
@@ -309,13 +304,13 @@
     private ReportData _reportData = new();
     private List<ChartDataPoint> _revenueChartData = new();
     private List<ChartSeries> _revenueSeries = new();
-    private double[] _paymentStatusData = Array.Empty<double>();
-    private string[] _paymentStatusLabels = Array.Empty<string>();
+    private double[] _paymentStatusData = [];
+    private string[] _paymentStatusLabels = [];
 	private List<ChartSeries> _complaintSeries = new();
-	private string[] _complaintCategories = Array.Empty<string>();
+	private string[] _complaintCategories = [];
 	private List<ComplaintType> _allComplaintTypes = new();
 
-    private ChartOptions _chartOptions = new()
+    private readonly ChartOptions _chartOptions = new()
         {
             YAxisTicks = 10,
             MaxNumYAxisTicks = 10,
@@ -323,17 +318,17 @@
             XAxisLines = false
         };
 
-    private ChartOptions _barChartOptions = new()
+    private readonly ChartOptions _barChartOptions = new()
         {
             YAxisTicks = 5,
             XAxisLines = false
         };
 
-    private List<BreadcrumbItem> _breadcrumbs = new()
-    {
-        new BreadcrumbItem("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
-        new BreadcrumbItem("Reports", href: null, disabled: true)
-    };
+    private readonly List<BreadcrumbItem> _breadcrumbs =
+    [
+        new("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
+        new("Reports", href: null, disabled: true)
+    ];
 
     protected override async Task OnInitializedAsync()
     {
@@ -372,7 +367,8 @@
             var auditLogs = await AuditService.GetAllAsync();
 
             // Filter by date range
-            var filteredStudents = students.Where(s =>
+            var iEnumerable = students.ToList();
+            var filteredStudents = iEnumerable.Where(s =>
             s.CreatedAt >= _startDate && s.CreatedAt <= _endDate).ToList();
             var filteredPayments = payments.Where(p =>
             p.CreatedAt >= _startDate && p.CreatedAt <= _endDate).ToList();
@@ -380,14 +376,15 @@
             c.CreatedAt >= _startDate && c.CreatedAt <= _endDate).ToList();
 
             // Calculate statistics
+            var enumerable = residences.ToList();
             _reportData = new ReportData
                 {
                     TotalRevenue = filteredPayments
                 .Where(p => p.Status == PaymentStatus.Paid)
-                .Sum(p => p.Amount?.Amount ?? 0),
+                .Sum(p => p.Amount.Amount ?? 0),
                     PendingAmount = filteredPayments
                 .Where(p => p.Status == PaymentStatus.Pending)
-                .Sum(p => p.Amount?.Amount ?? 0),
+                .Sum(p => p.Amount.Amount ?? 0),
                     PaidPayments = filteredPayments.Count(p => p.Status == PaymentStatus.Paid),
                     PendingPayments = filteredPayments.Count(p => p.Status == PaymentStatus.Pending),
                     NewStudents = filteredStudents.Count,
@@ -396,7 +393,7 @@
                     LoginCount = auditLogs.Count(l => l.AuditAction == AuditAction.Login),
 
                     // Occupancy by residence
-                    ResidenceOccupancy = residences.Select(r => new OccupancyData
+                    ResidenceOccupancy = enumerable.Select(r => new OccupancyData
                     {
                         Name = r.Name,
                         Total = r.TotalCapacity,
@@ -405,13 +402,13 @@
                     }).ToList(),
 
                     // Top residences
-                    TopResidences = residences.Select(r => new TopResidenceData
+                    TopResidences = enumerable.Select(r => new TopResidenceData
                     {
                         Name = r.Name,
                         Revenue = filteredPayments
-	                    .Where(p => p.Reservation != null && p.Reservation.Room != null && p.Reservation.Room.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
-                    .Sum(p => p.Amount?.Amount ?? 0),
-	                        Students = students.Count(s => s.Reservations.Any(res => res.Room != null && res.Room.ResidenceId == r.Id))
+	                    .Where(p => p.Reservation.Room.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
+                    .Sum(p => p.Amount.Amount ?? 0),
+	                        Students = iEnumerable.Count(s => s.Reservations.Any(res => res.Room.ResidenceId == r.Id))
                     }).OrderByDescending(r => r.Revenue).Take(5).ToList()
                 };
 
@@ -438,7 +435,7 @@
             var endRange = date.AddDays(interval);
             var revenue = payments
             .Where(p => p.CreatedAt.Date >= date && p.CreatedAt.Date < endRange && p.Status == PaymentStatus.Paid)
-            .Sum(p => p.Amount?.Amount ?? 0);
+            .Sum(p => p.Amount.Amount ?? 0);
 
             _revenueChartData.Add(new ChartDataPoint
                 {
@@ -447,14 +444,14 @@
                 });
         }
 
-        _revenueSeries = new List<ChartSeries>
-        {
+        _revenueSeries =
+        [
             new ChartSeries
             {
                 Name = "Revenue (LYD)",
                 Data = _revenueChartData.Select(x => x.Value).ToArray()
             }
-        };
+        ];
     }
 
     private void GeneratePaymentStatusChart(List<Payment> payments)
@@ -463,8 +460,8 @@
         var pending = payments.Count(p => p.Status == PaymentStatus.Pending);
         var overdue = payments.Count(p => p.Status == PaymentStatus.Overdue);
 
-        _paymentStatusData = new double[] { paid, pending, overdue };
-        _paymentStatusLabels = new[] { "Paid", "Pending", "Overdue" };
+        _paymentStatusData = [paid, pending, overdue];
+        _paymentStatusLabels = ["Paid", "Pending", "Overdue"];
     }
 
 	    private void GenerateComplaintChart(List<Complaint> complaints)
@@ -473,14 +470,14 @@
 	        var categoryCounts = categories.Select(c => complaints.Count(comp => comp.ComplaintTypeId == c.Id)).ToArray();
 	
 	        _complaintCategories = categories.Select(c => c.Name).ToArray();
-	        _complaintSeries = new List<ChartSeries>
-	        {
-	            new ChartSeries
-	            {
-	                Name = "Complaints",
-	                Data = categoryCounts.Select(x => (double)x).ToArray()
-	            }
-	        };
+	        _complaintSeries =
+            [
+                new ChartSeries
+                {
+                    Name = "Complaints",
+                    Data = categoryCounts.Select(x => (double)x).ToArray()
+                }
+            ];
 	    }
 
     private Color GetOccupancyColor(double rate)
@@ -490,36 +487,36 @@
 
     private class ReportData
     {
-        public decimal TotalRevenue { get; set; }
-        public decimal PendingAmount { get; set; }
-        public int PaidPayments { get; set; }
-        public int PendingPayments { get; set; }
-        public int NewStudents { get; set; }
-        public int TotalComplaints { get; set; }
-        public int ResolvedComplaints { get; set; }
-        public int LoginCount { get; set; }
-        public List<OccupancyData> ResidenceOccupancy { get; set; } = new();
-        public List<TopResidenceData> TopResidences { get; set; } = new();
+        public decimal TotalRevenue { get; init; }
+        public decimal PendingAmount { get; init; }
+        public int PaidPayments { get; init; }
+        public int PendingPayments { get; init; }
+        public int NewStudents { get; init; }
+        public int TotalComplaints { get; init; }
+        public int ResolvedComplaints { get; init; }
+        public int LoginCount { get; init; }
+        public List<OccupancyData> ResidenceOccupancy { get; init; } = [];
+        public List<TopResidenceData> TopResidences { get; init; } = [];
     }
 
     private class OccupancyData
     {
-        public string Name { get; set; } = "";
-        public int Total { get; set; }
-        public int Occupied { get; set; }
-        public double Rate { get; set; }
+        public string Name { get; init; } = "";
+        public int Total { get; init; }
+        public int Occupied { get; init; }
+        public double Rate { get; init; }
     }
 
     private class TopResidenceData
     {
-        public string Name { get; set; } = "";
-        public decimal Revenue { get; set; }
-        public int Students { get; set; }
+        public string Name { get; init; } = "";
+        public decimal Revenue { get; init; }
+        public int Students { get; init; }
     }
 
     private class ChartDataPoint
     {
-        public string Label { get; set; } = "";
-        public double Value { get; set; }
+        public string Label { get; init; } = "";
+        public double Value { get; init; }
     }
 }

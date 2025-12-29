@@ -3275,4 +3275,637 @@
   <data name="EditRoomDialog_Title" xml:space="preserve"><value>Edit Room</value></data>
   <data name="RoomDetailsDialog_Title" xml:space="preserve"><value>Room Details</value></data>
   <data name="EditRoomDialog_Success" xml:space="preserve"><value>Room updated successfully.</value></data>
+  <data name="Stats_Header" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="DatabaseResetSuccessfully" xml:space="preserve">
+    <value>Database Reset Successfully</value>
+  </data>
+  <data name="FailedToResetDatabase" xml:space="preserve">
+    <value>Failed To Reset Database</value>
+  </data>
+  <data name="DangerZone_Title" xml:space="preserve">
+    <value>Danger Zone</value>
+  </data>
+  <data name="DangerZone_Header" xml:space="preserve">
+    <value>Danger Zone</value>
+  </data>
+  <data name="DangerZone_SubHeader" xml:space="preserve">
+    <value>Advanced administrative actions. Please proceed with caution.</value>
+  </data>
+  <data name="DangerZone_CriticalWarning" xml:space="preserve">
+    <value>CRITICAL WARNING:</value>
+  </data>
+  <data name="DangerZone_CriticalWarningMessage" xml:space="preserve">
+    <value>These actions can cause irreversible data loss. Please be absolutely certain before proceeding.</value>
+  </data>
+  <data name="ClearAllCache" xml:space="preserve">
+    <value>Clear All Cache</value>
+  </data>
+  <data name="ModerateRisk" xml:space="preserve">
+    <value>Moderate Risk</value>
+  </data>
+  <data name="ClearAllCache_Description" xml:space="preserve">
+    <value>Clears all server-side caching. This may temporarily impact performance while cache is rebuilt.</value>
+  </data>
+  <data name="DeleteOldAuditLogs" xml:space="preserve">
+    <value>Delete Old Audit Logs</value>
+  </data>
+  <data name="DeleteOldAuditLogs_Description" xml:space="preserve">
+    <value>Permanently removes audit logs older than the specified period to free up database space.</value>
+  </data>
+  <data name="DeleteLogsOlderThan" xml:space="preserve">
+    <value>Delete logs older than</value>
+  </data>
+  <data name="30days" xml:space="preserve">
+    <value>30 days</value>
+  </data>
+  <data name="60days" xml:space="preserve">
+    <value>60 days</value>
+  </data>
+  <data name="90days" xml:space="preserve">
+    <value>90 days</value>
+  </data>
+  <data name="6months" xml:space="preserve">
+    <value>6 months</value>
+  </data>
+  <data name="1year" xml:space="preserve">
+    <value>1 year</value>
+  </data>
+  <data name="DeleteOldLogs" xml:space="preserve">
+    <value>Delete Logs</value>
+  </data>
+  <data name="GenerateTestData" xml:space="preserve">
+    <value>Generate Test Data</value>
+  </data>
+  <data name="LowRisk" xml:space="preserve">
+    <value>Low Risk</value>
+  </data>
+  <data name="GenerateTestData_Description" xml:space="preserve">
+    <value>Generates random users, students, and data for testing purposes. Safe to use in development.</value>
+  </data>
+  <data name="NumberOfUsers" xml:space="preserve">
+    <value>Number of Users</value>
+  </data>
+  <data name="NumberOfStudents" xml:space="preserve">
+    <value>Number of Students</value>
+  </data>
+  <data name="Generating" xml:space="preserve">
+    <value>Generating...</value>
+  </data>
+  <data name="ResetDatabaseToDefaults" xml:space="preserve">
+    <value>Reset Database to Defaults</value>
+  </data>
+  <data name="HighRisk" xml:space="preserve">
+    <value>High Risk</value>
+  </data>
+  <data name="ExtremeCaution" xml:space="preserve">
+    <value>EXTREME CAUTION:</value>
+  </data>
+  <data name="ResetDatabase_Warning" xml:space="preserve">
+    <value>This will wipe ALL data and restore the database to its initial state.</value>
+  </data>
+  <data name="ResetDatabase_Description" xml:space="preserve">
+    <value>All users, students, residences, and logs will be permanently deleted. Only the SuperRoot account will remain.</value>
+  </data>
+  <data name="Resetting" xml:space="preserve">
+    <value>Resetting...</value>
+  </data>
+  <data name="ResetDatabase" xml:space="preserve">
+    <value>Reset Database</value>
+  </data>
+  <data name="DeleteAllData_Header" xml:space="preserve">
+    <value>Delete All Data</value>
+  </data>
+  <data name="CriticalRisk" xml:space="preserve">
+    <value>Critical Risk</value>
+  </data>
+  <data name="NuclearOption" xml:space="preserve">
+    <value>THE NUCLEAR OPTION</value>
+  </data>
+  <data name="MostDestructiveAction" xml:space="preserve">
+    <value>This is the most destructive action available.</value>
+  </data>
+  <data name="PermanentlyDeleteEverything" xml:space="preserve">
+    <value>It will permanently delete EVERYTHING:</value>
+  </data>
+  <data name="AllUsersExceptSuperRoot" xml:space="preserve">
+    <value>All Users (except you)</value>
+  </data>
+  <data name="AllStudentsAndManagers" xml:space="preserve">
+    <value>All Students &amp; Managers</value>
+  </data>
+  <data name="AllResidencesAndRooms" xml:space="preserve">
+    <value>All Residences &amp; Rooms</value>
+  </data>
+  <data name="AllPaymentsAndComplaints" xml:space="preserve">
+    <value>All Payments &amp; Complaints</value>
+  </data>
+  <data name="AllAuditLogs" xml:space="preserve">
+    <value>All Audit Logs</value>
+  </data>
+  <data name="ActionCannotBeUndone" xml:space="preserve">
+    <value>This action CANNOT be undone.</value>
+  </data>
+  <data name="MustTypeConfirmation" xml:space="preserve">
+    <value>You must type the confirmation code below to proceed:</value>
+  </data>
+  <data name="DeleteAllData_ConfirmationLabel" xml:space="preserve">
+    <value>Type 'DELETE_ALL_DATA_PERMANENTLY'</value>
+  </data>
+  <data name="ConfirmationCodeMismatch" xml:space="preserve">
+    <value>Confirmation code does not match.</value>
+  </data>
+  <data name="ConfirmationCodeHelper" xml:space="preserve">
+    <value>Please type the code exactly as shown.</value>
+  </data>
+  <data name="DeletingEverything" xml:space="preserve">
+    <value>Deleting Everything...</value>
+  </data>
+  <data name="DeleteEverythingButton" xml:space="preserve">
+    <value>Delete Everything</value>
+  </data>
+  <data name="ClearCache_Confirmation" xml:space="preserve">
+    <value>Are you sure you want to clear all system cache?</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>Cache cleared successfully.</value>
+  </data>
+  <data name="FailedToClearCache" xml:space="preserve">
+    <value>Failed to clear cache.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="DeleteOldLogs_Confirmation" xml:space="preserve">
+    <value>Are you sure you want to delete audit logs older than {0} days?</value>
+  </data>
+  <data name="DeleteLogs" xml:space="preserve">
+    <value>Delete Logs</value>
+  </data>
+  <data name="LogsDeletedSuccessfully" xml:space="preserve">
+    <value>Logs older than {0} days deleted successfully.</value>
+  </data>
+  <data name="TestDataGenerated" xml:space="preserve">
+    <value>Generated {0} users and {1} students successfully.</value>
+  </data>
+  <data name="FailedToGenerateTestData" xml:space="preserve">
+    <value>Failed to generate test data.</value>
+  </data>
+  <data name="ResetDatabase_Confirmation" xml:space="preserve">
+    <value>Are you sure you want to reset the database? This cannot be undone.</value>
+  </data>
+  <data name="ResetDatabase_Title" xml:space="preserve">
+    <value>Reset Database</value>
+  </data>
+  <data name="DeleteAllData_FinalWarning" xml:space="preserve">
+    <value>FINAL WARNING: You are about to delete ALL data in the system. This is your last chance to cancel.</value>
+  </data>
+  <data name="DeleteEverythingButton_Final" xml:space="preserve">
+    <value>Yes, Delete Everything</value>
+  </data>
+  <data name="FinalWarning_Title" xml:space="preserve">
+    <value>Final Warning</value>
+  </data>
+  <data name="AllDataDeleted" xml:space="preserve">
+    <value>All data deleted. System is now empty.</value>
+  </data>
+  <data name="FailedToDeleteData" xml:space="preserve">
+    <value>Failed to delete data.</value>
+  </data>
+   <data name="SuperRoot_Dashboard_Title" xml:space="preserve">
+     <value>SuperRoot Dashboard</value>
+   </data>
+   <data name="SuperRoot_Control_Panel" xml:space="preserve">
+     <value>SuperRoot Control Panel</value>
+   </data>
+   <data name="Full_System_Access" xml:space="preserve">
+     <value>Full system access and control</value>
+   </data>
+   <data name="Danger_Zone" xml:space="preserve">
+     <value>Danger Zone</value>
+   </data>
+   <data name="Total_Users" xml:space="preserve">
+     <value>Total Users</value>
+   </data>
+   <data name="Active_Users" xml:space="preserve">
+     <value>Active Users</value>
+   </data>
+   <data name="Total_Roles" xml:space="preserve">
+     <value>Total Roles</value>
+   </data>
+   <data name="System_Uptime" xml:space="preserve">
+     <value>System Uptime</value>
+   </data>
+   <data name="User_Management" xml:space="preserve">
+     <value>User Management</value>
+   </data>
+   <data name="Create_New_User" xml:space="preserve">
+     <value>Create New User</value>
+   </data>
+   <data name="View_All_Users" xml:space="preserve">
+     <value>View All Users</value>
+   </data>
+   <data name="Manage_Inactive_Users" xml:space="preserve">
+     <value>Manage Inactive Users</value>
+   </data>
+   <data name="Role_Management" xml:space="preserve">
+     <value>Role Management</value>
+   </data>
+   <data name="Create_New_Role" xml:space="preserve">
+     <value>Create New Role</value>
+   </data>
+   <data name="View_All_Roles" xml:space="preserve">
+     <value>View All Roles</value>
+   </data>
+   <data name="Manage_Permissions" xml:space="preserve">
+     <value>Manage Permissions</value>
+   </data>
+   <data name="System_Settings" xml:space="preserve">
+     <value>System Settings</value>
+   </data>
+   <data name="Email_Configuration" xml:space="preserve">
+     <value>Email Configuration</value>
+   </data>
+   <data name="SMS_Configuration" xml:space="preserve">
+     <value>SMS Configuration</value>
+   </data>
+   <data name="Database_Tools" xml:space="preserve">
+     <value>Database Tools</value>
+   </data>
+   <data name="User_Created_Successfully" xml:space="preserve">
+     <value>User created successfully!</value>
+   </data>
+   <data name="Role_Created_Successfully" xml:space="preserve">
+     <value>Role created successfully!</value>
+   </data>
+   <data name="Danger_Zone_Warning" xml:space="preserve">
+     <value>You are about to enter the Danger Zone. Actions here are irreversible and can affect the entire system.</value>
+   </data>
+   <data name="I_Understand" xml:space="preserve">
+     <value>I Understand</value>
+   </data>
+   <data name="Warning" xml:space="preserve">
+     <value>Warning</value>
+   </data>
+   <data name="SystemSettings_Title" xml:space="preserve">
+     <value>System Settings</value>
+   </data>
+   <data name="SystemSettings_Header" xml:space="preserve">
+     <value>System Settings</value>
+   </data>
+   <data name="SystemSettings_Description" xml:space="preserve">
+     <value>Configure system-wide settings and preferences</value>
+   </data>
+   <data name="Tab_General" xml:space="preserve">
+     <value>General</value>
+   </data>
+   <data name="Tab_Email" xml:space="preserve">
+     <value>Email</value>
+   </data>
+   <data name="Tab_SMS" xml:space="preserve">
+     <value>SMS</value>
+   </data>
+   <data name="Tab_Security" xml:space="preserve">
+     <value>Security</value>
+   </data>
+   <data name="Tab_Payment" xml:space="preserve">
+     <value>Payment</value>
+   </data>
+   <data name="Tab_Maintenance" xml:space="preserve">
+     <value>Maintenance</value>
+   </data>
+   <data name="GeneralSettings_Header" xml:space="preserve">
+     <value>General Settings</value>
+   </data>
+   <data name="SystemName" xml:space="preserve">
+     <value>System Name</value>
+   </data>
+   <data name="SystemName_Helper" xml:space="preserve">
+     <value>The name displayed throughout the system</value>
+   </data>
+   <data name="SystemEmail" xml:space="preserve">
+     <value>System Email</value>
+   </data>
+   <data name="SystemEmail_Helper" xml:space="preserve">
+     <value>Default email for system notifications</value>
+   </data>
+   <data name="SystemPhone" xml:space="preserve">
+     <value>System Phone</value>
+   </data>
+   <data name="SystemPhone_Helper" xml:space="preserve">
+     <value>Contact phone number</value>
+   </data>
+   <data name="DefaultLanguage" xml:space="preserve">
+     <value>Default Language</value>
+   </data>
+   <data name="DefaultCurrency" xml:space="preserve">
+     <value>Default Currency</value>
+   </data>
+   <data name="DateFormat" xml:space="preserve">
+     <value>Date Format</value>
+   </data>
+   <data name="SaveChanges" xml:space="preserve">
+     <value>Save Changes</value>
+   </data>
+   <data name="EmailConfiguration_Header" xml:space="preserve">
+     <value>Email Configuration</value>
+   </data>
+   <data name="EmailConfiguration_Alert" xml:space="preserve">
+     <value>Configure SMTP settings for sending emails from the system</value>
+   </data>
+   <data name="SmtpHost" xml:space="preserve">
+     <value>SMTP Host</value>
+   </data>
+   <data name="SmtpPort" xml:space="preserve">
+     <value>SMTP Port</value>
+   </data>
+   <data name="Username" xml:space="preserve">
+     <value>Username</value>
+   </data>
+   <data name="Password" xml:space="preserve">
+     <value>Password</value>
+   </data>
+   <data name="EnableSsl" xml:space="preserve">
+     <value>Enable SSL/TLS</value>
+   </data>
+   <data name="SaveEmailSettings" xml:space="preserve">
+     <value>Save Email Settings</value>
+   </data>
+   <data name="SendTestEmail" xml:space="preserve">
+     <value>Send Test Email</value>
+   </data>
+   <data name="SMSConfiguration_Header" xml:space="preserve">
+     <value>SMS Configuration</value>
+   </data>
+   <data name="SMSConfiguration_Alert" xml:space="preserve">
+     <value>Configure SMS gateway for sending notifications</value>
+   </data>
+   <data name="SmsProvider" xml:space="preserve">
+     <value>SMS Provider</value>
+   </data>
+   <data name="ApiKey" xml:space="preserve">
+     <value>API Key</value>
+   </data>
+   <data name="ApiSecret" xml:space="preserve">
+     <value>API Secret</value>
+   </data>
+   <data name="SenderName" xml:space="preserve">
+     <value>Sender Name</value>
+   </data>
+   <data name="EnableSmsNotifications" xml:space="preserve">
+     <value>Enable SMS Notifications</value>
+   </data>
+   <data name="SaveSmsSettings" xml:space="preserve">
+     <value>Save SMS Settings</value>
+   </data>
+   <data name="SendTestSms" xml:space="preserve">
+     <value>Send Test SMS</value>
+   </data>
+   <data name="SecuritySettings_Header" xml:space="preserve">
+     <value>Security Settings</value>
+   </data>
+   <data name="PasswordMinLength" xml:space="preserve">
+     <value>Minimum Password Length</value>
+   </data>
+   <data name="SessionTimeout" xml:space="preserve">
+     <value>Session Timeout (minutes)</value>
+   </data>
+   <data name="MaxLoginAttempts" xml:space="preserve">
+     <value>Max Login Attempts</value>
+   </data>
+   <data name="LockoutDuration" xml:space="preserve">
+     <value>Lockout Duration (minutes)</value>
+   </data>
+   <data name="RequireEmailConfirmation" xml:space="preserve">
+     <value>Require Email Confirmation</value>
+   </data>
+   <data name="EnableTwoFactorAuth" xml:space="preserve">
+     <value>Enable Two-Factor Authentication</value>
+   </data>
+   <data name="LogAllUserActions" xml:space="preserve">
+     <value>Log All User Actions</value>
+   </data>
+   <data name="SaveSecuritySettings" xml:space="preserve">
+     <value>Save Security Settings</value>
+   </data>
+   <data name="PaymentSettings_Header" xml:space="preserve">
+     <value>Payment Settings</value>
+   </data>
+   <data name="DefaultMonthlyRent" xml:space="preserve">
+     <value>Default Monthly Rent (LYD)</value>
+   </data>
+   <data name="LateFeePercentage" xml:space="preserve">
+     <value>Late Fee Percentage (%)</value>
+   </data>
+   <data name="PaymentDueDays" xml:space="preserve">
+     <value>Payment Due Days</value>
+   </data>
+   <data name="PaymentReminderDays" xml:space="preserve">
+     <value>Payment Reminder (days before)</value>
+   </data>
+   <data name="AllowOnlinePayment" xml:space="preserve">
+     <value>Allow Online Payment</value>
+   </data>
+   <data name="AutoGenerateInvoices" xml:space="preserve">
+     <value>Auto-Generate Invoices</value>
+   </data>
+   <data name="SavePaymentSettings" xml:space="preserve">
+     <value>Save Payment Settings</value>
+   </data>
+   <data name="MaintenanceMode_Header" xml:space="preserve">
+     <value>Maintenance Mode</value>
+   </data>
+   <data name="MaintenanceMode_Alert" xml:space="preserve">
+     <value>&lt;strong&gt;Warning:&lt;/strong&gt; Enabling maintenance mode will prevent all users (except SuperRoot) from accessing the system.</value>
+   </data>
+   <data name="EnableMaintenanceMode" xml:space="preserve">
+     <value>Enable Maintenance Mode</value>
+   </data>
+   <data name="MaintenanceMessage" xml:space="preserve">
+     <value>Maintenance Message</value>
+   </data>
+   <data name="MaintenanceMessage_Placeholder" xml:space="preserve">
+     <value>The system is currently under maintenance. Please check back later.</value>
+   </data>
+   <data name="SaveSettings_Button" xml:space="preserve">
+     <value>Save Settings</value>
+   </data>
+   <data name="SettingsSavedSuccessfully" xml:space="preserve">
+     <value>Settings saved successfully!</value>
+   </data>
+   <data name="SendingTestEmail" xml:space="preserve">
+     <value>Sending test email...</value>
+   </data>
+   <data name="SendingTestSms" xml:space="preserve">
+     <value>Sending test SMS...</value>
+   </data>
+   <data name="TrackAllSystemActivitiesAndChanges" xml:space="preserve">
+     <value>Track all system activities and changes</value>
+   </data>
+   <data name="ExportLogs" xml:space="preserve">
+     <value>Export Logs</value>
+   </data>
+   <data name="TotalActions" xml:space="preserve">
+     <value>Total Actions</value>
+   </data>
+   <data name="Today" xml:space="preserve">
+     <value>Today</value>
+   </data>
+   <data name="FailedActions" xml:space="preserve">
+     <value>Failed Actions</value>
+   </data>
+   <data name="ActionType" xml:space="preserve">
+     <value>Action Type</value>
+   </data>
+   <data name="Create" xml:space="preserve">
+     <value>Create</value>
+   </data>
+   <data name="Update" xml:space="preserve">
+     <value>Update</value>
+   </data>
+   <data name="Delete" xml:space="preserve">
+     <value>Delete</value>
+   </data>
+   <data name="View" xml:space="preserve">
+     <value>View</value>
+   </data>
+   <data name="Login" xml:space="preserve">
+     <value>Login</value>
+   </data>
+   <data name="Logout" xml:space="preserve">
+     <value>Logout</value>
+   </data>
+   <data name="Entity" xml:space="preserve">
+     <value>Entity</value>
+   </data>
+   <data name="User" xml:space="preserve">
+     <value>User</value>
+   </data>
+   <data name="Student" xml:space="preserve">
+     <value>Student</value>
+   </data>
+   <data name="Manager" xml:space="preserve">
+     <value>Manager</value>
+   </data>
+   <data name="Room" xml:space="preserve">
+     <value>Room</value>
+   </data>
+   <data name="Payment" xml:space="preserve">
+     <value>Payment</value>
+   </data>
+   <data name="Complaint" xml:space="preserve">
+     <value>Complaint</value>
+   </data>
+   <data name="DateRange" xml:space="preserve">
+     <value>Date Range</value>
+   </data>
+   <data name="Timestamp" xml:space="preserve">
+     <value>Timestamp</value>
+   </data>
+   <data name="Action" xml:space="preserve">
+     <value>Action</value>
+   </data>
+   <data name="Details" xml:space="preserve">
+     <value>Details</value>
+   </data>
+   <data name="IpAddress" xml:space="preserve">
+     <value>IP Address</value>
+  </data>
+   <data name="EditStudent_Title" xml:space="preserve">
+     <value>Edit Student</value>
+   </data>
+   <data name="AdditionalInfo" xml:space="preserve">
+     <value>Additional Info</value>
+  </data>
+   <data name="StudentDetails_Title" xml:space="preserve">
+     <value>Student Details</value>
+   </data>
+   <data name="LogsRefreshedSuccessfully" xml:space="preserve">
+     <value>Logs refreshed successfully</value>
+  </data>
+   <data name="StudentNotFound" xml:space="preserve">
+     <value>Student not found!</value>
+   </data>
+   <data name="FailedToLoadLogs" xml:space="preserve">
+     <value>Failed to load logs</value>
+  </data>
+   <data name="FirstName" xml:space="preserve">
+     <value>First Name</value>
+   </data>
+   <data name="ViewingDetailsFor" xml:space="preserve">
+     <value>Viewing details for</value>
+  </data>
+   <data name="LastName" xml:space="preserve">
+     <value>Last Name</value>
+   </data>
+   <data name="ExportingLogs" xml:space="preserve">
+     <value>Exporting logs...</value>
+  </data>
+   <data name="PhoneNumber" xml:space="preserve">
+     <value>Phone Number</value>
+   </data>
+   <data name="ActiveUsers" xml:space="preserve">
+     <value>Active Users</value>
+  </data>
+   <data name="StreetAddress" xml:space="preserve">
+     <value>Street Address</value>
+   </data>
+   <data name="Search" xml:space="preserve">
+     <value>Search</value>
+  </data>
+   <data name="City" xml:space="preserve">
+     <value>City</value>
+   </data>
+   <data name="Residences" xml:space="preserve">
+     <value>Residences</value>
+  </data>
+   <data name="State" xml:space="preserve">
+     <value>State</value>
+   </data>
+   <data name="Admin_Colleges_Title" xml:space="preserve">
+     <value>Colleges Management</value>
+  </data>
+   <data name="PostalCode" xml:space="preserve">
+     <value>Postal Code</value>
+   </data>
+   <data name="Nationalities" xml:space="preserve">
+     <value>Nationalities</value>
+  </data>
+   <data name="Country" xml:space="preserve">
+     <value>Country</value>
+   </data>
+   <data name="User_Email" xml:space="preserve">
+     <value>User Email</value>
+  </data>
+   <data name="StudentUpdatedSuccess" xml:space="preserve">
+     <value>Student updated successfully!</value>
+   </data>
+   <data name="ResidenceDetailsDialog_Title" xml:space="preserve">
+     <value>Residence Details</value>
+  </data>
+   <data name="StudentUpdateFailed" xml:space="preserve">
+     <value>Failed to update student.</value>
+   </data>
+   <data name="EditResidenceDialog_Title" xml:space="preserve">
+     <value>Edit Residence Info</value>
+  </data>
+   <data name="ErrorLoadingStudent" xml:space="preserve">
+     <value>Error loading student: {0}</value>
+   </data>
+   <data name="ResidencesManagement_Snackbar_NotFound" xml:space="preserve">
+     <value>Residences Not Found</value>
+  </data>
+   <data name="StudentID" xml:space="preserve">
+     <value>Student ID</value>
+   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
 </root>

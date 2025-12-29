@@ -1,11 +1,7 @@
 @page "/complaints/{Id:guid}"
-@using MediatR
 @using Microsoft.Extensions.DependencyInjection
-@using SRMS.Application.Complaints.DTOs
 @using SRMS.Application.Complaints.GetComplaintById
-@using SRMS.Domain.Complaints.Enums
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IServiceScopeFactory ScopeFactory
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar
@@ -16,7 +12,7 @@
 <PageTitle>@L["ComplaintDetails_PageTitle"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-4">
-    <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Default" OnClick="GoBack" Class="mb-4">
+    <MudButton StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Default" OnClick="@GoBack" Class="mb-4">
         @L["ComplaintDetails_Button_BackToList"]
     </MudButton>
 
@@ -168,7 +164,7 @@
         ComplaintStatus.Open => Color.Warning,
         ComplaintStatus.InProgress => Color.Info,
         ComplaintStatus.Resolved => Color.Success,
-        ComplaintStatus.Closed => Color.Default,
+        ComplaintStatus.Closed => Color.Transparent,
         _ => Color.Default
     };
 }

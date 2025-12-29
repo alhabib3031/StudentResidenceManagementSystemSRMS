@@ -1,0 +1,97 @@
+﻿@using Microsoft.Extensions.Localization
+@inject ISender Sender
+@inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> L
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Person" Class="mr-2" />
+            @L["StudentDetails_Title"]
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_isLoading)
+        {
+            <div class="d-flex justify-center my-4">
+                <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+            </div>
+        }
+        else if (_student == null)
+        {
+            <MudAlert Severity="Severity.Error">@L["StudentNotFound"]</MudAlert>
+        }
+        else
+        {
+            <MudGrid>
+                <MudItem xs="12" sm="4" Class="d-flex justify-center align-center flex-column">
+                    <MudAvatar Style="height:100px; width:100px; font-size:2rem;" Color="Color.Primary" Class="mb-4">
+                        @_student.FirstName.FirstOrDefault()@_student.LastName.FirstOrDefault()
+                    </MudAvatar>
+                    <MudText Typo="Typo.h6">@_student.FirstName @_student.LastName</MudText>
+                    <MudChip T="string" Color="Color.Success" Size="Size.Small" Class="mt-2">Active</MudChip>
+                </MudItem>
+                
+                <MudItem xs="12" sm="8">
+                    <MudList T="string" Dense="true">
+                        <MudListItem Icon="@Icons.Material.Filled.Email">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["Email"]</MudText>
+                            <MudText>@_student.Email</MudText>
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.Phone">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["PhoneNumber"]</MudText>
+                            <MudText>@(_student.PhoneNumber ?? "N/A")</MudText>
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.LocationOn">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["Address"]</MudText>
+                            <MudText>@(_student.Address ?? "N/A")</MudText>
+                        </MudListItem>
+                        <MudListItem Icon="@Icons.Material.Filled.School">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["StudentID"]</MudText>
+                            <MudText>@_student.Id</MudText>
+                        </MudListItem>
+                    </MudList>
+                </MudItem>
+            </MudGrid>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Close" Color="Color.Primary">@L["Close"]</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public Guid StudentId { get; set; }
+
+    private StudentDto? _student;
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStudent();
+    }
+
+    private async Task LoadStudent()
+    {
+        _isLoading = true;
+        try
+        {
+            var query = new GetStudentByIdQuery { Id = StudentId };
+            _student = await Sender.Send(query);
+        }
+        catch(Exception ex)
+        {
+            Snackbar.Add(string.Format(L["ErrorLoadingStudent"], ex.Message), Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void Close() => MudDialog.Close(DialogResult.Ok(true));
+}

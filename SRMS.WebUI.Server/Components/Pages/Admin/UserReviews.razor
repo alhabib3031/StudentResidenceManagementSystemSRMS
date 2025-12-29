@@ -1,9 +1,6 @@
 @page "/admin/user-reviews"
-@using SRMS.Application.Identity.Interfaces
-@using SRMS.Application.Identity.DTOs
 @using SRMS.Domain.Identity.Enums
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IUserService UserService
 @inject NavigationManager Navigation
 @inject IStringLocalizer<Resource> L
@@ -47,7 +44,7 @@
             </MudTd>
             <MudTd>
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Visibility"
-                    OnClick='() => ViewDetails(context.Id)' Class="rounded-xl">
+                    OnClick='@(() => ViewDetails(context.Id))' Class="rounded-xl">
                     @L["ViewDetails"]
                 </MudButton>
             </MudTd>

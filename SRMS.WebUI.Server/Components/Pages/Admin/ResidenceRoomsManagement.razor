@@ -1,14 +1,9 @@
 @page "/admin/residences/{ResidenceId:guid}/rooms"
-@using MudBlazor
-@using SRMS.Application.Rooms.DTOs
 @using SRMS.Application.Rooms.Interfaces
 @using SRMS.Domain.Rooms.Enums
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
-@using SRMS.WebUI.Server.Components.Pages.Dialogs
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
-@inject NavigationManager Navigation
 @inject IStringLocalizer<Resource> L
 @inject IRoomService RoomService
 
@@ -29,7 +24,7 @@
                 <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-                OnClick="OpenCreateRoomDialog">
+                OnClick="@OpenCreateRoomDialog">
                 @L["RoomManagement_Button_Add"]
             </MudButton>
         </MudStack>
@@ -102,7 +97,7 @@
                 </MudTd>
             </RowTemplate>
             <PagerContent>
-                <MudTablePager PageSizeOptions="new int[] { 10, 25, 50 }" />
+                <MudTablePager PageSizeOptions="new[] { 10, 25, 50 }" />
             </PagerContent>
         </MudTable>
     </MudPaper>
@@ -114,8 +109,8 @@
     private List<RoomDto> _rooms = new();
     private bool _isLoading = true;
     private string _searchString = "";
-    private RoomType? _filterRoomType = null;
-    private RoomStatus? _filterRoomStatus = null;
+    private RoomType? _filterRoomType;
+    private RoomStatus? _filterRoomStatus;
 
     private List<BreadcrumbItem> _breadcrumbs = new();
 
@@ -139,12 +134,12 @@
             ResidenceName = residenceName;
         }
 
-        _breadcrumbs = new()
-        {
+        _breadcrumbs =
+        [
             new BreadcrumbItem("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
             new BreadcrumbItem("Residences", href: "/admin/residences", icon: Icons.Material.Filled.Apartment),
             new BreadcrumbItem(ResidenceName, href: null, disabled: true)
-        };
+        ];
     }
 
     private async Task LoadRooms()
@@ -162,10 +157,7 @@
 
     private bool FilterRooms(RoomDto room)
     {
-        var isMatch = true;
-
-        if (_filterRoomType.HasValue && room.RoomType != _filterRoomType.Value)
-            isMatch = false;
+        bool isMatch = !(_filterRoomType.HasValue && room.RoomType != _filterRoomType.Value);
 
         if (_filterRoomStatus.HasValue && room.Status != _filterRoomStatus.Value)
             isMatch = false;
@@ -213,26 +205,29 @@
 
     private async Task OpenEditRoomDialog(RoomDto room)
     {
-        var updateRoomDto = new UpdateRoomDto
+        if (room.MonthlyRentCurrency != null) // اختبرها لاني ضفتها متأخر 
         {
-            Id = room.Id,
-            ResidenceId = room.ResidenceId,
-            RoomNumber = room.RoomNumber,
-            Floor = room.Floor,
-            RoomType = room.RoomType,
-            TotalBeds = room.TotalBeds,
-            MonthlyRentAmount = room.MonthlyRentAmount.GetValueOrDefault(),
-            MonthlyRentCurrency = room.MonthlyRentCurrency,
-            IsAvailable = room.Status == RoomStatus.Available
-        };
+            var updateRoomDto = new UpdateRoomDto
+            {
+                Id = room.Id,
+                ResidenceId = room.ResidenceId,
+                RoomNumber = room.RoomNumber,
+                Floor = room.Floor,
+                RoomType = room.RoomType,
+                TotalBeds = room.TotalBeds,
+                MonthlyRentAmount = room.MonthlyRentAmount.GetValueOrDefault(),
+                MonthlyRentCurrency = room.MonthlyRentCurrency,
+                IsAvailable = room.Status == RoomStatus.Available
+            };
 
-        var parameters = new DialogParameters { ["RoomToEdit"] = updateRoomDto };
-        var dialog = await DialogService.ShowAsync<EditRoomDialog>(L["EditRoomDialog_Title"], parameters);
-        var result = await dialog.Result;
+            var parameters = new DialogParameters { ["RoomToEdit"] = updateRoomDto };
+            var dialog = await DialogService.ShowAsync<EditRoomDialog>(L["EditRoomDialog_Title"], parameters);
+            var result = await dialog.Result;
 
-        if (result is { Canceled: false })
-        {
-            await LoadRooms();
+            if (result is { Canceled: false })
+            {
+                await LoadRooms();
+            }
         }
     }
 

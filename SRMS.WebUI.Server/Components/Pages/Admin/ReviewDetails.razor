@@ -178,11 +178,11 @@
             <!-- Action Buttons -->
             <MudStack Row="true" Spacing="4" Class="justify-end mt-4">
                 <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Block" 
-                    OnClick="OpenRejectDialog" Class="rounded-2xl py-4 px-10 shadow-lg" Disabled="_processing">
+                    OnClick="@OpenRejectDialog" Class="rounded-2xl py-4 px-10 shadow-lg" Disabled="_processing">
                     @L["Reject"]
                 </MudButton>
                 <MudButton Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.CheckCircle" 
-                    OnClick="ApproveProfile" Class="rounded-2xl py-4 px-10 shadow-lg" Disabled="_processing">
+                    OnClick="@ApproveProfile" Class="rounded-2xl py-4 px-10 shadow-lg" Disabled="_processing">
                      @if (_processing) { <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2"/> }
                     @L["Approve"]
                 </MudButton>
@@ -201,8 +201,8 @@
             Lines="3" Variant="Variant.Outlined" Required="true" Class="rounded-xl" />
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick='() => _rejectDialogVisible = false' Class="rounded-xl">@L["Cancel"]</MudButton>
-        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="ConfirmReject" Class="rounded-xl px-6">@L["Reject"]</MudButton>
+        <MudButton OnClick='@(() => _rejectDialogVisible = false)' Class="rounded-xl">@L["Cancel"]</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="@ConfirmReject" Class="rounded-xl px-6">@L["Reject"]</MudButton>
     </DialogActions>
 </MudDialog>
 

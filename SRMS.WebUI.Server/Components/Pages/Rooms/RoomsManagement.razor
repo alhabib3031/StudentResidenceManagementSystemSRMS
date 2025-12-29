@@ -3,7 +3,6 @@
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
 @attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
 @rendermode InteractiveServer
@@ -286,7 +285,7 @@
         var dialog = await DialogService.ShowAsync<Dialogs.CreateRoomDialog>(L["RoomsManagement_Button_Add"]);
         var result = await dialog.Result;
 
-        if (result != null && !result.Canceled)
+        if (result is { Canceled: false })
         {
             Snackbar.Add(L["RoomsManagement_Snackbar_Created"], Severity.Success);
             await LoadRooms();

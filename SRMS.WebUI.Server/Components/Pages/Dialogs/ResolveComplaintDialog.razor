@@ -1,5 +1,4 @@
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
 @* Components/Dialogs/ResolveComplaintDialog.razor *@
 
@@ -24,10 +23,10 @@
     </DialogContent>
 
     <DialogActions>
-        <MudButton OnClick="Cancel" Variant="Variant.Text">
+        <MudButton OnClick="@Cancel" Variant="Variant.Text">
             @L["ResolveComplaintDialog_Button_Cancel"]
         </MudButton>
-        <MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="Submit"
+        <MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="@Submit"
             Disabled="@(string.IsNullOrWhiteSpace(_resolutionNotes))" StartIcon="@Icons.Material.Filled.CheckCircle">
             @L["ResolveComplaintDialog_Button_MarkAsResolved"]
         </MudButton>

@@ -1,8 +1,5 @@
 @using SRMS.Domain.Residences
-@using SRMS.Domain.ValueObjects
-@using MudBlazor
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
 
 <MudDialog>
@@ -64,14 +61,14 @@
         </MudGrid>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["ResidenceDetailsDialog_Button_Close"]</MudButton>
+        <MudButton OnClick="@Cancel">@L["ResidenceDetailsDialog_Button_Close"]</MudButton>
     </DialogActions>
 </MudDialog>
 
 @code {
-    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
 
-    [Parameter] public Residence Residence { get; set; } = default!;
+    [Parameter] public Residence Residence { get; set; } = null!;
 
     private Residence _residence = new();
 

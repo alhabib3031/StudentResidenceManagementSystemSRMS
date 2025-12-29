@@ -1,7 +1,6 @@
-﻿@using SRMS.Application.SuperRoot.Interfaces
-@using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
+﻿@using Microsoft.Extensions.Localization
 @inject IStringLocalizer<Resource> L
+
 @* Components/Dialogs/DatabaseToolsDialog.razor *@
 
 <MudDialog>
@@ -11,9 +10,10 @@
             @L["DatabaseToolsDialog_Title"]
         </MudText>
     </TitleContent>
-    
+
     <DialogContent>
         <MudStack Spacing="3">
+
             <!-- Warning Alert -->
             <MudAlert Severity="Severity.Warning" Dense="true">
                 @((MarkupString)L["DatabaseToolsDialog_Warning"].Value)
@@ -26,15 +26,16 @@
                         <MudIcon Icon="@Icons.Material.Filled.Backup" Size="Size.Small" Class="mr-2" />
                         @L["DatabaseToolsDialog_Backup_Header"]
                     </MudText>
+
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
                         @L["DatabaseToolsDialog_Backup_Description"]
                     </MudText>
-                    <MudButton 
-                        Variant="Variant.Filled" 
-                        Color="Color.Info"
-                        StartIcon="@Icons.Material.Filled.CloudDownload"
-                        OnClick="BackupDatabase"
-                        Disabled="_isProcessing">
+
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Info"
+                               StartIcon="@Icons.Material.Filled.CloudDownload"
+                               OnClick="BackupDatabase"
+                               Disabled="_isProcessing">
                         @L["DatabaseToolsDialog_Backup_Button"]
                     </MudButton>
                 </MudStack>
@@ -47,35 +48,36 @@
                         <MudIcon Icon="@Icons.Material.Filled.SettingsBackupRestore" Size="Size.Small" Class="mr-2" />
                         @L["DatabaseToolsDialog_Restore_Header"]
                     </MudText>
+
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
                         @L["DatabaseToolsDialog_Restore_Description"]
                     </MudText>
+
                     <MudFileUpload T="IBrowserFile" Accept=".bak" OnFilesChanged="HandleFileUpload">
                         <ActivatorContent>
-                            <MudButton 
-                                Variant="Variant.Filled" 
-                                Color="Color.Primary"
-                                StartIcon="@Icons.Material.Filled.CloudUpload"
-                                Disabled="_isProcessing">
+                            <MudButton Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       StartIcon="@Icons.Material.Filled.CloudUpload"
+                                       Disabled="_isProcessing">
                                 @L["DatabaseToolsDialog_Restore_Button_Select"]
                             </MudButton>
                         </ActivatorContent>
                     </MudFileUpload>
+
                     @if (_selectedFile != null)
                     {
-                        <MudChip 
-                            T="string"
-                            Color="Color.Success" 
-                            Icon="@Icons.Material.Filled.AttachFile"
-                            OnClose="ClearFile">
+                        <MudChip T="string"
+                                 Color="Color.Success"
+                                 Icon="@Icons.Material.Filled.AttachFile"
+                                 OnClose="ClearFile">
                             @_selectedFile.Name
                         </MudChip>
-                        <MudButton 
-                            Variant="Variant.Filled" 
-                            Color="Color.Primary"
-                            StartIcon="@Icons.Material.Filled.Restore"
-                            OnClick="RestoreDatabase"
-                            Disabled="_isProcessing">
+
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.Restore"
+                                   OnClick="RestoreDatabase"
+                                   Disabled="_isProcessing">
                             @L["DatabaseToolsDialog_Restore_Button_Restore"]
                         </MudButton>
                     }
@@ -89,31 +91,32 @@
                         <MudIcon Icon="@Icons.Material.Filled.Warning" Size="Size.Small" Class="mr-2" />
                         @L["DatabaseToolsDialog_DangerZone_Header"]
                     </MudText>
+
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
                         @((MarkupString)L["DatabaseToolsDialog_DangerZone_Description"].Value)
                     </MudText>
-                    <MudButton 
-                        Variant="Variant.Filled" 
-                        Color="Color.Error"
-                        StartIcon="@Icons.Material.Filled.DeleteForever"
-                        OnClick="ResetDatabase"
-                        Disabled="_isProcessing">
+
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Error"
+                               StartIcon="@Icons.Material.Filled.DeleteForever"
+                               OnClick="ResetDatabase"
+                               Disabled="_isProcessing">
                         @L["DatabaseToolsDialog_DangerZone_Button_Reset"]
                     </MudButton>
                 </MudStack>
             </MudPaper>
 
-            <!-- Progress Indicator -->
+            <!-- Progress -->
             @if (_isProcessing)
             {
-                <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+                <MudProgressLinear Indeterminate Color="Color.Primary" />
                 <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Secondary">
                     @_processingMessage
                 </MudText>
             }
         </MudStack>
     </DialogContent>
-    
+
     <DialogActions>
         <MudButton OnClick="Close" Variant="Variant.Text">
             @L["DatabaseToolsDialog_Button_Close"]
@@ -122,42 +125,36 @@
 </MudDialog>
 
 @code {
+
     [CascadingParameter]
-    IMudDialogInstance MudDialog { get; set; } = null!;
+    private IMudDialogInstance MudDialog { get; set; } = null!;
 
-    [Inject]
-    private ISuperRootService SuperRootService { get; set; } = null!;
+    [Inject] private ISuperRootService SuperRootService { get; set; } = null!;
+    [Inject] private ISnackbar Snackbar { get; set; } = null!;
+    [Inject] private IDialogService DialogService { get; set; } = null!;
 
-    [Inject]
-    private ISnackbar Snackbar { get; set; } = null!;
-
-    [Inject]
-    private IDialogService DialogService { get; set; } = null!;
-
-    private bool _isProcessing = false;
-    private string _processingMessage = "";
+    private bool _isProcessing;
+    private string _processingMessage = string.Empty;
     private IBrowserFile? _selectedFile;
 
     private async Task BackupDatabase()
     {
         _isProcessing = true;
-        _processingMessage = L["DatabaseToolsDialog_Snackbar_BackupCreating"];
+        _processingMessage = L["DatabaseToolsDialog_Snackbar_BackupCreating"].Value;
 
         try
         {
             var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             var backupPath = $"backup_{timestamp}.bak";
-            
+
             var result = await SuperRootService.BackupDatabaseAsync(backupPath);
 
-            if (result)
-            {
-                Snackbar.Add(string.Format(L["DatabaseToolsDialog_Snackbar_BackupSuccess"], backupPath), Severity.Success);
-            }
-            else
-            {
-                Snackbar.Add(L["DatabaseToolsDialog_Snackbar_BackupFailed"], Severity.Error);
-            }
+            Snackbar.Add(
+                result
+                    ? string.Format(L["DatabaseToolsDialog_Snackbar_BackupSuccess"].Value, backupPath)
+                    : L["DatabaseToolsDialog_Snackbar_BackupFailed"].Value,
+                result ? Severity.Success : Severity.Error
+            );
         }
         catch (Exception ex)
         {
@@ -166,14 +163,13 @@
         finally
         {
             _isProcessing = false;
-            _processingMessage = "";
+            _processingMessage = string.Empty;
         }
     }
 
     private void HandleFileUpload(InputFileChangeEventArgs e)
     {
         _selectedFile = e.File;
-        StateHasChanged();
     }
 
     private void ClearFile()
@@ -183,16 +179,18 @@
 
     private async Task RestoreDatabase()
     {
-        if (_selectedFile == null)
+        if (_selectedFile is null)
         {
-            Snackbar.Add(L["DatabaseToolsDialog_Snackbar_SelectFile"], Severity.Warning);
+            Snackbar.Add(L["DatabaseToolsDialog_Snackbar_SelectFile"].Value, Severity.Warning);
             return;
         }
 
         var parameters = new DialogParameters
         {
-            ["ContentText"] = string.Format(L["DatabaseToolsDialog_Snackbar_RestoreConfirm"], _selectedFile.Name),
-            ["ButtonText"] = L["DatabaseToolsDialog_Snackbar_RestoreConfirm_Button"],
+            ["ContentText"] = string.Format(
+                L["DatabaseToolsDialog_Snackbar_RestoreConfirm"].Value,
+                _selectedFile.Name),
+            ["ButtonText"] = L["DatabaseToolsDialog_Snackbar_RestoreConfirm_Button"].Value,
             ["Color"] = Color.Error
         };
 
@@ -202,37 +200,29 @@
         if (result is { Canceled: false })
         {
             _isProcessing = true;
-            _processingMessage = L["DatabaseToolsDialog_Snackbar_Restoring"];
+            _processingMessage = L["DatabaseToolsDialog_Snackbar_Restoring"].Value;
 
             try
             {
-                // Save uploaded file to temp location
                 var tempPath = Path.Combine(Path.GetTempPath(), _selectedFile.Name);
-                
-                await using (var stream = _selectedFile.OpenReadStream(maxAllowedSize: 1024 * 1024 * 100)) // 100MB max
-                {
-                    await using var fileStream = File.Create(tempPath);
-                    await stream.CopyToAsync(fileStream);
-                }
-                
-                // Restore from the backup file
+
+                await using var stream = _selectedFile.OpenReadStream(1024 * 1024 * 100);
+                await using var fs = File.Create(tempPath);
+                await stream.CopyToAsync(fs);
+
                 var restoreResult = await SuperRootService.RestoreDatabaseAsync(tempPath);
-                
-                if (restoreResult)
-                {
-                    Snackbar.Add(L["DatabaseToolsDialog_Snackbar_RestoreSuccess"], Severity.Success);
-                    _selectedFile = null;
-                }
-                else
-                {
-                    Snackbar.Add(L["DatabaseToolsDialog_Snackbar_RestoreFailed"], Severity.Error);
-                }
-                
-                // Clean up temp file
+
+                Snackbar.Add(
+                    restoreResult
+                        ? L["DatabaseToolsDialog_Snackbar_RestoreSuccess"].Value
+                        : L["DatabaseToolsDialog_Snackbar_RestoreFailed"].Value,
+                    restoreResult ? Severity.Success : Severity.Error
+                );
+
                 if (File.Exists(tempPath))
-                {
                     File.Delete(tempPath);
-                }
+
+                _selectedFile = null;
             }
             catch (Exception ex)
             {
@@ -241,7 +231,7 @@
             finally
             {
                 _isProcessing = false;
-                _processingMessage = "";
+                _processingMessage = string.Empty;
             }
         }
     }
@@ -250,32 +240,32 @@
     {
         var parameters = new DialogParameters
         {
-            ["ContentText"] = L["DatabaseToolsDialog_Snackbar_ResetConfirm"],
+            ["ContentText"] = L["DatabaseToolsDialog_Snackbar_ResetConfirm"].Value,
             ["ExpectedText"] = "RESET",
-            ["ButtonText"] = L["DatabaseToolsDialog_Snackbar_ResetConfirm_Button"],
+            ["ButtonText"] = L["DatabaseToolsDialog_Snackbar_ResetConfirm_Button"].Value,
             ["ButtonColor"] = Color.Error
         };
 
-        var dialog = await DialogService.ShowAsync<ConfirmWithTextDialog>("⚠️ DANGER: Reset Database", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmWithTextDialog>(
+            "⚠️ DANGER: Reset Database", parameters);
+
         var result = await dialog.Result;
 
         if (result is { Canceled: false } && result.Data?.ToString() == "RESET")
         {
             _isProcessing = true;
-            _processingMessage = L["DatabaseToolsDialog_Snackbar_Resetting"];
+            _processingMessage = L["DatabaseToolsDialog_Snackbar_Resetting"].Value;
 
             try
             {
                 var resetResult = await SuperRootService.ResetDatabaseAsync();
 
-                if (resetResult)
-                {
-                    Snackbar.Add(L["DatabaseToolsDialog_Snackbar_ResetSuccess"], Severity.Success);
-                }
-                else
-                {
-                    Snackbar.Add(L["DatabaseToolsDialog_Snackbar_ResetFailed"], Severity.Error);
-                }
+                Snackbar.Add(
+                    resetResult
+                        ? L["DatabaseToolsDialog_Snackbar_ResetSuccess"].Value
+                        : L["DatabaseToolsDialog_Snackbar_ResetFailed"].Value,
+                    resetResult ? Severity.Success : Severity.Error
+                );
             }
             catch (Exception ex)
             {
@@ -284,7 +274,7 @@
             finally
             {
                 _isProcessing = false;
-                _processingMessage = "";
+                _processingMessage = string.Empty;
             }
         }
     }

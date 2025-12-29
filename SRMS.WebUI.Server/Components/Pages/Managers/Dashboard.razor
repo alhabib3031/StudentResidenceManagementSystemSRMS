@@ -2,7 +2,6 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
 @inject NavigationManager Navigation
 @rendermode InteractiveServer

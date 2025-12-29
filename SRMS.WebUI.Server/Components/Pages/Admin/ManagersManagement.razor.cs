@@ -1,10 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MudBlazor;
+﻿using MudBlazor;
 using SRMS.Domain.Managers;
 using SRMS.Domain.Managers.Enums;
 using SRMS.Domain.Repositories;
-using SRMS.Domain.Residences;
-using SRMS.Domain.Students;
 using SRMS.WebUI.Server.Components.Pages.Dialogs;
 
 namespace SRMS.WebUI.Server.Components.Pages.Admin;
@@ -17,11 +14,11 @@ public partial class ManagersManagement
     private string _searchString = "";
     private string _filterStatus = "all";
 
-    private readonly List<BreadcrumbItem> _breadcrumbs = new()
-    {
-        new BreadcrumbItem("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
-        new BreadcrumbItem("Managers", href: null, disabled: true)
-    };
+    private readonly List<BreadcrumbItem> _breadcrumbs =
+    [
+        new("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
+        new("Managers", href: null, disabled: true)
+    ];
 
     protected override async Task OnInitializedAsync()
     {
@@ -125,7 +122,7 @@ public partial class ManagersManagement
         var dialog = await DialogService.ShowAsync<ConfirmDialog>("Confirm Status Change", parameters);
         var result = await dialog.Result;
 
-        if (result != null && !result.Canceled)
+        if (result is { Canceled: false })
         {
             using var scope = ScopeFactory.CreateScope();
             var managerRepo = scope.ServiceProvider.GetRequiredService<IRepositories<Manager>>();

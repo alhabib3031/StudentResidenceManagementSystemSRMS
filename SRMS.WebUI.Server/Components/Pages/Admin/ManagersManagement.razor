@@ -1,10 +1,6 @@
 @page "/admin/managers"
-@using SRMS.Domain.Managers
 @using SRMS.Domain.Managers.Enums
-@using SRMS.Domain.Repositories
-@using SRMS.Domain.Residences
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @attribute [Authorize(Roles = "Admin,SuperRoot")]
 @using Microsoft.Extensions.DependencyInjection
 @inject IServiceScopeFactory ScopeFactory
@@ -163,7 +159,7 @@
                         }
                         <div>
                             <MudText Typo="Typo.body2"><strong>@context.FullName</strong></MudText>
-                            @if (context.WorkingHoursStart.HasValue && context.WorkingHoursEnd.HasValue)
+                            @if (context is { WorkingHoursStart: not null, WorkingHoursEnd: not null })
                             {
                                 <MudText Typo="Typo.caption" Color="Color.Secondary">
                                     <MudIcon Icon="@Icons.Material.Filled.Schedule" Size="Size.Small" />

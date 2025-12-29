@@ -1,9 +1,7 @@
 @page "/payments"
-@inject ISender Sender
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
 @attribute [Authorize(Roles = "Manager,Admin,SuperRoot")]
 @rendermode InteractiveServer
@@ -267,7 +265,7 @@
         PaymentStatus.Paid => Color.Success,
         PaymentStatus.Pending => Color.Warning,
         PaymentStatus.Overdue => Color.Error,
-        PaymentStatus.Cancelled => Color.Default,
+        PaymentStatus.Cancelled => Color.Transparent,
         _ => Color.Default
     };
 
@@ -282,15 +280,15 @@
 
     private void RecordPayment()
     {
-        Snackbar.Add(L["PaymentsManagement_Snackbar_RecordPaymentComingSoon"], Severity.Info);
+        Snackbar.Add(L["PaymentsManagement_Snackbar_RecordPaymentComingSoon"].Value, Severity.Info);
     }
 
     private async Task MarkAsPaid(Guid paymentId)
     {
         var parameters = new DialogParameters
             {
-                ["ContentText"] = L["PaymentsManagement_Snackbar_MarkAsPaidConfirm"],
-                ["ButtonText"] = L["PaymentsManagement_Snackbar_ConfirmPayment"],
+                ["ContentText"] = L["PaymentsManagement_Snackbar_MarkAsPaidConfirm"].Value,
+                ["ButtonText"] = L["PaymentsManagement_Snackbar_ConfirmPayment"].Value,
                 ["Color"] = Color.Success
             };
 
@@ -299,18 +297,18 @@
 
         if (result is { Canceled: false })
         {
-            Snackbar.Add(L["PaymentsManagement_Snackbar_PaymentMarkedAsPaid"], Severity.Success);
+            Snackbar.Add(L["PaymentsManagement_Snackbar_PaymentMarkedAsPaid"].Value, Severity.Success);
             await LoadPayments();
         }
     }
 
     private void GenerateReceipt(Guid paymentId)
     {
-        Snackbar.Add(L["PaymentsManagement_Snackbar_GeneratingReceipt"], Severity.Info);
+        Snackbar.Add(L["PaymentsManagement_Snackbar_GeneratingReceipt"].Value, Severity.Info);
     }
 
     private void EditPayment(Guid paymentId)
     {
-        Snackbar.Add(L["PaymentsManagement_Snackbar_EditPaymentComingSoon"], Severity.Info);
+        Snackbar.Add(L["PaymentsManagement_Snackbar_EditPaymentComingSoon"].Value, Severity.Info);
     }
 }

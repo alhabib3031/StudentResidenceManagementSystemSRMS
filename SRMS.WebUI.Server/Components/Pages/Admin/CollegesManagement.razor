@@ -1,9 +1,7 @@
 @page "/admin/colleges"
 @using SRMS.Application.Colleges
 @using SRMS.Domain.Colleges
-@using SRMS.Domain.Colleges.Enums
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject ICollegeService CollegeService
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
@@ -19,7 +17,7 @@
                 <MudText Typo="Typo.body2" Class="opacity-60">Manage university colleges and study systems.</MudText>
             </MudStack>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-                OnClick="() => OpenCollegeDialog()" Class="rounded-xl py-3 px-6 shadow-lg">
+                OnClick="@(() => OpenCollegeDialog())" Class="rounded-xl py-3 px-6 shadow-lg">
                 @L["AddCollege"]
             </MudButton>
         </MudStack>
@@ -42,11 +40,11 @@
                 </MudTd>
                 <MudTd DataLabel='@L["Actions"]' Class="text-right">
                     <MudIconButton Icon="@Icons.Material.Filled.List" Color="Color.Info" Size="Size.Small"
-                        OnClick="() => ManageMajors(context)" Title="Manage Majors" />
+                        OnClick="@(() => ManageMajors(context))" Title="Manage Majors" />
                     <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small"
-                        OnClick="() => OpenCollegeDialog(context)" />
+                        OnClick="@(() => OpenCollegeDialog(context))" />
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small"
-                        OnClick="() => DeleteCollege(context)" />
+                        OnClick="@(() => DeleteCollege(context))" />
                 </MudTd>
             </RowTemplate>
             <NoRecordsContent>
@@ -90,7 +88,7 @@
         var dialog = await DialogService.ShowAsync<CollegeDialog>(title, parameters, options);
         var result = await dialog.Result;
 
-        if (!result.Canceled)
+        if (result is { Canceled: false })
         {
             await LoadColleges();
         }

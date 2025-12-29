@@ -9,7 +9,7 @@
             <MudStack Row="true" AlignItems="AlignItems.Center">
                 <MudTextField @bind-Value="_newMajorName" Label="New Major Name" Variant="Variant.Outlined"
                     Dense="true" />
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddMajor"
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@AddMajor"
                     Disabled='string.IsNullOrWhiteSpace(_newMajorName)'>Add</MudButton>
             </MudStack>
 
@@ -24,7 +24,7 @@
                     <MudTd>@context.Name</MudTd>
                     <MudTd>
                         <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small"
-                            OnClick="() => DeleteMajor(context.Id)" />
+                            OnClick="@(() => DeleteMajor(context.Id))" />
                     </MudTd>
                 </RowTemplate>
                 <NoRecordsContent>
@@ -34,12 +34,12 @@
         </MudStack>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Close">Close</MudButton>
+        <MudButton OnClick="@Close">Close</MudButton>
     </DialogActions>
 </MudDialog>
 
 @code {
-    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
     [Parameter] public College College { get; set; } = new();
 
     private List<Major> _majors = new();

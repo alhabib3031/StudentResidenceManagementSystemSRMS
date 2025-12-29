@@ -8,7 +8,6 @@
 @using SRMS.WebUI.Server.Components.Pages.Root
 @using SRMS.Domain.Residences
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @attribute [Authorize(Roles = "Admin,SuperRoot")]
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IRepositories<Student> StudentRepo
@@ -265,7 +264,7 @@
     private DashboardStats _stats = new();
     private List<ChartDataPoint> _chartData = new();
     private List<ChartSeries> _series = new();
-    private ChartOptions _chartOptions = new()
+    private readonly ChartOptions _chartOptions = new()
         {
             YAxisTicks = 10,
             MaxNumYAxisTicks = 10,
@@ -327,20 +326,25 @@
             var now = DateTime.UtcNow;
             var lastMonth = now.AddMonths(-1);
 
+            var iEnumerable = residences as Residence[] ?? residences.ToArray();
+            var enumerable = managers as Manager[] ?? managers.ToArray();
+            var iEnumerable1 = students as Student[] ?? students.ToArray();
+            var complaints1 = complaints as Complaint[] ?? complaints.ToArray();
+            var enumerable1 = payments as Payment[] ?? payments.ToArray();
             _stats = new DashboardStats
                 {
-                    TotalResidences = residences.Count(),
-                    ActiveManagers = managers.Count(m => m.Status == ManagerStatus.Active),
-                    TotalStudents = students.Count(),
-                    PendingComplaints = complaints.Count(c => c.Status == ComplaintStatus.Open || c.Status == ComplaintStatus.InProgress),
-                    ResolvedComplaints = complaints.Count(c => c.Status == ComplaintStatus.Resolved),
-                    ResidencesGrowth = residences.Count(r => r.CreatedAt >= lastMonth),
-                    ManagerAvailability = managers.Any() ? (double)managers.Count(m => m.Status == ManagerStatus.Active) / managers.Count() * 100 : 0,
-                    OccupancyRate = residences.Any() && residences.Sum(r => r.TotalCapacity) > 0 ? (double)students.Count() / residences.Sum(r => r.TotalCapacity) * 100 : 0,
-                    MonthlyRevenue = payments
+                    TotalResidences = iEnumerable.Count(),
+                    ActiveManagers = enumerable.Count(m => m.Status == ManagerStatus.Active),
+                    TotalStudents = iEnumerable1.Count(),
+                    PendingComplaints = complaints1.Count(c => c.Status == ComplaintStatus.Open || c.Status == ComplaintStatus.InProgress),
+                    ResolvedComplaints = complaints1.Count(c => c.Status == ComplaintStatus.Resolved),
+                    ResidencesGrowth = iEnumerable.Count(r => r.CreatedAt >= lastMonth),
+                    ManagerAvailability = enumerable.Any() ? (double)enumerable.Count(m => m.Status == ManagerStatus.Active) / enumerable.Count() * 100 : 0,
+                    OccupancyRate = iEnumerable.Any() && iEnumerable.Sum(r => r.TotalCapacity) > 0 ? (double)iEnumerable1.Count() / iEnumerable.Sum(r => r.TotalCapacity) * 100 : 0,
+                    MonthlyRevenue = enumerable1
                     .Where(p => p.CreatedAt.Month == now.Month && p.CreatedAt.Year == now.Year && p.Status == PaymentStatus.Paid)
-                    .Sum(p => p.Amount?.Amount ?? 0),
-                    RevenueGrowth = CalculateRevenueGrowth(payments)
+                    .Sum(p => p.Amount.Amount ?? 0),
+                    RevenueGrowth = CalculateRevenueGrowth(enumerable1)
                 };
         }
         catch (Exception ex)
@@ -352,14 +356,15 @@
     private double CalculateRevenueGrowth(IEnumerable<Payment> payments)
     {
         var now = DateTime.UtcNow;
-        var currentMonth = payments
+        var iEnumerable = payments as Payment[] ?? payments.ToArray();
+        var currentMonth = iEnumerable
         .Where(p => p.CreatedAt.Month == now.Month && p.CreatedAt.Year == now.Year && p.Status == PaymentStatus.Paid)
-        .Sum(p => p.Amount?.Amount ?? 0);
+        .Sum(p => p.Amount.Amount ?? 0);
 
-        var lastMonth = payments
+        var lastMonth = iEnumerable
         .Where(p => p.CreatedAt.Month == now.AddMonths(-1).Month && p.CreatedAt.Year == now.AddMonths(-1).Year && p.Status ==
         PaymentStatus.Paid)
-        .Sum(p => p.Amount?.Amount ?? 0);
+        .Sum(p => p.Amount.Amount ?? 0);
 
         if (lastMonth == 0) return 0;
 
@@ -386,14 +391,14 @@
                 _ => GetMonthData(students, now)
             };
 
-            _series = new List<ChartSeries>
-            {
+            _series =
+            [
                 new ChartSeries
                 {
                     Name = "New Students",
                     Data = _chartData.Select(x => (double)x.Value).ToArray()
                 }
-            };
+            ];
 
             StateHasChanged();
         }
@@ -451,7 +456,8 @@
         for (int i = 0; i < 12; i++)
         {
             var month = i + 1;
-            var count = students.Count(s => s.CreatedAt.Month == month && s.CreatedAt.Year == now.Year);
+            var iEnumerable = students as Student[] ?? students.ToArray();
+            var count = iEnumerable.Count(s => s.CreatedAt.Month == month && s.CreatedAt.Year == now.Year);
             data.Add(new ChartDataPoint
                 {
                     Label = monthNames[i],
@@ -464,21 +470,21 @@
 
     private class DashboardStats
     {
-        public int TotalResidences { get; set; }
-        public int ActiveManagers { get; set; }
-        public int TotalStudents { get; set; }
-        public int PendingComplaints { get; set; }
-        public int ResolvedComplaints { get; set; }
-        public int ResidencesGrowth { get; set; }
-        public double ManagerAvailability { get; set; }
-        public double OccupancyRate { get; set; }
-        public decimal MonthlyRevenue { get; set; }
-        public double RevenueGrowth { get; set; }
+        public int TotalResidences { get; init; }
+        public int ActiveManagers { get; init; }
+        public int TotalStudents { get; init; }
+        public int PendingComplaints { get; init; }
+        public int ResolvedComplaints { get; init; }
+        public int ResidencesGrowth { get; init; }
+        public double ManagerAvailability { get; init; }
+        public double OccupancyRate { get; init; }
+        public decimal MonthlyRevenue { get; init; }
+        public double RevenueGrowth { get; init; }
     }
 
     private class ChartDataPoint
     {
-        public string Label { get; set; } = "";
-        public int Value { get; set; }
+        public string Label { get; init; } = "";
+        public int Value { get; init; }
     }
 }

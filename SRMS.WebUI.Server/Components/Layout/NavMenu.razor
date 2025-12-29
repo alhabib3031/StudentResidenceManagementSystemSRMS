@@ -1,7 +1,6 @@
 ﻿@using SRMS.Application.Notifications.Interfaces
 @using System.Security.Claims
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject INotificationService NotificationService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IStringLocalizer<Resource> L
@@ -34,10 +33,10 @@
                     <MudNavLink Href="/superroot/users" Icon="@Icons.Material.Filled.People" Class="modern-nav-link">
                         @L["ManageUsers"]
                     </MudNavLink>
-                    <MudNavLink Href="/admin/user-reviews" Icon="@Icons.Material.Filled.RateReview"
-                        Class="modern-nav-link">
-                        @L["Admin_UserReviews_Title"]
-                    </MudNavLink>
+                    @* <MudNavLink Href="/admin/user-reviews" Icon="@Icons.Material.Filled.RateReview" *@
+                    @*     Class="modern-nav-link"> *@
+                    @*     @L["Admin_UserReviews_Title"] *@
+                    @* </MudNavLink> *@
                     <MudNavLink Href="/superroot/roles" Icon="@Icons.Material.Filled.AdminPanelSettings"
                         Class="modern-nav-link">
                         @L["ManageRoles"]
@@ -76,7 +75,7 @@
                     </MudNavLink>
                     <MudNavLink Href="/admin/nationalities" Icon="@Icons.Material.Filled.Public"
                         Class="modern-nav-link">
-                        Nationalities
+                        @L["Nationalities"]
                     </MudNavLink>
                     <MudNavLink Href="/admin/user-reviews" Icon="@Icons.Material.Filled.RateReview"
                         Class="modern-nav-link">

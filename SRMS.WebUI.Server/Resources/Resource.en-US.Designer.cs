@@ -60,6 +60,51 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1 year.
+        /// </summary>
+        public static string _1year {
+            get {
+                return ResourceManager.GetString("1year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 30 days.
+        /// </summary>
+        public static string _30days {
+            get {
+                return ResourceManager.GetString("30days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 60 days.
+        /// </summary>
+        public static string _60days {
+            get {
+                return ResourceManager.GetString("60days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6 months.
+        /// </summary>
+        public static string _6months {
+            get {
+                return ResourceManager.GetString("6months", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 90 days.
+        /// </summary>
+        public static string _90days {
+            get {
+                return ResourceManager.GetString("90days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Round-the-clock customer support to assist you anytime.
         /// </summary>
         public static string About_Feature_247Support_Description {
@@ -438,11 +483,83 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        public static string Action {
+            get {
+                return ResourceManager.GetString("Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This action CANNOT be undone..
+        /// </summary>
+        public static string ActionCannotBeUndone {
+            get {
+                return ResourceManager.GetString("ActionCannotBeUndone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         public static string Actions {
             get {
                 return ResourceManager.GetString("Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action Type.
+        /// </summary>
+        public static string ActionType {
+            get {
+                return ResourceManager.GetString("ActionType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Users.
+        /// </summary>
+        public static string Active_Users {
+            get {
+                return ResourceManager.GetString("Active_Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Users.
+        /// </summary>
+        public static string ActiveUsers {
+            get {
+                return ResourceManager.GetString("ActiveUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional Info.
+        /// </summary>
+        public static string AdditionalInfo {
+            get {
+                return ResourceManager.GetString("AdditionalInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colleges Management.
+        /// </summary>
+        public static string Admin_Colleges_Title {
+            get {
+                return ResourceManager.GetString("Admin_Colleges_Title", resourceCulture);
             }
         }
         
@@ -708,6 +825,69 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Audit Logs.
+        /// </summary>
+        public static string AllAuditLogs {
+            get {
+                return ResourceManager.GetString("AllAuditLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All data deleted. System is now empty..
+        /// </summary>
+        public static string AllDataDeleted {
+            get {
+                return ResourceManager.GetString("AllDataDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Allow Online Payment.
+        /// </summary>
+        public static string AllowOnlinePayment {
+            get {
+                return ResourceManager.GetString("AllowOnlinePayment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Payments &amp; Complaints.
+        /// </summary>
+        public static string AllPaymentsAndComplaints {
+            get {
+                return ResourceManager.GetString("AllPaymentsAndComplaints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Residences &amp; Rooms.
+        /// </summary>
+        public static string AllResidencesAndRooms {
+            get {
+                return ResourceManager.GetString("AllResidencesAndRooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Students &amp; Managers.
+        /// </summary>
+        public static string AllStudentsAndManagers {
+            get {
+                return ResourceManager.GetString("AllStudentsAndManagers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Users (except you).
+        /// </summary>
+        public static string AllUsersExceptSuperRoot {
+            get {
+                return ResourceManager.GetString("AllUsersExceptSuperRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Air Conditioning.
         /// </summary>
         public static string Amenity_AC {
@@ -776,6 +956,24 @@ namespace SRMS.WebUI.Server.Resources {
         public static string Apartment {
             get {
                 return ResourceManager.GetString("Apartment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API Key.
+        /// </summary>
+        public static string ApiKey {
+            get {
+                return ResourceManager.GetString("ApiKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API Secret.
+        /// </summary>
+        public static string ApiSecret {
+            get {
+                return ResourceManager.GetString("ApiSecret", resourceCulture);
             }
         }
         
@@ -1014,6 +1212,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto-Generate Invoices.
+        /// </summary>
+        public static string AutoGenerateInvoices {
+            get {
+                return ResourceManager.GetString("AutoGenerateInvoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available.
         /// </summary>
         public static string Available {
@@ -1059,6 +1266,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cache cleared successfully..
+        /// </summary>
+        public static string CacheClearedSuccessfully {
+            get {
+                return ResourceManager.GetString("CacheClearedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -1068,11 +1284,56 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to City.
+        /// </summary>
+        public static string City {
+            get {
+                return ResourceManager.GetString("City", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear All Cache.
+        /// </summary>
+        public static string ClearAllCache {
+            get {
+                return ResourceManager.GetString("ClearAllCache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clears all server-side caching. This may temporarily impact performance while cache is rebuilt..
+        /// </summary>
+        public static string ClearAllCache_Description {
+            get {
+                return ResourceManager.GetString("ClearAllCache_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear Cache.
         /// </summary>
         public static string ClearCache {
             get {
                 return ResourceManager.GetString("ClearCache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to clear all system cache?.
+        /// </summary>
+        public static string ClearCache_Confirmation {
+            get {
+                return ResourceManager.GetString("ClearCache_Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
             }
         }
         
@@ -1244,6 +1505,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string CompactMode {
             get {
                 return ResourceManager.GetString("CompactMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complaint.
+        /// </summary>
+        public static string Complaint {
+            get {
+                return ResourceManager.GetString("Complaint", resourceCulture);
             }
         }
         
@@ -1613,6 +1883,24 @@ namespace SRMS.WebUI.Server.Resources {
         public static string ConfirmApprove {
             get {
                 return ResourceManager.GetString("ConfirmApprove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please type the code exactly as shown..
+        /// </summary>
+        public static string ConfirmationCodeHelper {
+            get {
+                return ResourceManager.GetString("ConfirmationCodeHelper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation code does not match..
+        /// </summary>
+        public static string ConfirmationCodeMismatch {
+            get {
+                return ResourceManager.GetString("ConfirmationCodeMismatch", resourceCulture);
             }
         }
         
@@ -2027,6 +2315,42 @@ namespace SRMS.WebUI.Server.Resources {
         public static string Copyright {
             get {
                 return ResourceManager.GetString("Copyright", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        public static string Country {
+            get {
+                return ResourceManager.GetString("Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create New Role.
+        /// </summary>
+        public static string Create_New_Role {
+            get {
+                return ResourceManager.GetString("Create_New_Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create New User.
+        /// </summary>
+        public static string Create_New_User {
+            get {
+                return ResourceManager.GetString("Create_New_User", resourceCulture);
             }
         }
         
@@ -2976,6 +3300,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Critical Risk.
+        /// </summary>
+        public static string CriticalRisk {
+            get {
+                return ResourceManager.GetString("CriticalRisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Join thousands of institutions that trust SRMS to manage student housing efficiently and effectively..
         /// </summary>
         public static string CTA_Body {
@@ -3012,6 +3345,69 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Danger Zone.
+        /// </summary>
+        public static string Danger_Zone {
+            get {
+                return ResourceManager.GetString("Danger_Zone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are about to enter the Danger Zone. Actions here are irreversible and can affect the entire system..
+        /// </summary>
+        public static string Danger_Zone_Warning {
+            get {
+                return ResourceManager.GetString("Danger_Zone_Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CRITICAL WARNING:.
+        /// </summary>
+        public static string DangerZone_CriticalWarning {
+            get {
+                return ResourceManager.GetString("DangerZone_CriticalWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to These actions can cause irreversible data loss. Please be absolutely certain before proceeding..
+        /// </summary>
+        public static string DangerZone_CriticalWarningMessage {
+            get {
+                return ResourceManager.GetString("DangerZone_CriticalWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Danger Zone.
+        /// </summary>
+        public static string DangerZone_Header {
+            get {
+                return ResourceManager.GetString("DangerZone_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced administrative actions. Please proceed with caution..
+        /// </summary>
+        public static string DangerZone_SubHeader {
+            get {
+                return ResourceManager.GetString("DangerZone_SubHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Danger Zone.
+        /// </summary>
+        public static string DangerZone_Title {
+            get {
+                return ResourceManager.GetString("DangerZone_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dark Mode.
         /// </summary>
         public static string DarkMode {
@@ -3026,6 +3422,24 @@ namespace SRMS.WebUI.Server.Resources {
         public static string Dashboard {
             get {
                 return ResourceManager.GetString("Dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database Tools.
+        /// </summary>
+        public static string Database_Tools {
+            get {
+                return ResourceManager.GetString("Database_Tools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database Reset Successfully.
+        /// </summary>
+        public static string DatabaseResetSuccessfully {
+            get {
+                return ResourceManager.GetString("DatabaseResetSuccessfully", resourceCulture);
             }
         }
         
@@ -3291,6 +3705,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date Range.
+        /// </summary>
+        public static string DateRange {
+            get {
+                return ResourceManager.GetString("DateRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DD/MM/YYYY.
         /// </summary>
         public static string DDMMYYYY {
@@ -3300,11 +3723,155 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Currency.
+        /// </summary>
+        public static string DefaultCurrency {
+            get {
+                return ResourceManager.GetString("DefaultCurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Language.
+        /// </summary>
+        public static string DefaultLanguage {
+            get {
+                return ResourceManager.GetString("DefaultLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Monthly Rent (LYD).
+        /// </summary>
+        public static string DefaultMonthlyRent {
+            get {
+                return ResourceManager.GetString("DefaultMonthlyRent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete Account.
         /// </summary>
         public static string DeleteAccount {
             get {
                 return ResourceManager.GetString("DeleteAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;DELETE_ALL_DATA_PERMANENTLY&apos;.
+        /// </summary>
+        public static string DeleteAllData_ConfirmationLabel {
+            get {
+                return ResourceManager.GetString("DeleteAllData_ConfirmationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FINAL WARNING: You are about to delete ALL data in the system. This is your last chance to cancel..
+        /// </summary>
+        public static string DeleteAllData_FinalWarning {
+            get {
+                return ResourceManager.GetString("DeleteAllData_FinalWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete All Data.
+        /// </summary>
+        public static string DeleteAllData_Header {
+            get {
+                return ResourceManager.GetString("DeleteAllData_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Everything.
+        /// </summary>
+        public static string DeleteEverythingButton {
+            get {
+                return ResourceManager.GetString("DeleteEverythingButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, Delete Everything.
+        /// </summary>
+        public static string DeleteEverythingButton_Final {
+            get {
+                return ResourceManager.GetString("DeleteEverythingButton_Final", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Logs.
+        /// </summary>
+        public static string DeleteLogs {
+            get {
+                return ResourceManager.GetString("DeleteLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete logs older than.
+        /// </summary>
+        public static string DeleteLogsOlderThan {
+            get {
+                return ResourceManager.GetString("DeleteLogsOlderThan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Old Audit Logs.
+        /// </summary>
+        public static string DeleteOldAuditLogs {
+            get {
+                return ResourceManager.GetString("DeleteOldAuditLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Permanently removes audit logs older than the specified period to free up database space..
+        /// </summary>
+        public static string DeleteOldAuditLogs_Description {
+            get {
+                return ResourceManager.GetString("DeleteOldAuditLogs_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Logs.
+        /// </summary>
+        public static string DeleteOldLogs {
+            get {
+                return ResourceManager.GetString("DeleteOldLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete audit logs older than {0} days?.
+        /// </summary>
+        public static string DeleteOldLogs_Confirmation {
+            get {
+                return ResourceManager.GetString("DeleteOldLogs_Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting Everything....
+        /// </summary>
+        public static string DeletingEverything {
+            get {
+                return ResourceManager.GetString("DeletingEverything", resourceCulture);
             }
         }
         
@@ -3399,6 +3966,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Dialog_Cancel {
@@ -3435,6 +4011,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Residence Info.
+        /// </summary>
+        public static string EditResidenceDialog_Title {
+            get {
+                return ResourceManager.GetString("EditResidenceDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Room updated successfully..
         /// </summary>
         public static string EditRoomDialog_Success {
@@ -3449,6 +4034,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string EditRoomDialog_Title {
             get {
                 return ResourceManager.GetString("EditRoomDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Student.
+        /// </summary>
+        public static string EditStudent_Title {
+            get {
+                return ResourceManager.GetString("EditStudent_Title", resourceCulture);
             }
         }
         
@@ -3642,6 +4236,42 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Configuration.
+        /// </summary>
+        public static string Email_Configuration {
+            get {
+                return ResourceManager.GetString("Email_Configuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure SMTP settings for sending emails from the system.
+        /// </summary>
+        public static string EmailConfiguration_Alert {
+            get {
+                return ResourceManager.GetString("EmailConfiguration_Alert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Configuration.
+        /// </summary>
+        public static string EmailConfiguration_Header {
+            get {
+                return ResourceManager.GetString("EmailConfiguration_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email Notifications.
         /// </summary>
         public static string EmailNotifications {
@@ -3651,11 +4281,65 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable Maintenance Mode.
+        /// </summary>
+        public static string EnableMaintenanceMode {
+            get {
+                return ResourceManager.GetString("EnableMaintenanceMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable SMS Notifications.
+        /// </summary>
+        public static string EnableSmsNotifications {
+            get {
+                return ResourceManager.GetString("EnableSmsNotifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable SSL/TLS.
+        /// </summary>
+        public static string EnableSsl {
+            get {
+                return ResourceManager.GetString("EnableSsl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Two-Factor Authentication.
+        /// </summary>
+        public static string EnableTwoFactorAuth {
+            get {
+                return ResourceManager.GetString("EnableTwoFactorAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         public static string English {
             get {
                 return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity.
+        /// </summary>
+        public static string Entity {
+            get {
+                return ResourceManager.GetString("Entity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
             }
         }
         
@@ -3723,6 +4407,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error loading student: {0}.
+        /// </summary>
+        public static string ErrorLoadingStudent {
+            get {
+                return ResourceManager.GetString("ErrorLoadingStudent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Eastern Time.
         /// </summary>
         public static string EST {
@@ -3732,11 +4425,92 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exporting logs....
+        /// </summary>
+        public static string ExportingLogs {
+            get {
+                return ResourceManager.GetString("ExportingLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export Logs.
+        /// </summary>
+        public static string ExportLogs {
+            get {
+                return ResourceManager.GetString("ExportLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export My Data.
         /// </summary>
         public static string ExportMyData {
             get {
                 return ResourceManager.GetString("ExportMyData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EXTREME CAUTION:.
+        /// </summary>
+        public static string ExtremeCaution {
+            get {
+                return ResourceManager.GetString("ExtremeCaution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed Actions.
+        /// </summary>
+        public static string FailedActions {
+            get {
+                return ResourceManager.GetString("FailedActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to clear cache..
+        /// </summary>
+        public static string FailedToClearCache {
+            get {
+                return ResourceManager.GetString("FailedToClearCache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to delete data..
+        /// </summary>
+        public static string FailedToDeleteData {
+            get {
+                return ResourceManager.GetString("FailedToDeleteData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to generate test data..
+        /// </summary>
+        public static string FailedToGenerateTestData {
+            get {
+                return ResourceManager.GetString("FailedToGenerateTestData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to load logs.
+        /// </summary>
+        public static string FailedToLoadLogs {
+            get {
+                return ResourceManager.GetString("FailedToLoadLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed To Reset Database.
+        /// </summary>
+        public static string FailedToResetDatabase {
+            get {
+                return ResourceManager.GetString("FailedToResetDatabase", resourceCulture);
             }
         }
         
@@ -3863,6 +4637,24 @@ namespace SRMS.WebUI.Server.Resources {
         public static string Features_Header {
             get {
                 return ResourceManager.GetString("Features_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Final Warning.
+        /// </summary>
+        public static string FinalWarning_Title {
+            get {
+                return ResourceManager.GetString("FinalWarning_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First Name.
+        /// </summary>
+        public static string FirstName {
+            get {
+                return ResourceManager.GetString("FirstName", resourceCulture);
             }
         }
         
@@ -4011,11 +4803,56 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Full system access and control.
+        /// </summary>
+        public static string Full_System_Access {
+            get {
+                return ResourceManager.GetString("Full_System_Access", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General Settings.
         /// </summary>
         public static string GeneralSettings {
             get {
                 return ResourceManager.GetString("GeneralSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General Settings.
+        /// </summary>
+        public static string GeneralSettings_Header {
+            get {
+                return ResourceManager.GetString("GeneralSettings_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generate Test Data.
+        /// </summary>
+        public static string GenerateTestData {
+            get {
+                return ResourceManager.GetString("GenerateTestData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generates random users, students, and data for testing purposes. Safe to use in development..
+        /// </summary>
+        public static string GenerateTestData_Description {
+            get {
+                return ResourceManager.GetString("GenerateTestData_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generating....
+        /// </summary>
+        public static string Generating {
+            get {
+                return ResourceManager.GetString("Generating", resourceCulture);
             }
         }
         
@@ -4065,6 +4902,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High Risk.
+        /// </summary>
+        public static string HighRisk {
+            get {
+                return ResourceManager.GetString("HighRisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Home {
@@ -4101,11 +4947,47 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I Understand.
+        /// </summary>
+        public static string I_Understand {
+            get {
+                return ResourceManager.GetString("I_Understand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IP Address.
+        /// </summary>
+        public static string IpAddress {
+            get {
+                return ResourceManager.GetString("IpAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {
             get {
                 return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Name.
+        /// </summary>
+        public static string LastName {
+            get {
+                return ResourceManager.GetString("LastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Late Fee Percentage (%).
+        /// </summary>
+        public static string LateFeePercentage {
+            get {
+                return ResourceManager.GetString("LateFeePercentage", resourceCulture);
             }
         }
         
@@ -4124,6 +5006,33 @@ namespace SRMS.WebUI.Server.Resources {
         public static string Loading {
             get {
                 return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lockout Duration (minutes).
+        /// </summary>
+        public static string LockoutDuration {
+            get {
+                return ResourceManager.GetString("LockoutDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log All User Actions.
+        /// </summary>
+        public static string LogAllUserActions {
+            get {
+                return ResourceManager.GetString("LogAllUserActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
             }
         }
         
@@ -4380,6 +5289,33 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logs older than {0} days deleted successfully..
+        /// </summary>
+        public static string LogsDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("LogsDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logs refreshed successfully.
+        /// </summary>
+        public static string LogsRefreshedSuccessfully {
+            get {
+                return ResourceManager.GetString("LogsRefreshedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low Risk.
+        /// </summary>
+        public static string LowRisk {
+            get {
+                return ResourceManager.GetString("LowRisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maintenance.
         /// </summary>
         public static string Maintenance {
@@ -4389,11 +5325,74 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maintenance Message.
+        /// </summary>
+        public static string MaintenanceMessage {
+            get {
+                return ResourceManager.GetString("MaintenanceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The system is currently under maintenance. Please check back later..
+        /// </summary>
+        public static string MaintenanceMessage_Placeholder {
+            get {
+                return ResourceManager.GetString("MaintenanceMessage_Placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;strong&gt;Warning:&lt;/strong&gt; Enabling maintenance mode will prevent all users (except SuperRoot) from accessing the system..
+        /// </summary>
+        public static string MaintenanceMode_Alert {
+            get {
+                return ResourceManager.GetString("MaintenanceMode_Alert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintenance Mode.
+        /// </summary>
+        public static string MaintenanceMode_Header {
+            get {
+                return ResourceManager.GetString("MaintenanceMode_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Inactive Users.
+        /// </summary>
+        public static string Manage_Inactive_Users {
+            get {
+                return ResourceManager.GetString("Manage_Inactive_Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Permissions.
+        /// </summary>
+        public static string Manage_Permissions {
+            get {
+                return ResourceManager.GetString("Manage_Permissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Management.
         /// </summary>
         public static string Management {
             get {
                 return ResourceManager.GetString("Management", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manager.
+        /// </summary>
+        public static string Manager {
+            get {
+                return ResourceManager.GetString("Manager", resourceCulture);
             }
         }
         
@@ -5091,11 +6090,47 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max Login Attempts.
+        /// </summary>
+        public static string MaxLoginAttempts {
+            get {
+                return ResourceManager.GetString("MaxLoginAttempts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MM/DD/YYYY.
         /// </summary>
         public static string MMDDYYYY {
             get {
                 return ResourceManager.GetString("MMDDYYYY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moderate Risk.
+        /// </summary>
+        public static string ModerateRisk {
+            get {
+                return ResourceManager.GetString("ModerateRisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the most destructive action available..
+        /// </summary>
+        public static string MostDestructiveAction {
+            get {
+                return ResourceManager.GetString("MostDestructiveAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must type the confirmation code below to proceed:.
+        /// </summary>
+        public static string MustTypeConfirmation {
+            get {
+                return ResourceManager.GetString("MustTypeConfirmation", resourceCulture);
             }
         }
         
@@ -5141,6 +6176,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string MyRoom {
             get {
                 return ResourceManager.GetString("MyRoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nationalities.
+        /// </summary>
+        public static string Nationalities {
+            get {
+                return ResourceManager.GetString("Nationalities", resourceCulture);
             }
         }
         
@@ -5307,6 +6351,33 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to THE NUCLEAR OPTION.
+        /// </summary>
+        public static string NuclearOption {
+            get {
+                return ResourceManager.GetString("NuclearOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Students.
+        /// </summary>
+        public static string NumberOfStudents {
+            get {
+                return ResourceManager.GetString("NumberOfStudents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Users.
+        /// </summary>
+        public static string NumberOfUsers {
+            get {
+                return ResourceManager.GetString("NumberOfUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Occupied.
         /// </summary>
         public static string Occupied {
@@ -5316,11 +6387,65 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum Password Length.
+        /// </summary>
+        public static string PasswordMinLength {
+            get {
+                return ResourceManager.GetString("PasswordMinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment.
+        /// </summary>
+        public static string Payment {
+            get {
+                return ResourceManager.GetString("Payment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment Due Days.
+        /// </summary>
+        public static string PaymentDueDays {
+            get {
+                return ResourceManager.GetString("PaymentDueDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Payment Notifications.
         /// </summary>
         public static string PaymentNotifications {
             get {
                 return ResourceManager.GetString("PaymentNotifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment Reminder (days before).
+        /// </summary>
+        public static string PaymentReminderDays {
+            get {
+                return ResourceManager.GetString("PaymentReminderDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment Settings.
+        /// </summary>
+        public static string PaymentSettings_Header {
+            get {
+                return ResourceManager.GetString("PaymentSettings_Header", resourceCulture);
             }
         }
         
@@ -5627,6 +6752,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string PaymentsManagement_Table_NA {
             get {
                 return ResourceManager.GetString("PaymentsManagement_Table_NA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It will permanently delete EVERYTHING:.
+        /// </summary>
+        public static string PermanentlyDeleteEverything {
+            get {
+                return ResourceManager.GetString("PermanentlyDeleteEverything", resourceCulture);
             }
         }
         
@@ -6806,6 +7940,24 @@ namespace SRMS.WebUI.Server.Resources {
         public static string Permissions_ViewUsers_Desc {
             get {
                 return ResourceManager.GetString("Permissions.ViewUsers.Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Number.
+        /// </summary>
+        public static string PhoneNumber {
+            get {
+                return ResourceManager.GetString("PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Postal Code.
+        /// </summary>
+        public static string PostalCode {
+            get {
+                return ResourceManager.GetString("PostalCode", resourceCulture);
             }
         }
         
@@ -8259,6 +9411,69 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Require Email Confirmation.
+        /// </summary>
+        public static string RequireEmailConfirmation {
+            get {
+                return ResourceManager.GetString("RequireEmailConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Database.
+        /// </summary>
+        public static string ResetDatabase {
+            get {
+                return ResourceManager.GetString("ResetDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to reset the database? This cannot be undone..
+        /// </summary>
+        public static string ResetDatabase_Confirmation {
+            get {
+                return ResourceManager.GetString("ResetDatabase_Confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All users, students, residences, and logs will be permanently deleted. Only the SuperRoot account will remain..
+        /// </summary>
+        public static string ResetDatabase_Description {
+            get {
+                return ResourceManager.GetString("ResetDatabase_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Database.
+        /// </summary>
+        public static string ResetDatabase_Title {
+            get {
+                return ResourceManager.GetString("ResetDatabase_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will wipe ALL data and restore the database to its initial state..
+        /// </summary>
+        public static string ResetDatabase_Warning {
+            get {
+                return ResourceManager.GetString("ResetDatabase_Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Database to Defaults.
+        /// </summary>
+        public static string ResetDatabaseToDefaults {
+            get {
+                return ResourceManager.GetString("ResetDatabaseToDefaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to Login.
         /// </summary>
         public static string ResetPassword_Button_BackToLogin {
@@ -8484,6 +9699,33 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resetting....
+        /// </summary>
+        public static string Resetting {
+            get {
+                return ResourceManager.GetString("Resetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Residence Details.
+        /// </summary>
+        public static string ResidenceDetailsDialog_Title {
+            get {
+                return ResourceManager.GetString("ResidenceDetailsDialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Residences.
+        /// </summary>
+        public static string Residences {
+            get {
+                return ResourceManager.GetString("Residences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string ResidencesManagement_Actions_Delete {
@@ -8651,6 +9893,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string ResidencesManagement_Snackbar_Deleted {
             get {
                 return ResourceManager.GetString("ResidencesManagement_Snackbar_Deleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Residences Not Found.
+        /// </summary>
+        public static string ResidencesManagement_Snackbar_NotFound {
+            get {
+                return ResourceManager.GetString("ResidencesManagement_Snackbar_NotFound", resourceCulture);
             }
         }
         
@@ -8880,6 +10131,24 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role created successfully!.
+        /// </summary>
+        public static string Role_Created_Successfully {
+            get {
+                return ResourceManager.GetString("Role_Created_Successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role Management.
+        /// </summary>
+        public static string Role_Management {
+            get {
+                return ResourceManager.GetString("Role_Management", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create New Role.
         /// </summary>
         public static string RolesManagement_CreateNewRole {
@@ -9065,6 +10334,15 @@ namespace SRMS.WebUI.Server.Resources {
         public static string RolesManagement_Title {
             get {
                 return ResourceManager.GetString("RolesManagement.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room.
+        /// </summary>
+        public static string Room {
+            get {
+                return ResourceManager.GetString("Room", resourceCulture);
             }
         }
         
@@ -9636,6 +10914,24 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save Changes.
+        /// </summary>
+        public static string SaveChanges {
+            get {
+                return ResourceManager.GetString("SaveChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Email Settings.
+        /// </summary>
+        public static string SaveEmailSettings {
+            get {
+                return ResourceManager.GetString("SaveEmailSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save General Settings.
         /// </summary>
         public static string SaveGeneralSettings {
@@ -9654,11 +10950,128 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save Payment Settings.
+        /// </summary>
+        public static string SavePaymentSettings {
+            get {
+                return ResourceManager.GetString("SavePaymentSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Security Settings.
+        /// </summary>
+        public static string SaveSecuritySettings {
+            get {
+                return ResourceManager.GetString("SaveSecuritySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Settings.
+        /// </summary>
+        public static string SaveSettings_Button {
+            get {
+                return ResourceManager.GetString("SaveSettings_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save SMS Settings.
+        /// </summary>
+        public static string SaveSmsSettings {
+            get {
+                return ResourceManager.GetString("SaveSmsSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security Settings.
+        /// </summary>
+        public static string SecuritySettings_Header {
+            get {
+                return ResourceManager.GetString("SecuritySettings_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sender Name.
+        /// </summary>
+        public static string SenderName {
+            get {
+                return ResourceManager.GetString("SenderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending test email....
+        /// </summary>
+        public static string SendingTestEmail {
+            get {
+                return ResourceManager.GetString("SendingTestEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending test SMS....
+        /// </summary>
+        public static string SendingTestSms {
+            get {
+                return ResourceManager.GetString("SendingTestSms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Test Email.
+        /// </summary>
+        public static string SendTestEmail {
+            get {
+                return ResourceManager.GetString("SendTestEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Test SMS.
+        /// </summary>
+        public static string SendTestSms {
+            get {
+                return ResourceManager.GetString("SendTestSms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Session Timeout (minutes).
+        /// </summary>
+        public static string SessionTimeout {
+            get {
+                return ResourceManager.GetString("SessionTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings saved successfully!.
+        /// </summary>
+        public static string SettingsSavedSuccessfully {
+            get {
+                return ResourceManager.GetString("SettingsSavedSuccessfully", resourceCulture);
             }
         }
         
@@ -9699,11 +11112,65 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SMS Configuration.
+        /// </summary>
+        public static string SMS_Configuration {
+            get {
+                return ResourceManager.GetString("SMS_Configuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure SMS gateway for sending notifications.
+        /// </summary>
+        public static string SMSConfiguration_Alert {
+            get {
+                return ResourceManager.GetString("SMSConfiguration_Alert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMS Configuration.
+        /// </summary>
+        public static string SMSConfiguration_Header {
+            get {
+                return ResourceManager.GetString("SMSConfiguration_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SMS Notifications.
         /// </summary>
         public static string SMSNotifications {
             get {
                 return ResourceManager.GetString("SMSNotifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMS Provider.
+        /// </summary>
+        public static string SmsProvider {
+            get {
+                return ResourceManager.GetString("SmsProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMTP Host.
+        /// </summary>
+        public static string SmtpHost {
+            get {
+                return ResourceManager.GetString("SmtpHost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMTP Port.
+        /// </summary>
+        public static string SmtpPort {
+            get {
+                return ResourceManager.GetString("SmtpPort", resourceCulture);
             }
         }
         
@@ -9780,11 +11247,29 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string State {
+            get {
+                return ResourceManager.GetString("State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active Students.
         /// </summary>
         public static string Stats_ActiveStudents {
             get {
                 return ResourceManager.GetString("Stats_ActiveStudents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Stats_Header {
+            get {
+                return ResourceManager.GetString("Stats_Header", resourceCulture);
             }
         }
         
@@ -9816,11 +11301,56 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Street Address.
+        /// </summary>
+        public static string StreetAddress {
+            get {
+                return ResourceManager.GetString("StreetAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student.
+        /// </summary>
+        public static string Student {
+            get {
+                return ResourceManager.GetString("Student", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Academic Status.
         /// </summary>
         public static string Student_AcademicStatus {
             get {
                 return ResourceManager.GetString("Student_AcademicStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student Details.
+        /// </summary>
+        public static string StudentDetails_Title {
+            get {
+                return ResourceManager.GetString("StudentDetails_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student ID.
+        /// </summary>
+        public static string StudentID {
+            get {
+                return ResourceManager.GetString("StudentID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student not found!.
+        /// </summary>
+        public static string StudentNotFound {
+            get {
+                return ResourceManager.GetString("StudentNotFound", resourceCulture);
             }
         }
         
@@ -9843,11 +11373,47 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Student updated successfully!.
+        /// </summary>
+        public static string StudentUpdatedSuccess {
+            get {
+                return ResourceManager.GetString("StudentUpdatedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to update student..
+        /// </summary>
+        public static string StudentUpdateFailed {
+            get {
+                return ResourceManager.GetString("StudentUpdateFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suite.
         /// </summary>
         public static string Suite {
             get {
                 return ResourceManager.GetString("Suite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SuperRoot Control Panel.
+        /// </summary>
+        public static string SuperRoot_Control_Panel {
+            get {
+                return ResourceManager.GetString("SuperRoot_Control_Panel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SuperRoot Dashboard.
+        /// </summary>
+        public static string SuperRoot_Dashboard_Title {
+            get {
+                return ResourceManager.GetString("SuperRoot_Dashboard_Title", resourceCulture);
             }
         }
         
@@ -9863,9 +11429,162 @@ namespace SRMS.WebUI.Server.Resources {
         /// <summary>
         ///   Looks up a localized string similar to System Settings.
         /// </summary>
+        public static string System_Settings {
+            get {
+                return ResourceManager.GetString("System_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Uptime.
+        /// </summary>
+        public static string System_Uptime {
+            get {
+                return ResourceManager.GetString("System_Uptime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Email.
+        /// </summary>
+        public static string SystemEmail {
+            get {
+                return ResourceManager.GetString("SystemEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default email for system notifications.
+        /// </summary>
+        public static string SystemEmail_Helper {
+            get {
+                return ResourceManager.GetString("SystemEmail_Helper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Name.
+        /// </summary>
+        public static string SystemName {
+            get {
+                return ResourceManager.GetString("SystemName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name displayed throughout the system.
+        /// </summary>
+        public static string SystemName_Helper {
+            get {
+                return ResourceManager.GetString("SystemName_Helper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Phone.
+        /// </summary>
+        public static string SystemPhone {
+            get {
+                return ResourceManager.GetString("SystemPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact phone number.
+        /// </summary>
+        public static string SystemPhone_Helper {
+            get {
+                return ResourceManager.GetString("SystemPhone_Helper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Settings.
+        /// </summary>
         public static string SystemSettings {
             get {
                 return ResourceManager.GetString("SystemSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure system-wide settings and preferences.
+        /// </summary>
+        public static string SystemSettings_Description {
+            get {
+                return ResourceManager.GetString("SystemSettings_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Settings.
+        /// </summary>
+        public static string SystemSettings_Header {
+            get {
+                return ResourceManager.GetString("SystemSettings_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Settings.
+        /// </summary>
+        public static string SystemSettings_Title {
+            get {
+                return ResourceManager.GetString("SystemSettings_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string Tab_Email {
+            get {
+                return ResourceManager.GetString("Tab_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string Tab_General {
+            get {
+                return ResourceManager.GetString("Tab_General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maintenance.
+        /// </summary>
+        public static string Tab_Maintenance {
+            get {
+                return ResourceManager.GetString("Tab_Maintenance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment.
+        /// </summary>
+        public static string Tab_Payment {
+            get {
+                return ResourceManager.GetString("Tab_Payment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security.
+        /// </summary>
+        public static string Tab_Security {
+            get {
+                return ResourceManager.GetString("Tab_Security", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMS.
+        /// </summary>
+        public static string Tab_SMS {
+            get {
+                return ResourceManager.GetString("Tab_SMS", resourceCulture);
             }
         }
         
@@ -9879,11 +11598,74 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generated {0} users and {1} students successfully..
+        /// </summary>
+        public static string TestDataGenerated {
+            get {
+                return ResourceManager.GetString("TestDataGenerated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timestamp.
+        /// </summary>
+        public static string Timestamp {
+            get {
+                return ResourceManager.GetString("Timestamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Timezone.
         /// </summary>
         public static string Timezone {
             get {
                 return ResourceManager.GetString("Timezone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Today.
+        /// </summary>
+        public static string Today {
+            get {
+                return ResourceManager.GetString("Today", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Roles.
+        /// </summary>
+        public static string Total_Roles {
+            get {
+                return ResourceManager.GetString("Total_Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Users.
+        /// </summary>
+        public static string Total_Users {
+            get {
+                return ResourceManager.GetString("Total_Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Actions.
+        /// </summary>
+        public static string TotalActions {
+            get {
+                return ResourceManager.GetString("TotalActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track all system activities and changes.
+        /// </summary>
+        public static string TrackAllSystemActivitiesAndChanges {
+            get {
+                return ResourceManager.GetString("TrackAllSystemActivitiesAndChanges", resourceCulture);
             }
         }
         
@@ -9906,6 +11688,24 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        public static string User {
+            get {
+                return ResourceManager.GetString("User", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Requested Type.
         /// </summary>
         public static string User_AccountType {
@@ -9915,11 +11715,38 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User created successfully!.
+        /// </summary>
+        public static string User_Created_Successfully {
+            get {
+                return ResourceManager.GetString("User_Created_Successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Email.
+        /// </summary>
+        public static string User_Email {
+            get {
+                return ResourceManager.GetString("User_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full Name.
         /// </summary>
         public static string User_FullName {
             get {
                 return ResourceManager.GetString("User_FullName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Management.
+        /// </summary>
+        public static string User_Management {
+            get {
+                return ResourceManager.GetString("User_Management", resourceCulture);
             }
         }
         
@@ -10122,6 +11949,15 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Username.
+        /// </summary>
+        public static string Username {
+            get {
+                return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to UTC.
         /// </summary>
         public static string UTC {
@@ -10302,6 +12138,33 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        public static string View {
+            get {
+                return ResourceManager.GetString("View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View All Roles.
+        /// </summary>
+        public static string View_All_Roles {
+            get {
+                return ResourceManager.GetString("View_All_Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View All Users.
+        /// </summary>
+        public static string View_All_Users {
+            get {
+                return ResourceManager.GetString("View_All_Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Details.
         /// </summary>
         public static string ViewDetails {
@@ -10311,11 +12174,29 @@ namespace SRMS.WebUI.Server.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Viewing details for.
+        /// </summary>
+        public static string ViewingDetailsFor {
+            get {
+                return ResourceManager.GetString("ViewingDetailsFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Login History.
         /// </summary>
         public static string ViewLoginHistory {
             get {
                 return ResourceManager.GetString("ViewLoginHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         

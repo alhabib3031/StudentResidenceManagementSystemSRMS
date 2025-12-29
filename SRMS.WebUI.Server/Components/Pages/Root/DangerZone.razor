@@ -271,17 +271,17 @@
     private int _testUsersCount = 10;
     private int _testStudentsCount = 50;
     private string _deleteConfirmation = "";
-    private bool _showDeleteError = false;
-    private bool _isGenerating = false;
-    private bool _isResetting = false;
-    private bool _isDeleting = false;
+    private bool _showDeleteError;
+    private bool _isGenerating;
+    private bool _isResetting;
+    private bool _isDeleting;
 
     private async Task ClearCache()
     {
         var parameters = new DialogParameters
         {
-            ["ContentText"] = Localizer["ClearCache_Confirmation"],
-            ["ButtonText"] = Localizer["ClearCache"],
+            ["ContentText"] = Localizer["ClearCache_Confirmation"].Value,
+            ["ButtonText"] = Localizer["ClearCache"].Value,
             ["Color"] = Color.Warning
         };
 
@@ -295,16 +295,16 @@
                 var success = await SuperRootService.ClearAllCacheAsync();
                 if (success)
                 {
-                    Snackbar.Add(Localizer["CacheClearedSuccessfully"], Severity.Success);
+                    Snackbar.Add(Localizer["CacheClearedSuccessfully"].Value, Severity.Success);
                 }
                 else
                 {
-                    Snackbar.Add(Localizer["FailedToClearCache"], Severity.Error);
+                    Snackbar.Add(Localizer["FailedToClearCache"].Value, Severity.Error);
                 }
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"{Localizer["Error"]}: {ex.Message}", Severity.Error);
+                Snackbar.Add($"{Localizer["Error"].Value}: {ex.Message}", Severity.Error);
             }
         }
     }
@@ -313,17 +313,17 @@
     {
         var parameters = new DialogParameters
         {
-            ["ContentText"] = string.Format(Localizer["DeleteOldLogs_Confirmation"], _deleteLogsOlderThan),
-            ["ButtonText"] = Localizer["DeleteLogs"],
+            ["ContentText"] = string.Format(Localizer["DeleteOldLogs_Confirmation"].Value, _deleteLogsOlderThan),
+            ["ButtonText"] = Localizer["DeleteLogs"].Value,
             ["Color"] = Color.Warning
         };
 
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["DeleteOldLogs"], parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["DeleteOldLogs"].Value, parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
         {
-            Snackbar.Add(string.Format(Localizer["LogsDeletedSuccessfully"], _deleteLogsOlderThan), Severity.Success);
+            Snackbar.Add(string.Format(Localizer["LogsDeletedSuccessfully"].Value, _deleteLogsOlderThan), Severity.Success);
         }
     }
 
@@ -335,16 +335,16 @@
             var success = await SuperRootService.GenerateTestDataAsync(_testUsersCount, _testStudentsCount);
             if (success)
             {
-                Snackbar.Add(string.Format(Localizer["TestDataGenerated"], _testUsersCount, _testStudentsCount), Severity.Success);
+                Snackbar.Add(string.Format(Localizer["TestDataGenerated"].Value, _testUsersCount, _testStudentsCount), Severity.Success);
             }
             else
             {
-                Snackbar.Add(Localizer["FailedToGenerateTestData"], Severity.Error);
+                Snackbar.Add(Localizer["FailedToGenerateTestData"].Value, Severity.Error);
             }
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"{Localizer["Error"]}: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{Localizer["Error"].Value}: {ex.Message}", Severity.Error);
         }
         finally
         {

@@ -1,10 +1,6 @@
-@using SRMS.Application.Complaints.DTOs
-@using SRMS.Domain.Complaints.Enums
 @using SRMS.Domain.Complaints
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
-@using MudBlazor
 @using Microsoft.Extensions.DependencyInjection
 @using Microsoft.EntityFrameworkCore
 @using SRMS.Infrastructure
@@ -65,8 +61,8 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel" Variant="Variant.Text">@L["CreateComplaintDialog_Button_Cancel"]</MudButton>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Disabled="@(!_success)"
+        <MudButton OnClick="@Cancel" Variant="Variant.Text">@L["CreateComplaintDialog_Button_Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="@Submit" Disabled="@(!_success)"
             StartIcon="@Icons.Material.Filled.Send">
             @L["CreateComplaintDialog_Button_Submit"]
         </MudButton>
@@ -82,7 +78,7 @@
     private MudForm? _form;
     private bool _success;
 
-    public CreateComplaintDto Model { get; set; } = new()
+    public CreateComplaintDto Model { get; init; } = new()
         {
             Priority = ComplaintPriority.Medium
         };
@@ -103,7 +99,7 @@
             _complaintTypes = await context.ComplaintTypes.Where(ct => ct.IsActive && !ct.IsDeleted).ToListAsync();
             Model.ComplaintTypeId = _complaintTypes.FirstOrDefault()?.Id ?? Guid.Empty;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             // Log error
         }

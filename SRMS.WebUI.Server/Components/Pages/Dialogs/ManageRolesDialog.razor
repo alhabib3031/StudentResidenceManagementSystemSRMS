@@ -1,6 +1,4 @@
-@using SRMS.Application.Identity.Interfaces
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IUserService UserService
 @inject IRoleService RoleService
 @inject ISnackbar Snackbar
@@ -38,8 +36,8 @@
     </DialogContent>
 
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["ManageRolesDialog_Button_Cancel"]</MudButton>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="HandleSubmit"
+        <MudButton OnClick="@Cancel">@L["ManageRolesDialog_Button_Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="@HandleSubmit"
             Disabled="_isSubmitting || _isLoading">
             @if (_isSubmitting)
             {
@@ -62,7 +60,7 @@
     private HashSet<string> _originalUserRoles = new();
 
     private bool _isLoading = true;
-    private bool _isSubmitting = false;
+    private bool _isSubmitting;
 
     protected override async Task OnInitializedAsync()
     {

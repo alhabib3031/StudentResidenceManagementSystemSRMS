@@ -1,12 +1,8 @@
 @page "/admin/rooms"
 @attribute [Authorize(Roles = "Admin")]
-@using SRMS.Application.Rooms.DTOs
 @using SRMS.Application.SystemSettings.DTOs
-@using SRMS.Domain.Rooms.Enums
-@using SRMS.Domain.Students.Enums
 @inject HttpClient Http
-@inject NavigationManager Navigation
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JsRuntime
 
 <h3>Admin Room Management</h3>
 
@@ -14,7 +10,7 @@
     <a href="/admin/rooms/create">Create New Room</a>
 </p>
 
-@if (rooms == null)
+@if (_rooms == null)
 {
     <p><em>Loading rooms...</em></p>
 }
@@ -35,7 +31,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var room in rooms)
+            @foreach (var room in _rooms)
             {
                 <tr>
                     <td>@room.RoomNumber</td>
@@ -62,7 +58,7 @@ else
     <a href="/admin/fees-configurations/create">Create New Fees Configuration</a>
 </p>
 
-@if (feesConfigurations == null)
+@if (_feesConfigurations == null)
 {
     <p><em>Loading fees configurations...</em></p>
 }
@@ -80,7 +76,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var fee in feesConfigurations)
+            @foreach (var fee in _feesConfigurations)
             {
                 <tr>
                     <td>@fee.NationalityName</td>
@@ -99,8 +95,8 @@ else
 }
 
 @code {
-    private IEnumerable<RoomDto>? rooms;
-    private IEnumerable<FeesConfigurationDto>? feesConfigurations;
+    private IEnumerable<RoomDto>? _rooms;
+    private IEnumerable<FeesConfigurationDto>? _feesConfigurations;
 
     protected override async Task OnInitializedAsync()
     {
@@ -110,12 +106,12 @@ else
 
     private async Task LoadRooms()
     {
-        rooms = await Http.GetFromJsonAsync<IEnumerable<RoomDto>>("api/admin/AdminRooms");
+        _rooms = await Http.GetFromJsonAsync<IEnumerable<RoomDto>>("api/admin/AdminRooms");
     }
 
     private async Task DeleteRoom(Guid id)
     {
-        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this room?");
+        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this room?");
         if (confirmed)
         {
             var response = await Http.DeleteAsync($"api/admin/AdminRooms/{id}");
@@ -133,12 +129,12 @@ else
 
     private async Task LoadFeesConfigurations()
     {
-        feesConfigurations = await Http.GetFromJsonAsync<IEnumerable<FeesConfigurationDto>>("api/admin/AdminRooms/fees-configurations");
+        _feesConfigurations = await Http.GetFromJsonAsync<IEnumerable<FeesConfigurationDto>>("api/admin/AdminRooms/fees-configurations");
     }
 
     private async Task DeleteFeesConfiguration(Guid id)
     {
-        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this fees configuration?");
+        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete this fees configuration?");
         if (confirmed)
         {
             var response = await Http.DeleteAsync($"api/admin/AdminRooms/fees-configurations/{id}");

@@ -1,5 +1,4 @@
 ﻿@using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
 @* Components/Dialogs/ConfirmWithTextDialog.razor *@
 
@@ -24,7 +23,7 @@
                 Placeholder="@ExpectedText"
                 HelperText="@(string.Format(L["ConfirmWithTextDialog_HelperText"], ExpectedText))"
                 Immediate="true"
-                OnKeyUp="ValidateInput" />
+                OnKeyUp="@ValidateInput" />
 
             @if (!string.IsNullOrEmpty(_confirmationText) && _confirmationText != ExpectedText)
             {
@@ -42,13 +41,13 @@
     </DialogContent>
     
     <DialogActions>
-        <MudButton OnClick="Cancel" Variant="Variant.Text">
+        <MudButton OnClick="@Cancel" Variant="Variant.Text">
             @L["ConfirmWithTextDialog_Button_Cancel"]
         </MudButton>
         <MudButton 
             Color="@ButtonColor" 
             Variant="Variant.Filled"
-            OnClick="Submit"
+            OnClick="@Submit"
             Disabled="@(_confirmationText != ExpectedText)"
             StartIcon="@Icons.Material.Filled.Warning">
             @ButtonText

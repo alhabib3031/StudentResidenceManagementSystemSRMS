@@ -1,11 +1,6 @@
-@using Microsoft.AspNetCore.Components
-@using MudBlazor
-@using SRMS.Application.Rooms.DTOs
 @using SRMS.Application.Rooms.Interfaces
 @using SRMS.Domain.Rooms.Enums
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
-@inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject IStringLocalizer<Resource> L
 @inject IRoomService RoomService
@@ -59,13 +54,13 @@
         }
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["Common_Cancel"]</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(_form?.IsValid != true)">@L["Common_Save"]</MudButton>
+        <MudButton OnClick="@Cancel">@L["Common_Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="@Submit" Disabled="@(_form?.IsValid != true)">@L["Common_Save"]</MudButton>
     </DialogActions>
 </MudDialog>
 
 @code {
-    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
     [Parameter] public UpdateRoomDto RoomToEdit { get; set; } = new();
 
     private MudForm? _form;
@@ -85,15 +80,8 @@
             try
             {
                 var result = await RoomService.UpdateRoomAsync(RoomToEdit);
-                if (result != null)
-                {
-                    Snackbar.Add(L["EditRoomDialog_Success"], Severity.Success);
-                    MudDialog.Close(DialogResult.Ok(true));
-                }
-                else
-                {
-                    Snackbar.Add("An error occurred while updating the room.", Severity.Error);
-                }
+                Snackbar.Add(L["EditRoomDialog_Success"], Severity.Success);
+                MudDialog.Close(DialogResult.Ok(true));
             }
             catch (Exception ex)
             {

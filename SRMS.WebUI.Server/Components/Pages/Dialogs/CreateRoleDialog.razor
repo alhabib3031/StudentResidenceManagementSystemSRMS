@@ -1,7 +1,5 @@
 ﻿@using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
-@using SRMS.Application.Identity.Interfaces
 @inject IRoleService RoleService
 @inject ISnackbar Snackbar
 
@@ -27,7 +25,7 @@
                 HelperText='@L["CreateRoleDialog_RoleName_HelperText"]'
                 Required="true"
                 Immediate="true"
-                OnKeyUp="ValidateRoleName" />
+                OnKeyUp="@ValidateRoleName" />
 
             <MudTextField 
                 @bind-Value="_description"
@@ -64,13 +62,13 @@
     </DialogContent>
     
     <DialogActions>
-        <MudButton OnClick="Cancel" Variant="Variant.Text">
+        <MudButton OnClick="@Cancel" Variant="Variant.Text">
             @L["CreateRoleDialog_Button_Cancel"]
         </MudButton>
         <MudButton 
             Color="Color.Primary" 
             Variant="Variant.Filled"
-            OnClick="HandleSubmit"
+            OnClick="@HandleSubmit"
             Disabled="@(!_isValid || _isSubmitting || string.IsNullOrWhiteSpace(_roleName))"
             StartIcon="@Icons.Material.Filled.Add">
             @if (_isSubmitting)
@@ -88,9 +86,9 @@
 
     private string _roleName = "";
     private string _description = "";
-    private bool _isSubmitting = false;
-    private bool _isValid = false;
-    private string? _validationMessage = null;
+    private bool _isSubmitting;
+    private bool _isValid;
+    private string? _validationMessage;
 
     private void ValidateRoleName()
     {

@@ -1,11 +1,8 @@
 @using SRMS.Domain.Residences
 @using SRMS.Domain.ValueObjects
 @using SRMS.Domain.Repositories
-@using MudBlazor
 @using Microsoft.Extensions.DependencyInjection
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
-@using SRMS.Infrastructure
 @inject ISnackbar Snackbar
 @inject IServiceScopeFactory ScopeFactory
 @inject IStringLocalizer<Resource> L
@@ -69,18 +66,18 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["EditResidenceDialog_Button_Cancel"]</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@(!_success)">@L["EditResidenceDialog_Button_Save"]</MudButton>
+        <MudButton OnClick="@Cancel">@L["EditResidenceDialog_Button_Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" OnClick="@Submit" Disabled="@(!_success)">@L["EditResidenceDialog_Button_Save"]</MudButton>
     </DialogActions>
 </MudDialog>
 
 @code {
-    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
-    [Parameter] public Residence ResidenceToEdit { get; set; } = default!;
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
+    [Parameter] public Residence ResidenceToEdit { get; set; } = null!;
 
     private MudForm _form;
     private bool _success;
-    private Residence _residence = new();
+    private readonly Residence _residence = new();
 
     // Address fields
     private string _street = "";

@@ -1,11 +1,8 @@
 @page "/complaints"
-@using MediatR
 @using Microsoft.Extensions.DependencyInjection
 @using SRMS.Application.Complaints.AssignComplaint
-@using SRMS.Application.Complaints.DTOs
 @using SRMS.Application.Complaints.GetAllComplaints
 @using SRMS.Application.Complaints.ResolveComplaint
-@using SRMS.Domain.Complaints.Enums
 @using Microsoft.Extensions.Localization
 @using System.Security.Claims
 @inject IServiceScopeFactory ScopeFactory
@@ -51,7 +48,7 @@
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ComplaintsManagement_Stats_Open"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Warning">@_openCount</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Warning">@OpenCount</MudText>
                         </div>
                         <MudAvatar Color="Color.Warning" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.FolderOpen" Size="Size.Large" />
@@ -68,7 +65,7 @@
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ComplaintsManagement_Stats_InProgress"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Info">@_inProgressCount</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Info">@InProgressCount</MudText>
                         </div>
                         <MudAvatar Color="Color.Info" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.Autorenew" Size="Size.Large" />
@@ -84,7 +81,7 @@
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
                             <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ComplaintsManagement_Stats_Resolved"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Success">@_resolvedCount</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Success">@ResolvedCount</MudText>
                         </div>
                         <MudAvatar Color="Color.Success" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large" />
@@ -243,9 +240,9 @@
     private ComplaintPriority? _priorityFilter;
 
 
-    private int _openCount => _allComplaints.Count(c => c.Status == ComplaintStatus.Open);
-    private int _inProgressCount => _allComplaints.Count(c => c.Status == ComplaintStatus.InProgress);
-    private int _resolvedCount => _allComplaints.Count(c => c.Status == ComplaintStatus.Resolved);
+    private int OpenCount => _allComplaints.Count(c => c.Status == ComplaintStatus.Open);
+    private int InProgressCount => _allComplaints.Count(c => c.Status == ComplaintStatus.InProgress);
+    private int ResolvedCount => _allComplaints.Count(c => c.Status == ComplaintStatus.Resolved);
 
     private IEnumerable<ComplaintDto> FilteredComplaints => _allComplaints
     .Where(c => string.IsNullOrEmpty(_searchString) ||
@@ -327,7 +324,7 @@
         ComplaintStatus.Open => Color.Warning,
         ComplaintStatus.InProgress => Color.Info,
         ComplaintStatus.Resolved => Color.Success,
-        ComplaintStatus.Closed => Color.Default,
+        ComplaintStatus.Closed => Color.Transparent,
         _ => Color.Default
     };
 

@@ -2,7 +2,6 @@
 @using SRMS.Domain.Colleges
 @using SRMS.Domain.Colleges.Enums
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject ICollegeService CollegeService
 @inject ISnackbar Snackbar
 @inject IStringLocalizer<Resource> L
@@ -28,8 +27,8 @@
         </MudStack>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel" Class="rounded-xl px-4">@L["Cancel"]</MudButton>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Submit" Class="rounded-xl px-8 shadow-md"
+        <MudButton OnClick="@Cancel" Class="rounded-xl px-4">@L["Cancel"]</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="@Submit" Class="rounded-xl px-8 shadow-md"
             Disabled="_processing">
             @if (_processing)
             {
@@ -41,10 +40,10 @@
 </MudDialog>
 
 @code {
-    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
     [Parameter] public College Model { get; set; } = new();
 
-    private bool _processing = false;
+    private bool _processing;
 
     private async Task Submit()
     {

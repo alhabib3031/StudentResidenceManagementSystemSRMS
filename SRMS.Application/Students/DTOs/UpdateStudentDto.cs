@@ -9,7 +9,7 @@ namespace SRMS.Application.Students.DTOs;
 public class UpdateStudentDto
 {
     [Required]
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     [Required(ErrorMessage = "First name is required")]
     [StringLength(100, MinimumLength = 2)]

@@ -1,7 +1,4 @@
-@using SRMS.Application.Identity.DTOs
-@using SRMS.Application.Identity.Interfaces
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IUserService UserService
 @inject ISnackbar Snackbar
 @inject IStringLocalizer<Resource> L
@@ -46,9 +43,9 @@
         </MudStack>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["Cancel"]</MudButton>
-        <MudButton Color="Color.Error" Variant="Variant.Text" OnClick='() => Submit(false)' Disabled="_processing">@L["Reject"]</MudButton>
-        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick='() => Submit(true)' Disabled='!_certified || _processing'>
+        <MudButton OnClick="@Cancel">@L["Cancel"]</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Text" OnClick='@(() => Submit(false))' Disabled="_processing">@L["Reject"]</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick='@(() => Submit(true))' Disabled='!_certified || _processing'>
             @if (_processing) { <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2"/> }
             @L["Verify"]
         </MudButton>
@@ -56,7 +53,7 @@
 </MudDialog>
 
 @code {
-    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
 
     [Parameter] public StudentReviewDto Student { get; set; } = new();
     [Parameter] public Guid StudentId { get; set; }

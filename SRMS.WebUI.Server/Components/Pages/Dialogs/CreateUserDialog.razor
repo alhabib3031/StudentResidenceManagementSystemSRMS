@@ -1,5 +1,4 @@
 ﻿@using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
 @inject IStringLocalizer<Resource> L
 @inject IAuthService AuthService
 @inject ISnackbar Snackbar
@@ -118,11 +117,11 @@
     </DialogContent>
     
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["CreateUserDialog_Button_Cancel"]</MudButton>
+        <MudButton OnClick="@Cancel">@L["CreateUserDialog_Button_Cancel"]</MudButton>
         <MudButton 
             Color="Color.Primary" 
             Variant="Variant.Filled"
-            OnClick="HandleSubmit"
+            OnClick="@HandleSubmit"
             Disabled="_isSubmitting">
             @if (_isSubmitting)
             {
@@ -137,10 +136,10 @@
     [CascadingParameter]
     IMudDialogInstance MudDialog { get; set; } = null!;
 
-    private RegisterDto _model = new();
+    private readonly RegisterDto _model = new();
     private string _selectedRole = "Student";
     private bool _sendWelcomeEmail = true;
-    private bool _isSubmitting = false;
+    private bool _isSubmitting;
 
     private async Task HandleSubmit()
     {

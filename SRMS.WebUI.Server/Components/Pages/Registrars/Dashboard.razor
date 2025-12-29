@@ -1,9 +1,8 @@
 @page "/registrar"
-@using SRMS.Application.Identity.Interfaces
-@using SRMS.Application.Identity.DTOs
 @using Microsoft.Extensions.Localization
-@using SRMS.WebUI.Server.Resources
-@using System.Security.Claims
+@using SRMS.Domain.Students.Enums
+@@using SRMS.Domain.Students.Enums
+using Microsoft.Extensions.Localization
 @inject IUserService UserService
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IDialogService DialogService
@@ -88,7 +87,7 @@
                     </MudTd>
                     <MudTd>
                         <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Class="rounded-xl"
-                            OnClick="@(() => VerifyStudent(context))" Disabled='context.Status == SRMS.Domain.Students.Enums.StudentStatus.Active'>
+                            OnClick="@(() => VerifyStudent(context))" Disabled='context.Status == StudentStatus.Active'>
                             @L["Verify"]
                         </MudButton>
                     </MudTd>
@@ -117,7 +116,7 @@
     private string _registrarName = "Registrar";
     private bool _loading = true;
     private int _pendingCount = 0;
-    private string _searchString = "";
+    private readonly string _searchString = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -153,7 +152,7 @@
         try
         {
             _students = await UserService.GetStudentsByCollegeAsync(_registrarDetails.CollegeId);
-            _pendingCount = _students.Count(s => s.Status != SRMS.Domain.Students.Enums.StudentStatus.Active);
+            _pendingCount = _students.Count(s => s.Status != StudentStatus.Active);
         }
         finally
         {
@@ -173,7 +172,7 @@
         var dialog = await DialogService.ShowAsync<AcademicVerificationDialog>(L["Verify"], parameters, options);
         var result = await dialog.Result;
 
-        if (result != null && !result.Canceled)
+        if (result is { Canceled: false })
         {
             Snackbar.Add($"{student.FullName} verified successfully.", Severity.Success);
             await LoadStudents();
@@ -188,12 +187,12 @@
         return false;
     }
 
-    private Color GetStatusColor(SRMS.Domain.Students.Enums.StudentStatus status) => status switch
+    private Color GetStatusColor(StudentStatus status) => status switch
     {
-        SRMS.Domain.Students.Enums.StudentStatus.Active => Color.Success,
-        SRMS.Domain.Students.Enums.StudentStatus.ManagerApprovalPending => Color.Warning,
-        SRMS.Domain.Students.Enums.StudentStatus.Rejected => Color.Error,
-        SRMS.Domain.Students.Enums.StudentStatus.Suspended => Color.Dark,
+        StudentStatus.Active => Color.Success,
+        StudentStatus.ManagerApprovalPending => Color.Warning,
+        StudentStatus.Rejected => Color.Error,
+        StudentStatus.Suspended => Color.Dark,
         _ => Color.Default
     };
 }

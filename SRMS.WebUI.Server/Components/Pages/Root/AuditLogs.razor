@@ -8,6 +8,7 @@
 @inject IAuditService AuditService
 @inject ISnackbar Snackbar
 @inject IStringLocalizer<Resource> Localizer
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
 <PageTitle>@Localizer["AuditLogs"]</PageTitle>
@@ -31,7 +32,7 @@
                     @Localizer["Refresh"]
                 </MudButton>
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Download"
-                           OnClick="@ExportLogs">
+                           OnClick="@ExportLogs" Disabled="@(_auditLog == null || !_auditLog.Any())">
                     @Localizer["ExportLogs"]
                 </MudButton>
             </MudStack>
@@ -268,6 +269,6 @@
 
     private void ExportLogs()
     {
-        Snackbar.Add(Localizer["ExportingLogs"], Severity.Info);
+        NavigationManager.NavigateTo("api/export/audit-logs", forceLoad: true);
     }
 }

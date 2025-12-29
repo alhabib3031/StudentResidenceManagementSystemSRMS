@@ -3275,4 +3275,634 @@
   <data name="EditRoomDialog_Title" xml:space="preserve"><value>تعديل الغرفة</value></data>
   <data name="RoomDetailsDialog_Title" xml:space="preserve"><value>تفاصيل الغرفة</value></data>
   <data name="EditRoomDialog_Success" xml:space="preserve"><value>تم تحديث الغرفة بنجاح.</value></data>
+  <data name="Stats_Header" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="DatabaseResetSuccessfully" xml:space="preserve">
+    <value>تمت إعادة ضبط قاعدة البيانات بنجاح</value>
+  </data>
+  <data name="FailedToResetDatabase" xml:space="preserve">
+    <value>فشل إعادة ضبط قاعدة البيانات</value>
+  </data>
+  <data name="DangerZone_Title" xml:space="preserve">
+    <value>منطقة الخطر</value>
+  </data>
+  <data name="DangerZone_Header" xml:space="preserve">
+    <value>منطقة الخطر</value>
+  </data>
+  <data name="DangerZone_SubHeader" xml:space="preserve">
+    <value>إجراءات إدارية متقدمة. يرجى المتابعة بحذر.</value>
+  </data>
+  <data name="DangerZone_CriticalWarning" xml:space="preserve">
+    <value>تحذير حرج:</value>
+  </data>
+  <data name="DangerZone_CriticalWarningMessage" xml:space="preserve">
+    <value>يمكن أن تتسبب هذه الإجراءات في فقدان البيانات بشكل لا رجعة فيه. يرجى التأكد تمامًا قبل المتابعة.</value>
+  </data>
+  <data name="ClearAllCache" xml:space="preserve">
+    <value>مسح كل الذاكرة المؤقتة</value>
+  </data>
+  <data name="ModerateRisk" xml:space="preserve">
+    <value>خطر متوسط</value>
+  </data>
+  <data name="ClearAllCache_Description" xml:space="preserve">
+    <value>يمسح كل ذاكرة التخزين المؤقت من جانب الخادم. قد يؤثر هذا مؤقتًا على الأداء أثناء إعادة بناء ذاكرة التخزين المؤقت.</value>
+  </data>
+  <data name="DeleteOldAuditLogs" xml:space="preserve">
+    <value>حذف سجلات التدقيق القديمة</value>
+  </data>
+  <data name="DeleteOldAuditLogs_Description" xml:space="preserve">
+    <value>يزيل سجلات التدقيق الأقدم من الفترة المحددة بشكل دائم لتوفير مساحة في قاعدة البيانات.</value>
+  </data>
+  <data name="DeleteLogsOlderThan" xml:space="preserve">
+    <value>حذف السجلات الأقدم من</value>
+  </data>
+  <data name="30days" xml:space="preserve">
+    <value>30 يومًا</value>
+  </data>
+  <data name="60days" xml:space="preserve">
+    <value>60 يومًا</value>
+  </data>
+  <data name="90days" xml:space="preserve">
+    <value>90 يومًا</value>
+  </data>
+  <data name="6months" xml:space="preserve">
+    <value>6 أشهر</value>
+  </data>
+  <data name="1year" xml:space="preserve">
+    <value>سنة واحدة</value>
+  </data>
+  <data name="DeleteOldLogs" xml:space="preserve">
+    <value>حذف السجلات القديمة</value>
+  </data>
+  <data name="GenerateTestData" xml:space="preserve">
+    <value>توليد بيانات اختبار</value>
+  </data>
+  <data name="LowRisk" xml:space="preserve">
+    <value>خطر منخفض</value>
+  </data>
+  <data name="GenerateTestData_Description" xml:space="preserve">
+    <value>يولد مستخدمين وطلاب وبيانات عشوائية لأغراض الاختبار. آمن للاستخدام في التطوير.</value>
+  </data>
+  <data name="NumberOfUsers" xml:space="preserve">
+    <value>عدد المستخدمين</value>
+  </data>
+  <data name="NumberOfStudents" xml:space="preserve">
+    <value>عدد الطلاب</value>
+  </data>
+  <data name="Generating" xml:space="preserve">
+    <value>جاري التوليد...</value>
+  </data>
+  <data name="ResetDatabaseToDefaults" xml:space="preserve">
+    <value>إعادة تعيين قاعدة البيانات للافتراضيات</value>
+  </data>
+  <data name="HighRisk" xml:space="preserve">
+    <value>خطر عالي</value>
+  </data>
+  <data name="ExtremeCaution" xml:space="preserve">
+    <value>حذر شديد:</value>
+  </data>
+  <data name="ResetDatabase_Warning" xml:space="preserve">
+    <value>سيؤدي هذا إلى مسح جميع البيانات واستعادة قاعدة البيانات إلى حالتها الأولية.</value>
+  </data>
+  <data name="ResetDatabase_Description" xml:space="preserve">
+    <value>سيتم حذف جميع المستخدمين والطلاب والمساكن والسجلات بشكل دائم. سيبقى حساب SuperRoot فقط.</value>
+  </data>
+  <data name="Resetting" xml:space="preserve">
+    <value>جاري إعادة التعيين...</value>
+  </data>
+  <data name="ResetDatabase" xml:space="preserve">
+    <value>إعادة تعيين قاعدة البيانات</value>
+  </data>
+  <data name="DeleteAllData_Header" xml:space="preserve">
+    <value>حذف جميع البيانات</value>
+  </data>
+  <data name="CriticalRisk" xml:space="preserve">
+    <value>خطر حرج</value>
+  </data>
+  <data name="NuclearOption" xml:space="preserve">
+    <value>الخيار النووي</value>
+  </data>
+  <data name="MostDestructiveAction" xml:space="preserve">
+    <value>هذا هو الإجراء الأكثر تدميراً المتاح.</value>
+  </data>
+  <data name="PermanentlyDeleteEverything" xml:space="preserve">
+    <value>سيحذف بشكل دائم كل شيء:</value>
+  </data>
+  <data name="AllUsersExceptSuperRoot" xml:space="preserve">
+    <value>جميع المستخدمين (باستثنائك)</value>
+  </data>
+  <data name="AllStudentsAndManagers" xml:space="preserve">
+    <value>جميع الطلاب والمديرين</value>
+  </data>
+  <data name="AllResidencesAndRooms" xml:space="preserve">
+    <value>جميع المساكن والغرف</value>
+  </data>
+  <data name="AllPaymentsAndComplaints" xml:space="preserve">
+    <value>جميع المدفوعات والشكاوى</value>
+  </data>
+  <data name="AllAuditLogs" xml:space="preserve">
+    <value>جميع سجلات التدقيق</value>
+  </data>
+  <data name="ActionCannotBeUndone" xml:space="preserve">
+    <value>لا يمكن التراجع عن هذا الإجراء.</value>
+  </data>
+  <data name="MustTypeConfirmation" xml:space="preserve">
+    <value>يجب عليك كتابة رمز التأكيد أدناه للمتابعة:</value>
+  </data>
+  <data name="DeleteAllData_ConfirmationLabel" xml:space="preserve">
+    <value>اكتب 'DELETE_ALL_DATA_PERMANENTLY'</value>
+  </data>
+  <data name="ConfirmationCodeMismatch" xml:space="preserve">
+    <value>رمز التأكيد غير مطابق.</value>
+  </data>
+  <data name="ConfirmationCodeHelper" xml:space="preserve">
+    <value>يرجى كتابة الرمز تمامًا كما هو موضح.</value>
+  </data>
+  <data name="DeletingEverything" xml:space="preserve">
+    <value>جاري حذف كل شيء...</value>
+  </data>
+  <data name="DeleteEverythingButton" xml:space="preserve">
+    <value>حذف كل شيء</value>
+  </data>
+  <data name="ClearCache_Confirmation" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد مسح كل ذاكرة التخزين المؤقت للنظام؟</value>
+  </data>
+  <data name="CacheClearedSuccessfully" xml:space="preserve">
+    <value>تم مسح ذاكرة التخزين المؤقت بنجاح.</value>
+  </data>
+  <data name="FailedToClearCache" xml:space="preserve">
+    <value>فشل مسح ذاكرة التخزين المؤقت.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>خطأ</value>
+  </data>
+  <data name="DeleteOldLogs_Confirmation" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد حذف سجلات التدقيق الأقدم من {0} يومًا؟</value>
+  </data>
+  <data name="DeleteLogs" xml:space="preserve">
+    <value>حذف السجلات</value>
+  </data>
+  <data name="LogsDeletedSuccessfully" xml:space="preserve">
+    <value>تم حذف السجلات الأقدم من {0} يومًا بنجاح.</value>
+  </data>
+  <data name="TestDataGenerated" xml:space="preserve">
+    <value>تم توليد {0} مستخدمين و {1} طلاب بنجاح.</value>
+  </data>
+  <data name="FailedToGenerateTestData" xml:space="preserve">
+    <value>فشل توليد بيانات الاختبار.</value>
+  </data>
+  <data name="ResetDatabase_Confirmation" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد إعادة تعيين قاعدة البيانات؟ لا يمكن التراجع عن هذا.</value>
+  </data>
+  <data name="ResetDatabase_Title" xml:space="preserve">
+    <value>إعادة تعيين قاعدة البيانات</value>
+  </data>
+  <data name="DeleteAllData_FinalWarning" xml:space="preserve">
+    <value>تحذير نهائي: أنت على وشك حذف جميع البيانات في النظام. هذه فرصتك الأخيرة للإلغاء.</value>
+  </data>
+  <data name="DeleteEverythingButton_Final" xml:space="preserve">
+    <value>نعم، احذف كل شيء</value>
+  </data>
+  <data name="FinalWarning_Title" xml:space="preserve">
+    <value>تحذير نهائي</value>
+  </data>
+  <data name="AllDataDeleted" xml:space="preserve">
+    <value>تم حذف جميع البيانات. النظام فارغ الآن.</value>
+  </data>
+  <data name="FailedToDeleteData" xml:space="preserve">
+    <value>فشل حذف البيانات.</value>
+  </data>
+  <data name="SuperRoot_Dashboard_Title" xml:space="preserve">
+    <value>لوحة تحكم SuperRoot</value>
+  </data>
+  <data name="SuperRoot_Control_Panel" xml:space="preserve">
+    <value>لوحة تحكم SuperRoot</value>
+  </data>
+  <data name="Full_System_Access" xml:space="preserve">
+    <value>وصول وتحكم كامل بالنظام</value>
+  </data>
+  <data name="Danger_Zone" xml:space="preserve">
+    <value>منطقة الخطر</value>
+  </data>
+  <data name="Total_Users" xml:space="preserve">
+    <value>إجمالي المستخدمين</value>
+  </data>
+  <data name="Active_Users" xml:space="preserve">
+    <value>المستخدمون النشطون</value>
+  </data>
+  <data name="Total_Roles" xml:space="preserve">
+    <value>إجمالي الأدوار</value>
+  </data>
+  <data name="System_Uptime" xml:space="preserve">
+    <value>مدة تشغيل النظام</value>
+  </data>
+  <data name="User_Management" xml:space="preserve">
+    <value>إدارة المستخدمين</value>
+  </data>
+  <data name="Create_New_User" xml:space="preserve">
+    <value>إنشاء مستخدم جديد</value>
+  </data>
+  <data name="View_All_Users" xml:space="preserve">
+    <value>عرض كل المستخدمين</value>
+  </data>
+  <data name="Manage_Inactive_Users" xml:space="preserve">
+    <value>إدارة المستخدمين غير النشطين</value>
+  </data>
+  <data name="Role_Management" xml:space="preserve">
+    <value>إدارة الأدوار</value>
+  </data>
+  <data name="Create_New_Role" xml:space="preserve">
+    <value>إنشاء دور جديد</value>
+  </data>
+  <data name="View_All_Roles" xml:space="preserve">
+    <value>عرض كل الأدوار</value>
+  </data>
+  <data name="Manage_Permissions" xml:space="preserve">
+    <value>إدارة الأذونات</value>
+  </data>
+  <data name="System_Settings" xml:space="preserve">
+    <value>إعدادات النظام</value>
+  </data>
+  <data name="Email_Configuration" xml:space="preserve">
+    <value>إعدادات البريد الإلكتروني</value>
+  </data>
+  <data name="SMS_Configuration" xml:space="preserve">
+    <value>إعدادات الرسائل القصيرة</value>
+  </data>
+  <data name="Database_Tools" xml:space="preserve">
+    <value>أدوات قاعدة البيانات</value>
+  </data>
+  <data name="User_Created_Successfully" xml:space="preserve">
+    <value>تم إنشاء المستخدم بنجاح!</value>
+  </data>
+  <data name="Role_Created_Successfully" xml:space="preserve">
+    <value>تم إنشاء الدور بنجاح!</value>
+  </data>
+  <data name="Danger_Zone_Warning" xml:space="preserve">
+    <value>أنت على وشك دخول منطقة الخطر. الإجراءات هنا لا يمكن التراجع عنها ويمكن أن تؤثر على النظام بأكمله.</value>
+  </data>
+  <data name="I_Understand" xml:space="preserve">
+    <value>أنا أفهم</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>تحذير</value>
+  </data>
+  <data name="SystemSettings_Title" xml:space="preserve">
+    <value>إعدادات النظام</value>
+  </data>
+  <data name="SystemSettings_Header" xml:space="preserve">
+    <value>إعدادات النظام</value>
+  </data>
+  <data name="SystemSettings_Description" xml:space="preserve">
+    <value>تكوين الإعدادات والتفضيلات على مستوى النظام</value>
+  </data>
+  <data name="Tab_General" xml:space="preserve">
+    <value>عام</value>
+  </data>
+  <data name="Tab_Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="Tab_SMS" xml:space="preserve">
+    <value>الرسائل القصيرة</value>
+  </data>
+  <data name="Tab_Security" xml:space="preserve">
+    <value>الأمان</value>
+  </data>
+  <data name="Tab_Payment" xml:space="preserve">
+    <value>الدفع</value>
+  </data>
+  <data name="Tab_Maintenance" xml:space="preserve">
+    <value>الصيانة</value>
+  </data>
+  <data name="GeneralSettings_Header" xml:space="preserve">
+    <value>الإعدادات العامة</value>
+  </data>
+  <data name="SystemName" xml:space="preserve">
+    <value>اسم النظام</value>
+  </data>
+  <data name="SystemName_Helper" xml:space="preserve">
+    <value>الاسم المعروض في جميع أنحاء النظام</value>
+  </data>
+  <data name="SystemEmail" xml:space="preserve">
+    <value>البريد الإلكتروني للنظام</value>
+  </data>
+  <data name="SystemEmail_Helper" xml:space="preserve">
+    <value>البريد الإلكتروني الافتراضي لإشعارات النظام</value>
+  </data>
+  <data name="SystemPhone" xml:space="preserve">
+    <value>هاتف النظام</value>
+  </data>
+  <data name="SystemPhone_Helper" xml:space="preserve">
+    <value>رقم هاتف الاتصال</value>
+  </data>
+  <data name="DefaultLanguage" xml:space="preserve">
+    <value>اللغة الافتراضية</value>
+  </data>
+  <data name="DefaultCurrency" xml:space="preserve">
+    <value>العملة الافتراضية</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>حفظ التغييرات</value>
+  </data>
+  <data name="EmailConfiguration_Header" xml:space="preserve">
+    <value>تكوين البريد الإلكتروني</value>
+  </data>
+  <data name="EmailConfiguration_Alert" xml:space="preserve">
+    <value>تكوين إعدادات SMTP لإرسال رسائل البريد الإلكتروني من النظام</value>
+  </data>
+  <data name="SmtpHost" xml:space="preserve">
+    <value>مضيف SMTP</value>
+  </data>
+  <data name="SmtpPort" xml:space="preserve">
+    <value>منفذ SMTP</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="EnableSsl" xml:space="preserve">
+    <value>تفعيل SSL/TLS</value>
+  </data>
+  <data name="SaveEmailSettings" xml:space="preserve">
+    <value>حفظ إعدادات البريد الإلكتروني</value>
+  </data>
+  <data name="SendTestEmail" xml:space="preserve">
+    <value>إرسال بريد إلكتروني تجريبي</value>
+  </data>
+  <data name="SMSConfiguration_Header" xml:space="preserve">
+    <value>تكوين الرسائل القصيرة</value>
+  </data>
+  <data name="SMSConfiguration_Alert" xml:space="preserve">
+    <value>تكوين بوابة الرسائل القصيرة لإرسال الإشعارات</value>
+  </data>
+  <data name="SmsProvider" xml:space="preserve">
+    <value>مزود خدمة الرسائل القصيرة</value>
+  </data>
+  <data name="ApiKey" xml:space="preserve">
+    <value>مفتاح API</value>
+  </data>
+  <data name="ApiSecret" xml:space="preserve">
+    <value>سر API</value>
+  </data>
+  <data name="SenderName" xml:space="preserve">
+    <value>اسم المرسل</value>
+  </data>
+  <data name="EnableSmsNotifications" xml:space="preserve">
+    <value>تفعيل إشعارات الرسائل القصيرة</value>
+  </data>
+  <data name="SaveSmsSettings" xml:space="preserve">
+    <value>حفظ إعدادات الرسائل القصيرة</value>
+  </data>
+  <data name="SendTestSms" xml:space="preserve">
+    <value>إرسال رسالة قصيرة تجريبية</value>
+  </data>
+  <data name="SecuritySettings_Header" xml:space="preserve">
+    <value>إعدادات الأمان</value>
+  </data>
+  <data name="PasswordMinLength" xml:space="preserve">
+    <value>الحد الأدنى لطول كلمة المرور</value>
+  </data>
+  <data name="SessionTimeout" xml:space="preserve">
+    <value>مهلة الجلسة (دقائق)</value>
+  </data>
+  <data name="MaxLoginAttempts" xml:space="preserve">
+    <value>الحد الأقصى لمحاولات تسجيل الدخول</value>
+  </data>
+  <data name="LockoutDuration" xml:space="preserve">
+    <value>مدة القفل (دقائق)</value>
+  </data>
+  <data name="RequireEmailConfirmation" xml:space="preserve">
+    <value>طلب تأكيد البريد الإلكتروني</value>
+  </data>
+  <data name="EnableTwoFactorAuth" xml:space="preserve">
+    <value>تفعيل المصادقة الثنائية</value>
+  </data>
+  <data name="LogAllUserActions" xml:space="preserve">
+    <value>تسجيل جميع إجراءات المستخدم</value>
+  </data>
+  <data name="SaveSecuritySettings" xml:space="preserve">
+    <value>حفظ إعدادات الأمان</value>
+  </data>
+  <data name="PaymentSettings_Header" xml:space="preserve">
+    <value>إعدادات الدفع</value>
+  </data>
+  <data name="DefaultMonthlyRent" xml:space="preserve">
+    <value>الإيجار الشهري الافتراضي (د.ل)</value>
+  </data>
+  <data name="LateFeePercentage" xml:space="preserve">
+    <value>نسبة رسوم التأخير (%)</value>
+  </data>
+  <data name="PaymentDueDays" xml:space="preserve">
+    <value>أيام استحقاق الدفع</value>
+  </data>
+  <data name="PaymentReminderDays" xml:space="preserve">
+    <value>تذكير الدفع (أيام قبل)</value>
+  </data>
+  <data name="AllowOnlinePayment" xml:space="preserve">
+    <value>السماح بالدفع عبر الإنترنت</value>
+  </data>
+  <data name="AutoGenerateInvoices" xml:space="preserve">
+    <value>إنشاء الفواتير تلقائيًا</value>
+  </data>
+  <data name="SavePaymentSettings" xml:space="preserve">
+    <value>حفظ إعدادات الدفع</value>
+  </data>
+  <data name="MaintenanceMode_Header" xml:space="preserve">
+    <value>وضع الصيانة</value>
+  </data>
+  <data name="MaintenanceMode_Alert" xml:space="preserve">
+    <value>&lt;strong&gt;تحذير:&lt;/strong&gt; تفعيل وضع الصيانة سيمنع جميع المستخدمين (باستثناء SuperRoot) من الوصول إلى النظام.</value>
+  </data>
+  <data name="EnableMaintenanceMode" xml:space="preserve">
+    <value>تفعيل وضع الصيانة</value>
+  </data>
+  <data name="MaintenanceMessage" xml:space="preserve">
+    <value>رسالة الصيانة</value>
+  </data>
+  <data name="MaintenanceMessage_Placeholder" xml:space="preserve">
+    <value>النظام يخضع للصيانة حاليًا. يرجى التحقق لاحقًا.</value>
+  </data>
+  <data name="SaveSettings_Button" xml:space="preserve">
+    <value>حفظ الإعدادات</value>
+  </data>
+  <data name="SettingsSavedSuccessfully" xml:space="preserve">
+    <value>تم حفظ الإعدادات بنجاح!</value>
+  </data>
+  <data name="SendingTestEmail" xml:space="preserve">
+    <value>جاري إرسال بريد إلكتروني تجريبي...</value>
+  </data>
+  <data name="SendingTestSms" xml:space="preserve">
+    <value>جاري إرسال رسالة قصيرة تجريبية...</value>
+  </data>
+  <data name="TrackAllSystemActivitiesAndChanges" xml:space="preserve">
+    <value>تتبع جميع أنشطة النظام والتغييرات</value>
+  </data>
+  <data name="ExportLogs" xml:space="preserve">
+    <value>تصدير السجلات</value>
+  </data>
+  <data name="TotalActions" xml:space="preserve">
+    <value>إجمالي الإجراءات</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>اليوم</value>
+  </data>
+  <data name="FailedActions" xml:space="preserve">
+    <value>الإجراءات الفاشلة</value>
+  </data>
+  <data name="ActionType" xml:space="preserve">
+    <value>نوع الإجراء</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>إنشاء</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>تحديث</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>تسجيل دخول</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>تسجيل خروج</value>
+  </data>
+  <data name="Entity" xml:space="preserve">
+    <value>الكيان</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>مستخدم</value>
+  </data>
+  <data name="Student" xml:space="preserve">
+    <value>طالب</value>
+  </data>
+  <data name="Manager" xml:space="preserve">
+    <value>مدير</value>
+  </data>
+  <data name="Room" xml:space="preserve">
+    <value>غرفة</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>دفعة</value>
+  </data>
+  <data name="Complaint" xml:space="preserve">
+    <value>شكوى</value>
+  </data>
+  <data name="DateRange" xml:space="preserve">
+    <value>نطاق التاريخ</value>
+  </data>
+  <data name="Timestamp" xml:space="preserve">
+    <value>الطابع الزمني</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>الإجراء</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
+  <data name="IpAddress" xml:space="preserve">
+    <value>عنوان IP</value>
+  </data>
+  <data name="AdditionalInfo" xml:space="preserve">
+    <value>معلومات إضافية</value>
+  </data>
+  <data name="LogsRefreshedSuccessfully" xml:space="preserve">
+    <value>تم تحديث السجلات بنجاح</value>
+  </data>
+  <data name="FailedToLoadLogs" xml:space="preserve">
+    <value>فشل تحميل السجلات</value>
+  </data>
+  <data name="ViewingDetailsFor" xml:space="preserve">
+    <value>عرض تفاصيل لـ</value>
+  </data>
+  <data name="ExportingLogs" xml:space="preserve">
+    <value>جاري تصدير السجلات...</value>
+  </data>
+  <data name="ActiveUsers" xml:space="preserve">
+     <value>المستخدمين النشطين</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+     <value>بحث</value>
+  </data>
+  <data name="Residences" xml:space="preserve">
+     <value>المساكن</value>
+   </data>
+  <data name="Admin_Colleges_Title" xml:space="preserve">
+     <value>إدارة الكليات</value>
+   </data>
+  <data name="Nationalities" xml:space="preserve">
+     <value>الجنسية</value>
+   </data>
+  <data name="User_Email" xml:space="preserve">
+     <value>بريد المستخدم</value>
+   </data>
+  <data name="ResidenceDetailsDialog_Title" xml:space="preserve">
+     <value>تفاصسل السكن</value>
+   </data>
+  <data name="EditResidenceDialog_Title" xml:space="preserve">
+     <value>تعديل بيانات السكن</value>
+   </data>
+  <data name="ResidencesManagement_Snackbar_NotFound" xml:space="preserve">
+     <value>لم يتم إيجاد السكن</value>
+   </data>
+  <data name="EditStudent_Title" xml:space="preserve">
+    <value>تعديل طالب</value>
+  </data>
+  <data name="StudentDetails_Title" xml:space="preserve">
+    <value>تفاصيل الطالب</value>
+  </data>
+  <data name="StudentNotFound" xml:space="preserve">
+    <value>لم يتم العثور على الطالب!</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>اسم العائلة</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="StreetAddress" xml:space="preserve">
+    <value>عنوان الشارع</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>المدينة</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>الولاية</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>الرمز البريدي</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>الدولة</value>
+  </data>
+  <data name="StudentUpdatedSuccess" xml:space="preserve">
+    <value>تم تحديث الطالب بنجاح!</value>
+  </data>
+  <data name="StudentUpdateFailed" xml:space="preserve">
+    <value>فشل تحديث الطالب.</value>
+  </data>
+  <data name="ErrorLoadingStudent" xml:space="preserve">
+    <value>خطأ في تحميل بيانات الطالب: {0}</value>
+  </data>
+  <data name="StudentID" xml:space="preserve">
+    <value>معرف الطالب</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>البريد</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>العنوان</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>إغلاق</value>
+  </data>
 </root>
