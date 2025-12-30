@@ -1,0 +1,268 @@
+@using SRMS.Application.Reservations.DTOs
+@using SRMS.Application.Rooms.DTOs
+@using SRMS.Domain.Rooms.Enums
+@using SRMS.Application.Reservations.Interfaces
+@inject HttpClient Http
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@inject IReservationService ReservationService
+
+<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h6" Class="mb-4">تفاصيل الحجز</MudText>
+
+        <MudPaper Class="glass-card pa-4 mb-4" Elevation="0">
+            <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="mb-2">معلومات الغرفة</MudText>
+            <MudDivider Class="mb-3" />
+
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between">
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">السكن:</MudText>
+                    <MudText Typo="Typo.body2"><strong>@ResidenceName</strong></MudText>
+                </div>
+                <div class="flex justify-between">
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">رقم الغرفة:</MudText>
+                    <MudText Typo="Typo.body2"><strong>@Room.RoomNumber</strong></MudText>
+                </div>
+                <div class="flex justify-between">
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">الطابق:</MudText>
+                    <MudText Typo="Typo.body2"><strong>@Room.Floor</strong></MudText>
+                </div>
+                <div class="flex justify-between">
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">النوع:</MudText>
+                    <MudText Typo="Typo.body2"><strong>@GetRoomTypeText(Room.RoomType)</strong></MudText>
+                </div>
+            </div>
+        </MudPaper>
+
+        <MudPaper Class="glass-card pa-4 mb-4" Elevation="0">
+            <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="mb-2">فترة الحجز</MudText>
+            <MudDivider Class="mb-3" />
+
+            <MudDatePicker Label="تاريخ البداية" @bind-Date="_startDate" MinDate="DateTime.Today" Class="mb-3" />
+
+            <MudDatePicker Label="تاريخ النهاية" @bind-Date="_endDate" MinDate="_startDate?.AddDays(1)" Class="mb-3" />
+
+            @if (_durationMonths > 0)
+            {
+                <MudAlert Severity="Severity.Info" Dense="true">
+                    <MudText Typo="Typo.body2">المدة: <strong>@_durationMonths شهر تقريباً</strong></MudText>
+                </MudAlert>
+            }
+        </MudPaper>
+
+        @if (!_showPayment)
+        {
+            <MudPaper Class="glass-card pa-4 mb-4" Elevation="0"
+                Style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(139, 195, 74, 0.1) 100%);">
+                <div class="flex justify-between items-center">
+                    <MudText Typo="Typo.h6">إجمالي المبلغ:</MudText>
+                    <MudText Typo="Typo.h5" Color="Color.Success">
+                        <strong>@_totalAmount @Room.MonthlyRent?.Currency</strong>
+                    </MudText>
+                </div>
+                @if (_durationMonths > 0)
+                {
+                    <MudText Typo="Typo.caption" Color="Color.Secondary">
+                        (@Room.MonthlyRent?.Amount @Room.MonthlyRent?.Currency × @_durationMonths شهر)
+                    </MudText>
+                }
+            </MudPaper>
+        }
+
+        @if (_showPayment)
+        {
+            <MudPaper Class="glass-card pa-4 mb-4" Elevation="0">
+                <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="mb-3">معلومات الدفع (وهمي)</MudText>
+                <MudDivider Class="mb-3" />
+
+                <MudTextField @bind-Value="_cardNumber" Label="رقم البطاقة" Variant="Variant.Outlined"
+                    Mask="@(new PatternMask("0000 0000 0000 0000"))" Class="mb-3" Adornment="Adornment.Start"
+                    AdornmentIcon="@Icons.Material.Filled.CreditCard" />
+
+                <div class="flex gap-3">
+                    <MudTextField @bind-Value="_expiryDate" Label="تاريخ الانتهاء (MM/YY)" Variant="Variant.Outlined"
+                        Mask="@(new PatternMask("00/00"))" Class="flex-1" />
+
+                    <MudTextField @bind-Value="_cvv" Label="CVV" Variant="Variant.Outlined" Mask="@(new PatternMask("000"))"
+                        InputType="InputType.Password" Class="flex-1" />
+                </div>
+
+                <MudAlert Severity="Severity.Info" Class="mt-3" Dense="true">
+                    <MudText Typo="Typo.caption">هذا نظام دفع وهمي للاختبار فقط</MudText>
+                </MudAlert>
+            </MudPaper>
+        }
+
+        @if (!string.IsNullOrEmpty(_errorMessage))
+        {
+            <MudAlert Severity="Severity.Error" Class="mb-3">@_errorMessage</MudAlert>
+        }
+
+        @if (_isProcessing)
+        {
+            <div class="flex flex-col items-center gap-3 py-4">
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+                <MudText Typo="Typo.body2" Color="Color.Secondary">جاري معالجة الحجز...</MudText>
+            </div>
+        }
+
+        @if (_bookingSuccess)
+        {
+            <MudAlert Severity="Severity.Success" Class="mb-3">
+                <MudText Typo="Typo.h6" Class="mb-2">تم الحجز بنجاح! 🎉</MudText>
+                <MudText Typo="Typo.body2">رقم الحجز: <strong>@_reservationId</strong></MudText>
+                <MudText Typo="Typo.body2">رقم الدفع: <strong>@_paymentId</strong></MudText>
+            </MudAlert>
+        }
+    </DialogContent>
+    <DialogActions>
+        @if (!_bookingSuccess)
+        {
+            <MudButton OnClick="Cancel" Disabled="_isProcessing">إلغاء</MudButton>
+
+            @if (!_showPayment)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ProceedToPayment"
+                    Disabled="_isProcessing || _startDate == null || _endDate == null || _endDate <= _startDate">
+                    المتابعة للدفع
+                </MudButton>
+            }
+            else
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="ConfirmBooking"
+                    Disabled="_isProcessing || string.IsNullOrWhiteSpace(_cardNumber) || string.IsNullOrWhiteSpace(_cvv)">
+                    تأكيد الحجز والدفع
+                </MudButton>
+            }
+        }
+        else
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CloseDialog">
+                إغلاق
+            </MudButton>
+        }
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance MudDialog { get; set; } = null!;
+
+    [Parameter]
+    public Guid ResidenceId { get; set; }
+
+    [Parameter]
+    public string ResidenceName { get; set; } = string.Empty;
+
+    [Parameter]
+    public RoomAvailabilityDto Room { get; set; } = null!;
+
+    [Parameter]
+    public Guid StudentId { get; set; }
+
+    private DateTime? _startDate = DateTime.Today;
+    private DateTime? _endDate = DateTime.Today.AddMonths(1);
+    private bool _showPayment = false;
+    private bool _isProcessing = false;
+    private bool _bookingSuccess = false;
+    private string _errorMessage = string.Empty;
+    private Guid _reservationId = Guid.Empty;
+    private Guid _paymentId = Guid.Empty;
+
+    // Payment fields
+    private string _cardNumber = string.Empty;
+    private string _expiryDate = string.Empty;
+    private string _cvv = string.Empty;
+
+    private int _durationMonths => _startDate.HasValue && _endDate.HasValue
+    ? (int)Math.Ceiling((_endDate.Value - _startDate.Value).TotalDays / 30.0)
+    : 0;
+
+    private decimal _totalAmount => Room.MonthlyRent?.Amount * _durationMonths ?? 0;
+
+    private void ProceedToPayment()
+    {
+        _errorMessage = string.Empty;
+
+        if (_startDate == null || _endDate == null)
+        {
+            _errorMessage = "يرجى تحديد تاريخ البداية والنهاية";
+            return;
+        }
+
+        if (_endDate <= _startDate)
+        {
+            _errorMessage = "تاريخ النهاية يجب أن يكون بعد تاريخ البداية";
+            return;
+        }
+
+        _showPayment = true;
+    }
+
+    private async Task ConfirmBooking()
+    {
+        _errorMessage = string.Empty;
+        _isProcessing = true;
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(_cardNumber) || string.IsNullOrWhiteSpace(_cvv))
+            {
+                _errorMessage = "يرجى إدخال معلومات البطاقة";
+                return;
+            }
+
+            var request = new ReserveRoomRequest(
+            StudentId,
+            Room.Id,
+            ResidenceId,
+            _startDate!.Value,
+            _endDate!.Value
+            );
+
+            // Use Service directly
+            var result = await ReservationService.ReserveRoomAsync(request);
+
+            if (result != null)
+            {
+                _bookingSuccess = true;
+                _reservationId = result.ReservationId;
+                _paymentId = result.PaymentId;
+
+                Snackbar.Add("تم الحجز والدفع بنجاح! 🎉", Severity.Success);
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"حدث خطأ في الحجز: {ex.Message}";
+            Console.WriteLine($"Booking error: {ex}");
+        }
+        finally
+        {
+            _isProcessing = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private void CloseDialog()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private string GetRoomTypeText(RoomType roomType)
+    {
+        return roomType switch
+        {
+            RoomType.Single => "فردية",
+            RoomType.Double => "مزدوجة",
+            RoomType.Triple => "ثلاثية",
+            RoomType.Quad => "رباعية",
+            _ => "غير معروف"
+        };
+    }
+}

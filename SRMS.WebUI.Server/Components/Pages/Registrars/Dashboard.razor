@@ -1,8 +1,8 @@
 @page "/registrar"
 @using Microsoft.Extensions.Localization
 @using SRMS.Domain.Students.Enums
-@@using SRMS.Domain.Students.Enums
-using Microsoft.Extensions.Localization
+@using SRMS.Domain.Students.Enums
+@using Microsoft.Extensions.Localization
 @inject IUserService UserService
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IDialogService DialogService
@@ -81,19 +81,21 @@ using Microsoft.Extensions.Localization
                     <MudTd>@context.Major</MudTd>
                     <MudTd>@context.AcademicYear (@context.AcademicTerm)</MudTd>
                     <MudTd>
-                        <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)" Variant="Variant.Text">
+                        <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)"
+                            Variant="Variant.Text">
                             @context.Status.ToString()
                         </MudChip>
                     </MudTd>
                     <MudTd>
                         <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" Class="rounded-xl"
-                            OnClick="@(() => VerifyStudent(context))" Disabled='context.Status == StudentStatus.Active'>
+                            OnClick="@(() => VerifyStudent(context))"
+                            Disabled="@(context.Status == StudentStatus.Active)">
                             @L["Verify"]
                         </MudButton>
                     </MudTd>
                 </RowTemplate>
                 <NoRecordsContent>
-                    <MudAlert Severity="Severity.Info">No students found for this college.</MudAlert>
+                    <MudAlert Severity="Severity.Info">@L["NoStudentsFoundForCollege"]</MudAlert>
                 </NoRecordsContent>
             </MudTable>
         </MudItem>
@@ -125,7 +127,8 @@ using Microsoft.Extensions.Localization
 
         if (user.Identity?.IsAuthenticated == true)
         {
-            _registrarName = user.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? user.Identity.Name ?? "Registrar";
+            _registrarName = user.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? user.Identity.Name ??
+            @L["Registrar"];
             var email = user.Identity.Name;
             if (email != null)
             {
@@ -174,7 +177,7 @@ using Microsoft.Extensions.Localization
 
         if (result is { Canceled: false })
         {
-            Snackbar.Add($"{student.FullName} verified successfully.", Severity.Success);
+            Snackbar.Add(string.Format(L["StudentVerifiedSuccessfully"], student.FullName), Severity.Success);
             await LoadStudents();
         }
     }

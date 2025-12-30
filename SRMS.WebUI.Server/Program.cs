@@ -36,6 +36,12 @@ builder.Services.AddRazorComponents()
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
+// Register HttpClient for Blazor Server to call its own APIs or external services
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri("https://localhost:7117") // Default to localhost for dev, change in prod
+});
+
 // ═══════════════════════════════════════════════════════════
 // 3️⃣ Application & Infrastructure Layers
 // ═══════════════════════════════════════════════════════════

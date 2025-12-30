@@ -13,7 +13,7 @@ public interface IReservationService
     Task<Reservation> UpdateReservationStatusAsync(Guid reservationId, ReservationStatus newStatus);
 
     // New methods for student room booking flow
-    Task<IEnumerable<ResidenceDto>> GetAvailableResidencesAsync();
+    Task<IEnumerable<SRMS.Application.Residences.DTOs.ResidenceDto>> GetAvailableResidencesAsync();
     Task<IEnumerable<RoomAvailabilityDto>> GetVacantRoomsByResidenceAsync(Guid residenceId);
     Task<ReserveRoomResponse> ReserveRoomAsync(ReserveRoomRequest request);
 }

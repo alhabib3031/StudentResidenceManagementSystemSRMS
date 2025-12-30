@@ -104,12 +104,16 @@ public class RoomService : IRoomService
 
     public async Task<RoomDetailsDto> GetRoomDetailsForStudentAsync(Guid roomId, Guid studentId)
     {
-        var room = await _roomRepository.GetByIdAsync(roomId);
+        var room = await _roomRepository.Query()
+            .Include(r => r.Reservations)
+            .ThenInclude(res => res.Student)
+            .FirstOrDefaultAsync(r => r.Id == roomId);
+
         var student = await _studentRepository.GetByIdAsync(studentId);
 
         if (room == null || student == null)
         {
-            throw new Exception("Room or Student not found."); // Or custom exceptions
+            throw new Exception("Room or Student not found.");
         }
 
         var residence = await _residenceRepository.GetByIdAsync(room.ResidenceId);
@@ -122,31 +126,27 @@ public class RoomService : IRoomService
         roomDetailsDto.ResidenceName = residence.Name;
         roomDetailsDto.BaseMonthlyRent = room.MonthlyRent?.Amount ?? 0;
 
-        // Calculate adjusted price based on student's academic rank and nationality
+        // Calculate adjusted price based on student rank/nationality
         decimal adjustedPrice = room.MonthlyRent?.Amount ?? 0;
+        if (student.StudyLevel == StudyLevel.Master) adjustedPrice *= 0.95m;
+        else if (student.StudyLevel == StudyLevel.PhD) adjustedPrice *= 0.90m;
 
-        // Academic Rank adjustment
-        if (student.StudyLevel == StudyLevel.Master)
+        if (student.NationalityId.HasValue && student.Nationality?.Name != "Libyan")
         {
-            adjustedPrice *= 0.95m; // 5% discount for Master's students
-        }
-        else if (student.StudyLevel == StudyLevel.PhD)
-        {
-            adjustedPrice *= 0.90m; // 10% discount for PhD students
-        }
-
-        // Nationality adjustment - example: international students pay a premium
-        // Assuming there's a way to distinguish local vs. international based on Nationality entity or a specific NationalId pattern
-        // For simplicity, let's say if NationalityId is not null, they are considered international and pay premium.
-        // In a real app, you'd have a more robust way to define 'international' and pricing tiers.
-        if (student.NationalityId.HasValue && student.Nationality?.Name != "Libyan") // Example: Assuming "Saudi" is local
-        {
-            adjustedPrice *= 1.10m; // 10% premium for international students
+            adjustedPrice *= 1.10m;
         }
 
         roomDetailsDto.AdjustedMonthlyRent = adjustedPrice;
         roomDetailsDto.StudentStudyLevel = student.StudyLevel.ToString();
-        roomDetailsDto.StudentNationality = student.Nationality?.Name ?? "N/A"; // Populate for display
+        roomDetailsDto.StudentNationality = student.Nationality?.Name ?? "N/A";
+
+        // Populate Roommates (Active residents excluding current student)
+        roomDetailsDto.Roommates = room.Reservations
+            .Where(r => r.Status == Domain.Reservations.Enums.ReservationStatus.Confirmed
+                     && r.StudentId != studentId
+                     && r.EndDate >= DateOnly.FromDateTime(DateTime.UtcNow)) // Ensure they are currently there
+            .Select(r => r.Student.FullName)
+            .ToList();
 
         return roomDetailsDto;
     }
@@ -256,7 +256,7 @@ public class RoomService : IRoomService
                 await _residenceRepository.SaveChangesAsync();
             }
         }
-        
+
         var roomToReturn = _mapper.Map<RoomDto>(updatedRoom);
         var residenceName = (await _residenceRepository.GetByIdAsync(updatedRoom.ResidenceId))?.Name;
         if (residenceName != null) roomToReturn.ResidenceName = residenceName;
@@ -275,7 +275,7 @@ public class RoomService : IRoomService
         {
             throw new Exception("Cannot delete a room that has occupied beds.");
         }
-        
+
         var residence = await _residenceRepository.GetByIdAsync(existingRoom.ResidenceId);
 
         var deleted = await _roomRepository.DeleteAsync(roomId);
@@ -290,7 +290,7 @@ public class RoomService : IRoomService
             await _residenceRepository.UpdateAsync(residence);
             await _residenceRepository.SaveChangesAsync();
         }
-        
+
         if (!deleted)
         {
             return false; // Failed to delete room in the database.

@@ -28,4 +28,5 @@ public class RoomDetailsDto
     // Student specific information that influenced the adjusted price (for display)
     public string StudentStudyLevel { get; set; } = string.Empty;
     public string StudentNationality { get; set; } = string.Empty;
+    public List<string> Roommates { get; set; } = new();
 }

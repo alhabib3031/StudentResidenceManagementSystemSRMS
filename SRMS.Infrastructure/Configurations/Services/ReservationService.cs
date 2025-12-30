@@ -64,7 +64,7 @@ public class ReservationService : IReservationService
         {
             throw new Exception("Room is already full.");
         }
-        
+
         if (room.OccupiedBeds >= room.TotalBeds)
         {
             throw new Exception("Room has no available beds.");
@@ -143,21 +143,31 @@ public class ReservationService : IReservationService
         return updatedReservation;
     }
 
-    public async Task<IEnumerable<ResidenceDto>> GetAvailableResidencesAsync()
+    public async Task<IEnumerable<SRMS.Application.Residences.DTOs.ResidenceDto>> GetAvailableResidencesAsync()
     {
         var residences = await _residenceRepository.GetAllAsync();
-        return _mapper.Map<IEnumerable<ResidenceDto>>(residences);
+        return _mapper.Map<IEnumerable<SRMS.Application.Residences.DTOs.ResidenceDto>>(residences);
     }
 
     public async Task<IEnumerable<RoomAvailabilityDto>> GetVacantRoomsByResidenceAsync(Guid residenceId)
     {
         // Fetch rooms for the residence that are not fully occupied and are in Available status
         var vacantRooms = await _roomRepository.FindAsync(r =>
-            r.ResidenceId == residenceId && 
-            r.Status == Domain.Rooms.Enums.RoomStatus.Available && 
+            r.ResidenceId == residenceId &&
+            r.Status == Domain.Rooms.Enums.RoomStatus.Available &&
             r.OccupiedBeds < r.TotalBeds);
-        
-        return _mapper.Map<IEnumerable<RoomAvailabilityDto>>(vacantRooms);
+
+        // Manual mapping to avoid Mapster issues
+        return vacantRooms.Select(r => new RoomAvailabilityDto(
+            r.Id,
+            r.RoomNumber,
+            r.Floor,
+            r.RoomType,
+            r.TotalBeds,
+            r.OccupiedBeds,
+            r.MonthlyRent, // Pass directly
+            r.Status
+        ));
     }
 
     public async Task<ReserveRoomResponse> ReserveRoomAsync(ReserveRoomRequest request)
@@ -183,12 +193,13 @@ public class ReservationService : IReservationService
         {
             throw new Exception("Room is not available for reservation.");
         }
-        
+
         // Calculate fee
         var fee = await _roomPricingService.CalculateRoomFee(room, student);
 
         // Process dummy payment
-        var paymentRequest = new PaymentRequestDto{
+        var paymentRequest = new PaymentRequestDto
+        {
             StudentId = student.Id,
             Amount = fee.Amount!.Value,
             Currency = fee.Currency,
@@ -206,6 +217,14 @@ public class ReservationService : IReservationService
         room.Status = room.OccupiedBeds == room.TotalBeds ? Domain.Rooms.Enums.RoomStatus.Occupied : Domain.Rooms.Enums.RoomStatus.Available; // If all beds are taken, mark as occupied
         await _roomRepository.UpdateAsync(room);
 
+        // Update residence available capacity
+        var residence = await _residenceRepository.GetByIdAsync(request.ResidenceId);
+        if (residence != null)
+        {
+            residence.AvailableCapacity--;
+            await _residenceRepository.UpdateAsync(residence);
+        }
+
         // Create reservation
         var reservation = new Reservation
         {
@@ -221,14 +240,20 @@ public class ReservationService : IReservationService
         };
 
         var createdReservation = await _reservationRepository.CreateAsync(reservation);
-        
+
         // Ensure the payment record is updated with the reservation ID if needed.
         // This was initially handled in DummyPaymentService, but for full linkage,
         // we might retrieve and update it here or rely on the payment service to handle it.
         // For now, assuming payment service correctly links or it's not critical for dummy.
 
+        // Update student status to Suspended (or Pending) for Registrar verification
+        student.Status = Domain.Students.Enums.StudentStatus.Suspended; // "معلق" until verified
+        await _studentRepository.UpdateAsync(student);
+
         await _roomRepository.SaveChangesAsync();
+        await _residenceRepository.SaveChangesAsync();
         await _reservationRepository.SaveChangesAsync();
+        await _studentRepository.SaveChangesAsync();
 
         return new ReserveRoomResponse(
             createdReservation.Id,

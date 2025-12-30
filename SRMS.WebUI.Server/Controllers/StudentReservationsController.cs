@@ -19,7 +19,7 @@ public class StudentReservationsController : ControllerBase
     }
 
     [HttpGet("residences")]
-    public async Task<ActionResult<IEnumerable<ResidenceDto>>> GetAvailableResidences()
+    public async Task<ActionResult<IEnumerable<SRMS.Application.Residences.DTOs.ResidenceDto>>> GetAvailableResidences()
     {
         var residences = await _reservationService.GetAvailableResidencesAsync();
         return Ok(residences);

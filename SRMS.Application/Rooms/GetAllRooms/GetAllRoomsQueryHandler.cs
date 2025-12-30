@@ -30,6 +30,9 @@ public class GetAllRoomsQueryHandler : IRequestHandler<GetAllRoomsQuery, List<Ro
                 OccupiedBeds = r.OccupiedBeds,
                 IsFull = r.OccupiedBeds >= r.TotalBeds,
                 ResidenceName = r.Residence.Name,
+                ResidenceId = r.ResidenceId,
+                MonthlyRentAmount = r.MonthlyRent != null ? r.MonthlyRent.Amount : (decimal?)null,
+                MonthlyRentCurrency = r.MonthlyRent != null ? r.MonthlyRent.Currency : null,
                 IsActive = r.IsActive
             })
             .ToListAsync(cancellationToken);

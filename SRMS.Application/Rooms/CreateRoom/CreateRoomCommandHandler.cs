@@ -64,6 +64,7 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
             HasDesk = request.Room.HasDesk,
             HasWardrobe = request.Room.HasWardrobe,
             HasBalcony = request.Room.HasBalcony,
+            MonthlyRent = SRMS.Domain.ValueObjects.Money.Create(request.Room.MonthlyRentAmount, request.Room.MonthlyRentCurrency),
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             IsActive = true,
@@ -103,6 +104,9 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, RoomD
             OccupiedBeds = created.OccupiedBeds,
             IsFull = created.IsFull,
             ResidenceName = created.Residence?.Name ?? "",
+            ResidenceId = created.ResidenceId,
+            MonthlyRentAmount = created.MonthlyRent?.Amount,
+            MonthlyRentCurrency = created.MonthlyRent?.Currency,
             IsActive = created.IsActive
         };
     }

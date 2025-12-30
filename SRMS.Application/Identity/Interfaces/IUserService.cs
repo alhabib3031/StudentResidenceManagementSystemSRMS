@@ -1,5 +1,6 @@
 ﻿using SRMS.Application.Identity.DTOs;
 using SRMS.Domain.Identity.Enums;
+using SRMS.Domain.Students.Enums;
 
 namespace SRMS.Application.Identity.Interfaces;
 
@@ -28,4 +29,5 @@ public interface IUserService
     Task<RegistrarReviewDto?> GetRegistrarByIdAsync(Guid registrarId);
     Task<List<StudentReviewDto>> GetStudentsByCollegeAsync(Guid collegeId);
     Task<string?> UpdateProfilePictureAsync(Guid userId, System.IO.Stream fileStream, string fileName);
+    Task<int> BulkUpdateStudentStatusByCollegeAsync(Guid collegeId, StudentStatus newStatus);
 }

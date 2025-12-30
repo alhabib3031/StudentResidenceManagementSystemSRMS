@@ -1,93 +1,197 @@
-@page "/student/room"
-@attribute [Authorize(Roles = "Student")]
+@page "/my-room"
+@using Microsoft.AspNetCore.Authorization
+@using SRMS.Application.Reservations.Interfaces
+@using SRMS.Application.Rooms.Interfaces
+@using SRMS.Application.Rooms.DTOs
+@using SRMS.Domain.Reservations.Enums
+@using System.Security.Claims
+@using Microsoft.Extensions.Localization
+@inject IReservationService ReservationService
+@inject IRoomService RoomService
+@inject AuthenticationStateProvider AuthStateProvider
 @inject ISnackbar Snackbar
-@rendermode InteractiveServer
+@inject IStringLocalizer<MyRoom> L
+@attribute [Authorize(Roles = "Student")]
 
-<PageTitle>My Room - SRMS</PageTitle>
+<PageTitle>@L["My Room"]</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
-    <div class="flex justify-between items-center mb-6">
-        <div>
-            <MudText Typo="Typo.h4" Class="text-gradient">My Room</MudText>
-            <MudText Typo="Typo.subtitle1" Color="Color.Secondary">View your room details and roommates</MudText>
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+    @if (_isLoading)
+    {
+        <div class="d-flex justify-center align-center" style="height: 50vh;">
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
         </div>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Report"
-            Class="btn-modern btn-primary-modern" Href="/student/complaints">
-            Report Issue
-        </MudButton>
-    </div>
+    }
+    else if (_roomDetails == null)
+    {
+        <MudAlert Severity="Severity.Info" Variant="Variant.Filled" Class="rounded-xl">
+            @L["You do not have an active room reservation at this time."]
+        </MudAlert>
+    }
+    else
+    {
+        <MudGrid>
+            <!-- Room Info Card -->
+            <MudItem xs="12" md="8">
+                <MudCard Elevation="3" Class="rounded-xl overflow-hidden glass-effect">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h5" Color="Color.Primary" Class="fw-bold">@L["My Room"]
+                                @_roomDetails.RoomNumber</MudText>
+                            <MudText Typo="Typo.subtitle1">@_roomDetails.ResidenceName - @L["Floor"] @_roomDetails.Floor
+                            </MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudChip T="string" Color="Color.Success" Variant="Variant.Filled" Size="Size.Small">
+                                @L["Occupied"]</MudChip>
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudGrid>
+                            <MudItem xs="6">
+                                <MudText Typo="Typo.body2" Class="text-muted">@L["Room Type"]</MudText>
+                                <MudText Typo="Typo.body1">@_roomDetails.RoomType</MudText>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudText Typo="Typo.body2" Class="text-muted">@L["Monthly Rent"]</MudText>
+                                <MudText Typo="Typo.h6" Color="Color.Secondary">
+                                    @_roomDetails.AdjustedMonthlyRent.ToString("C")</MudText>
+                            </MudItem>
+                        </MudGrid>
 
-    <MudGrid>
-        <!-- Room Details Card -->
-        <MudItem xs="12" md="8">
-            <MudPaper Class="glass-card p-4" Elevation="0">
-                <div class="flex items-center mb-4">
-                    <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Large" Color="Color.Primary"
-                        Class="mr-3" />
-                    <MudText Typo="Typo.h5">Room A-101</MudText>
-                    <MudChip T="string" Color="Color.Success" Class="ml-4" Size="Size.Small">Occupied</MudChip>
-                </div>
+                        <MudDivider Class="my-4" />
 
-                <MudDivider Class="mb-4" />
+                        <MudText Typo="Typo.h6" Class="mb-3">@L["Features & Amenities"]</MudText>
+                        <div class="d-flex flex-wrap gap-2">
+                            @if (_roomDetails.HasWifi)
+                            {
+                                <MudChip T="string" Icon="@Icons.Material.Filled.Wifi"
+                                    Color="Color.Primary" Variant="Variant.Outlined">@L["Wi-Fi"]</MudChip>
+                            }
+                            @if (_roomDetails.HasPrivateBathroom)
+                            {
+                                <MudChip T="string"
+                                    Icon="@Icons.Material.Filled.Bathtub" Color="Color.Info" Variant="Variant.Outlined">
+                                    @L["Private Bathroom"]</MudChip>
+                            }
+                            @if (_roomDetails.HasAirConditioning)
+                            {
+                                <MudChip T="string" Icon="@Icons.Material.Filled.AcUnit"
+                                    Color="Color.Info" Variant="Variant.Outlined">@L["Air Conditioning"]</MudChip>
+                            }
+                            @if (_roomDetails.HasHeating)
+                            {
+                                <MudChip T="string"
+                                    Icon="@Icons.Material.Filled.LocalFireDepartment" Color="Color.Warning"
+                                    Variant="Variant.Outlined">@L["Heating"]</MudChip>
+                            }
+                            @if (_roomDetails.HasDesk)
+                            {
+                                <MudChip T="string" Icon="@Icons.Material.Filled.Desk"
+                                    Color="Color.Default" Variant="Variant.Outlined">@L["Desk"]</MudChip>
+                            }
+                            @if (_roomDetails.HasWardrobe)
+                            {
+                                <MudChip T="string" Icon="@Icons.Material.Filled.Checkroom"
+                                    Color="Color.Default" Variant="Variant.Outlined">@L["Wardrobe"]</MudChip>
+                            }
+                            @if (_roomDetails.HasBalcony)
+                            {
+                                <MudChip T="string" Icon="@Icons.Material.Filled.Balcony"
+                                    Color="Color.Success" Variant="Variant.Outlined">@L["Balcony"]</MudChip>
+                            }
+                        </div>
 
-                <MudGrid>
-                    <MudItem xs="6" sm="4">
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">Building</MudText>
-                        <MudText Typo="Typo.body1">Block A</MudText>
-                    </MudItem>
-                    <MudItem xs="6" sm="4">
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">Floor</MudText>
-                        <MudText Typo="Typo.body1">1st Floor</MudText>
-                    </MudItem>
-                    <MudItem xs="6" sm="4">
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">Type</MudText>
-                        <MudText Typo="Typo.body1">Double Room</MudText>
-                    </MudItem>
-                    <MudItem xs="6" sm="4">
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">Capacity</MudText>
-                        <MudText Typo="Typo.body1">2 Students</MudText>
-                    </MudItem>
-                    <MudItem xs="6" sm="4">
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">Price/Month</MudText>
-                        <MudText Typo="Typo.body1" Color="Color.Success" Class="font-bold">$150.00</MudText>
-                    </MudItem>
-                </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
 
-                <MudText Typo="Typo.h6" Class="mt-6 mb-3">Amenities</MudText>
-                <div class="flex gap-2 flex-wrap">
-                    <MudChip T="string" Icon="@Icons.Material.Filled.Wifi" Variant="Variant.Outlined"
-                        Color="Color.Info">Free Wi-Fi</MudChip>
-                    <MudChip T="string" Icon="@Icons.Material.Filled.AcUnit" Variant="Variant.Outlined"
-                        Color="Color.Info">Air Conditioning</MudChip>
-                    <MudChip T="string" Icon="@Icons.Material.Filled.Desk" Variant="Variant.Outlined"
-                        Color="Color.Info">Study Desk</MudChip>
-                    <MudChip T="string" Icon="@Icons.Material.Filled.Bed" Variant="Variant.Outlined" Color="Color.Info">
-                        Single Bed</MudChip>
-                </div>
-            </MudPaper>
-        </MudItem>
-
-        <!-- Roommates Card -->
-        <MudItem xs="12" md="4">
-            <MudPaper Class="glass-card p-4 h-full" Elevation="0">
-                <MudText Typo="Typo.h6" Class="mb-4">Roommates</MudText>
-
-                <MudList T="string" Clickable="true">
-                    <MudListItem Avatar="@Icons.Material.Filled.Person" Text="John Doe"
-                        SecondaryText="Computer Science" />
-                    <MudDivider />
-                    <MudListItem Avatar="@Icons.Material.Filled.Person" Text="You" SecondaryText="Engineering"
-                        Class="mud-theme-primary-light" />
-                </MudList>
-
-                <MudAlert Severity="Severity.Info" Class="mt-4" Variant="Variant.Outlined">
-                    Respect your roommates' privacy and keep the room clean.
-                </MudAlert>
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
+            <!-- Roommates Card -->
+            <MudItem xs="12" md="4">
+                <MudCard Elevation="3" Class="rounded-xl glass-effect h-100">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">@L["My Roommates"]</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" Color="Color.Primary" />
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        @if (_roomDetails.Roommates.Any())
+                        {
+                            <MudList T="string" Dense="true">
+                                @foreach (var roommate in _roomDetails.Roommates)
+                                {
+                                    <MudListItem Icon="@Icons.Material.Filled.Person">
+                                        <MudText>@roommate</MudText>
+                                    </MudListItem>
+                                }
+                            </MudList>
+                        }
+                        else
+                        {
+                            <MudText Typo="Typo.body2" Class="text-muted text-center py-4">@L["You have no roommates yet."]
+                            </MudText>
+                        }
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    }
 </MudContainer>
 
+<style>
+    .glass-effect {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .mud-theme-dark .glass-effect {
+        background: rgba(30, 30, 30, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+</style>
+
 @code {
-    // TODO: Implement logic to fetch room details
+    private RoomDetailsDto? _roomDetails;
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user.Identity?.IsAuthenticated == true)
+            {
+                var studentIdClaim = user.FindFirst("StudentId");
+                if (studentIdClaim != null && Guid.TryParse(studentIdClaim.Value, out var studentId))
+                {
+                    // Find active reservation
+                    var reservations = await ReservationService.GetStudentReservationsAsync(studentId);
+                    var activeReservation = reservations.FirstOrDefault(r =>
+                    r.Status == ReservationStatus.Confirmed &&
+                    r.EndDate >= DateOnly.FromDateTime(DateTime.UtcNow));
+
+                    if (activeReservation != null)
+                    {
+                        _roomDetails = await RoomService.GetRoomDetailsForStudentAsync(activeReservation.RoomId, studentId);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(L["Error loading room details"], Severity.Error);
+            Console.WriteLine(ex);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
 }

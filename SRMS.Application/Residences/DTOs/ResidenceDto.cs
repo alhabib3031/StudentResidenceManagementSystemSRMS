@@ -9,5 +9,6 @@ public class ResidenceDto
     public int TotalCapacity { get; set; }
     public int AvailableCapacity { get; set; }
     public int CurrentRoomsCount { get; set; }
+    public int MaxRoomsCount { get; set; }
     public bool IsFull { get; set; }
 }

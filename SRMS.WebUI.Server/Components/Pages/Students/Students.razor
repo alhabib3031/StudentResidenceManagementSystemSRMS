@@ -1,21 +1,32 @@
 ﻿@page "/students"
 @using Microsoft.Extensions.DependencyInjection
 @using SRMS.WebUI.Server.Components.Pages.Dialogs
+@using SRMS.Application.Identity.Interfaces
+@using SRMS.Domain.Students.Enums
+@using Microsoft.Extensions.Localization
 @inject IServiceScopeFactory ScopeFactory
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
+@inject IUserService UserService
+@inject IStringLocalizer<Students> L
 @rendermode InteractiveServer
 
-<PageTitle>Students</PageTitle>
+<PageTitle>@L["Students"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-8">
     <MudPaper Elevation="3" Class="p-4">
         <div class="flex justify-between items-center mb-4">
-            <MudText Typo="Typo.h4">Student Management</MudText>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/students/create"
-                StartIcon="@Icons.Material.Filled.Add">
-                Add New Student
-            </MudButton>
+            <MudText Typo="Typo.h4">@L["Student Management"]</MudText>
+            <div>
+                <MudButton Variant="Variant.Filled" Color="Color.Warning" OnClick="OpenBulkUpdateDialog"
+                    StartIcon="@Icons.Material.Filled.Checklist" Class="mr-2">
+                    @L["Bulk Update Status"]
+                </MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/students/create"
+                    StartIcon="@Icons.Material.Filled.Add">
+                    @L["Add New Student"]
+                </MudButton>
+            </div>
         </div>
 
         @if (_isLoading)
@@ -26,58 +37,59 @@
         }
         else if (!_students.Any())
         {
-            <MudAlert Severity="Severity.Info">No students found. Create your first student!</MudAlert>
+            <MudAlert Severity="Severity.Info">@L["No students found. Create your first student!"]</MudAlert>
         }
         else
         {
             <MudTable Items="_students" Hover="true" Striped="true" Dense="true" Elevation="0" @ref="_table">
                 <HeaderContent>
-                    <MudTh>ID</MudTh>
-                    <MudTh>Full Name</MudTh>
-                    <MudTh>Email</MudTh>
-                    <MudTh>Phone</MudTh>
-                    <MudTh>Status</MudTh>
-                    <MudTh>Created At</MudTh>
-                    <MudTh Class="text-center">Actions</MudTh>
+                    <MudTh>@L["ID"]</MudTh>
+                    <MudTh>@L["Full Name"]</MudTh>
+                    <MudTh>@L["Email"]</MudTh>
+                    <MudTh>@L["Phone"]</MudTh>
+                    <MudTh>@L["Status"]</MudTh>
+                    <MudTh>@L["Created At"]</MudTh>
+                    <MudTh Class="text-center">@L["Actions"]</MudTh>
                 </HeaderContent>
                 <RowTemplate>
-                    <MudTd DataLabel="ID">
+                    <MudTd DataLabel="@L["ID"]">
                         <MudText Typo="Typo.caption">@context.Id.ToString().Substring(0, 8)...</MudText>
                     </MudTd>
-                    <MudTd DataLabel="Full Name">
+                    <MudTd DataLabel="@L["Full Name"]">
                         <MudText Typo="Typo.body2">@context.FullName</MudText>
                     </MudTd>
-                    <MudTd DataLabel="Email">
+                    <MudTd DataLabel="@L["Email"]">
                         <MudText Typo="Typo.body2">@(context.Email)</MudText>
-                    </MudTd>
-                    <MudTd DataLabel="Phone">
-                        <MudText Typo="Typo.body2">@(context.PhoneNumber)</MudText>
-                    </MudTd>
-                    <MudTd DataLabel="Status">
-                        <MudChip T="bool" Size="Size.Small" Color="@(context.IsActive ? Color.Success : Color.Default)">
-                            @(context.IsActive ? "Active" : "Inactive")
-                        </MudChip>
-                    </MudTd>
-                    <MudTd DataLabel="Created At">
-                        <MudText Typo="Typo.caption">
-                            @context.CreatedAt.ToString("MMM dd, yyyy")
-                        </MudText>
-                    </MudTd>
-                    <MudTd DataLabel="Actions" Class="text-center">
-                        <MudButtonGroup Variant="Variant.Outlined" Size="Size.Small">
-                            <MudIconButton Icon="@Icons.Material.Filled.Visibility" Color="Color.Info" Size="Size.Small"
-                                OnClick="@(() => ViewStudent(context.Id))" />
-                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small"
-                                OnClick="@(() => EditStudent(context.Id))" />
-                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small"
-                                OnClick="@(() => DeleteStudent(context.Id))" />
-                        </MudButtonGroup>
-                    </MudTd>
-                </RowTemplate>
-                <PagerContent>
-                    <MudTablePager PageSizeOptions="new[] { 10, 25, 50, 100 }" />
-                </PagerContent>
-            </MudTable>
+                        </MudTd>
+                        <MudTd DataLabel="@L["Phone"]">
+                            <MudText Typo="Typo.body2">@(context.PhoneNumber)</MudText>
+                        </MudTd>
+                        <MudTd DataLabel="@L["Status"]">
+                            <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)"
+                                Variant="Variant.Text">
+                                @context.Status.ToString()
+                            </MudChip>
+                        </MudTd>
+                        <MudTd DataLabel="@L["Created At"]">
+                            <MudText Typo="Typo.caption">
+                                @context.CreatedAt.ToString("MMM dd, yyyy")
+                            </MudText>
+                        </MudTd>
+                        <MudTd DataLabel="@L["Actions"]" Class="text-center">
+                            <MudButtonGroup Variant="Variant.Outlined" Size="Size.Small">
+                                <MudIconButton Icon="@Icons.Material.Filled.Visibility" Color="Color.Info" Size="Size.Small"
+                                    OnClick="@(() => ViewStudent(context.Id))" />
+                                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Warning" Size="Size.Small"
+                                    OnClick="@(() => EditStudent(context.Id))" />
+                                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small"
+                                    OnClick="@(() => DeleteStudent(context.Id))" />
+                            </MudButtonGroup>
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager PageSizeOptions="new[] { 10, 25, 50, 100 }" />
+                    </PagerContent>
+                </MudTable>
         }
     </MudPaper>
 </MudContainer>
@@ -125,17 +137,18 @@
         if (result is { Canceled: false })
         {
             await _table.ReloadServerData();
+            await LoadStudents(); // ensure refresh
         }
     }
 
     private async Task DeleteStudent(Guid id)
     {
         var parameters = new DialogParameters
-        {
-            { "ContentText", "Are you sure you want to delete this student? This action cannot be undone." },
-            { "ButtonText", "Delete" },
-            { "Color", Color.Error }
-        };
+{
+{ "ContentText", "Are you sure you want to delete this student? This action cannot be undone." },
+{ "ButtonText", "Delete" },
+{ "Color", Color.Error }
+};
 
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small };
         var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete Student", parameters, options);
@@ -168,4 +181,44 @@
             }
         }
     }
+
+    private async Task OpenBulkUpdateDialog()
+    {
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<BulkUpdateStatusDialog>("Bulk Update Status", options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is BulkUpdateStatusDialog.BulkUpdateResult data)
+        {
+            _isLoading = true;
+            try
+            {
+                var count = await UserService.BulkUpdateStudentStatusByCollegeAsync(data.CollegeId, data.Status);
+                Snackbar.Add($"Updated {count} students successfully.", Severity.Success);
+                await LoadStudents();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error updating students: {ex.Message}", Severity.Error);
+            }
+            finally
+            {
+                _isLoading = false;
+            }
+        }
+    }
+
+    private Color GetStatusColor(StudentStatus status) => status switch
+    {
+        StudentStatus.Active => Color.Success,
+        StudentStatus.ManagerApprovalPending => Color.Warning,
+        StudentStatus.ProfileCompletionPending => Color.Info,
+        StudentStatus.EmailVerificationPending => Color.Info,
+        StudentStatus.Suspended => Color.Warning,
+        StudentStatus.Rejected => Color.Error,
+        StudentStatus.Expelled => Color.Error,
+        StudentStatus.Withdrawn => Color.Dark,
+        StudentStatus.Graduated => Color.Success,
+        _ => Color.Default
+    };
 }

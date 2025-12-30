@@ -1,8 +1,11 @@
 @using SRMS.Domain.Rooms.Enums
 @using SRMS.Application.Rooms.CreateRoom
+@using SRMS.Application.Rooms.Interfaces
+@using SRMS.Application.Residences.DTOs
 @using Microsoft.Extensions.Localization
 @inject ISnackbar Snackbar
 @inject ISender Sender
+@inject IRoomService RoomService
 @inject IStringLocalizer<Resource> L
 
 <MudDialog>
@@ -15,6 +18,22 @@
     <DialogContent>
         <MudForm @ref="_form" @bind-IsValid="_success">
             <MudGrid>
+                <!-- Residence Selection -->
+                <MudItem xs="12">
+                     <MudSelect T="Guid" Label="@L["Room_Residence"]" @bind-Value="_model.ResidenceId" 
+                                Required="true" RequiredError="@L["Room_Residence_Required"]"
+                                Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter"
+                                Disabled="@(_isResidencePreSelected)">
+                        @if (_residences != null)
+                        {
+                            foreach (var residence in _residences)
+                            {
+                                <MudSelectItem Value="@residence.Id">@residence.Name</MudSelectItem>
+                            }
+                        }
+                    </MudSelect>
+                </MudItem>
+
                 <MudItem xs="12" sm="6">
                     <MudTextField @bind-Value="_model.RoomNumber" Label='@L["Room_RoomNumber"]' 
                         Required="true" RequiredError='@L["Room_RoomNumber_Required"]' 
@@ -91,12 +110,20 @@
     private bool _success;
     private bool _isSubmitting;
     private readonly CreateRoomDto _model = new();
+    private List<ResidenceDto> _residences = new();
+    private bool _isResidencePreSelected = false;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        _model.ResidenceId = ResidenceId;
-    }
+        // Load all residences
+        _residences = await RoomService.GetAllResidencesAsync();
 
+        if (ResidenceId != Guid.Empty)
+        {
+            _model.ResidenceId = ResidenceId;
+            _isResidencePreSelected = true;
+        }
+    }
     private void Cancel() => MudDialog.Cancel();
 
     private async Task Submit()

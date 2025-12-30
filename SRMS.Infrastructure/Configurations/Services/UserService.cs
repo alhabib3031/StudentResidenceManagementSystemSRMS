@@ -403,10 +403,26 @@ public class UserService : IUserService
         if (student == null) return false;
 
         student.Status = isApproved ? StudentStatus.Active : StudentStatus.Rejected;
-        // In a real app, you might want to store 'notes' in a student-specific history or comments table.
-        // For now, let's just update the status.
-
         await context.SaveChangesAsync();
+
+        // Get User to send notification
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.StudentId == studentId);
+        if (user != null)
+        {
+            var title = isApproved ? "Academic Verification Successful" : "Academic Verification Failed";
+            var message = isApproved
+                ? "Your academic status has been verified and your account is now active. Your room reservation is confirmed."
+                : $"Your academic verification failed. Reason: {notes ?? "Not specified"}.";
+
+            await _notificationService.SendNotificationAsync(new CreateNotificationDto
+            {
+                Title = title,
+                Message = message,
+                Type = NotificationType.System,
+                UserId = user.Id
+            });
+        }
+
         return true;
     }
 
@@ -515,6 +531,29 @@ public class UserService : IUserService
             DateOfBirth = student.DateOfBirth,
             Status = student.Status
         }).ToList();
+    }
+
+    public async Task<int> BulkUpdateStudentStatusByCollegeAsync(Guid collegeId, StudentStatus newStatus)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
+        var students = await context.Students
+            .Where(s => s.CollegeId == collegeId)
+            .ToListAsync();
+
+        if (!students.Any()) return 0;
+
+        foreach (var student in students)
+        {
+            student.Status = newStatus;
+            // Optionally, we could add logic to skip students who are already graduation/expelled etc if needed,
+            // but "Bulk Update" usually implies a hard override or specific filter.
+            // For "Renewing", usually we renew those who are suspended or active?
+            // The user asked to "Suspend all accounts in IT College". So override seems appropriate.
+        }
+
+        await context.SaveChangesAsync();
+        return students.Count;
     }
 
     // ════════════════════════════════════════════════════════════

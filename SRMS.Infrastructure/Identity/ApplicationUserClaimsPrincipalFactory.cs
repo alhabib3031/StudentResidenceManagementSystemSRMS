@@ -20,6 +20,12 @@ public class ApplicationUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<
         var identity = await base.GenerateClaimsAsync(user);
         identity.AddClaim(new Claim("FullName", user.FullName));
         identity.AddClaim(new Claim("ProfileStatus", user.ProfileStatus.ToString()));
+
+        if (user.StudentId.HasValue)
+        {
+            identity.AddClaim(new Claim("StudentId", user.StudentId.Value.ToString()));
+        }
+
         return identity;
     }
 }

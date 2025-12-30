@@ -83,6 +83,7 @@ public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomD
         existing.HasDesk = request.Room.HasDesk;
         existing.HasWardrobe = request.Room.HasWardrobe;
         existing.HasBalcony = request.Room.HasBalcony;
+        existing.MonthlyRent = SRMS.Domain.ValueObjects.Money.Create(request.Room.MonthlyRentAmount, request.Room.MonthlyRentCurrency);
         existing.UpdatedAt = DateTime.UtcNow;
 
         var updated = await _roomRepository.UpdateAsync(existing);
@@ -113,6 +114,9 @@ public class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand, RoomD
             OccupiedBeds = updated.OccupiedBeds,
             IsFull = updated.IsFull,
             ResidenceName = updated.Residence?.Name ?? "",
+            ResidenceId = updated.ResidenceId,
+            MonthlyRentAmount = updated.MonthlyRent?.Amount,
+            MonthlyRentCurrency = updated.MonthlyRent?.Currency,
             IsActive = updated.IsActive
         };
     }

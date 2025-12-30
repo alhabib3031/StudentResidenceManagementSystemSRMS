@@ -1,0 +1,63 @@
+@using SRMS.Domain.Colleges
+@using SRMS.Domain.Students.Enums
+@using SRMS.Application.Colleges
+@using Microsoft.Extensions.Localization
+@inject ICollegeService CollegeService
+@inject IStringLocalizer<BulkUpdateStatusDialog> L
+
+<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h6" Class="mb-4">@L["BulkUpdateStatus_Title"]</MudText>
+        <MudAlert Severity="Severity.Warning" Class="mb-4">
+            @L["BulkUpdateStatus_Warning"]
+        </MudAlert>
+
+        <MudGrid>
+            <MudItem xs="12">
+                <MudSelect T="Guid" Label="@L["College"]" @bind-Value="_selectedCollegeId" Variant="Variant.Outlined"
+                    AnchorOrigin="Origin.BottomCenter">
+                    @foreach (var college in _colleges)
+                    {
+                        <MudSelectItem Value="@college.Id">@college.Name</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12">
+                <MudSelect T="StudentStatus" Label="@L["NewStatus"]" @bind-Value="_selectedStatus"
+                    Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    @foreach (StudentStatus status in Enum.GetValues(typeof(StudentStatus)))
+                    {
+                        <MudSelectItem Value="@status">@status</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@L["Cancel"]</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="Submit"
+            Disabled="@(_selectedCollegeId == Guid.Empty)">@L["Update"]</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = null!;
+
+    private List<College> _colleges = new();
+    private Guid _selectedCollegeId;
+    private StudentStatus _selectedStatus = StudentStatus.Suspended;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _colleges = await CollegeService.GetAllCollegesAsync();
+    }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(new BulkUpdateResult(_selectedCollegeId, _selectedStatus)));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+
+    public record BulkUpdateResult(Guid CollegeId, StudentStatus Status);
+}
