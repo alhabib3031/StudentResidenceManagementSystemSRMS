@@ -37,26 +37,26 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     // ═══════════════════════════════════════════════════════════
 
     // Core Entities
-    public required DbSet<Student> Students { get; set; }
-    public required DbSet<Manager> Managers { get; set; }
-    public required DbSet<Residence> Residences { get; set; }
-    public required DbSet<ResidenceManager> ResidenceManagers { get; set; } // New M:N entity
-    public required DbSet<Room> Rooms { get; set; }
-    public required DbSet<Reservation> Reservations { get; set; } // New M:N entity
-    public required DbSet<College> Colleges { get; set; } // New entity
-    public required DbSet<Major> Majors { get; set; } // New entity
-    public required DbSet<CollegeRegistrar> CollegeRegistrars { get; set; } // New entity
-    public required DbSet<SRMS.Domain.Common.Nationality> Nationalities { get; set; } // New entity
-    public required DbSet<Notification> Notifications { get; set; }
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Manager> Managers { get; set; }
+    public DbSet<Residence> Residences { get; set; }
+    public DbSet<ResidenceManager> ResidenceManagers { get; set; } // New M:N entity
+    public DbSet<Room> Rooms { get; set; }
+    public DbSet<Reservation> Reservations { get; set; } // New M:N entity
+    public DbSet<College> Colleges { get; set; } // New entity
+    public DbSet<Major> Majors { get; set; } // New entity
+    public DbSet<CollegeRegistrar> CollegeRegistrars { get; set; } // New entity
+    public DbSet<SRMS.Domain.Common.Nationality> Nationalities { get; set; } // New entity
+    public DbSet<Notification> Notifications { get; set; }
 
     // Financial & Administrative
-    public required DbSet<Payment> Payments { get; set; }
-    public required DbSet<Complaint> Complaints { get; set; }
-    public required DbSet<ComplaintType> ComplaintTypes { get; set; } // New entity
-    public required DbSet<FeesConfiguration> FeesConfigurations { get; set; }
+    public DbSet<Payment> Payments { get; set; }
+    public DbSet<Complaint> Complaints { get; set; }
+    public DbSet<ComplaintType> ComplaintTypes { get; set; } // New entity
+    public DbSet<FeesConfiguration> FeesConfigurations { get; set; }
 
     // Audit
-    public required DbSet<AuditLog> AuditLogs { get; set; }
+    public DbSet<AuditLog> AuditLogs { get; set; }
 
     // Identity (موروثة من IdentityDbContext)
     // - Users (ApplicationUser)

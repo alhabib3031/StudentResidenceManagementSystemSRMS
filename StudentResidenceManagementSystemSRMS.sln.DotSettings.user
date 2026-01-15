@@ -25,6 +25,12 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
     &lt;Assembly Path="C:\Users\alhab\.nuget\packages\mapster\7.4.0\lib\net7.0\Mapster.dll" /&gt;&#xD;
     &lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=73683a42_002D8dab_002D4520_002Daadb_002Dca0c52839a3a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;src&amp;gt;\&amp;lt;SRMS.Testing&amp;gt; #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\alhab\RiderProjects\StudentResidenceManagementSystemSRMS\SRMS.Testing" Presentation="&amp;lt;src&amp;gt;\&amp;lt;SRMS.Testing&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=976e83d2_002Dced8_002D47b0_002Dac95_002Dcf73c07769fb/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;src&amp;gt;\&amp;lt;SRMS.Testing&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\alhab\RiderProjects\StudentResidenceManagementSystemSRMS\SRMS.Testing" Presentation="&amp;lt;src&amp;gt;\&amp;lt;SRMS.Testing&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FLocalization_002FResources/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FLocalization_002FResources/@EntryIndexRemoved">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FSRMS_002EWebUI_002EServer_002FResources_002FResource/@EntryIndexedValue">True</s:Boolean>
