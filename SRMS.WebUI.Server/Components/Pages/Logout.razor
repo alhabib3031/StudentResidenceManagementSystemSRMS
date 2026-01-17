@@ -17,11 +17,12 @@
 
         <!-- Text -->
         <MudStack Spacing="3" AlignItems="AlignItems.Center">
-            <MudText Typo="Typo.h5" Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+            <MudText
+                Class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
                 @L["Logout_LoggingOut"]
             </MudText>
-            
-            <MudText Typo="Typo.body1" Color="Color.Secondary">
+
+            <MudText Class="text-base md:text-lg text-secondary">
                 @L["Logout_PleaseWait"]
             </MudText>
 
@@ -29,7 +30,7 @@
             <MudProgressCircular Size="Size.Large" Indeterminate="true" Color="Color.Primary" Class="mt-4" />
 
             <!-- Additional Message -->
-            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="mt-4">
+            <MudText Class="text-sm text-secondary mt-4">
                 @L["Logout_RedirectMessage"]
             </MudText>
         </MudStack>

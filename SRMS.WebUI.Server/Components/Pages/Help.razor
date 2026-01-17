@@ -10,8 +10,9 @@
 <MudPaper class="animate-fade-in modern-card">
     <!-- Header -->
     <MudPaper class="text-center mb-6">
-        <MudText Typo="Typo.h3" Class="text-gradient mb-2 font-bold">
-            <MudIcon Icon="@Icons.Material.Filled.Help" Size="Size.Large" Class="mr-2" />
+        <MudText
+            Class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2 flex items-center justify-center">
+            <MudIcon Icon="@Icons.Material.Filled.Help" Class="mr-2 text-4xl md:text-5xl text-primary" />
             @L["Help_Header"]
         </MudText>
         <MudText Typo="Typo.body1" Color="Color.Secondary">
@@ -20,59 +21,58 @@
     </MudPaper>
 
     <!-- Search Bar -->
-    <MudPaper Class="glass-card pa-4 mb-6">
-        <MudTextField 
-            @bind-Value="_searchQuery"
-            Placeholder='@(L["Help_SearchPlaceholder"])'
-            Variant="Variant.Outlined"
-            Adornment="Adornment.Start"
-            AdornmentIcon="@Icons.Material.Filled.Search"
-            FullWidth="true"
-            OnKeyUp="SearchArticles" />
+    <MudPaper Class="glass-card p-3 md:p-4 mb-6">
+        <MudTextField @bind-Value="_searchQuery" Placeholder='@(L["Help_SearchPlaceholder"])' Variant="Variant.Outlined"
+            Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" FullWidth="true"
+            OnKeyUp="@SearchArticles" />
     </MudPaper>
 
     <MudGrid>
         <!-- Quick Actions -->
         <MudItem xs="12">
             <MudText Typo="Typo.h5" Class="mb-4">@(L["Help_QuickActions"])</MudText>
-            <MudGrid>
-                <MudItem xs="12" sm="6" md="3">
-                    <MudPaper Class="modern-card hover-lift p-4 text-center cursor-pointer" @onclick="OpenContactSupport">
-                        <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Primary" Size="Size.Large" />
-                        <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_ContactSupport_Title"])</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_ContactSupport_Desc"])</MudText>
-                    </MudPaper>
-                </MudItem>
-                <MudItem xs="12" sm="6" md="3">
-                    <MudPaper Class="modern-card hover-lift pa-4 text-center" Style="cursor: pointer;" @onclick="OpenLiveChat">
-                        <MudIcon Icon="@Icons.Material.Filled.Chat" Color="Color.Success" Size="Size.Large" />
-                        <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_LiveChat_Title"])</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_LiveChat_Desc"])</MudText>
-                    </MudPaper>
-                </MudItem>
-                <MudItem xs="12" sm="6" md="3">
-                    <MudPaper Class="modern-card hover-lift pa-4 text-center" Style="cursor: pointer;" @onclick="OpenDocumentation">
-                        <MudIcon Icon="@Icons.Material.Filled.MenuBook" Color="Color.Info" Size="Size.Large" />
-                        <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_Documentation_Title"])</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_Documentation_Desc"])</MudText>
-                    </MudPaper>
-                </MudItem>
-                <MudItem xs="12" sm="6" md="3">
-                    <MudPaper Class="modern-card hover-lift pa-4 text-center" Style="cursor: pointer;" @onclick="OpenVideoTutorials">
-                        <MudIcon Icon="@Icons.Material.Filled.VideoLibrary" Color="Color.Warning" Size="Size.Large" />
-                        <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_VideoTutorials_Title"])</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_VideoTutorials_Desc"])</MudText>
-                    </MudPaper>
-                </MudItem>
-            </MudGrid>
-        </MudItem>
+                <MudGrid>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudPaper Class="modern-card hover-lift p-4 text-center cursor-pointer"
+                        @onclick="OpenContactSupport">
+                            <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Primary" Size="Size.Large" />
+                            <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_ContactSupport_Title"])</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_ContactSupport_Desc"])</MudText>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudPaper Class="modern-card hover-lift pa-4 text-center" Style="cursor: pointer;"
+                        @onclick="OpenLiveChat">
+                            <MudIcon Icon="@Icons.Material.Filled.Chat" Color="Color.Success" Size="Size.Large" />
+                            <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_LiveChat_Title"])</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_LiveChat_Desc"])</MudText>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudPaper Class="modern-card hover-lift pa-4 text-center" Style="cursor: pointer;"
+                        @onclick="OpenDocumentation">
+                            <MudIcon Icon="@Icons.Material.Filled.MenuBook" Color="Color.Info" Size="Size.Large" />
+                            <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_Documentation_Title"])</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_Documentation_Desc"])</MudText>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="3">
+                        <MudPaper Class="modern-card hover-lift pa-4 text-center" Style="cursor: pointer;"
+                        @onclick="OpenVideoTutorials">
+                            <MudIcon Icon="@Icons.Material.Filled.VideoLibrary" Color="Color.Warning" Size="Size.Large" />
+                            <MudText Typo="Typo.h6" Class="mt-2">@(L["Help_VideoTutorials_Title"])</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">@(L["Help_VideoTutorials_Desc"])</MudText>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
 
-        <!-- FAQ Section -->
-        <MudItem xs="12" md="8">
-            <MudText Typo="Typo.h5" Class="mb-4">@(L["Help_FAQ_Title"])</MudText>
-            <MudPaper Class="glass-card pa-4">
-                <MudExpansionPanels MultiExpansion="true">
-                    @foreach (var faq in _faqs)
+            <!-- FAQ Section -->
+            <MudItem xs="12" md="8">
+                <MudText Typo="Typo.h5" Class="mb-4">@(L["Help_FAQ_Title"])</MudText>
+                <MudPaper Class="glass-card pa-4">
+                    <MudExpansionPanels MultiExpansion="true">
+                        @foreach (var faq in _faqs)
                     {
                         <MudExpansionPanel>
                             <TitleContent>
@@ -95,37 +95,38 @@
         <!-- Contact Information -->
         <MudItem xs="12" md="4">
             <MudText Typo="Typo.h5" Class="mb-4">@(L["Help_ContactInformation"])</MudText>
-            
-            <MudPaper Class="glass-card pa-4 mb-4">
-                <MudStack Spacing="3">
-                    <MudPaper Class="flex align-items-center">
-                        <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Primary" Class="mr-3" />
-                        <MudPaper>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_Email_Label"])</MudText>
-                            <MudText Typo="Typo.body2">support@srms.com</MudText>
+
+                <MudPaper Class="glass-card pa-4 mb-4">
+                    <MudStack Spacing="3">
+                        <MudPaper Class="flex align-items-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Primary" Class="mr-3" />
+                            <MudPaper>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_Email_Label"])</MudText>
+                                <MudText Typo="Typo.body2">support@srms.com</MudText>
+                            </MudPaper>
                         </MudPaper>
-                    </MudPaper>
-                    <MudDivider />
-                    <MudPaper Class="flex align-items-center">
-                        <MudIcon Icon="@Icons.Material.Filled.Phone" Color="Color.Success" Class="mr-3" />
-                        <MudPaper>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_Phone_Label"])</MudText>
-                            <MudText Typo="Typo.body2">+1 (555) 123-4567</MudText>
+                        <MudDivider />
+                        <MudPaper Class="flex align-items-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Phone" Color="Color.Success" Class="mr-3" />
+                            <MudPaper>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_Phone_Label"])</MudText>
+                                <MudText Typo="Typo.body2">+1 (555) 123-4567</MudText>
+                            </MudPaper>
                         </MudPaper>
-                    </MudPaper>
-                    <MudDivider />
-                    <MudPaper Class="flex align-items-center">
-                        <MudIcon Icon="@Icons.Material.Filled.LocationOn" Color="Color.Error" Class="mr-3" />
-                        <MudPaper>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_Address_Label"])</MudText>
-                            <MudText Typo="Typo.body2">123 University Ave, City</MudText>
+                        <MudDivider />
+                        <MudPaper Class="flex align-items-center">
+                            <MudIcon Icon="@Icons.Material.Filled.LocationOn" Color="Color.Error" Class="mr-3" />
+                            <MudPaper>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_Address_Label"])</MudText>
+                                <MudText Typo="Typo.body2">123 University Ave, City</MudText>
+                            </MudPaper>
                         </MudPaper>
-                    </MudPaper>
-                    <MudDivider />
-                    <MudPaper Class="flex align-items-center">
-                        <MudIcon Icon="@Icons.Material.Filled.Schedule" Color="Color.Info" Class="mr-3" />
-                        <MudPaper>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_SupportHours_Label"])</MudText>
+                        <MudDivider />
+                        <MudPaper Class="flex align-items-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Schedule" Color="Color.Info" Class="mr-3" />
+                            <MudPaper>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">@(L["Help_SupportHours_Label"])
+                            </MudText>
                             <MudText Typo="Typo.body2">Mon-Fri: 9AM - 6PM</MudText>
                         </MudPaper>
                     </MudPaper>
@@ -135,12 +136,12 @@
             <!-- System Status -->
             <MudPaper Class="glass-card pa-4">
                 <MudText Typo="Typo.h6" Class="mb-3">@(L["Help_SystemStatus_Title"])</MudText>
-                <MudStack Spacing="2">
-                    <MudPaper Class="flex justify-content-between align-items-center">
-                        <MudText Typo="Typo.body2">API Server</MudText>
-                        <MudChip T="string" Color="Color.Success" Size="Size.Small">
-                            <span class="status-dot status-online"></span>
-                            @(L["Help_Status_Online"])
+                    <MudStack Spacing="2">
+                        <MudPaper Class="flex justify-content-between align-items-center">
+                            <MudText Typo="Typo.body2">API Server</MudText>
+                            <MudChip T="string" Color="Color.Success" Size="Size.Small">
+                                <span class="status-dot status-online"></span>
+                                @(L["Help_Status_Online"])
                         </MudChip>
                     </MudPaper>
                     <MudPaper Class="flex justify-content-between align-items-center">
@@ -164,11 +165,12 @@
         <!-- Popular Topics -->
         <MudItem xs="12">
             <MudText Typo="Typo.h5" Class="mb-4">@(L["Help_PopularTopics"])</MudText>
-            <MudGrid>
-                @foreach (var topic in _popularTopics)
+                <MudGrid>
+                    @foreach (var topic in _popularTopics)
                 {
                     <MudItem xs="12" sm="6" md="4">
-                        <MudPaper Class="modern-card hover-lift pa-4" Style="cursor: pointer;" @onclick="() => ViewTopic(topic)">
+                        <MudPaper Class="modern-card hover-lift pa-4" Style="cursor: pointer;"
+                        @onclick="() => ViewTopic(topic)">
                             <MudIcon Icon="@topic.Icon" Color="@topic.Color" Size="Size.Medium" Class="mb-2" />
                             <MudText Typo="Typo.h6">@topic.Title</MudText>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">@topic.Description</MudText>
@@ -196,8 +198,8 @@
 
     private void LoadFaqs()
     {
-        _faqs = new List<FaqModel>
-        {
+        _faqs =
+        [
             new FaqModel
             {
                 Question = L["Faq1_Q"].Value,
@@ -205,6 +207,7 @@
                 Icon = Icons.Material.Filled.MeetingRoom,
                 Color = Color.Primary
             },
+
             new FaqModel
             {
                 Question = L["Faq2_Q"].Value,
@@ -212,6 +215,7 @@
                 Icon = Icons.Material.Filled.Payment,
                 Color = Color.Success
             },
+
             new FaqModel
             {
                 Question = L["Faq3_Q"].Value,
@@ -219,6 +223,7 @@
                 Icon = Icons.Material.Filled.Report,
                 Color = Color.Warning
             },
+
             new FaqModel
             {
                 Question = L["Faq4_Q"].Value,
@@ -226,6 +231,7 @@
                 Icon = Icons.Material.Filled.Lock,
                 Color = Color.Error
             },
+
             new FaqModel
             {
                 Question = L["Faq5_Q"].Value,
@@ -233,62 +239,67 @@
                 Icon = Icons.Material.Filled.SwapHoriz,
                 Color = Color.Info
             }
-        };
+        ];
     }
 
     private void LoadPopularTopics()
     {
-        _popularTopics = new List<TopicModel>
-        {
+        _popularTopics =
+        [
             new TopicModel
             {
-                Title = "Getting Started",
-                Description = "Learn the basics of using SRMS",
+                Title = L["Help_PopularTopic_GettingStarted_Title"].Value,
+                Description = L["Help_PopularTopic_GettingStarted_Desc"].Value,
                 Icon = Icons.Material.Filled.Rocket,
                 Color = Color.Primary,
                 ArticleCount = 12
             },
+
             new TopicModel
             {
-                Title = "Room Management",
-                Description = "Everything about rooms and bookings",
+                Title = L["Help_PopularTopic_RoomManagement_Title"].Value,
+                Description = L["Help_PopularTopic_RoomManagement_Desc"].Value,
                 Icon = Icons.Material.Filled.MeetingRoom,
                 Color = Color.Success,
                 ArticleCount = 8
             },
+
             new TopicModel
             {
-                Title = "Payments & Billing",
-                Description = "Payment methods and billing info",
+                Title = L["Help_PopularTopic_Payments_Title"].Value,
+                Description = L["Help_PopularTopic_Payments_Desc"].Value,
                 Icon = Icons.Material.Filled.Payment,
                 Color = Color.Info,
                 ArticleCount = 6
             },
+
             new TopicModel
             {
-                Title = "Account Settings",
-                Description = "Manage your account preferences",
+                Title = L["Help_PopularTopic_Account_Title"].Value,
+                Description = L["Help_PopularTopic_Account_Desc"].Value,
                 Icon = Icons.Material.Filled.Settings,
                 Color = Color.Warning,
                 ArticleCount = 10
             },
+
             new TopicModel
             {
-                Title = "Complaints & Support",
-                Description = "How to get help when you need it",
+                Title = L["Help_PopularTopic_Complaints_Title"].Value,
+                Description = L["Help_PopularTopic_Complaints_Desc"].Value,
                 Icon = Icons.Material.Filled.Support,
                 Color = Color.Error,
                 ArticleCount = 5
             },
+
             new TopicModel
             {
-                Title = "Security & Privacy",
-                Description = "Keep your account safe and secure",
+                Title = L["Help_PopularTopic_Security_Title"].Value,
+                Description = L["Help_PopularTopic_Security_Desc"].Value,
                 Icon = Icons.Material.Filled.Security,
                 Color = Color.Secondary,
                 ArticleCount = 7
             }
-        };
+        ];
     }
 
     private void SearchArticles(KeyboardEventArgs e)
@@ -326,18 +337,18 @@
 
     private class FaqModel
     {
-        public string Question { get; set; } = string.Empty;
-        public string Answer { get; set; } = string.Empty;
-        public string Icon { get; set; } = Icons.Material.Filled.Help;
-        public Color Color { get; set; } = Color.Default;
+        public string Question { get; init; } = string.Empty;
+        public string Answer { get; init; } = string.Empty;
+        public string Icon { get; init; } = Icons.Material.Filled.Help;
+        public Color Color { get; init; } = Color.Default;
     }
 
     private class TopicModel
     {
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string Icon { get; set; } = Icons.Material.Filled.Topic;
-        public Color Color { get; set; } = Color.Default;
-        public int ArticleCount { get; set; }
+        public string Title { get; init; } = string.Empty;
+        public string Description { get; init; } = string.Empty;
+        public string Icon { get; init; } = Icons.Material.Filled.Topic;
+        public Color Color { get; init; } = Color.Default;
+        public int ArticleCount { get; init; }
     }
 }

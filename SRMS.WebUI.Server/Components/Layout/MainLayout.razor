@@ -29,20 +29,14 @@
                     Style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(139,92,246,0.3);">
                     <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Surface" />
                 </MudPaper>
-                <MudText Typo="Typo.h6"
-                    Style="font-weight: 700; background: linear-gradient(135deg, #a78bfa 0%, #d946ef 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                <MudText Class="text-xl md:text-2xl font-bold bg-gradient-to-tr from-[#a78bfa] to-[#d946ef] bg-clip-text text-transparent">
                     SRMS
                 </MudText>
             </MudStack>
 
             <MudSpacer />
 
-            <!-- Search (Optional) -->
-            <MudHidden Breakpoint="Breakpoint.SmAndDown">
-                <MudTextField @bind-Value="_searchString" Placeholder="Search..." Adornment="Adornment.Start"
-                    AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Variant="Variant.Outlined"
-                    Margin="Margin.Dense" Class="mr-4" Style="max-width: 350px; border-radius: 12px;" />
-            </MudHidden>
+
 
             <!-- Dark/Light Mode Toggle -->
             <MudTooltip Text="@(_isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode")">
@@ -105,10 +99,18 @@
                     </MudMenu>
                 </Authorized>
                 <NotAuthorized>
-                    <MudButton Href="/login" Variant="Variant.Filled" Color="Color.Primary"
-                        StartIcon="@Icons.Material.Filled.Login" Class="btn-modern btn-primary">
-                        Sign In
-                    </MudButton>
+                    <MudHidden Breakpoint="Breakpoint.MdAndUp">
+                        <MudButton Href="/login" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+                            StartIcon="@Icons.Material.Filled.Login" Class="btn-modern btn-primary text-xs px-2 py-1">
+                            Sign In
+                        </MudButton>
+                    </MudHidden>
+                    <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                        <MudButton Href="/login" Variant="Variant.Filled" Color="Color.Primary"
+                            StartIcon="@Icons.Material.Filled.Login" Class="btn-modern btn-primary">
+                            Sign In
+                        </MudButton>
+                    </MudHidden>
                 </NotAuthorized>
             </AuthorizeView>
         </MudAppBar>
@@ -136,19 +138,18 @@
                         else
                         {
                             <MudStack Class="animate-fade-in" Style="width: 100%">
-                                <MudPaper Elevation="0" Class="glass-card pa-8 text-center"
-                                    Style="max-width: 600px; margin: 100px auto;">
+                                <MudPaper Elevation="0" Class="glass-card p-6 md:p-8 text-center mx-auto my-12 md:my-24 max-w-lg">
                                     <MudPaper Elevation="0"
-                                        Style="width: 120px; height: 120px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 0 20px rgba(239,68,68,0.3);">
+                                        Style="width: 80px; height: 80px; width: 100px; height: 100px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 0 20px rgba(239,68,68,0.3);">
                                         <MudIcon Icon="@Icons.Material.Filled.Lock" Color="Color.Surface"
-                                            Style="font-size: 60px;" />
+                                            Class="text-4xl md:text-6xl" />
                                     </MudPaper>
-                                    <MudText Typo="Typo.h3" Class="mb-3" Style="font-weight: 700;">Access Denied</MudText>
-                                    <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-6">
+                                    <MudText Class="text-2xl md:text-4xl font-bold mb-3">Access Denied</MudText>
+                                    <MudText Class="text-base md:text-lg text-secondary mb-6">
                                         You need to be logged in to access this page. Please sign in to continue.
                                     </MudText>
                                     <MudButton Href="/login" Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large"
-                                        StartIcon="@Icons.Material.Filled.Login" Class="btn-modern btn-primary">
+                                        StartIcon="@Icons.Material.Filled.Login" Class="btn-modern btn-primary w-full md:w-auto">
                                         Sign In Now
                                     </MudButton>
                                 </MudPaper>
@@ -163,7 +164,7 @@
 
 @code {
 
-    private bool _drawerOpen = true;
+    private bool _drawerOpen = false;
     private bool _isDarkMode = true;
     private MudTheme? _theme = null;
     private string _searchString = "";

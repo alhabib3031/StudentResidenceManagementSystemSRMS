@@ -21,54 +21,62 @@
 
 <MudStack Class="animate-fade-in w-full modern-card">
     <!-- Header -->
-    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
-        <MudStack Spacing="0">
-            <MudText Typo="Typo.h4" Class="text-gradient font-bold">
-                <MudIcon Icon="@Icons.Material.Filled.Notifications" Class="mr-2" />
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+        <div class="flex flex-col">
+            <MudText Class="text-3xl md:text-4xl font-bold text-gradient flex items-center">
+                <MudIcon Icon="@Icons.Material.Filled.Notifications" Class="mr-2 text-4xl md:text-5xl" />
                 @L["Notifications_Header"]
             </MudText>
-            <MudText Typo="Typo.body2" Color="Color.Secondary">
+            <MudText Class="text-sm md:text-base text-secondary mt-1">
                 @L["Notifications_Subheader"]
             </MudText>
-        </MudStack>
-        <MudStack Row="true" Spacing="2">
+        </div>
+        <div class="flex gap-2 self-end md:self-auto">
             @if (CanCreateNotification)
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="OpenCreateDialog"
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="@OpenCreateDialog"
                     StartIcon="@Icons.Material.Filled.Add">
                     @L["Notifications_Button_Create"]
                 </MudButton>
             }
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="MarkAllAsRead"
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@MarkAllAsRead"
                 StartIcon="@Icons.Material.Filled.DoneAll">
                 @L["Notifications_Button_MarkAllRead"]
             </MudButton>
-        </MudStack>
-    </MudStack>
+        </div>
+    </div>
 
     <!-- Notification Filters -->
     <MudPaper Class="glass-card mb-4 p-4">
         <MudChipSet T="string" @bind-SelectedChip="_selectedFilter" Filter="true" Mandatory="true">
-            <MudChip T="string" Text='@L["Notifications_Filter_All"]' Color="Color.Primary" Default="true">@L["Notifications_Filter_All"]</MudChip>
-            <MudChip T="string" Text='@L["Notifications_Filter_Unread"]' Color="Color.Error">@L["Notifications_Filter_Unread"]</MudChip>
-            <MudChip T="string" Text='@L["Notifications_Filter_Announcement"]' Color="Color.Secondary">@L["Notifications_Filter_Announcement"]</MudChip>
-            <MudChip T="string" Text='@L["Notifications_Filter_Info"]' Color="Color.Info">@L["Notifications_Filter_Info"]</MudChip>
-            <MudChip T="string" Text='@L["Notifications_Filter_Warning"]' Color="Color.Warning">@L["Notifications_Filter_Warning"]</MudChip>
-            <MudChip T="string" Text='@L["Notifications_Filter_System"]' Color="Color.Dark">@L["Notifications_Filter_System"]</MudChip>
-            <MudChip T="string" Text='@L["Notifications_Filter_Payments"]' Color="Color.Success">@L["Notifications_Filter_Payments"]</MudChip>
-            <MudChip T="string" Text='@L["Notifications_Filter_Complaints"]' Color="Color.Surface">@L["Notifications_Filter_Complaints"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_All"]' Color="Color.Primary" Default="true">
+                @L["Notifications_Filter_All"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Unread"]' Color="Color.Error">
+                @L["Notifications_Filter_Unread"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Announcement"]' Color="Color.Secondary">
+                @L["Notifications_Filter_Announcement"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Info"]' Color="Color.Info">
+                @L["Notifications_Filter_Info"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Warning"]' Color="Color.Warning">
+                @L["Notifications_Filter_Warning"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_System"]' Color="Color.Dark">
+                @L["Notifications_Filter_System"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Payments"]' Color="Color.Success">
+                @L["Notifications_Filter_Payments"]</MudChip>
+            <MudChip T="string" Text='@L["Notifications_Filter_Complaints"]' Color="Color.Surface">
+                @L["Notifications_Filter_Complaints"]</MudChip>
         </MudChipSet>
     </MudPaper>
 
     <!-- Notifications List -->
-    <MudPaper Class="glass-card pa-4">
+    <MudPaper Class="glass-card p-4 mb-4">
         @if (_notifications.Any())
         {
             <MudList T="string" Clickable="true">
                 @foreach (var notification in FilteredNotifications)
                 {
                     <MudListItem T="string" Class="@GetNotificationClass(notification)"
-                        OnClick="() => HandleNotificationClick(notification)">
+                        OnClick="@(() => HandleNotificationClick(notification))">
                         <MudStack Row="true" AlignItems="AlignItems.Start">
                             <MudAvatar Color="@GetNotificationColor(notification)" Class="mr-3">
                                 <MudIcon Icon="@GetNotificationIcon(notification)" />
@@ -198,7 +206,7 @@
             { "CurrentUserRole", _currentUserRole }
         };
 
-        var dialog = await DialogService.ShowAsync<CreateNotificationDialog>(L["Notifications_Button_Create"], parameters);
+        var dialog = await DialogService.ShowAsync<CreateNotificationDialog>(L["Notifications_Button_Create"].Value, parameters);
         var result = await dialog.Result;
 
         if (!result.Canceled)
@@ -222,12 +230,12 @@
 
             if (success)
             {
-                Snackbar.Add(L["Notifications_Snackbar_SentSuccess"], Severity.Success);
+                Snackbar.Add(L["Notifications_Snackbar_SentSuccess"].Value, Severity.Success);
                 await LoadNotifications(); // Refresh list if I sent it to myself too
             }
             else
             {
-                Snackbar.Add(L["Notifications_Snackbar_SentFailed"], Severity.Error);
+                Snackbar.Add(L["Notifications_Snackbar_SentFailed"].Value, Severity.Error);
             }
         }
     }

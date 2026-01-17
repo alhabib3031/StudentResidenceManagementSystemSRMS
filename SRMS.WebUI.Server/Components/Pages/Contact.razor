@@ -12,7 +12,7 @@
 <MudStack Class="animate-fade-in w-full">
     <!-- Header -->
     <MudStack AlignItems="AlignItems.Center" Class="mb-6 glass-card">
-        <MudText Typo="Typo.h3" Class="text-gradient mb-2 font-extrabold text-center">
+        <MudText Class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2 text-center">
             @L["Contact_GetInTouch"]
         </MudText>
         <MudText Typo="Typo.h6" Color="Color.Secondary">
@@ -72,7 +72,7 @@
                             </MudCheckBox>
                         </MudItem>
                         <MudItem xs="12" Class="flex justify-end gap-3">
-                            <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="ResetForm">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Default" OnClick="@ResetForm">
                                 @(L["Contact_Button_Reset"])
                             </MudButton>
                             <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary"
@@ -190,7 +190,7 @@
 
         <!-- Map Section (Placeholder) -->
         <MudItem xs="12">
-            <MudPaper Class="glass-card p-4 h-[400px]">
+            <MudPaper Class="glass-card p-2 md:p-4 h-[300px] md:h-[400px]">
                 @* <MudStack AlignItems="AlignItems.Center" Justify="Justify.Center" Class="h-100"> *@
                 @*     <MudStack AlignItems="AlignItems.Center" Spacing="0"> *@
                         <iframe 
@@ -217,12 +217,12 @@
     {
         if (!_contactModel.AgreeToTerms)
         {
-            Snackbar.Add(L["Contact_Snackbar_AgreeTerms"], Severity.Warning);
+            Snackbar.Add(L["Contact_Snackbar_AgreeTerms"].Value, Severity.Warning);
             return;
         }
 
         // Submit form to service
-        Snackbar.Add(L["Contact_Snackbar_Thanks"], Severity.Success);
+        Snackbar.Add(L["Contact_Snackbar_Thanks"].Value, Severity.Success);
         ResetForm();
     }
 

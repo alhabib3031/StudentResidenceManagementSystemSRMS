@@ -10,18 +10,18 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Welcome Header -->
-    <MudPaper Elevation="0" Class="p-4 mb-4 bg-gradient-to-br from-teal-600 to-teal-500">
+    <MudPaper Elevation="0" Class="p-4 md:p-6 mb-4 bg-gradient-to-br from-teal-600 to-teal-500">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <MudStack Spacing="0">
-                <MudText Typo="Typo.h4" Class="text-white">
-                    <MudIcon Icon="@Icons.Material.Filled.ManageAccounts" Class="mr-2" />
+                <MudText Class="text-2xl md:text-4xl font-bold text-white flex items-center">
+                    <MudIcon Icon="@Icons.Material.Filled.ManageAccounts" Class="mr-2 text-3xl md:text-4xl" />
                     @L["ManagerDashboard_Header"]
                 </MudText>
-                <MudText Typo="Typo.body2" Class="text-white/80">
+                <MudText Class="text-sm md:text-base text-white/80 mt-1">
                     @string.Format(L["ManagerDashboard_Welcome"], _managerName)
                 </MudText>
             </MudStack>
-            <MudAvatar Size="Size.Large" Color="Color.Surface">
+            <MudAvatar Size="Size.Large" Color="Color.Surface" Class="hidden md:flex">
                 <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" />
             </MudAvatar>
         </MudStack>
@@ -34,9 +34,11 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <MudStack Spacing="0">
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_MyStudents"]</MudText>
-                            <MudText Typo="Typo.h4">87</MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Success">@L["ManagerDashboard_StudentsThisWeek"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_MyStudents"]
+                            </MudText>
+                            <MudText Class="text-3xl md:text-4xl font-bold">87</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Success">@L["ManagerDashboard_StudentsThisWeek"]
+                            </MudText>
                         </MudStack>
                         <MudAvatar Color="Color.Primary" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.School" Size="Size.Large" />
@@ -51,9 +53,11 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <MudStack Spacing="0">
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_PendingComplaints"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Warning">12</MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Warning">@L["ManagerDashboard_NeedsAttention"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                @L["ManagerDashboard_PendingComplaints"]</MudText>
+                            <MudText Class="text-3xl md:text-4xl font-bold text-warning">12</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Warning">@L["ManagerDashboard_NeedsAttention"]
+                            </MudText>
                         </MudStack>
                         <MudAvatar Color="Color.Warning" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.Report" Size="Size.Large" />
@@ -68,8 +72,9 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <MudStack Spacing="0">
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_DuePayments"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Error">8</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_DuePayments"]
+                            </MudText>
+                            <MudText Class="text-3xl md:text-4xl font-bold text-error">8</MudText>
                             <MudText Typo="Typo.caption" Color="Color.Error">@L["ManagerDashboard_Overdue"]</MudText>
                         </MudStack>
                         <MudAvatar Color="Color.Error" Size="Size.Large">
@@ -85,9 +90,11 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <MudStack Spacing="0">
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_AvailableRooms"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Success">5</MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Success">@L["ManagerDashboard_ReadyToAssign"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_AvailableRooms"]
+                            </MudText>
+                            <MudText Class="text-3xl md:text-4xl font-bold text-success">5</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Success">@L["ManagerDashboard_ReadyToAssign"]
+                            </MudText>
                         </MudStack>
                         <MudAvatar Color="Color.Success" Size="Size.Large">
                             <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Large" />
@@ -110,7 +117,8 @@
                         </MudText>
                     </CardHeaderContent>
                     <CardHeaderActions>
-                        <MudChip T="string" Size="Size.Small" Color="Color.Error">5 @L["ManagerDashboard_Urgent"]</MudChip>
+                        <MudChip T="string" Size="Size.Small" Color="Color.Error">5 @L["ManagerDashboard_Urgent"]
+                        </MudChip>
                     </CardHeaderActions>
                 </MudCardHeader>
                 <MudCardContent Class="max-h-[400px] overflow-y-auto">
@@ -122,22 +130,26 @@
                         <MudDivider />
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Error">
                             <MudText Typo="Typo.body2">@L["ManagerDashboard_FollowUpPayments"]</MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">8 @L["ManagerDashboard_Students"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">8 @L["ManagerDashboard_Students"]
+                            </MudText>
                         </MudListItem>
                         <MudDivider />
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Warning">
                             <MudText Typo="Typo.body2">@L["ManagerDashboard_AssignNewStudent"]</MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Ahmad Ali - @L["ManagerDashboard_Pending"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Ahmad Ali -
+                                @L["ManagerDashboard_Pending"]</MudText>
                         </MudListItem>
                         <MudDivider />
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Info">
                             <MudText Typo="Typo.body2">@L["ManagerDashboard_MonthlyReport"]</MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_DueTomorrow"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_DueTomorrow"]
+                            </MudText>
                         </MudListItem>
                         <MudDivider />
                         <MudListItem Icon="@Icons.Material.Filled.Circle" IconColor="Color.Info">
                             <MudText Typo="Typo.body2">@L["ManagerDashboard_BuildingInspection"]</MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">Building A - @L["ManagerDashboard_Tomorrow"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">Building A -
+                                @L["ManagerDashboard_Tomorrow"]</MudText>
                         </MudListItem>
                     </MudList>
                 </MudCardContent>
@@ -161,10 +173,12 @@
                             <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                                 <MudStack Spacing="0">
                                     <MudText Typo="Typo.body2"><strong>Ali Hassan</strong></MudText>
-                                    <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_Room"] 305 - Engineering
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_Room"] 305
+                                        - Engineering
                                     </MudText>
                                 </MudStack>
-                                <MudChip T="string" Size="Size.Small" Color="Color.Success">@L["ManagerDashboard_Active"]</MudChip>
+                                <MudChip T="string" Size="Size.Small" Color="Color.Success">
+                                    @L["ManagerDashboard_Active"]</MudChip>
                             </MudStack>
                         </MudListItem>
                         <MudDivider />
@@ -172,9 +186,11 @@
                             <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                                 <MudStack Spacing="0">
                                     <MudText Typo="Typo.body2"><strong>Sara Ahmed</strong></MudText>
-                                    <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_Room"] 210 - Medicine</MudText>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_Room"] 210
+                                        - Medicine</MudText>
                                 </MudStack>
-                                <MudChip T="string" Size="Size.Small" Color="Color.Success">@L["ManagerDashboard_Active"]</MudChip>
+                                <MudChip T="string" Size="Size.Small" Color="Color.Success">
+                                    @L["ManagerDashboard_Active"]</MudChip>
                             </MudStack>
                         </MudListItem>
                         <MudDivider />
@@ -182,9 +198,11 @@
                             <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                                 <MudStack Spacing="0">
                                     <MudText Typo="Typo.body2"><strong>Omar Khalil</strong></MudText>
-                                    <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_Room"] 402 - Business</MudText>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagerDashboard_Room"] 402
+                                        - Business</MudText>
                                 </MudStack>
-                                <MudChip T="string" Size="Size.Small" Color="Color.Warning">@L["ManagerDashboard_Pending"]</MudChip>
+                                <MudChip T="string" Size="Size.Small" Color="Color.Warning">
+                                    @L["ManagerDashboard_Pending"]</MudChip>
                             </MudStack>
                         </MudListItem>
                     </MudList>

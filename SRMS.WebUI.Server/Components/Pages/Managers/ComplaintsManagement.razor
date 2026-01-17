@@ -17,21 +17,19 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="p-4 md:p-6 mb-4">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4" Color="Color.Primary">
-                    <MudIcon Icon="@Icons.Material.Filled.Report" Class="mr-2" />
+                <MudText Class="text-2xl md:text-4xl font-bold flex items-center text-primary">
+                    <MudIcon Icon="@Icons.Material.Filled.Report" Class="mr-2 text-3xl md:text-4xl" />
                     @Localizer["ComplaintsManagement_Header"]
                 </MudText>
-                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                <MudText Class="text-sm md:text-base text-secondary mt-1">
                     @Localizer["ComplaintsManagement_Subheader"]
                 </MudText>
             </div>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Refresh"
-                       OnClick="@LoadComplaints">
-                @Localizer["ComplaintsManagement_Button_Refresh"]
-            </MudButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Refresh" Variant="Variant.Outlined" Color="Color.Primary"
+                OnClick="@LoadComplaints" Class="rounded-xl border-2" />
         </MudStack>
     </MudPaper>
 
@@ -42,66 +40,65 @@
 
     <!-- Statistics Cards -->
     <MudGrid Class="mb-4">
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4" Class="cursor-pointer" @onclick="@(() => FilterByStatus(ComplaintStatus.Open))">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="cursor-pointer h-full"
+            @onclick="@(() => FilterByStatus(ComplaintStatus.Open))">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ComplaintsManagement_Stats_Open"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Warning">@OpenCount</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @Localizer["ComplaintsManagement_Stats_Open"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.FolderOpen" Color="Color.Warning" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Warning" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.FolderOpen" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-warning">@OpenCount</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4" Class="cursor-pointer"
-                     @onclick="@(() => FilterByStatus(ComplaintStatus.InProgress))">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="cursor-pointer h-full"
+            @onclick="@(() => FilterByStatus(ComplaintStatus.InProgress))">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ComplaintsManagement_Stats_InProgress"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Info">@InProgressCount</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @Localizer["ComplaintsManagement_Stats_InProgress"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.Autorenew" Color="Color.Info" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Info" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.Autorenew" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-info">@InProgressCount</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4" Class="cursor-pointer" @onclick="@(() => FilterByStatus(ComplaintStatus.Resolved))">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="cursor-pointer h-full"
+            @onclick="@(() => FilterByStatus(ComplaintStatus.Resolved))">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ComplaintsManagement_Stats_Resolved"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Success">@ResolvedCount</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @Localizer["ComplaintsManagement_Stats_Resolved"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success"
+                                Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Success" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-success">@ResolvedCount</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4" Class="cursor-pointer" @onclick="@ClearFilters">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="cursor-pointer h-full" @onclick="@ClearFilters">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ComplaintsManagement_Stats_Total"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Primary">@_allComplaints.Count</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @Localizer["ComplaintsManagement_Stats_Total"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.Assignment" Color="Color.Primary" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Primary" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.Assignment" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-primary">@_allComplaints.Count</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
@@ -109,31 +106,41 @@
     </MudGrid>
 
     <!-- Filters -->
-    <MudPaper Elevation="2" Class="pa-4 mb-4">
+    <MudPaper Elevation="2" Class="p-4 mb-4 rounded-3xl">
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
-                <MudTextField @bind-Value="_searchString" Label="@Localizer["ComplaintsManagement_SearchPlaceholder"]" Variant="Variant.Outlined"
-                              Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Margin="Margin.Dense"
-                              Immediate="true" DebounceInterval="300" />
+                <MudTextField @bind-Value="_searchString" Label="@Localizer["ComplaintsManagement_SearchPlaceholder"]"
+                    Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                    Margin="Margin.Dense" Immediate="true" DebounceInterval="300" />
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="ComplaintStatus?" @bind-Value="_statusFilter" Label="@Localizer["ComplaintsManagement_Filter_Status"]" Variant="Variant.Outlined"
-                           Margin="Margin.Dense" Clearable="true">
-                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.Open)">@Localizer["ComplaintsManagement_Stats_Open"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.InProgress)">@Localizer["ComplaintsManagement_Stats_InProgress"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.Resolved)">@Localizer["ComplaintsManagement_Stats_Resolved"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.Closed)">@Localizer["Closed"]</MudSelectItem>
+                <MudSelect T="ComplaintStatus?" @bind-Value="_statusFilter"
+                    Label="@Localizer["ComplaintsManagement_Filter_Status"]" Variant="Variant.Outlined"
+                    Margin="Margin.Dense" Clearable="true">
+                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.Open)">
+                        @Localizer["ComplaintsManagement_Stats_Open"]</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.InProgress)">
+                        @Localizer["ComplaintsManagement_Stats_InProgress"]</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.Resolved)">
+                        @Localizer["ComplaintsManagement_Stats_Resolved"]</MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintStatus?)ComplaintStatus.Closed)">@Localizer["Closed"]
+                    </MudSelectItem>
                 </MudSelect>
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="ComplaintPriority?" @bind-Value="_priorityFilter" Label="@Localizer["ComplaintsManagement_Filter_Priority"]"
-                           Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true">
-                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.Critical)">@Localizer["Critical"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.High)">@Localizer["High"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.Medium)">@Localizer["Medium"]</MudSelectItem>
-                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.Low)">@Localizer["Low"]</MudSelectItem>
+                <MudSelect T="ComplaintPriority?" @bind-Value="_priorityFilter"
+                    Label="@Localizer["ComplaintsManagement_Filter_Priority"]" Variant="Variant.Outlined"
+                    Margin="Margin.Dense" Clearable="true">
+                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.Critical)">@Localizer["Critical"]
+                    </MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.High)">@Localizer["High"]
+                    </MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.Medium)">@Localizer["Medium"]
+                    </MudSelectItem>
+                    <MudSelectItem Value="@((ComplaintPriority?)ComplaintPriority.Low)">@Localizer["Low"]
+                    </MudSelectItem>
                 </MudSelect>
             </MudItem>
 
@@ -142,18 +149,21 @@
     </MudPaper>
 
     <!-- Complaints Table -->
-    <MudPaper Elevation="4">
+    <MudPaper Elevation="4" Class="rounded-3xl overflow-hidden shadow-lg">
         @if (!FilteredComplaints.Any() && !_isLoading)
         {
-            <MudStack AlignItems="AlignItems.Center" Class="pa-8">
+            <MudStack AlignItems="AlignItems.Center" Class="p-8">
                 <MudIcon Icon="@Icons.Material.Filled.Inbox" Size="Size.Large" Color="Color.Secondary" />
-                <MudText Typo="Typo.h6" Color="Color.Secondary">@Localizer["ComplaintsManagement_NoComplaints_Header"]</MudText>
-                <MudText Typo="Typo.body2" Color="Color.Secondary">@Localizer["ComplaintsManagement_NoComplaints_Subheader"]</MudText>
+                <MudText Typo="Typo.h6" Color="Color.Secondary">@Localizer["ComplaintsManagement_NoComplaints_Header"]
+                </MudText>
+                <MudText Typo="Typo.body2" Color="Color.Secondary">@Localizer["ComplaintsManagement_NoComplaints_Subheader"]
+                </MudText>
             </MudStack>
         }
         else
         {
-            <MudTable Items="@FilteredComplaints" Hover="true" Striped="true" Dense="true" Loading="@_isLoading">
+            <MudTable Items="@FilteredComplaints" Hover="true" Striped="true" Dense="true" Loading="@_isLoading"
+                Breakpoint="Breakpoint.Sm">
                 <HeaderContent>
                     <MudTh>@Localizer["ComplaintsManagement_Table_Header_ID"]</MudTh>
                     <MudTh>@Localizer["ComplaintsManagement_Table_Header_Student"]</MudTh>
@@ -207,7 +217,7 @@
                             @if (context.Status == ComplaintStatus.Open)
                             {
                                 <MudMenuItem Icon="@Icons.Material.Filled.PersonAdd"
-                                             OnClick="@(() => AssignComplaint(context.Id))">
+                                    OnClick="@(() => AssignComplaint(context.Id))">
                                     @Localizer["ComplaintsManagement_Actions_AssignToMe"]
                                 </MudMenuItem>
                             }
@@ -215,7 +225,7 @@
                             {
                                 <MudDivider />
                                 <MudMenuItem Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Success"
-                                             OnClick="@(() => ResolveComplaint(context.Id))">
+                                    OnClick="@(() => ResolveComplaint(context.Id))">
                                     @Localizer["ComplaintsManagement_Actions_MarkAsResolved"]
                                 </MudMenuItem>
                             }
@@ -250,10 +260,10 @@
     c.ComplaintNumber.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
     c.StudentName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
     .Where(c => _statusFilter == null || c.Status == _statusFilter)
-	    .Where(c => _priorityFilter == null || c.Priority == _priorityFilter);
-	
-	
-	    protected override async Task OnInitializedAsync()
+    .Where(c => _priorityFilter == null || c.Priority == _priorityFilter);
+
+
+    protected override async Task OnInitializedAsync()
     {
         await LoadCurrentUserId();
         await LoadComplaints();

@@ -3905,4 +3905,351 @@
   <data name="Close" xml:space="preserve">
     <value>إغلاق</value>
   </data>
+  <data name="Help_PageTitle" xml:space="preserve">
+    <value>المساعدة والدعم - SRMS</value>
+  </data>
+  <data name="Help_Header" xml:space="preserve">
+    <value>مركز المساعدة</value>
+  </data>
+  <data name="Help_Subtitle" xml:space="preserve">
+    <value>اعثر على الإجابات والدروس والدعم لجميع احتياجاتك</value>
+  </data>
+  <data name="Help_SearchPlaceholder" xml:space="preserve">
+    <value>ابحث عن مقالات، أدلة، والمزيد...</value>
+  </data>
+  <data name="Help_QuickActions" xml:space="preserve">
+    <value>إجراءات سريعة</value>
+  </data>
+  <data name="Help_ContactSupport_Title" xml:space="preserve">
+    <value>اتصل بالدعم</value>
+  </data>
+  <data name="Help_ContactSupport_Desc" xml:space="preserve">
+    <value>احصل على المساعدة من فريق الدعم لدينا</value>
+  </data>
+  <data name="Help_LiveChat_Title" xml:space="preserve">
+    <value>المحادثة المباشرة</value>
+  </data>
+  <data name="Help_LiveChat_Desc" xml:space="preserve">
+    <value>تحدث مع وكيل الدعم الآن</value>
+  </data>
+  <data name="Help_Documentation_Title" xml:space="preserve">
+    <value>التوثيق</value>
+  </data>
+  <data name="Help_Documentation_Desc" xml:space="preserve">
+    <value>قراءة أدلة شاملة</value>
+  </data>
+  <data name="Help_VideoTutorials_Title" xml:space="preserve">
+    <value>دروس فيديو</value>
+  </data>
+  <data name="Help_VideoTutorials_Desc" xml:space="preserve">
+    <value>شاهد مقاطع فيديو خطوة بخطوة</value>
+  </data>
+  <data name="Help_FAQ_Title" xml:space="preserve">
+    <value>الأسئلة الشائعة</value>
+  </data>
+  <data name="Help_ContactInformation" xml:space="preserve">
+    <value>معلومات الاتصال</value>
+  </data>
+  <data name="Help_Email_Label" xml:space="preserve">
+    <value>دعم البريد الإلكتروني</value>
+  </data>
+  <data name="Help_Phone_Label" xml:space="preserve">
+    <value>الدعم الهاتفي</value>
+  </data>
+  <data name="Help_Address_Label" xml:space="preserve">
+    <value>عنوان المكتب</value>
+  </data>
+  <data name="Help_SupportHours_Label" xml:space="preserve">
+    <value>ساعات الدعم</value>
+  </data>
+  <data name="Help_SystemStatus_Title" xml:space="preserve">
+    <value>حالة النظام</value>
+  </data>
+  <data name="Help_Status_Online" xml:space="preserve">
+    <value>يعمل</value>
+  </data>
+  <data name="Help_PopularTopics" xml:space="preserve">
+    <value>مواضيع شائعة</value>
+  </data>
+  <data name="Help_Articles_Count" xml:space="preserve">
+    <value>{0} مقالات</value>
+  </data>
+  <data name="Faq1_Q" xml:space="preserve">
+    <value>كيف أحجز غرفة؟</value>
+  </data>
+  <data name="Faq1_A" xml:space="preserve">
+    <value>يمكنك حجز غرفة بالانتقال إلى صفحة 'سكن الطلاب'، واختيار سكن، واختيار غرفة متاحة.</value>
+  </data>
+  <data name="Faq2_Q" xml:space="preserve">
+    <value>كيف يمكنني دفع مستحقاتي؟</value>
+  </data>
+  <data name="Faq2_A" xml:space="preserve">
+    <value>اذهب إلى 'مدفوعاتي' لعرض مستحقاتك المعلقة وإجراء مدفوعات آمنة عبر الإنترنت باستخدام بطاقة الائتمان أو التحويل المصرفي.</value>
+  </data>
+  <data name="Faq3_Q" xml:space="preserve">
+    <value>كيف أبلغ عن مشكلة صيانة؟</value>
+  </data>
+  <data name="Faq3_A" xml:space="preserve">
+    <value>قم بزيارة 'شكاوي'، انقر فوق 'شكوى جديدة'، واملأ تفاصيل المشكلة. يمكنك تتبع حالة طلبك هناك.</value>
+  </data>
+  <data name="Faq4_Q" xml:space="preserve">
+    <value>هل يمكنني تغيير كلمة المرور الخاصة بي؟</value>
+  </data>
+  <data name="Faq4_A" xml:space="preserve">
+    <value>نعم، اذهب إلى إعدادات 'الملف الشخصي' وابحث عن قسم 'الأمان' لتحديث كلمة المرور الخاصة بك.</value>
+  </data>
+  <data name="Faq5_Q" xml:space="preserve">
+    <value>هل يمكنني تغيير غرفتي؟</value>
+  </data>
+  
+  <data name="Error_LoadingStudentData" xml:space="preserve">
+    <value>خطأ في تحميل بيانات الطالب: {0}</value>
+  </data>
+  <data name="Error_LoadingComplaints" xml:space="preserve">
+    <value>خطأ في تحميل الشكاوى: {0}</value>
+  </data>
+  <data name="MyComplaints_PageTitle" xml:space="preserve">
+    <value>شكاوي - SRMS</value>
+  </data>
+  <data name="MyComplaints_Header" xml:space="preserve">
+    <value>شكاوي</value>
+  </data>
+  <data name="MyComplaints_Subtitle" xml:space="preserve">
+    <value>تقديم ومتابعة طلبات الصيانة</value>
+  </data>
+  <data name="MyComplaints_NewComplaint" xml:space="preserve">
+    <value>شكوى جديدة</value>
+  </data>
+  <data name="MyComplaints_Stat_Total" xml:space="preserve">
+    <value>العدد الكلي</value>
+  </data>
+  <data name="MyComplaints_Stat_Open" xml:space="preserve">
+    <value>مفتوحة</value>
+  </data>
+  <data name="MyComplaints_Stat_InProgress" xml:space="preserve">
+    <value>قيد التنفيذ</value>
+  </data>
+  <data name="MyComplaints_Stat_Resolved" xml:space="preserve">
+    <value>تم الحل</value>
+  </data>
+  <data name="MyComplaints_NoComplaints" xml:space="preserve">
+    <value>لا توجد شكاوى حتى الآن</value>
+  </data>
+  <data name="MyComplaints_NoComplaintsSub" xml:space="preserve">
+    <value>اضغط على 'شكوى جديدة' لتقديم شكواك الأولى</value>
+  </data>
+  <data name="MyComplaints_Table_ID" xml:space="preserve">
+    <value>المعرف</value>
+  </data>
+  <data name="MyComplaints_Table_Subject" xml:space="preserve">
+    <value>الموضوع</value>
+  </data>
+  <data name="MyComplaints_Table_Category" xml:space="preserve">
+    <value>الفئة</value>
+  </data>
+  <data name="MyComplaints_Table_Date" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="MyComplaints_Table_Status" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="MyComplaints_Table_Priority" xml:space="preserve">
+    <value>الأولوية</value>
+  </data>
+  <data name="MyComplaints_LoginRequired" xml:space="preserve">
+    <value>يرجى تسجيل الدخول لعرض الشكاوى الخاصة بك.</value>
+  </data>
+  <data name="Error_EmailNotFound" xml:space="preserve">
+    <value>تعذر الحصول على بريدك الإلكتروني. يرجى الاتصال بالدعم.</value>
+  </data>
+  <data name="MyComplaints_ProfileCreated" xml:space="preserve">
+    <value>تم إنشاء ملف الطالب الخاص بك بنجاح!</value>
+  </data>
+  <data name="MyComplaints_UserAccountNotFound" xml:space="preserve">
+    <value>تعذر العثور على حساب المستخدم الخاص بك. يرجى الاتصال بالدعم.</value>
+  </data>
+  <data name="MyComplaints_UnableToIdentifyStudent" xml:space="preserve">
+    <value>تعذر التعرف على حساب الطالب الخاص بك. يرجى تحديث الصفحة.</value>
+  </data>
+  <data name="MyComplaints_NoActiveReservation" xml:space="preserve">
+    <value>ليس لديك حجز نشط لتقديم شكوى.</value>
+  </data>
+  <data name="MyComplaints_CheckReservationError" xml:space="preserve">
+    <value>خطأ في التحقق من حالة الحجز: {0}</value>
+  </data>
+  <data name="MyComplaints_SubmitSuccess" xml:space="preserve">
+    <value>تم تقديم الشكوى بنجاح! تم إخطار المديرين.</value>
+  </data>
+  <data name="MyComplaints_SubmitError" xml:space="preserve">
+    <value>خطأ في تقديم الشكوى: {0}</value>
+  </data>
+
+  <data name="MyPayments_PageTitle" xml:space="preserve">
+    <value>مدفوعاتي - SRMS</value>
+  </data>
+  <data name="MyPayments_Header" xml:space="preserve">
+    <value>مدفوعاتي</value>
+  </data>
+  <data name="MyPayments_Subtitle" xml:space="preserve">
+    <value>تتبع سجل الدفعات والمستحقات المعلقة</value>
+  </data>
+  <data name="MyPayments_MakePayment" xml:space="preserve">
+    <value>إجراء دفعة</value>
+  </data>
+  <data name="MyPayments_PendingDues" xml:space="preserve">
+    <value>المستحقات المعلقة</value>
+  </data>
+  <data name="MyPayments_TotalPaid" xml:space="preserve">
+    <value>إجمالي المدفوع</value>
+  </data>
+  <data name="MyPayments_Transactions" xml:space="preserve">
+    <value>المعاملات</value>
+  </data>
+  <data name="MyPayments_Table_Date" xml:space="preserve">
+    <value>التاريخ</value>
+  </data>
+  <data name="MyPayments_Table_Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="MyPayments_Table_Amount" xml:space="preserve">
+    <value>المبلغ</value>
+  </data>
+  <data name="MyPayments_Table_Status" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="MyPayments_Table_Action" xml:space="preserve">
+    <value>إجراء</value>
+  </data>
+  <data name="Reservation_LoadingRoom" xml:space="preserve">
+    <value>جاري تحميل تفاصيل الغرفة...</value>
+  </data>
+  <data name="Reservation_Error_StudentIdMissing" xml:space="preserve">
+    <value>تعذر استرداد معرف الطالب من المصادقة. لا يمكن متابعة الحجز.</value>
+  </data>
+  <data name="Reservation_Error_NotAuthenticated" xml:space="preserve">
+    <value>المستخدم غير مصادق عليه. لا يمكن متابعة الحجز.</value>
+  </data>
+  <data name="Reservation_Error_RoomMismatch" xml:space="preserve">
+    <value>الغرفة لا تنتمي إلى السكن المحدد.</value>
+  </data>
+  <data name="Reservation_Error_FetchRoom" xml:space="preserve">
+    <value>خطأ في جلب تفاصيل الغرفة: {0}</value>
+  </data>
+  <data name="Reservation_Error_SelectDates" xml:space="preserve">
+    <value>يرجى تحديد تاريخي البدء والانتهاء.</value>
+  </data>
+  <data name="Reservation_Error_EndDateBeforeStartDate" xml:space="preserve">
+    <value>تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء.</value>
+  </data>
+  <data name="Reservation_Error_RentNotAvailable" xml:space="preserve">
+    <value>إيجار الغرفة الشهري غير متاح لحساب الرسوم.</value>
+  </data>
+  <data name="Reservation_Error_StudentIdMissingAction" xml:space="preserve">
+    <value>معرف الطالب مفقود. لا يمكن إجراء الحجز.</value>
+  </data>
+  <data name="Reservation_Error_RoomDetailsMissing" xml:space="preserve">
+    <value>تفاصيل الغرفة مفقودة. لا يمكن إجراء الحجز.</value>
+  </data>
+  <data name="Reservation_Error_InvalidDates" xml:space="preserve">
+    <value>يرجى تحديد تواريخ صالحة.</value>
+  </data>
+  <data name="Reservation_Error_Unknown" xml:space="preserve">
+    <value>حدث خطأ غير معروف أثناء الحجز.</value>
+  </data>
+  <data name="Reservation_Error_Unexpected" xml:space="preserve">
+    <value>حدث خطأ غير متوقع: {0}</value>
+  </data>
+  <data name="VacantRooms_Title" xml:space="preserve">
+    <value>الغرف المتاحة</value>
+  </data>
+  <data name="VacantRooms_Loading" xml:space="preserve">
+    <value>جاري تحميل الغرف المتاحة...</value>
+  </data>
+  <data name="VacantRooms_NoRooms" xml:space="preserve">
+    <value>لا توجد غرف شاغرة حاليًا في هذا السكن.</value>
+  </data>
+  <data name="VacantRooms_Room" xml:space="preserve">
+    <value>غرفة</value>
+  </data>
+  <data name="VacantRooms_Floor" xml:space="preserve">
+    <value>الطابق</value>
+  </data>
+  <data name="VacantRooms_Type" xml:space="preserve">
+    <value>النوع</value>
+  </data>
+  <data name="VacantRooms_Beds" xml:space="preserve">
+    <value>الأسرّة</value>
+  </data>
+  <data name="VacantRooms_Monthly" xml:space="preserve">
+    <value>شهرياً</value>
+  </data>
+  <data name="VacantRooms_Select" xml:space="preserve">
+    <value>اختر للحجز</value>
+  </data>
+  <data name="CreateStudent_PageTitle" xml:space="preserve">
+    <value>إنشاء طالب</value>
+  </data>
+  <data name="CreateStudent_Header" xml:space="preserve">
+    <value>إنشاء طالب جديد</value>
+  </data>
+  <data name="CreateStudent_FirstName" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="CreateStudent_LastName" xml:space="preserve">
+    <value>اسم العائلة</value>
+  </data>
+  <data name="CreateStudent_Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="CreateStudent_Phone" xml:space="preserve">
+    <value>رقم الهاتف</value>
+  </data>
+  <data name="Common_Creating" xml:space="preserve">
+    <value>جاري الإنشاء...</value>
+  </data>
+  <data name="Common_Create" xml:space="preserve">
+    <value>إنشاء طالب</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="CreateStudent_Error" xml:space="preserve">
+    <value>خطأ في إنشاء الطالب: {0}</value>
+  </data>
+  <data name="Help_PopularTopic_GettingStarted_Title" xml:space="preserve">
+    <value>البداية</value>
+  </data>
+  <data name="Help_PopularTopic_GettingStarted_Desc" xml:space="preserve">
+    <value>تعلم أساسيات استخدام SRMS</value>
+  </data>
+  <data name="Help_PopularTopic_RoomManagement_Title" xml:space="preserve">
+    <value>إدارة الغرف</value>
+  </data>
+  <data name="Help_PopularTopic_RoomManagement_Desc" xml:space="preserve">
+    <value>كل شيء عن الغرف والحجوزات</value>
+  </data>
+  <data name="Help_PopularTopic_Payments_Title" xml:space="preserve">
+    <value>المدفوعات والفوترة</value>
+  </data>
+  <data name="Help_PopularTopic_Payments_Desc" xml:space="preserve">
+    <value>طرق الدفع ومعلومات الفوترة</value>
+  </data>
+  <data name="Help_PopularTopic_Account_Title" xml:space="preserve">
+    <value>إعدادات الحساب</value>
+  </data>
+  <data name="Help_PopularTopic_Account_Desc" xml:space="preserve">
+    <value>إدارة تفضيلات حسابك</value>
+  </data>
+  <data name="Help_PopularTopic_Complaints_Title" xml:space="preserve">
+    <value>الشكاوي والدعم</value>
+  </data>
+  <data name="Help_PopularTopic_Complaints_Desc" xml:space="preserve">
+    <value>كيفية الحصول على المساعدة عند الحاجة</value>
+  </data>
+  <data name="Help_PopularTopic_Security_Title" xml:space="preserve">
+    <value>الأمان والخصوصية</value>
+  </data>
+  <data name="Help_PopularTopic_Security_Desc" xml:space="preserve">
+    <value>حافظ على أمان وسلامة حسابك</value>
+  </data>
 </root>

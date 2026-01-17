@@ -1,8 +1,6 @@
 @page "/registrar"
 @using Microsoft.Extensions.Localization
 @using SRMS.Domain.Students.Enums
-@using SRMS.Domain.Students.Enums
-@using Microsoft.Extensions.Localization
 @inject IUserService UserService
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IDialogService DialogService
@@ -14,17 +12,19 @@
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-8 mb-12">
     <!-- Header -->
     <MudPaper Elevation="0"
-        Class="pa-8 rounded-3xl bg-gradient-to-r from-cyan-600 to-blue-700 relative overflow-hidden mb-8">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+        Class="p-6 md:p-8 rounded-3xl bg-gradient-to-r from-cyan-600 to-blue-700 relative overflow-hidden mb-8">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl hidden md:block">
+        </div>
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="relative z-10">
             <MudStack Spacing="1">
-                <MudText Typo="Typo.h3" Class="text-white font-bold">@L["WelcomeBack"], @_registrarName!</MudText>
-                <MudText Typo="Typo.h6" Class="text-white/80">
+                <MudText Class="text-2xl md:text-5xl font-bold text-white">@L["WelcomeBack"], @_registrarName!</MudText>
+                <MudText Class="text-sm md:text-xl text-white/80 flex items-center">
                     <MudIcon Icon="@Icons.Material.Filled.AccountBalance" Size="Size.Small" Class="mr-1" />
                     @_registrarDetails?.CollegeName
                 </MudText>
             </MudStack>
-            <MudAvatar Size="Size.Large" Color="Color.Surface" Style="height:80px; width:80px;" Class="shadow-xl">
+            <MudAvatar Size="Size.Large" Color="Color.Surface" Style="height:80px; width:80px;"
+                Class="shadow-xl hidden md:flex">
                 <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Size="Size.Large" />
             </MudAvatar>
         </MudStack>
@@ -38,7 +38,7 @@
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.caption" Class="opacity-60 font-bold uppercase">
                             @L["Registrar_TotalStudents"]</MudText>
-                        <MudText Typo="Typo.h4" Class="font-bold">@_students.Count</MudText>
+                        <MudText Class="text-3xl md:text-4xl font-bold">@_students.Count</MudText>
                     </MudStack>
                     <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Class="rounded-2xl">
                         <MudIcon Icon="@Icons.Material.Filled.People" />
@@ -53,7 +53,7 @@
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.caption" Class="opacity-60 font-bold uppercase">
                             @L["Registrar_PendingVerification_Title"]</MudText>
-                        <MudText Typo="Typo.h4" Class="font-bold">@_pendingCount</MudText>
+                        <MudText Class="text-3xl md:text-4xl font-bold">@_pendingCount</MudText>
                     </MudStack>
                     <MudAvatar Color="Color.Warning" Variant="Variant.Filled" Class="rounded-2xl">
                         <MudIcon Icon="@Icons.Material.Filled.PendingActions" />
@@ -128,7 +128,7 @@
         if (user.Identity?.IsAuthenticated == true)
         {
             _registrarName = user.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value ?? user.Identity.Name ??
-            @L["Registrar"];
+            L["Registrar"];
             var email = user.Identity.Name;
             if (email != null)
             {

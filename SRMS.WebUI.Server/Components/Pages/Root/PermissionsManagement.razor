@@ -11,24 +11,23 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="p-6 md:p-8 mb-4 rounded-3xl glass-card">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4" Color="Color.Primary">
-                    <MudIcon Icon="@Icons.Material.Filled.Security" Class="mr-2" />
+                <MudText Class="text-3xl md:text-5xl font-bold mb-2 text-gradient">
+                    <MudIcon Icon="@Icons.Material.Filled.Security" Class="mr-3 text-4xl md:text-5xl" />
                     @L["Permissions.Title"]
                 </MudText>
-                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                <MudText Class="text-base md:text-lg text-secondary pl-1">
                     @L["Permissions.Subtitle"]
                 </MudText>
             </div>
-            <MudButton 
-                Variant="Variant.Filled" 
-                Color="Color.Primary"
-                StartIcon="@Icons.Material.Filled.Add"
-                OnClick="@CreatePermission">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
+                OnClick="@CreatePermission" Class="btn-modern h-12 rounded-xl font-bold px-6 shadow-lg hidden md:flex">
                 @L["Permissions.CreateCustom"]
             </MudButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary"
+                OnClick="@CreatePermission" Class="flex md:hidden rounded-lg shadow-lg" />
         </MudStack>
     </MudPaper>
 
@@ -38,16 +37,11 @@
     }
 
     <!-- Role Selector -->
-    <MudPaper Elevation="2" Class="pa-4 mb-4">
+    <MudPaper Elevation="2" Class="p-4 md:p-6 mb-4 rounded-3xl glass-card">
         <MudGrid>
             <MudItem xs="12" sm="6" md="4">
-                <MudSelect 
-                    T="string"
-                    Value="_selectedRole"
-                    ValueChanged="OnRoleChanged"
-                    Label="@L["Permissions.SelectRoleLabel"]"
-                    Variant="Variant.Outlined"
-                    Adornment="Adornment.Start"
+                <MudSelect T="string" Value="_selectedRole" ValueChanged="OnRoleChanged"
+                    Label="@L["Permissions.SelectRoleLabel"]" Variant="Variant.Outlined" Adornment="Adornment.Start"
                     AdornmentIcon="@Icons.Material.Filled.Badge">
                     @foreach (var role in _allRoles)
                     {
@@ -61,21 +55,12 @@
                 </MudSelect>
             </MudItem>
             <MudItem xs="12" sm="6" md="4">
-                <MudTextField 
-                    @bind-Value="_searchString"
-                    Label="@L["Permissions.Search"]"
-                    Variant="Variant.Outlined"
-                    Adornment="Adornment.Start"
-                    AdornmentIcon="@Icons.Material.Filled.Search"
-                    Immediate="true" />
+                <MudTextField @bind-Value="_searchString" Label="@L["Permissions.Search"]" Variant="Variant.Outlined"
+                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Immediate="true" />
             </MudItem>
             <MudItem xs="12" sm="6" md="4">
-                <MudSelect 
-                    T="string"
-                    @bind-Value="_categoryFilter"
-                    Label="@L["Permissions.FilterByCategory"]"
-                    Variant="Variant.Outlined"
-                    Clearable="true">
+                <MudSelect T="string" @bind-Value="_categoryFilter" Label="@L["Permissions.FilterByCategory"]"
+                    Variant="Variant.Outlined" Clearable="true">
                     @foreach (var category in _categories.Select(c => c.Name))
                     {
                         <MudSelectItem Value="@category">@category</MudSelectItem>
@@ -90,10 +75,10 @@
         @foreach (var category in GetFilteredCategories())
         {
             <MudItem xs="12" md="6">
-                <MudCard Elevation="4">
+                <MudCard Elevation="4" Class="glass-card h-full rounded-2xl hover:shadow-lg transition-shadow duration-300">
                     <MudCardHeader>
                         <CardHeaderContent>
-                            <MudText Typo="Typo.h6">
+                            <MudText Class="text-xl font-bold flex items-center">
                                 <MudIcon Icon="@GetCategoryIcon(category.Name)" Class="mr-2" Size="Size.Small" />
                                 @category.Name @L["Permissions.Suffix"]
                             </MudText>
@@ -105,22 +90,19 @@
                         </CardHeaderActions>
                     </MudCardHeader>
                     <MudCardContent>
-                        <MudList T="string" Dense="true">
+                        <MudList T="string" Dense="true" Class="max-h-[300px] overflow-y-auto custom-scrollbar">
                             @foreach (var permission in category.Permissions)
                             {
                                 <MudListItem>
                                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                                        <div class="flex-1">
-                                            <MudText Typo="Typo.body2"><strong>@permission.Name</strong></MudText>
-                                            <MudText Typo="Typo.caption" Color="Color.Secondary">@permission.Description</MudText>
-                                            <MudText Typo="Typo.caption" Color="Color.Tertiary" Class="font-mono">
+                                        <div class="flex-1 pr-4">
+                                            <MudText Class="text-sm font-bold">@permission.Name</MudText>
+                                            <MudText Class="text-xs text-secondary">@permission.Description</MudText>
+                                            <MudText Class="text-[10px] text-tertiary font-mono">
                                                 @permission.Key
                                             </MudText>
                                         </div>
-                                        <MudSwitch 
-                                            T="bool"
-                                            @bind-Value="permission.IsEnabled"
-                                            Color="Color.Success"
+                                        <MudSwitch T="bool" @bind-Value="permission.IsEnabled" Color="Color.Success"
                                             Disabled="@IsSystemPermission(permission.Key)" />
                                     </MudStack>
                                 </MudListItem>
@@ -129,18 +111,12 @@
                         </MudList>
                     </MudCardContent>
                     <MudCardActions>
-                        <MudButton 
-                            Size="Size.Small" 
-                            Variant="Variant.Text" 
-                            Color="Color.Primary"
-                            OnClick="@(() => EnableAll(category))">
+                        <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
+                            OnClick="@(() => EnableAll(category))" Class="font-bold">
                             @L["Permissions.EnableAll"]
                         </MudButton>
-                        <MudButton 
-                            Size="Size.Small" 
-                            Variant="Variant.Text" 
-                            Color="Color.Secondary"
-                            OnClick="@(() => DisableAll(category))">
+                        <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Secondary"
+                            OnClick="@(() => DisableAll(category))" Class="font-bold">
                             @L["Permissions.DisableAll"]
                         </MudButton>
                     </MudCardActions>
@@ -151,13 +127,8 @@
 
     <!-- Save Button -->
     <MudPaper Elevation="0" Class="pa-4 mt-4 text-center">
-        <MudButton 
-            Variant="Variant.Filled" 
-            Color="Color.Primary"
-            Size="Size.Large"
-            StartIcon="@Icons.Material.Filled.Save"
-            OnClick="@SavePermissions"
-            Disabled="_isSaving">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large"
+            StartIcon="@Icons.Material.Filled.Save" OnClick="@SavePermissions" Disabled="_isSaving">
             @if (_isSaving)
             {
                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
@@ -186,12 +157,12 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadRoles();
-        
+
         if (!string.IsNullOrEmpty(Role) && _allRoles.Contains(Role))
         {
             _selectedRole = Role;
         }
-        
+
         await LoadPermissions();
     }
 
@@ -244,127 +215,409 @@
     }
 
     private void InitializePermissionDefinitions()
-    {
-        _categories = new List<PermissionCategory>
+{
+    _categories =
+    [
+        new()
         {
-            new()
-            {
-                Name = L["Permissions.Category.Users"].Value,
-                Permissions = new()
+            Name = L["Permissions.Category.Users"].Value,
+            Permissions =
+            [
+                new()
                 {
-                    new() { Key = Permissions.Users.View, Name = L["Permissions.ViewUsers"].Value, Description = L["Permissions.ViewUsers.Desc"].Value },
-                    new() { Key = Permissions.Users.Create, Name = L["Permissions.CreateUsers"].Value, Description = L["Permissions.CreateUsers.Desc"].Value },
-                    new() { Key = Permissions.Users.Edit, Name = L["Permissions.EditUsers"].Value, Description = L["Permissions.EditUsers.Desc"].Value },
-                    new() { Key = Permissions.Users.Delete, Name = L["Permissions.DeleteUsers"].Value, Description = L["Permissions.DeleteUsers.Desc"].Value },
-                    new() { Key = Permissions.Users.Manage, Name = L["Permissions.ManageUsers"].Value, Description = L["Permissions.ManageUsers.Desc"].Value },
-                    new() { Key = Permissions.Users.Activate, Name = L["Permissions.ActivateUsers"].Value, Description = L["Permissions.ActivateUsers.Desc"].Value },
-                    new() { Key = Permissions.Users.Deactivate, Name = L["Permissions.DeactivateUsers"].Value, Description = L["Permissions.DeactivateUsers.Desc"].Value }
-                }
-            },
-            new()
-            {
-                Name = L["Permissions.Category.Students"].Value,
-                Permissions = new()
+                    Key = Permissions.Users.View,
+                    Name = L["Permissions.ViewUsers"].Value,
+                    Description = L["Permissions.ViewUsers.Desc"].Value
+                },
+                new()
                 {
-                    new() { Key = Permissions.Students.View, Name = L["Permissions.ViewStudents"].Value, Description = L["Permissions.ViewStudents.Desc"].Value },
-                    new() { Key = Permissions.Students.ViewOwn, Name = L["Permissions.ViewOwnProfile"].Value, Description = L["Permissions.ViewOwnProfile.Desc"].Value },
-                    new() { Key = Permissions.Students.Edit, Name = L["Permissions.EditStudents"].Value, Description = L["Permissions.EditStudents.Desc"].Value },
-                    new() { Key = Permissions.Students.EditOwn, Name = L["Permissions.EditOwnProfile"].Value, Description = L["Permissions.EditOwnProfile.Desc"].Value },
-                    new() { Key = Permissions.Students.Delete, Name = L["Permissions.DeleteStudents"].Value, Description = L["Permissions.DeleteStudents.Desc"].Value },
-                    new() { Key = Permissions.Students.Manage, Name = L["Permissions.ManageStudents"].Value, Description = L["Permissions.ManageStudents.Desc"].Value }
-                }
-            },
-            new()
-            {
-                Name = L["Permissions.Category.Managers"].Value,
-                Permissions = new()
+                    Key = Permissions.Users.Create,
+                    Name = L["Permissions.CreateUsers"].Value,
+                    Description = L["Permissions.CreateUsers.Desc"].Value
+                },
+                new()
                 {
-                    new() { Key = Permissions.Managers.View, Name = L["Permissions.ViewManagers"].Value, Description = L["Permissions.ViewManagers.Desc"].Value },
-                    new() { Key = Permissions.Managers.Create, Name = L["Permissions.CreateManagers"].Value, Description = L["Permissions.CreateManagers.Desc"].Value },
-                    new() { Key = Permissions.Managers.Edit, Name = L["Permissions.EditManagers"].Value, Description = L["Permissions.EditManagers.Desc"].Value },
-                    new() { Key = Permissions.Managers.Delete, Name = L["Permissions.DeleteManagers"].Value, Description = L["Permissions.DeleteManagers.Desc"].Value },
-                    new() { Key = Permissions.Managers.Manage, Name = L["Permissions.ManageManagers"].Value, Description = L["Permissions.ManageManagers.Desc"].Value }
-                }
-            },
-            new()
-            {
-                Name = L["Permissions.Category.Rooms"].Value,
-                Permissions = new()
+                    Key = Permissions.Users.Edit,
+                    Name = L["Permissions.EditUsers"].Value,
+                    Description = L["Permissions.EditUsers.Desc"].Value
+                },
+                new()
                 {
-                    new() { Key = Permissions.Rooms.View, Name = L["Permissions.ViewRooms"].Value, Description = L["Permissions.ViewRooms.Desc"].Value },
-                    new() { Key = Permissions.Rooms.Create, Name = L["Permissions.CreateRooms"].Value, Description = L["Permissions.CreateRooms.Desc"].Value },
-                    new() { Key = Permissions.Rooms.Edit, Name = L["Permissions.EditRooms"].Value, Description = L["Permissions.EditRooms.Desc"].Value },
-                    new() { Key = Permissions.Rooms.Delete, Name = L["Permissions.DeleteRooms"].Value, Description = L["Permissions.DeleteRooms.Desc"].Value },
-                    new() { Key = Permissions.Rooms.Manage, Name = L["Permissions.ManageRooms"].Value, Description = L["Permissions.ManageRooms.Desc"].Value },
-                    new() { Key = Permissions.Rooms.Assign, Name = L["Permissions.AssignRooms"].Value, Description = L["Permissions.AssignRooms.Desc"].Value }
-                }
-            },
-            new()
-            {
-                Name = L["Permissions.Category.Payments"].Value,
-                Permissions = new()
+                    Key = Permissions.Users.Delete,
+                    Name = L["Permissions.DeleteUsers"].Value,
+                    Description = L["Permissions.DeleteUsers.Desc"].Value
+                },
+                new()
                 {
-                    new() { Key = Permissions.Payments.View, Name = L["Permissions.ViewPayments"].Value, Description = L["Permissions.ViewPayments.Desc"].Value },
-                    new() { Key = Permissions.Payments.ViewOwn, Name = L["Permissions.ViewOwnPayments"].Value, Description = L["Permissions.ViewOwnPayments.Desc"].Value },
-                    new() { Key = Permissions.Payments.ViewAll, Name = L["Permissions.ViewAllPayments"].Value, Description = L["Permissions.ViewAllPayments.Desc"].Value },
-                    new() { Key = Permissions.Payments.Create, Name = L["Permissions.RecordPayments"].Value, Description = L["Permissions.RecordPayments.Desc"].Value },
-                    new() { Key = Permissions.Payments.Edit, Name = L["Permissions.EditPayments"].Value, Description = L["Permissions.EditPayments.Desc"].Value },
-                    new() { Key = Permissions.Payments.Delete, Name = L["Permissions.DeletePayments"].Value, Description = L["Permissions.DeletePayments.Desc"].Value }
-                }
-            },
-            new()
-            {
-                Name = L["Permissions.Category.Complaints"].Value,
-                Permissions = new()
+                    Key = Permissions.Users.Manage,
+                    Name = L["Permissions.ManageUsers"].Value,
+                    Description = L["Permissions.ManageUsers.Desc"].Value
+                },
+                new()
                 {
-                    new() { Key = Permissions.Complaints.View, Name = L["Permissions.ViewComplaints"].Value, Description = L["Permissions.ViewComplaints.Desc"].Value },
-                    new() { Key = Permissions.Complaints.ViewOwn, Name = L["Permissions.ViewOwnComplaints"].Value, Description = L["Permissions.ViewOwnComplaints.Desc"].Value },
-                    new() { Key = Permissions.Complaints.Create, Name = L["Permissions.SubmitComplaints"].Value, Description = L["Permissions.SubmitComplaints.Desc"].Value },
-                    new() { Key = Permissions.Complaints.Edit, Name = L["Permissions.EditComplaints"].Value, Description = L["Permissions.EditComplaints.Desc"].Value },
-                    new() { Key = Permissions.Complaints.Delete, Name = L["Permissions.DeleteComplaints"].Value, Description = L["Permissions.DeleteComplaints.Desc"].Value },
-                    new() { Key = Permissions.Complaints.Manage, Name = L["Permissions.ManageComplaints"].Value, Description = L["Permissions.ManageComplaints.Desc"].Value },
-                    new() { Key = Permissions.Complaints.Resolve, Name = L["Permissions.ResolveComplaints"].Value, Description = L["Permissions.ResolveComplaints.Desc"].Value }
-                }
-            },
-            new()
-            {
-                Name = L["Permissions.Category.Residences"].Value,
-                Permissions = new()
+                    Key = Permissions.Users.Activate,
+                    Name = L["Permissions.ActivateUsers"].Value,
+                    Description = L["Permissions.ActivateUsers.Desc"].Value
+                },
+                new()
                 {
-                    new() { Key = Permissions.Residences.View, Name = L["Permissions.ViewResidences"].Value, Description = L["Permissions.ViewResidences.Desc"].Value },
-                    new() { Key = Permissions.Residences.Create, Name = L["Permissions.CreateResidences"].Value, Description = L["Permissions.CreateResidences.Desc"].Value },
-                    new() { Key = Permissions.Residences.Edit, Name = L["Permissions.EditResidences"].Value, Description = L["Permissions.EditResidences.Desc"].Value },
-                    new() { Key = Permissions.Residences.Delete, Name = L["Permissions.DeleteResidences"].Value, Description = L["Permissions.DeleteResidences.Desc"].Value },
-                    new() { Key = Permissions.Residences.Manage, Name = L["Permissions.ManageResidence"].Value, Description = L["Permissions.ManageResidence.Desc"].Value },
-                    new() { Key = Permissions.Residences.ManageAll, Name = L["Permissions.ManageAllResidences"].Value, Description = L["Permissions.ManageAllResidences.Desc"].Value }
+                    Key = Permissions.Users.Deactivate,
+                    Name = L["Permissions.DeactivateUsers"].Value,
+                    Description = L["Permissions.DeactivateUsers.Desc"].Value
                 }
-            },
-            new()
-            {
-                Name = L["Permissions.Category.Assets"].Value,
-                Permissions = new()
+            ]
+        },
+
+
+        new()
+        {
+            Name = L["Permissions.Category.Students"].Value,
+            Permissions =
+            [
+                new()
                 {
-                    new() { Key = Permissions.Assets.View, Name = L["Permissions.ViewAssets"].Value, Description = L["Permissions.ViewAssets.Desc"].Value },
-                    new() { Key = Permissions.Assets.Create, Name = L["Permissions.CreateAssets"].Value, Description = L["Permissions.CreateAssets.Desc"].Value },
-                    new() { Key = Permissions.Assets.Edit, Name = L["Permissions.EditAssets"].Value, Description = L["Permissions.EditAssets.Desc"].Value },
-                    new() { Key = Permissions.Assets.Delete, Name = L["Permissions.DeleteAssets"].Value, Description = L["Permissions.DeleteAssets.Desc"].Value },
-                    new() { Key = Permissions.Assets.Manage, Name = L["Permissions.ManageAssets"].Value, Description = L["Permissions.ManageAssets.Desc"].Value }
-                }
-            },
-            new()
-            {
-                Name = L["Permissions.Category.System"].Value,
-                Permissions = new()
+                    Key = Permissions.Students.View,
+                    Name = L["Permissions.ViewStudents"].Value,
+                    Description = L["Permissions.ViewStudents.Desc"].Value
+                },
+                new()
                 {
-                    new() { Key = Permissions.System.ViewReports, Name = L["Permissions.ViewReports"].Value, Description = L["Permissions.ViewReports.Desc"].Value },
-                    new() { Key = Permissions.System.Settings, Name = L["Permissions.SystemSettings"].Value, Description = L["Permissions.SystemSettings.Desc"].Value },
-                    new() { Key = Permissions.System.Audit, Name = L["Permissions.ViewAuditLogs"].Value, Description = L["Permissions.ViewAuditLogs.Desc"].Value },
-                    new() { Key = Permissions.System.Configure, Name = L["Permissions.SystemConfiguration"].Value, Description = L["Permissions.SystemConfiguration.Desc"].Value },
-                    new() { Key = Permissions.Database.Manage, Name = L["Permissions.DatabaseManagement"].Value, Description = L["Permissions.DatabaseManagement.Desc"].Value }
+                    Key = Permissions.Students.ViewOwn,
+                    Name = L["Permissions.ViewOwnProfile"].Value,
+                    Description = L["Permissions.ViewOwnProfile.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Students.Edit,
+                    Name = L["Permissions.EditStudents"].Value,
+                    Description = L["Permissions.EditStudents.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Students.EditOwn,
+                    Name = L["Permissions.EditOwnProfile"].Value,
+                    Description = L["Permissions.EditOwnProfile.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Students.Delete,
+                    Name = L["Permissions.DeleteStudents"].Value,
+                    Description = L["Permissions.DeleteStudents.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Students.Manage,
+                    Name = L["Permissions.ManageStudents"].Value,
+                    Description = L["Permissions.ManageStudents.Desc"].Value
                 }
-            }
-        };
-    }
+            ]
+        },
+
+
+        new()
+        {
+            Name = L["Permissions.Category.Managers"].Value,
+            Permissions =
+            [
+                new()
+                {
+                    Key = Permissions.Managers.View,
+                    Name = L["Permissions.ViewManagers"].Value,
+                    Description = L["Permissions.ViewManagers.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Managers.Create,
+                    Name = L["Permissions.CreateManagers"].Value,
+                    Description = L["Permissions.CreateManagers.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Managers.Edit,
+                    Name = L["Permissions.EditManagers"].Value,
+                    Description = L["Permissions.EditManagers.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Managers.Delete,
+                    Name = L["Permissions.DeleteManagers"].Value,
+                    Description = L["Permissions.DeleteManagers.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Managers.Manage,
+                    Name = L["Permissions.ManageManagers"].Value,
+                    Description = L["Permissions.ManageManagers.Desc"].Value
+                }
+            ]
+        },
+
+
+        new()
+        {
+            Name = L["Permissions.Category.Rooms"].Value,
+            Permissions =
+            [
+                new()
+                {
+                    Key = Permissions.Rooms.View,
+                    Name = L["Permissions.ViewRooms"].Value,
+                    Description = L["Permissions.ViewRooms.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Rooms.Create,
+                    Name = L["Permissions.CreateRooms"].Value,
+                    Description = L["Permissions.CreateRooms.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Rooms.Edit,
+                    Name = L["Permissions.EditRooms"].Value,
+                    Description = L["Permissions.EditRooms.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Rooms.Delete,
+                    Name = L["Permissions.DeleteRooms"].Value,
+                    Description = L["Permissions.DeleteRooms.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Rooms.Manage,
+                    Name = L["Permissions.ManageRooms"].Value,
+                    Description = L["Permissions.ManageRooms.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Rooms.Assign,
+                    Name = L["Permissions.AssignRooms"].Value,
+                    Description = L["Permissions.AssignRooms.Desc"].Value
+                }
+            ]
+        },
+
+
+        new()
+        {
+            Name = L["Permissions.Category.Payments"].Value,
+            Permissions =
+            [
+                new()
+                {
+                    Key = Permissions.Payments.View,
+                    Name = L["Permissions.ViewPayments"].Value,
+                    Description = L["Permissions.ViewPayments.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Payments.ViewOwn,
+                    Name = L["Permissions.ViewOwnPayments"].Value,
+                    Description = L["Permissions.ViewOwnPayments.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Payments.ViewAll,
+                    Name = L["Permissions.ViewAllPayments"].Value,
+                    Description = L["Permissions.ViewAllPayments.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Payments.Create,
+                    Name = L["Permissions.RecordPayments"].Value,
+                    Description = L["Permissions.RecordPayments.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Payments.Edit,
+                    Name = L["Permissions.EditPayments"].Value,
+                    Description = L["Permissions.EditPayments.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Payments.Delete,
+                    Name = L["Permissions.DeletePayments"].Value,
+                    Description = L["Permissions.DeletePayments.Desc"].Value
+                }
+            ]
+        },
+
+
+        new()
+        {
+            Name = L["Permissions.Category.Complaints"].Value,
+            Permissions =
+            [
+                new()
+                {
+                    Key = Permissions.Complaints.View,
+                    Name = L["Permissions.ViewComplaints"].Value,
+                    Description = L["Permissions.ViewComplaints.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Complaints.ViewOwn,
+                    Name = L["Permissions.ViewOwnComplaints"].Value,
+                    Description = L["Permissions.ViewOwnComplaints.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Complaints.Create,
+                    Name = L["Permissions.SubmitComplaints"].Value,
+                    Description = L["Permissions.SubmitComplaints.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Complaints.Edit,
+                    Name = L["Permissions.EditComplaints"].Value,
+                    Description = L["Permissions.EditComplaints.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Complaints.Delete,
+                    Name = L["Permissions.DeleteComplaints"].Value,
+                    Description = L["Permissions.DeleteComplaints.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Complaints.Manage,
+                    Name = L["Permissions.ManageComplaints"].Value,
+                    Description = L["Permissions.ManageComplaints.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Complaints.Resolve,
+                    Name = L["Permissions.ResolveComplaints"].Value,
+                    Description = L["Permissions.ResolveComplaints.Desc"].Value
+                }
+            ]
+        },
+
+
+        new()
+        {
+            Name = L["Permissions.Category.Residences"].Value,
+            Permissions =
+            [
+                new()
+                {
+                    Key = Permissions.Residences.View,
+                    Name = L["Permissions.ViewResidences"].Value,
+                    Description = L["Permissions.ViewResidences.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Residences.Create,
+                    Name = L["Permissions.CreateResidences"].Value,
+                    Description = L["Permissions.CreateResidences.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Residences.Edit,
+                    Name = L["Permissions.EditResidences"].Value,
+                    Description = L["Permissions.EditResidences.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Residences.Delete,
+                    Name = L["Permissions.DeleteResidences"].Value,
+                    Description = L["Permissions.DeleteResidences.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Residences.Manage,
+                    Name = L["Permissions.ManageResidence"].Value,
+                    Description = L["Permissions.ManageResidence.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Residences.ManageAll,
+                    Name = L["Permissions.ManageAllResidences"].Value,
+                    Description = L["Permissions.ManageAllResidences.Desc"].Value
+                }
+            ]
+        },
+
+
+        new()
+        {
+            Name = L["Permissions.Category.Assets"].Value,
+            Permissions =
+            [
+                new()
+                {
+                    Key = Permissions.Assets.View,
+                    Name = L["Permissions.ViewAssets"].Value,
+                    Description = L["Permissions.ViewAssets.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Assets.Create,
+                    Name = L["Permissions.CreateAssets"].Value,
+                    Description = L["Permissions.CreateAssets.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Assets.Edit,
+                    Name = L["Permissions.EditAssets"].Value,
+                    Description = L["Permissions.EditAssets.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Assets.Delete,
+                    Name = L["Permissions.DeleteAssets"].Value,
+                    Description = L["Permissions.DeleteAssets.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Assets.Manage,
+                    Name = L["Permissions.ManageAssets"].Value,
+                    Description = L["Permissions.ManageAssets.Desc"].Value
+                }
+            ]
+        },
+
+
+        new()
+        {
+            Name = L["Permissions.Category.System"].Value,
+            Permissions =
+            [
+                new()
+                {
+                    Key = Permissions.System.ViewReports,
+                    Name = L["Permissions.ViewReports"].Value,
+                    Description = L["Permissions.ViewReports.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.System.Settings,
+                    Name = L["Permissions.SystemSettings"].Value,
+                    Description = L["Permissions.SystemSettings.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.System.Audit,
+                    Name = L["Permissions.ViewAuditLogs"].Value,
+                    Description = L["Permissions.ViewAuditLogs.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.System.Configure,
+                    Name = L["Permissions.SystemConfiguration"].Value,
+                    Description = L["Permissions.SystemConfiguration.Desc"].Value
+                },
+                new()
+                {
+                    Key = Permissions.Database.Manage,
+                    Name = L["Permissions.DatabaseManagement"].Value,
+                    Description = L["Permissions.DatabaseManagement.Desc"].Value
+                }
+            ]
+        }
+    ];
+}
+
 
     private IEnumerable<PermissionCategory> GetFilteredCategories()
     {
@@ -377,13 +630,13 @@
 
         if (!string.IsNullOrWhiteSpace(_searchString))
         {
-            filtered = filtered.Where(c => 
-                c.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                c.Permissions.Any(p => 
-                    p.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                    p.Description.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-                    p.Key.Contains(_searchString, StringComparison.OrdinalIgnoreCase)
-                )
+            filtered = filtered.Where(c =>
+            c.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            c.Permissions.Any(p =>
+            p.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            p.Description.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            p.Key.Contains(_searchString, StringComparison.OrdinalIgnoreCase)
+            )
             );
         }
 
@@ -425,10 +678,10 @@
 
     private bool IsSystemPermission(string key)
     {
-        // Prevent disabling critical system permissions for SuperRoot if needed, 
-        // but generally we want flexibility. 
+        // Prevent disabling critical system permissions for SuperRoot if needed,
+        // but generally we want flexibility.
         // Maybe prevent disabling "Permissions.System.Settings" for SuperRoot?
-        return false; 
+        return false;
     }
 
     private void TogglePermission(Permission permission)

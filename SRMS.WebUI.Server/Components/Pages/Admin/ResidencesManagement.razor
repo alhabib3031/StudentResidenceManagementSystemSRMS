@@ -15,86 +15,84 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="p-4 md:p-6 mb-4">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4">
-                    <MudIcon Icon="@Icons.Material.Filled.Apartment" Class="mr-2" />
+                <MudText Class="text-2xl md:text-4xl font-bold flex items-center">
+                    <MudIcon Icon="@Icons.Material.Filled.Apartment" Class="mr-2 text-3xl md:text-4xl" />
                     @L["ResidencesManagement_Header"]
                 </MudText>
                 <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-                OnClick="@OpenCreateDialog">
+                OnClick="@OpenCreateDialog" Class="hidden md:flex">
                 @L["ResidencesManagement_Button_Add"]
             </MudButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" Variant="Variant.Filled"
+                OnClick="@OpenCreateDialog" Class="flex md:hidden" />
         </MudStack>
     </MudPaper>
 
     <!-- Statistics Cards -->
     <MudGrid Class="mb-4">
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="2">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="2" Class="h-full">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ResidencesManagement_Stats_Total"]</MudText>
-                            <MudText Typo="Typo.h4">@_residences.Count()</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @L["ResidencesManagement_Stats_Total"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.Apartment" Color="Color.Primary" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Primary">
-                            <MudIcon Icon="@Icons.Material.Filled.Apartment" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-4xl font-bold">@_residences.Count()</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="2">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="2" Class="h-full">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ResidencesManagement_Stats_Capacity"]</MudText>
-                            <MudText Typo="Typo.h4">@_residences.Sum(r => r.TotalCapacity)</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @L["ResidencesManagement_Stats_Capacity"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.Groups" Color="Color.Info" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Info">
-                            <MudIcon Icon="@Icons.Material.Filled.Groups" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-4xl font-bold">@_residences.Sum(r => r.TotalCapacity)</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="2">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="2" Class="h-full">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ResidencesManagement_Stats_Available"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Success">@_residences.Sum(r => r.AvailableCapacity)
-                            </MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @L["ResidencesManagement_Stats_Available"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.EventAvailable" Color="Color.Success"
+                                Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Success">
-                            <MudIcon Icon="@Icons.Material.Filled.EventAvailable" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-4xl font-bold text-success">@_residences.Sum(r =>
+                            r.AvailableCapacity)</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="2">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="2" Class="h-full">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ResidencesManagement_Stats_AvgOccupancy"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Warning">
-                                @(GetAverageOccupancy().ToString("F0"))%
-                            </MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @L["ResidencesManagement_Stats_AvgOccupancy"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Warning" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Warning">
-                            <MudIcon Icon="@Icons.Material.Filled.TrendingUp" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-4xl font-bold text-warning">
+                            @(GetAverageOccupancy().ToString("F0"))%</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
@@ -105,12 +103,13 @@
     <MudPaper Elevation="2" Class="pa-4 mb-4">
         <MudGrid>
             <MudItem xs="12" md="6">
-                <MudTextField @bind-Value="_searchString" Placeholder='@L["ResidencesManagement_SearchPlaceholder"]' Adornment="Adornment.Start"
-                    AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Outlined" Immediate="true" />
+                <MudTextField @bind-Value="_searchString" Placeholder='@L["ResidencesManagement_SearchPlaceholder"]'
+                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Outlined"
+                    Immediate="true" />
             </MudItem>
             <MudItem xs="12" md="3">
-                <MudSelect @bind-Value="_filterStatus" Label='@L["ResidencesManagement_Filter_Status"]' Variant="Variant.Outlined"
-                    AnchorOrigin="Origin.BottomCenter">
+                <MudSelect @bind-Value="_filterStatus" Label='@L["ResidencesManagement_Filter_Status"]'
+                    Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
                     <MudSelectItem Value="@("all")">@L["ResidencesManagement_Filter_AllStatuses"]</MudSelectItem>
                     <MudSelectItem Value="@("active")">@L["ResidencesManagement_Filter_Active"]</MudSelectItem>
                     <MudSelectItem Value="@("full")">@L["ResidencesManagement_Filter_Full"]</MudSelectItem>
@@ -127,9 +126,9 @@
     </MudPaper>
 
     <!-- Residences Table -->
-    <MudPaper Elevation="2">
+    <MudPaper Elevation="2" Class="mt-4">
         <MudTable Items="@GetFilteredResidences()" Hover="true" Striped="true" Loading="@_isLoading"
-            LoadingProgressColor="Color.Primary">
+            LoadingProgressColor="Color.Primary" Breakpoint="Breakpoint.Sm">
             <HeaderContent>
                 <MudTh>@L["ResidencesManagement_Table_Header_Name"]</MudTh>
                 <MudTh>@L["ResidencesManagement_Table_Header_Location"]</MudTh>
@@ -201,15 +200,18 @@
                 <MudTd DataLabel="Status">
                     @if (context.IsFull)
                     {
-                        <MudChip T="string" Color="Color.Error" Size="Size.Small">@L["ResidencesManagement_Table_Status_Full"]</MudChip>
+                        <MudChip T="string" Color="Color.Error" Size="Size.Small">
+                            @L["ResidencesManagement_Table_Status_Full"]</MudChip>
                     }
                     else if (context.IsActive)
                     {
-                        <MudChip T="string" Color="Color.Success" Size="Size.Small">@L["ResidencesManagement_Table_Status_Active"]</MudChip>
+                        <MudChip T="string" Color="Color.Success" Size="Size.Small">
+                            @L["ResidencesManagement_Table_Status_Active"]</MudChip>
                     }
                     else
                     {
-                        <MudChip T="string" Color="Color.Default" Size="Size.Small">@L["ResidencesManagement_Table_Status_Inactive"]</MudChip>
+                        <MudChip T="string" Color="Color.Default" Size="Size.Small">
+                            @L["ResidencesManagement_Table_Status_Inactive"]</MudChip>
                     }
                 </MudTd>
                 <MudTd DataLabel="Actions">
@@ -246,8 +248,8 @@
 
     private readonly List<BreadcrumbItem> _breadcrumbs =
     [
-        new("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
-        new("Residences", href: null, disabled: true)
+    new("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
+    new("Residences", href: null, disabled: true)
     ];
 
     protected override async Task OnInitializedAsync()
@@ -264,11 +266,11 @@
             // Create a fresh DbContext for this operation using Factory
             await using var context = await DbFactory.CreateDbContextAsync();
 
-	            // Fetch residences
-	            _residences = await context.Residences
-	            .Include(r => r.Rooms) // Eagerly load rooms
-	            .Where(r => !r.IsDeleted)
-	            .ToListAsync();
+            // Fetch residences
+            _residences = await context.Residences
+            .Include(r => r.Rooms) // Eagerly load rooms
+            .Where(r => !r.IsDeleted)
+            .ToListAsync();
         }
         finally
         {
@@ -296,8 +298,8 @@
         if (!string.IsNullOrWhiteSpace(_searchString))
         {
             filtered = filtered.Where(r =>
-	            r.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-	            (r.Address?.City.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ?? false));
+            r.Name.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            (r.Address?.City.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ?? false));
         }
 
         // Status filter
@@ -366,7 +368,8 @@
                 ["Color"] = Color.Error
             };
 
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>(L["ResidencesManagement_Dialog_ConfirmDelete_Title"], parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(L["ResidencesManagement_Dialog_ConfirmDelete_Title"],
+        parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })

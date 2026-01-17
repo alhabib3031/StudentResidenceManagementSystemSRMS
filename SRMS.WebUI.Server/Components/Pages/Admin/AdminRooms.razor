@@ -4,95 +4,99 @@
 @inject HttpClient Http
 @inject IJSRuntime JsRuntime
 
-<h3>Admin Room Management</h3>
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-8">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <MudText Class="text-3xl md:text-4xl font-bold text-gradient">Admin Room Management</MudText>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Href="/admin/rooms/create" Class="w-full md:w-auto rounded-xl shadow-lg">
+            Create New Room
+        </MudButton>
+    </div>
 
-<p>
-    <a href="/admin/rooms/create">Create New Room</a>
-</p>
+    @if (_rooms == null)
+    {
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true" Class="my-8" />
+    }
+    else
+    {
+        <MudPaper Elevation="2" Class="mb-8 overflow-hidden rounded-3xl">
+            <MudTable Items="_rooms" Hover="true" Breakpoint="Breakpoint.Sm" Class="glass-table">
+                <HeaderContent>
+                    <MudTh>Room Number</MudTh>
+                    <MudTh>Floor</MudTh>
+                    <MudTh>Type</MudTh>
+                    <MudTh>Monthly Rent</MudTh>
+                    <MudTh>Beds (Total/Occ)</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Residence</MudTh>
+                    <MudTh>Actions</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Room Number" Class="font-bold">@context.RoomNumber</MudTd>
+                    <MudTd DataLabel="Floor">@context.Floor</MudTd>
+                    <MudTd DataLabel="Type">@context.RoomType</MudTd>
+                    <MudTd DataLabel="Rent">@context.MonthlyRentAmount @context.MonthlyRentCurrency</MudTd>
+                    <MudTd DataLabel="Beds">@context.TotalBeds / @context.OccupiedBeds</MudTd>
+                    <MudTd DataLabel="Status">
+                        <MudChip T="string" Color='@(context.Status.ToString() == "Available" ? Color.Success : Color.Warning)' Size="Size.Small">
+                            @context.Status
+                        </MudChip>
+                    </MudTd>
+                    <MudTd DataLabel="Residence">@context.ResidenceName</MudTd>
+                    <MudTd DataLabel="Actions">
+                        <MudStack Row="true" Spacing="2">
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Href="@($"/admin/rooms/edit/{context.Id}")" Size="Size.Small" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteRoom(context.Id))" Size="Size.Small" />
+                        </MudStack>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudPaper>
+    }
 
-@if (_rooms == null)
-{
-    <p><em>Loading rooms...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Room Number</th>
-                <th>Floor</th>
-                <th>Type</th>
-                <th>Monthly Rent</th>
-                <th>Total Beds</th>
-                <th>Occupied Beds</th>
-                <th>Status</th>
-                <th>Residence</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var room in _rooms)
-            {
-                <tr>
-                    <td>@room.RoomNumber</td>
-                    <td>@room.Floor</td>
-                    <td>@room.RoomType</td>
-                    <td>@room.MonthlyRentAmount @room.MonthlyRentCurrency</td>
-                    <td>@room.TotalBeds</td>
-                    <td>@room.OccupiedBeds</td>
-                    <td>@room.Status</td>
-                    <td>@room.ResidenceName</td>
-                    <td>
-                        <a href="/admin/rooms/edit/@room.Id">Edit</a> |
-                        <button @onclick="(() => DeleteRoom(room.Id))" class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+    <MudDivider Class="my-8" />
 
-<h3>Fees Configurations</h3>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <MudText Class="text-2xl md:text-3xl font-bold text-secondary">Fees Configurations</MudText>
+        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Add" Href="/admin/fees-configurations/create" Class="w-full md:w-auto rounded-xl">
+            Create Configuration
+        </MudButton>
+    </div>
 
-<p>
-    <a href="/admin/fees-configurations/create">Create New Fees Configuration</a>
-</p>
-
-@if (_feesConfigurations == null)
-{
-    <p><em>Loading fees configurations...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nationality</th>
-                <th>Study Level</th>
-                <th>Is Monthly</th>
-                <th>Fee Amount</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var fee in _feesConfigurations)
-            {
-                <tr>
-                    <td>@fee.NationalityName</td>
-                    <td>@fee.StudyLevelName</td>
-                    <td>@(fee.IsMonthly ? "Yes" : "No")</td>
-                    <td>@fee.FeeAmount.Amount @fee.FeeAmount.Currency</td>
-                    <td>@fee.Description</td>
-                    <td>
-                        <a href="/admin/fees-configurations/edit/@fee.Id">Edit</a> |
-                        <button @onclick="(() => DeleteFeesConfiguration(fee.Id))" class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+    @if (_feesConfigurations == null)
+    {
+         <MudProgressCircular Color="Color.Secondary" Indeterminate="true" Class="my-8" />
+    }
+    else
+    {
+        <MudPaper Elevation="1" Class="overflow-hidden rounded-3xl">
+            <MudTable Items="_feesConfigurations" Hover="true" Breakpoint="Breakpoint.Sm" Class="glass-table">
+                <HeaderContent>
+                    <MudTh>Nationality</MudTh>
+                    <MudTh>Study Level</MudTh>
+                    <MudTh>Is Monthly</MudTh>
+                    <MudTh>Fee Amount</MudTh>
+                    <MudTh>Description</MudTh>
+                    <MudTh>Actions</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Nationality">@context.NationalityName</MudTd>
+                    <MudTd DataLabel="Study Level">@context.StudyLevelName</MudTd>
+                    <MudTd DataLabel="Is Monthly">
+                        <MudIcon Icon="@(context.IsMonthly ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)" Color="@(context.IsMonthly ? Color.Success : Color.Default)" Size="Size.Small" />
+                    </MudTd>
+                    <MudTd DataLabel="Fee Amount" Class="font-bold">@context.FeeAmount.Amount @context.FeeAmount.Currency</MudTd>
+                    <MudTd DataLabel="Description">@context.Description</MudTd>
+                    <MudTd DataLabel="Actions">
+                        <MudStack Row="true" Spacing="2">
+                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Secondary" Href="@($"/admin/fees-configurations/edit/{context.Id}")" Size="Size.Small" />
+                             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteFeesConfiguration(context.Id))" Size="Size.Small" />
+                        </MudStack>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudPaper>
+    }
+</MudContainer>
 
 @code {
     private IEnumerable<RoomDto>? _rooms;

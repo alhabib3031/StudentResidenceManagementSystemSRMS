@@ -9,28 +9,28 @@
 
 <MudDialog>
     <DialogContent>
-        <MudText Typo="Typo.h6" Class="mb-4">تفاصيل الحجز</MudText>
+        <MudText Class="text-xl md:text-2xl font-bold mb-4 flex items-center">تفاصيل الحجز</MudText>
 
         <MudPaper Class="glass-card pa-4 mb-4" Elevation="0">
-            <MudText Typo="Typo.subtitle2" Color="Color.Primary" Class="mb-2">معلومات الغرفة</MudText>
+            <MudText Class="text-base font-semibold text-primary mb-2">معلومات الغرفة</MudText>
             <MudDivider Class="mb-3" />
 
             <div class="flex flex-col gap-2">
                 <div class="flex justify-between">
-                    <MudText Typo="Typo.body2" Color="Color.Secondary">السكن:</MudText>
-                    <MudText Typo="Typo.body2"><strong>@ResidenceName</strong></MudText>
+                    <MudText Class="text-sm text-secondary">السكن:</MudText>
+                    <MudText Class="text-sm font-bold">@ResidenceName</MudText>
                 </div>
                 <div class="flex justify-between">
-                    <MudText Typo="Typo.body2" Color="Color.Secondary">رقم الغرفة:</MudText>
-                    <MudText Typo="Typo.body2"><strong>@Room.RoomNumber</strong></MudText>
+                    <MudText Class="text-sm text-secondary">رقم الغرفة:</MudText>
+                    <MudText Class="text-sm font-bold">@Room.RoomNumber</MudText>
                 </div>
                 <div class="flex justify-between">
-                    <MudText Typo="Typo.body2" Color="Color.Secondary">الطابق:</MudText>
-                    <MudText Typo="Typo.body2"><strong>@Room.Floor</strong></MudText>
+                    <MudText Class="text-sm text-secondary">الطابق:</MudText>
+                    <MudText Class="text-sm font-bold">@Room.Floor</MudText>
                 </div>
                 <div class="flex justify-between">
-                    <MudText Typo="Typo.body2" Color="Color.Secondary">النوع:</MudText>
-                    <MudText Typo="Typo.body2"><strong>@GetRoomTypeText(Room.RoomType)</strong></MudText>
+                    <MudText Class="text-sm text-secondary">النوع:</MudText>
+                    <MudText Class="text-sm font-bold">@GetRoomTypeText(Room.RoomType)</MudText>
                 </div>
             </div>
         </MudPaper>
@@ -43,10 +43,10 @@
 
             <MudDatePicker Label="تاريخ النهاية" @bind-Date="_endDate" MinDate="_startDate?.AddDays(1)" Class="mb-3" />
 
-            @if (_durationMonths > 0)
+            @if (DurationMonths > 0)
             {
                 <MudAlert Severity="Severity.Info" Dense="true">
-                    <MudText Typo="Typo.body2">المدة: <strong>@_durationMonths شهر تقريباً</strong></MudText>
+                    <MudText Typo="Typo.body2">المدة: <strong>@DurationMonths شهر تقريباً</strong></MudText>
                 </MudAlert>
             }
         </MudPaper>
@@ -56,15 +56,15 @@
             <MudPaper Class="glass-card pa-4 mb-4" Elevation="0"
                 Style="background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(139, 195, 74, 0.1) 100%);">
                 <div class="flex justify-between items-center">
-                    <MudText Typo="Typo.h6">إجمالي المبلغ:</MudText>
-                    <MudText Typo="Typo.h5" Color="Color.Success">
-                        <strong>@_totalAmount @Room.MonthlyRent?.Currency</strong>
+                    <MudText Class="text-lg font-bold">إجمالي المبلغ:</MudText>
+                    <MudText Class="text-2xl font-bold text-success">
+                        @TotalAmount @Room.MonthlyRent?.Currency
                     </MudText>
                 </div>
-                @if (_durationMonths > 0)
+                @if (DurationMonths > 0)
                 {
-                    <MudText Typo="Typo.caption" Color="Color.Secondary">
-                        (@Room.MonthlyRent?.Amount @Room.MonthlyRent?.Currency × @_durationMonths شهر)
+                    <MudText Class="text-xs text-secondary">
+                        (@Room.MonthlyRent?.Amount @Room.MonthlyRent?.Currency × @DurationMonths شهر)
                     </MudText>
                 }
             </MudPaper>
@@ -119,18 +119,18 @@
     <DialogActions>
         @if (!_bookingSuccess)
         {
-            <MudButton OnClick="Cancel" Disabled="_isProcessing">إلغاء</MudButton>
+            <MudButton OnClick="@Cancel" Disabled="_isProcessing">إلغاء</MudButton>
 
             @if (!_showPayment)
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ProceedToPayment"
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@ProceedToPayment"
                     Disabled="_isProcessing || _startDate == null || _endDate == null || _endDate <= _startDate">
                     المتابعة للدفع
                 </MudButton>
             }
             else
             {
-                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="ConfirmBooking"
+                <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="@ConfirmBooking"
                     Disabled="_isProcessing || string.IsNullOrWhiteSpace(_cardNumber) || string.IsNullOrWhiteSpace(_cvv)">
                     تأكيد الحجز والدفع
                 </MudButton>
@@ -138,7 +138,7 @@
         }
         else
         {
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CloseDialog">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@CloseDialog">
                 إغلاق
             </MudButton>
         }
@@ -175,11 +175,11 @@
     private string _expiryDate = string.Empty;
     private string _cvv = string.Empty;
 
-    private int _durationMonths => _startDate.HasValue && _endDate.HasValue
+    private int DurationMonths => _startDate.HasValue && _endDate.HasValue
     ? (int)Math.Ceiling((_endDate.Value - _startDate.Value).TotalDays / 30.0)
     : 0;
 
-    private decimal _totalAmount => Room.MonthlyRent?.Amount * _durationMonths ?? 0;
+    private decimal TotalAmount => Room.MonthlyRent?.Amount * DurationMonths ?? 0;
 
     private void ProceedToPayment()
     {
@@ -224,14 +224,11 @@
             // Use Service directly
             var result = await ReservationService.ReserveRoomAsync(request);
 
-            if (result != null)
-            {
-                _bookingSuccess = true;
-                _reservationId = result.ReservationId;
-                _paymentId = result.PaymentId;
+            _bookingSuccess = true;
+            _reservationId = result.ReservationId;
+            _paymentId = result.PaymentId;
 
-                Snackbar.Add("تم الحجز والدفع بنجاح! 🎉", Severity.Success);
-            }
+            Snackbar.Add("تم الحجز والدفع بنجاح! 🎉", Severity.Success);
         }
         catch (Exception ex)
         {

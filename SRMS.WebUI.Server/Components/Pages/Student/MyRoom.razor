@@ -36,7 +36,7 @@
                 <MudCard Elevation="3" Class="rounded-xl overflow-hidden glass-effect">
                     <MudCardHeader>
                         <CardHeaderContent>
-                            <MudText Typo="Typo.h5" Color="Color.Primary" Class="fw-bold">@L["My Room"]
+                            <MudText Class="text-xl md:text-2xl font-bold text-primary">@L["My Room"]
                                 @_roomDetails.RoomNumber</MudText>
                             <MudText Typo="Typo.subtitle1">@_roomDetails.ResidenceName - @L["Floor"] @_roomDetails.Floor
                             </MudText>
@@ -54,7 +54,7 @@
                             </MudItem>
                             <MudItem xs="6">
                                 <MudText Typo="Typo.body2" Class="text-muted">@L["Monthly Rent"]</MudText>
-                                <MudText Typo="Typo.h6" Color="Color.Secondary">
+                                <MudText Class="text-lg md:text-xl font-semibold text-secondary">
                                     @_roomDetails.AdjustedMonthlyRent.ToString("C")</MudText>
                             </MudItem>
                         </MudGrid>
@@ -186,7 +186,7 @@
         }
         catch (Exception ex)
         {
-            Snackbar.Add(L["Error loading room details"], Severity.Error);
+            Snackbar.Add(L["Error loading room details"].Value, Severity.Error);
             Console.WriteLine(ex);
         }
         finally

@@ -18,19 +18,24 @@
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mt-6 mb-12">
     <!-- Welcome Header -->
     <MudPaper Elevation="0"
-        Class="pa-8 rounded-3xl bg-gradient-to-br from-primary to-secondary relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
-        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="relative z-10">
+        Class="p-6 md:p-8 rounded-3xl bg-gradient-to-br from-primary to-secondary relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl hidden md:block">
+        </div>
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="relative z-10 w-full">
             <MudStack Spacing="1">
-                <MudText Typo="Typo.h3" Class="text-white font-bold">
+                <MudText Class="text-2xl md:text-5xl font-bold text-white">
                     @L["WelcomeBack"], @_user?.FirstName!
                 </MudText>
-                <MudText Typo="Typo.h6" Class="text-white/80">
+                <MudText Class="text-sm md:text-xl text-white/80 flex items-center">
                     <MudIcon Icon="@Icons.Material.Filled.School" Size="Size.Small" Class="mr-1" />
-                    @_studentDetails?.CollegeName | @_studentDetails?.Major
+                    @if (_studentDetails != null)
+                    {
+                        @($"{_studentDetails.CollegeName} | {_studentDetails.Major}")
+                    }
                 </MudText>
             </MudStack>
-            <MudAvatar Size="Size.Large" Color="Color.Surface" Style="height:100px; width:100px;" Class="shadow-xl">
+            <MudAvatar Size="Size.Large" Color="Color.Surface" Style="height:100px; width:100px;"
+                Class="shadow-xl hidden md:flex">
                 @if (!string.IsNullOrEmpty(_user?.ProfilePicture))
                 {
                     <MudImage Src="@_user.ProfilePicture" />
@@ -51,11 +56,11 @@
     <MudGrid Class="mt-4">
         <!-- Quick Stats -->
         <MudItem xs="12" sm="6" md="3">
-            <MudPaper Elevation="4" Class="pa-6 rounded-3xl hover-lift">
+            <MudPaper Elevation="4" Class="p-4 md:p-6 rounded-3xl hover-lift">
                 <MudStack Row="true" Justify="Justify.SpaceBetween">
                     <MudStack Spacing="0">
                         <MudText Typo="Typo.caption" Class="opacity-60 font-bold uppercase">@L["MyRoom"]</MudText>
-                        <MudText Typo="Typo.h5" Class="font-bold">@(_roomNumber ?? "Not Assigned")</MudText>
+                        <MudText Class="text-xl md:text-2xl font-bold">@(_roomNumber ?? L["NotAssigned"])</MudText>
                         </MudStack>
                         <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Class="rounded-2xl">
                             <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" />
@@ -65,11 +70,11 @@
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudPaper Elevation="4" Class="pa-6 rounded-3xl hover-lift">
+                <MudPaper Elevation="4" Class="p-4 md:p-6 rounded-3xl hover-lift">
                     <MudStack Row="true" Justify="Justify.SpaceBetween">
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.caption" Class="opacity-60 font-bold uppercase">@L["DueAmount"]</MudText>
-                            <MudText Typo="Typo.h5" Class="font-bold text-error">@_dueAmount LYD</MudText>
+                            <MudText Class="text-xl md:text-2xl font-bold text-error">@_dueAmount LYD</MudText>
                         </MudStack>
                         <MudAvatar Color="Color.Error" Variant="Variant.Filled" Class="rounded-2xl">
                             <MudIcon Icon="@Icons.Material.Filled.Payment" />
@@ -79,12 +84,12 @@
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudPaper Elevation="4" Class="pa-6 rounded-3xl hover-lift">
+                <MudPaper Elevation="4" Class="p-4 md:p-6 rounded-3xl hover-lift">
                     <MudStack Row="true" Justify="Justify.SpaceBetween">
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.caption" Class="opacity-60 font-bold uppercase">@L["ActiveComplaints"]
                             </MudText>
-                            <MudText Typo="Typo.h5" Class="font-bold">@_activeComplaints</MudText>
+                            <MudText Class="text-xl md:text-2xl font-bold">@_activeComplaints</MudText>
                         </MudStack>
                         <MudAvatar Color="Color.Warning" Variant="Variant.Filled" Class="rounded-2xl">
                             <MudIcon Icon="@Icons.Material.Filled.Report" />
@@ -99,139 +104,142 @@
                         <MudStack Spacing="0">
                             <MudText Typo="Typo.caption" Class="opacity-60 font-bold uppercase">@L["StudentStatus"]
                             </MudText>
-                            <MudChip T="string" Color="@GetStatusColor(_dashboardData?.Status)" Size="Size.Small" Class="mt-1">
+                            <MudChip T="string" Color="@GetStatusColor(_dashboardData?.Status)" Size="Size.Small"
+                                Class="mt-1">
                                 @(_dashboardData?.Status.ToString() ?? "N/A")
-                            </MudChip>
-                        </MudStack>
-                        <MudAvatar Color="@GetStatusColor(_dashboardData?.Status)" Variant="Variant.Filled" Class="rounded-2xl">
-                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" />
-                        </MudAvatar>
+                        </MudChip>
+                    </MudStack>
+                    <MudAvatar Color="@GetStatusColor(_dashboardData?.Status)" Variant="Variant.Filled"
+                        Class="rounded-2xl">
+                        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" />
+                    </MudAvatar>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Main Content -->
+        <MudItem xs="12" md="8">
+            <MudStack Spacing="6">
+                <!-- Academic Details Section -->
+                <MudPaper Elevation="4" Class="pa-6 rounded-3xl">
+                    <MudText Typo="Typo.h6" Class="font-bold mb-4">@L["ProfileCompletion_Step_Academic"]</MudText>
+                    <MudGrid>
+                        <MudItem xs="12" sm="6">
+                            <MudText Typo="Typo.caption" Class="opacity-50">@L["ProfileCompletion_University"]</MudText>
+                            <MudText Typo="Typo.body1">@_studentDetails?.UniversityName</MudText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudText Typo="Typo.caption" Class="opacity-50">@L["ProfileCompletion_StudentNumber"]
+                            </MudText>
+                            <MudText Typo="Typo.body1">@_studentDetails?.StudentNumber</MudText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudText Typo="Typo.caption" Class="opacity-50">@L["ProfileCompletion_AcademicYear"]
+                            </MudText>
+                            <MudText Typo="Typo.body1">@_studentDetails?.AcademicYear</MudText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudText Typo="Typo.caption" Class="opacity-50">@L["ProfileCompletion_Step_AcademicTerm"]
+                            </MudText>
+                            <MudText Typo="Typo.body1">@_studentDetails?.AcademicTerm</MudText>
+                        </MudItem>
+                    </MudGrid>
+                </MudPaper>
+
+                <!-- Quick Actions -->
+                <MudPaper Elevation="4" Class="pa-6 rounded-3xl">
+                    <MudText Typo="Typo.h6" Class="font-bold mb-4">@L["QuickActions"]</MudText>
+                    <MudGrid Spacing="4">
+                        <MudItem xs="6" sm="3">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                                Class="pa-8 w-full rounded-2xl flex-col" Href="/student/complaints/create">
+                                <MudIcon Icon="@Icons.Material.Filled.AddComment" Size="Size.Large" Class="mb-2" />
+                                @L["SubmitComplaint"]
+                            </MudButton>
+                        </MudItem>
+                        <MudItem xs="6" sm="3">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Success"
+                                Class="pa-8 w-full rounded-2xl flex-col" Href="/student/payments">
+                                <MudIcon Icon="@Icons.Material.Filled.Wallet" Size="Size.Large" Class="mb-2" />
+                                @L["MakePayment"]
+                            </MudButton>
+                        </MudItem>
+                        <MudItem xs="6" sm="3">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Info"
+                                Class="pa-8 w-full rounded-2xl flex-col" Href="/student/profile">
+                                <MudIcon Icon="@Icons.Material.Filled.AccountCircle" Size="Size.Large" Class="mb-2" />
+                                @L["MyProfile"]
+                            </MudButton>
+                        </MudItem>
+                        <MudItem xs="6" sm="3">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Secondary"
+                                Class="pa-8 w-full rounded-2xl flex-col" Href="/student/room">
+                                <MudIcon Icon="@Icons.Material.Filled.House" Size="Size.Large" Class="mb-2" />
+                                @L["ViewRoom"]
+                            </MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </MudPaper>
+            </MudStack>
+        </MudItem>
+
+        <!-- Side Content: Notifications/Announcements -->
+        <MudItem xs="12" md="4">
+            <MudStack Spacing="6">
+                <MudPaper Elevation="4" Class="pa-6 rounded-3xl">
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-4">
+                        <MudIcon Icon="@Icons.Material.Filled.Campaign" Color="Color.Warning" />
+                        <MudText Typo="Typo.h6" Class="font-bold">@L["ImportantAnnouncements"]</MudText>
+                    </MudStack>
+                    <MudStack Spacing="3">
+                        <MudAlert Severity="Severity.Warning" Dense="true" Class="rounded-xl">@L["PaymentReminder"]
+                        </MudAlert>
+                        <MudAlert Severity="Severity.Info" Dense="true" Class="rounded-xl">@L["BuildingAMaintenance"]
+                        </MudAlert>
                     </MudStack>
                 </MudPaper>
-            </MudItem>
 
-            <!-- Main Content -->
-            <MudItem xs="12" md="8">
-                <MudStack Spacing="6">
-                    <!-- Academic Details Section -->
-                    <MudPaper Elevation="4" Class="pa-6 rounded-3xl">
-                        <MudText Typo="Typo.h6" Class="font-bold mb-4">@L["ProfileCompletion_Step_Academic"]</MudText>
-                        <MudGrid>
-                            <MudItem xs="12" sm="6">
-                                <MudText Typo="Typo.caption" Class="opacity-50">@L["ProfileCompletion_University"]</MudText>
-                                <MudText Typo="Typo.body1">@_studentDetails?.UniversityName</MudText>
-                            </MudItem>
-                            <MudItem xs="12" sm="6">
-                                <MudText Typo="Typo.caption" Class="opacity-50">@L["ProfileCompletion_StudentNumber"]
-                                </MudText>
-                                <MudText Typo="Typo.body1">@_studentDetails?.StudentNumber</MudText>
-                            </MudItem>
-                            <MudItem xs="12" sm="6">
-                                <MudText Typo="Typo.caption" Class="opacity-50">@L["ProfileCompletion_AcademicYear"]
-                                </MudText>
-                                <MudText Typo="Typo.body1">@_studentDetails?.AcademicYear</MudText>
-                            </MudItem>
-                            <MudItem xs="12" sm="6">
-                                <MudText Typo="Typo.caption" Class="opacity-50">@L["ProfileCompletion_Step_AcademicTerm"]
-                                </MudText>
-                                <MudText Typo="Typo.body1">@_studentDetails?.AcademicTerm</MudText>
-                            </MudItem>
-                        </MudGrid>
-                    </MudPaper>
-
-                    <!-- Quick Actions -->
-                    <MudPaper Elevation="4" Class="pa-6 rounded-3xl">
-                        <MudText Typo="Typo.h6" Class="font-bold mb-4">@L["QuickActions"]</MudText>
-                        <MudGrid Spacing="4">
-                            <MudItem xs="6" sm="3">
-                                <MudButton Variant="Variant.Outlined" Color="Color.Primary"
-                                    Class="pa-8 w-full rounded-2xl flex-col" Href="/student/complaints/create">
-                                    <MudIcon Icon="@Icons.Material.Filled.AddComment" Size="Size.Large" Class="mb-2" />
-                                    @L["SubmitComplaint"]
-                                </MudButton>
-                            </MudItem>
-                            <MudItem xs="6" sm="3">
-                                <MudButton Variant="Variant.Outlined" Color="Color.Success"
-                                    Class="pa-8 w-full rounded-2xl flex-col" Href="/student/payments">
-                                    <MudIcon Icon="@Icons.Material.Filled.Wallet" Size="Size.Large" Class="mb-2" />
-                                    @L["MakePayment"]
-                                </MudButton>
-                            </MudItem>
-                            <MudItem xs="6" sm="3">
-                                <MudButton Variant="Variant.Outlined" Color="Color.Info"
-                                    Class="pa-8 w-full rounded-2xl flex-col" Href="/student/profile">
-                                    <MudIcon Icon="@Icons.Material.Filled.AccountCircle" Size="Size.Large" Class="mb-2" />
-                                    @L["MyProfile"]
-                                </MudButton>
-                            </MudItem>
-                            <MudItem xs="6" sm="3">
-                                <MudButton Variant="Variant.Outlined" Color="Color.Secondary"
-                                    Class="pa-8 w-full rounded-2xl flex-col" Href="/student/room">
-                                    <MudIcon Icon="@Icons.Material.Filled.House" Size="Size.Large" Class="mb-2" />
-                                    @L["ViewRoom"]
-                                </MudButton>
-                            </MudItem>
-                        </MudGrid>
-                    </MudPaper>
-                </MudStack>
-            </MudItem>
-
-            <!-- Side Content: Notifications/Announcements -->
-            <MudItem xs="12" md="4">
-                <MudStack Spacing="6">
-                    <MudPaper Elevation="4" Class="pa-6 rounded-3xl">
-                        <MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-4">
-                            <MudIcon Icon="@Icons.Material.Filled.Campaign" Color="Color.Warning" />
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["ImportantAnnouncements"]</MudText>
-                        </MudStack>
-                        <MudStack Spacing="3">
-                            <MudAlert Severity="Severity.Warning" Dense="true" Class="rounded-xl">@L["PaymentReminder"]
-                            </MudAlert>
-                            <MudAlert Severity="Severity.Info" Dense="true" Class="rounded-xl">@L["BuildingAMaintenance"]
-                            </MudAlert>
-                        </MudStack>
-                    </MudPaper>
-
-                    <MudPaper Elevation="4" Class="pa-6 rounded-3xl">
-                        <MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-4">
-                            <MudIcon Icon="@Icons.Material.Filled.Notifications" Color="Color.Error" />
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["RecentActivity"]</MudText>
-                        </MudStack>
-                        <MudList T="string">
-                            @if (_dashboardData?.RecentActivities.Any() == true)
+                <MudPaper Elevation="4" Class="pa-6 rounded-3xl">
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-4">
+                        <MudIcon Icon="@Icons.Material.Filled.Notifications" Color="Color.Error" />
+                        <MudText Typo="Typo.h6" Class="font-bold">@L["RecentActivity"]</MudText>
+                    </MudStack>
+                    <MudList T="string">
+                        @if (_dashboardData?.RecentActivities.Any() == true)
+                        {
+                            @foreach (var activity in _dashboardData.RecentActivities)
                             {
-                                @foreach (var activity in _dashboardData.RecentActivities)
-                                {
-                                    <MudListItem Icon="@GetActivityIcon(activity.Type)">
-                                        <MudText Typo="Typo.body2">@activity.Title</MudText>
-                                        <MudText Typo="Typo.caption" Class="opacity-50">@activity.Timestamp.ToLocalTime().ToString("g")</MudText>
-                                    </MudListItem>
-                                }
-                            }
-                            else
-                            {
-                                <MudListItem>
-                                    <MudText Typo="Typo.body2" Class="opacity-50">No recent activity</MudText>
+                                <MudListItem Icon="@GetActivityIcon(activity.Type)">
+                                    <MudText Typo="Typo.body2">@activity.Title</MudText>
+                                    <MudText Typo="Typo.caption" Class="opacity-50">
+                                        @activity.Timestamp.ToLocalTime().ToString("g")</MudText>
                                 </MudListItem>
                             }
-                        </MudList>
-                    </MudPaper>
-                </MudStack>
-            </MudItem>
-        </MudGrid>
-    </MudContainer>
+                        }
+                        else
+                        {
+                            <MudListItem>
+                                <MudText Typo="Typo.body2" Class="opacity-50">@L["NoRecentActivity"]</MudText>
+                            </MudListItem>
+                        }
+                    </MudList>
+                </MudPaper>
+            </MudStack>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
-    <style>
-        .hover-lift {
-            transition: transform 0.3s ease;
-        }
+<style>
+    .hover-lift {
+        transition: transform 0.3s ease;
+    }
 
-        .hover-lift:hover {
-            transform: translateY(-8px);
-        }
-    </style>
+    .hover-lift:hover {
+        transform: translateY(-8px);
+    }
+</style>
 
-    @code {
+@code {
     private UserDto? _user;
     private StudentReviewDto? _studentDetails;
     private StudentDashboardDataDto? _dashboardData;
@@ -265,7 +273,7 @@
     private async Task LoadDashboardData()
     {
         if (_user == null) return;
-        
+
         _isLoading = true;
         try
         {
@@ -279,9 +287,9 @@
 
     private Color GetStatusColor(SRMS.Domain.Students.Enums.StudentStatus? status) => status switch
     {
-        SRMS.Domain.Students.Enums.StudentStatus.Active => Color.Success,
-        SRMS.Domain.Students.Enums.StudentStatus.ManagerApprovalPending => Color.Warning,
-        SRMS.Domain.Students.Enums.StudentStatus.Suspended => Color.Error,
+        Domain.Students.Enums.StudentStatus.Active => Color.Success,
+        Domain.Students.Enums.StudentStatus.ManagerApprovalPending => Color.Warning,
+        Domain.Students.Enums.StudentStatus.Suspended => Color.Error,
         _ => Color.Default
     };
 

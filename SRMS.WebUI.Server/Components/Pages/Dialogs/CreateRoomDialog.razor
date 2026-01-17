@@ -10,7 +10,7 @@
 
 <MudDialog>
     <TitleContent>
-        <MudText Typo="Typo.h6">
+        <MudText Class="text-xl md:text-2xl font-bold flex items-center">
             <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Class="mr-2" />
             @L["CreateRoomDialog_Title"]
         </MudText>
@@ -76,7 +76,7 @@
                 </MudItem>
                 
                 <MudItem xs="12">
-                    <MudText Typo="Typo.subtitle2" Class="mb-2">@L["Room_Amenities"]</MudText>
+                    <MudText Class="text-base font-semibold mb-2">@L["Room_Amenities"]</MudText>
                     <MudStack Row="true" Wrap="Wrap.Wrap">
                         <MudCheckBox @bind-Value="@_model.HasPrivateBathroom" Label='@L["Amenity_Bathroom"]' Color="Color.Primary" />
                         <MudCheckBox @bind-Value="@_model.HasAirConditioning" Label='@L["Amenity_AC"]' Color="Color.Primary" />
@@ -137,12 +137,12 @@
             var command = new CreateRoomCommand { Room = _model };
             var result = await Sender.Send(command);
 
-            Snackbar.Add(L["RoomManagement_Snackbar_Created"], Severity.Success);
+            Snackbar.Add(L["RoomManagement_Snackbar_Created"].Value, Severity.Success);
             MudDialog.Close(DialogResult.Ok(result));
         }
         catch (Exception ex)
         {
-            Snackbar.Add(string.Format(L["Common_Error_Exception"], ex.Message), Severity.Error);
+            Snackbar.Add(string.Format(L["Common_Error_Exception"].Value, ex.Message), Severity.Error);
         }
         finally
         {

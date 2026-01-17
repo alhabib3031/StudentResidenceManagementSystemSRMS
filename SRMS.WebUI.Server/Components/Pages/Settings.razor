@@ -8,14 +8,14 @@
 <PageTitle>@L["Settings"] - SRMS</PageTitle>
 
 <MudStack Class="animate-fade-in w-full modern-card">
-    <MudText Typo="Typo.h4" Class="text-gradient mb-4 font-bold">
-        <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" />
+    <MudText Class="text-3xl md:text-5xl font-bold text-gradient mb-4 flex items-center">
+        <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2 text-4xl md:text-5xl" />
         @L["Settings"]
     </MudText>
 
     <MudGrid>
         <MudItem xs="12" md="6">
-            <MudPaper Class="glass-card pa-6">
+            <MudPaper Class="glass-card p-4 md:p-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Tune" Class="mr-2" />
                     @L["GeneralSettings"]
@@ -41,7 +41,7 @@
                     </MudSelect>
 
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
-                        StartIcon="@Icons.Material.Filled.Save" OnClick="SaveGeneralSettings"
+                        StartIcon="@Icons.Material.Filled.Save" OnClick="@SaveGeneralSettings"
                         Class="btn-modern btn-primary">
                         @L["SaveGeneralSettings"]
                     </MudButton>
@@ -50,7 +50,7 @@
         </MudItem>
 
         <MudItem xs="12" md="6">
-            <MudPaper Class="glass-card pa-6">
+            <MudPaper Class="glass-card p-4 md:p-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Notifications" Class="mr-2" />
                     @L["NotificationSettings"]
@@ -58,7 +58,7 @@
 
                 <MudStack Spacing="3">
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_emailNotifications" Color="Color.Primary">
+                        <MudSwitch T="bool" @bind-Value="_emailNotifications" Color="Color.Primary">
                             @L["EmailNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -67,7 +67,7 @@
                     </MudStack>
 
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_smsNotifications" Color="Color.Primary">
+                        <MudSwitch T="bool" @bind-Value="_smsNotifications" Color="Color.Primary">
                             @L["SMSNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -76,7 +76,7 @@
                     </MudStack>
 
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_pushNotifications" Color="Color.Primary">
+                        <MudSwitch T="bool" @bind-Value="_pushNotifications" Color="Color.Primary">
                             @L["PushNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -87,7 +87,7 @@
                     <MudDivider Class="my-2" />
 
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_paymentNotifications" Color="Color.Success">
+                        <MudSwitch T="bool" @bind-Value="_paymentNotifications" Color="Color.Success">
                             @L["PaymentNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -96,7 +96,7 @@
                     </MudStack>
 
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_complaintNotifications" Color="Color.Warning">
+                        <MudSwitch T="bool" @bind-Value="_complaintNotifications" Color="Color.Warning">
                             @L["ComplaintNotifications"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -105,7 +105,7 @@
                     </MudStack>
 
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
-                        StartIcon="@Icons.Material.Filled.Save" OnClick="SaveNotificationSettings"
+                        StartIcon="@Icons.Material.Filled.Save" OnClick="@SaveNotificationSettings"
                         Class="btn-modern btn-primary">
                         @L["SaveNotificationSettings"]
                     </MudButton>
@@ -114,7 +114,7 @@
         </MudItem>
 
         <MudItem xs="12" md="6">
-            <MudPaper Class="glass-card pa-6">
+            <MudPaper Class="glass-card p-4 md:p-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Palette" Class="mr-2" />
                     @L["Appearance"]
@@ -122,7 +122,7 @@
 
                 <MudStack Spacing="3">
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_darkMode" Color="Color.Primary">
+                        <MudSwitch T="bool" @bind-Value="_darkMode" Color="Color.Primary">
                             @L["DarkMode"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -131,7 +131,7 @@
                     </MudStack>
 
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_compactMode" Color="Color.Primary">
+                        <MudSwitch T="bool" @bind-Value="_compactMode" Color="Color.Primary">
                             @L["CompactMode"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -147,7 +147,7 @@
                     </MudSelect>
 
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
-                        StartIcon="@Icons.Material.Filled.Save" OnClick="SaveAppearanceSettings"
+                        StartIcon="@Icons.Material.Filled.Save" OnClick="@SaveAppearanceSettings"
                         Class="btn-modern btn-primary">
                         @L["SaveAppearanceSettings"]
                     </MudButton>
@@ -156,7 +156,7 @@
         </MudItem>
 
         <MudItem xs="12" md="6">
-            <MudPaper Class="glass-card pa-6">
+            <MudPaper Class="glass-card p-4 md:p-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Security" Class="mr-2" />
                     @L["PrivacySecurity"]
@@ -164,7 +164,7 @@
 
                 <MudStack Spacing="3">
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_twoFactorAuth" Color="Color.Success">
+                        <MudSwitch T="bool" @bind-Value="_twoFactorAuth" Color="Color.Success">
                             @L["TwoFactorAuthentication"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -173,7 +173,7 @@
                     </MudStack>
 
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_loginAlerts" Color="Color.Warning">
+                        <MudSwitch T="bool" @bind-Value="_loginAlerts" Color="Color.Warning">
                             @L["LoginAlerts"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -182,7 +182,7 @@
                     </MudStack>
 
                     <MudStack Spacing="0">
-                        <MudSwitch T="bool" @bind-Checked="_profileVisibility" Color="Color.Info">
+                        <MudSwitch T="bool" @bind-Value="_profileVisibility" Color="Color.Info">
                             @L["PublicProfile"]
                         </MudSwitch>
                         <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-10">
@@ -193,12 +193,12 @@
                     <MudDivider Class="my-2" />
 
                     <MudButton Variant="Variant.Outlined" Color="Color.Warning" FullWidth="true"
-                        StartIcon="@Icons.Material.Filled.History" OnClick="ViewLoginHistory">
+                        StartIcon="@Icons.Material.Filled.History" OnClick="@ViewLoginHistory">
                         @L["ViewLoginHistory"]
                     </MudButton>
 
                     <MudButton Variant="Variant.Outlined" Color="Color.Error" FullWidth="true"
-                        StartIcon="@Icons.Material.Filled.ExitToApp" OnClick="LogoutAllDevices">
+                        StartIcon="@Icons.Material.Filled.ExitToApp" OnClick="@LogoutAllDevices">
                         @L["LogoutAllDevices"]
                     </MudButton>
                 </MudStack>
@@ -206,7 +206,7 @@
         </MudItem>
 
         <MudItem xs="12">
-            <MudPaper Class="glass-card pa-6">
+            <MudPaper Class="glass-card p-4 md:p-6">
                 <MudText Typo="Typo.h6" Class="mb-4">
                     <MudIcon Icon="@Icons.Material.Filled.Storage" Class="mr-2" />
                     @L["DataManagement"]
@@ -215,19 +215,19 @@
                 <MudGrid>
                     <MudItem xs="12" md="4">
                         <MudButton Variant="Variant.Outlined" Color="Color.Info" FullWidth="true"
-                            StartIcon="@Icons.Material.Filled.Download" OnClick="ExportData">
+                            StartIcon="@Icons.Material.Filled.Download" OnClick="@ExportData">
                             @L["ExportMyData"]
                         </MudButton>
                     </MudItem>
                     <MudItem xs="12" md="4">
                         <MudButton Variant="Variant.Outlined" Color="Color.Warning" FullWidth="true"
-                            StartIcon="@Icons.Material.Filled.CleaningServices" OnClick="ClearCache">
+                            StartIcon="@Icons.Material.Filled.CleaningServices" OnClick="@ClearCache">
                             @L["ClearCache"]
                         </MudButton>
                     </MudItem>
                     <MudItem xs="12" md="4">
                         <MudButton Variant="Variant.Outlined" Color="Color.Error" FullWidth="true"
-                            StartIcon="@Icons.Material.Filled.DeleteForever" OnClick="DeleteAccount">
+                            StartIcon="@Icons.Material.Filled.DeleteForever" OnClick="@DeleteAccount">
                             @L["DeleteAccount"]
                         </MudButton>
                     </MudItem>
@@ -262,41 +262,41 @@
 
     private void SaveGeneralSettings()
     {
-        Snackbar.Add(L["Snackbar_GeneralSettingsSaved"], Severity.Success);
+        Snackbar.Add(L["Snackbar_GeneralSettingsSaved"].Value, Severity.Success);
     }
 
     private void SaveNotificationSettings()
     {
-        Snackbar.Add(L["Snackbar_NotificationSettingsSaved"], Severity.Success);
+        Snackbar.Add(L["Snackbar_NotificationSettingsSaved"].Value, Severity.Success);
     }
 
     private void SaveAppearanceSettings()
     {
-        Snackbar.Add(L["Snackbar_AppearanceSettingsSaved"], Severity.Success);
+        Snackbar.Add(L["Snackbar_AppearanceSettingsSaved"].Value, Severity.Success);
     }
 
     private void ViewLoginHistory()
     {
-        Snackbar.Add(L["Snackbar_LoginHistoryComingSoon"], Severity.Info);
+        Snackbar.Add(L["Snackbar_LoginHistoryComingSoon"].Value, Severity.Info);
     }
 
     private void LogoutAllDevices()
     {
-        Snackbar.Add(L["Snackbar_LoggedOutAllDevices"], Severity.Success);
+        Snackbar.Add(L["Snackbar_LoggedOutAllDevices"].Value, Severity.Success);
     }
 
     private void ExportData()
     {
-        Snackbar.Add(L["Snackbar_DataExportStarted"], Severity.Info);
+        Snackbar.Add(L["Snackbar_DataExportStarted"].Value, Severity.Info);
     }
 
     private void ClearCache()
     {
-        Snackbar.Add(L["Snackbar_CacheCleared"], Severity.Success);
+        Snackbar.Add(L["Snackbar_CacheCleared"].Value, Severity.Success);
     }
 
     private void DeleteAccount()
     {
-        Snackbar.Add(L["Snackbar_DeleteAccount_ContactSupport"], Severity.Warning);
+        Snackbar.Add(L["Snackbar_DeleteAccount_ContactSupport"].Value, Severity.Warning);
     }
 }

@@ -4,7 +4,7 @@
 
 <MudDialog>
     <TitleContent>
-        <MudText Typo="Typo.h6">
+        <MudText Class="text-xl md:text-2xl font-bold flex items-center">
             <MudIcon Icon="@Icons.Material.Filled.Info" Class="mr-2" /> @L["RoomDetailsDialog_Title"]
         </MudText>
     </TitleContent>
@@ -17,58 +17,76 @@
         {
             <MudGrid Spacing="2">
                 <MudItem xs="12" sm="6">
-                    <MudText Typo="Typo.subtitle2">@L["Room_Residence"]:</MudText>
-                    <MudText Typo="Typo.body2">@Room.ResidenceName</MudText>
+                    <MudText Class="text-base font-semibold">@L["Room_Residence"]:</MudText>
+                    <MudText Class="text-sm">@Room.ResidenceName</MudText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <MudText Typo="Typo.subtitle2">@L["Room_RoomNumber"]:</MudText>
-                    <MudText Typo="Typo.body2">@Room.RoomNumber</MudText>
+                    <MudText Class="text-base font-semibold">@L["Room_RoomNumber"]:</MudText>
+                    <MudText Class="text-sm">@Room.RoomNumber</MudText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <MudText Typo="Typo.subtitle2">@L["Room_Floor"]:</MudText>
-                    <MudText Typo="Typo.body2">@Room.Floor</MudText>
+                    <MudText Class="text-base font-semibold">@L["Room_Floor"]:</MudText>
+                    <MudText Class="text-sm">@Room.Floor</MudText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <MudText Typo="Typo.subtitle2">@L["Room_RoomType"]:</MudText>
-                    <MudText Typo="Typo.body2">@L[Room.RoomType.ToString()]</MudText>
+                    <MudText Class="text-base font-semibold">@L["Room_RoomType"]:</MudText>
+                    <MudText Class="text-sm">@L[Room.RoomType.ToString()]</MudText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <MudText Typo="Typo.subtitle2">@L["Room_TotalBeds"]:</MudText>
-                    <MudText Typo="Typo.body2">@Room.TotalBeds</MudText>
+                    <MudText Class="text-base font-semibold">@L["Room_TotalBeds"]:</MudText>
+                    <MudText Class="text-sm">@Room.TotalBeds</MudText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <MudText Typo="Typo.subtitle2">@L["Room_OccupiedBeds"]:</MudText>
-                    <MudText Typo="Typo.body2">@Room.OccupiedBeds</MudText>
+                    <MudText Class="text-base font-semibold">@L["Room_OccupiedBeds"]:</MudText>
+                    <MudText Class="text-sm">@Room.OccupiedBeds</MudText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <MudText Typo="Typo.subtitle2">@L["Room_MonthlyRent"]:</MudText>
-                    <MudText Typo="Typo.body2">@Room.MonthlyRentAmount @L["Room.MonthlyRentCurrency"]</MudText>
+                    <MudText Class="text-base font-semibold">@L["Room_MonthlyRent"]:</MudText>
+                    <MudText Class="text-sm">@Room.MonthlyRentAmount @L["Room.MonthlyRentCurrency"]</MudText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <MudText Typo="Typo.subtitle2">@L["Room_Status"]:</MudText>
-                    <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(Room.Status)">@L[Room.Status.ToString()]</MudChip>
+                    <MudText Class="text-base font-semibold">@L["Room_Status"]:</MudText>
+                    <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(Room.Status)">@L[Room.Status.ToString()]
+                    </MudChip>
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudText Typo="Typo.subtitle2" Class="mt-4">@L["Room_Amenities"]</MudText>
+                    <MudText Class="text-base font-semibold mt-4">@L["Room_Amenities"]</MudText>
                     <MudStack Row="true" Wrap="Wrap.Wrap">
-                        <MudChip T="string" Icon="@(Room.HasPrivateBathroom ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)" Color="@(Room.HasPrivateBathroom ? Color.Success : Color.Error)">@L["Amenity_Bathroom"]</MudChip>
-                        <MudChip T="string" Icon="@(Room.HasAirConditioning ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)" Color="@(Room.HasAirConditioning ? Color.Success : Color.Error)">@L["Amenity_AC"]</MudChip>
-                        <MudChip T="string" Icon="@(Room.HasHeating ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)" Color="@(Room.HasHeating ? Color.Success : Color.Error)">@L["Amenity_Heating"]</MudChip>
-                        <MudChip T="string" Icon="@(Room.HasWifi ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)" Color="@(Room.HasWifi ? Color.Success : Color.Error)">@L["Amenity_WiFi"]</MudChip>
-                        <MudChip T="string" Icon="@(Room.HasDesk ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)" Color="@(Room.HasDesk ? Color.Success : Color.Error)">@L["Amenity_Desk"]</MudChip>
-                        <MudChip T="string" Icon="@(Room.HasWardrobe ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)" Color="@(Room.HasWardrobe ? Color.Success : Color.Error)">@L["Amenity_Wardrobe"]</MudChip>
-                        <MudChip T="string" Icon="@(Room.HasBalcony ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)" Color="@(Room.HasBalcony ? Color.Success : Color.Error)">@L["Amenity_Balcony"]</MudChip>
+                        <MudChip T="string"
+                            Icon="@(Room.HasPrivateBathroom ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)"
+                            Color="@(Room.HasPrivateBathroom ? Color.Success : Color.Error)">@L["Amenity_Bathroom"]
+                        </MudChip>
+                        <MudChip T="string"
+                            Icon="@(Room.HasAirConditioning ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)"
+                            Color="@(Room.HasAirConditioning ? Color.Success : Color.Error)">@L["Amenity_AC"]</MudChip>
+                        <MudChip T="string"
+                            Icon="@(Room.HasHeating ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)"
+                            Color="@(Room.HasHeating ? Color.Success : Color.Error)">@L["Amenity_Heating"]</MudChip>
+                        <MudChip T="string"
+                            Icon="@(Room.HasWifi ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)"
+                            Color="@(Room.HasWifi ? Color.Success : Color.Error)">@L["Amenity_WiFi"]</MudChip>
+                        <MudChip T="string"
+                            Icon="@(Room.HasDesk ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)"
+                            Color="@(Room.HasDesk ? Color.Success : Color.Error)">@L["Amenity_Desk"]</MudChip>
+                        <MudChip T="string"
+                            Icon="@(Room.HasWardrobe ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)"
+                            Color="@(Room.HasWardrobe ? Color.Success : Color.Error)">@L["Amenity_Wardrobe"]</MudChip>
+                        <MudChip T="string"
+                            Icon="@(Room.HasBalcony ? Icons.Material.Filled.Check : Icons.Material.Filled.Close)"
+                            Color="@(Room.HasBalcony ? Color.Success : Color.Error)">@L["Amenity_Balcony"]</MudChip>
                     </MudStack>
                 </MudItem>
 
                 <MudItem xs="12">
                     <MudDivider Class="my-4" />
                     <MudText Typo="Typo.subtitle2">@L["Common_AuditInfo"]</MudText>
-                    <MudText Typo="Typo.body2">@L["Common_Created"] @Room.CreatedAt.ToString("g") @L["Common_by"] @Room.CreatedBy</MudText>
+                    <MudText Typo="Typo.body2">@L["Common_Created"] @Room.CreatedAt.ToString("g") @L["Common_by"]
+                        @Room.CreatedBy</MudText>
                     @if (Room.LastModifiedAt.HasValue)
                     {
-                        <MudText Typo="Typo.body2">@L["Common_LastModified"] @Room.LastModifiedAt.Value.ToString("g") @L["Common_by"] @Room.LastModifiedBy</MudText>
+                        <MudText Typo="Typo.body2">@L["Common_LastModified"] @Room.LastModifiedAt.Value.ToString("g")
+                            @L["Common_by"] @Room.LastModifiedBy</MudText>
                     }
                 </MudItem>
             </MudGrid>

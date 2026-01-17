@@ -20,19 +20,28 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="p-4 md:p-6 mb-4">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4">
-                    <MudIcon Icon="@Icons.Material.Filled.Assessment" Class="mr-2" />
+                <MudText Class="text-2xl md:text-4xl font-bold flex items-center">
+                    <MudIcon Icon="@Icons.Material.Filled.Assessment" Class="mr-2 text-3xl md:text-4xl" />
                     @L["ReportsAndAnalytics_Header"]
                 </MudText>
                 <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
             </div>
-            <MudButtonGroup Variant="Variant.Outlined">
-                <MudButton StartIcon="@Icons.Material.Filled.Download">@L["ReportsAndAnalytics_Button_ExportPDF"]</MudButton>
-                <MudButton StartIcon="@Icons.Material.Filled.TableChart">@L["ReportsAndAnalytics_Button_ExportExcel"]</MudButton>
+            <MudButtonGroup Variant="Variant.Outlined" Class="hidden md:flex">
+                <MudButton StartIcon="@Icons.Material.Filled.Download">@L["ReportsAndAnalytics_Button_ExportPDF"]
+                </MudButton>
+                <MudButton StartIcon="@Icons.Material.Filled.TableChart">@L["ReportsAndAnalytics_Button_ExportExcel"]
+                </MudButton>
             </MudButtonGroup>
+
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Variant="Variant.Outlined" Class="flex md:hidden">
+                <MudMenuItem Icon="@Icons.Material.Filled.Download">@L["ReportsAndAnalytics_Button_ExportPDF"]
+                </MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.TableChart">@L["ReportsAndAnalytics_Button_ExportExcel"]
+                </MudMenuItem>
+            </MudMenu>
         </MudStack>
     </MudPaper>
 
@@ -41,11 +50,12 @@
         <MudGrid>
             <MudItem xs="12" md="4">
                 <MudDatePicker Date="_startDate"
-                    DateChanged="@(async (DateTime? date) => { _startDate = date; await LoadReports(); })" Label='@L["ReportsAndAnalytics_Label_StartDate"]'
-                    Variant="Variant.Outlined" />
+                    DateChanged="@(async (DateTime? date) => { _startDate = date; await LoadReports(); })"
+                    Label='@L["ReportsAndAnalytics_Label_StartDate"]' Variant="Variant.Outlined" />
             </MudItem>
             <MudItem xs="12" md="4">
-                <MudDatePicker Date="_endDate" DateChanged="@(async (DateTime? date) => { _endDate = date; await LoadReports(); })"
+                <MudDatePicker Date="_endDate"
+                    DateChanged="@(async (DateTime? date) => { _endDate = date; await LoadReports(); })"
                     Label='@L["ReportsAndAnalytics_Label_EndDate"]' Variant="Variant.Outlined" />
             </MudItem>
             <MudItem xs="12" md="4">
@@ -69,19 +79,23 @@
     else
     {
         <!-- Summary Cards -->
+        <!-- Summary Cards -->
         <MudGrid Class="mb-4">
-            <MudItem xs="12" sm="6" md="3">
-                <MudCard Elevation="2">
+            <!-- Revenue Card -->
+            <MudItem xs="6" sm="6" md="3">
+                <MudCard Elevation="2" Class="h-full">
                     <MudCardContent>
-                        <MudStack Spacing="2">
-                            <MudStack Row="true" Justify="Justify.SpaceBetween">
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ReportsAndAnalytics_Summary_TotalRevenue"]</MudText>
-                                <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Color="Color.Success" />
-                            </MudStack>
-                            <MudText Typo="Typo.h4" Color="Color.Success">
+                        <MudStack Spacing="1">
+                            <div class="flex justify-between items-center">
+                                <MudText Class="text-xs md:text-caption text-secondary uppercase">
+                                    @L["ReportsAndAnalytics_Summary_TotalRevenue"]</MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Color="Color.Success"
+                                    Size="Size.Small" />
+                            </div>
+                            <MudText Class="text-lg md:text-2xl font-bold text-success">
                                 @_reportData.TotalRevenue.ToString("N0") LYD
                             </MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                            <MudText Class="text-xs text-secondary">
                                 @string.Format(L["ReportsAndAnalytics_Summary_PaymentsReceived"], _reportData.PaidPayments)
                             </MudText>
                         </MudStack>
@@ -89,37 +103,43 @@
                 </MudCard>
             </MudItem>
 
-            <MudItem xs="12" sm="6" md="3">
-                <MudCard Elevation="2">
+            <!-- Pending Payments Card -->
+            <MudItem xs="6" sm="6" md="3">
+                <MudCard Elevation="2" Class="h-full">
                     <MudCardContent>
-                        <MudStack Spacing="2">
-                            <MudStack Row="true" Justify="Justify.SpaceBetween">
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ReportsAndAnalytics_Summary_PendingPayments"]</MudText>
-                                <MudIcon Icon="@Icons.Material.Filled.HourglassEmpty" Color="Color.Warning" />
-                            </MudStack>
-                            <MudText Typo="Typo.h4" Color="Color.Warning">
+                        <MudStack Spacing="1">
+                            <div class="flex justify-between items-center">
+                                <MudText Class="text-xs md:text-caption text-secondary uppercase">
+                                    @L["ReportsAndAnalytics_Summary_PendingPayments"]</MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.HourglassEmpty" Color="Color.Warning"
+                                    Size="Size.Small" />
+                            </div>
+                            <MudText Class="text-lg md:text-2xl font-bold text-warning">
                                 @_reportData.PendingAmount.ToString("N0") LYD
                             </MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">
-                                @string.Format(L["ReportsAndAnalytics_Summary_PaymentsPending"], _reportData.PendingPayments)
+                            <MudText Class="text-xs text-secondary">
+                                @string.Format(L["ReportsAndAnalytics_Summary_PaymentsPending"],
+                            _reportData.PendingPayments)
                             </MudText>
                         </MudStack>
                     </MudCardContent>
                 </MudCard>
             </MudItem>
 
-            <MudItem xs="12" sm="6" md="3">
-                <MudCard Elevation="2">
+            <!-- New Students Card -->
+            <MudItem xs="6" sm="6" md="3">
+                <MudCard Elevation="2" Class="h-full">
                     <MudCardContent>
-                        <MudStack Spacing="2">
-                            <MudStack Row="true" Justify="Justify.SpaceBetween">
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ReportsAndAnalytics_Summary_NewStudents"]</MudText>
-                                <MudIcon Icon="@Icons.Material.Filled.PersonAdd" Color="Color.Primary" />
-                            </MudStack>
-                            <MudText Typo="Typo.h4" Color="Color.Primary">
+                        <MudStack Spacing="1">
+                            <div class="flex justify-between items-center">
+                                <MudText Class="text-xs md:text-caption text-secondary uppercase">
+                                    @L["ReportsAndAnalytics_Summary_NewStudents"]</MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.PersonAdd" Color="Color.Primary" Size="Size.Small" />
+                            </div>
+                            <MudText Class="text-lg md:text-2xl font-bold text-primary">
                                 @_reportData.NewStudents
                             </MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                            <MudText Class="text-xs text-secondary">
                                 @L["ReportsAndAnalytics_Summary_InSelectedPeriod"]
                             </MudText>
                         </MudStack>
@@ -127,19 +147,23 @@
                 </MudCard>
             </MudItem>
 
-            <MudItem xs="12" sm="6" md="3">
-                <MudCard Elevation="2">
+            <!-- Complaints Card -->
+            <MudItem xs="6" sm="6" md="3">
+                <MudCard Elevation="2" Class="h-full">
                     <MudCardContent>
-                        <MudStack Spacing="2">
-                            <MudStack Row="true" Justify="Justify.SpaceBetween">
-                                <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ReportsAndAnalytics_Summary_Complaints"]</MudText>
-                                <MudIcon Icon="@Icons.Material.Filled.ReportProblem" Color="Color.Error" />
-                            </MudStack>
-                            <MudText Typo="Typo.h4" Color="Color.Error">
+                        <MudStack Spacing="1">
+                            <div class="flex justify-between items-center">
+                                <MudText Class="text-xs md:text-caption text-secondary uppercase">
+                                    @L["ReportsAndAnalytics_Summary_Complaints"]</MudText>
+                                <MudIcon Icon="@Icons.Material.Filled.ReportProblem" Color="Color.Error"
+                                    Size="Size.Small" />
+                            </div>
+                            <MudText Class="text-lg md:text-2xl font-bold text-error">
                                 @_reportData.TotalComplaints
                             </MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">
-                                @string.Format(L["ReportsAndAnalytics_Summary_ComplaintsResolved"], _reportData.ResolvedComplaints)
+                            <MudText Class="text-xs text-secondary">
+                                @string.Format(L["ReportsAndAnalytics_Summary_ComplaintsResolved"],
+                            _reportData.ResolvedComplaints)
                             </MudText>
                         </MudStack>
                     </MudCardContent>
@@ -273,19 +297,27 @@
                     <MudCardContent>
                         <MudList T="string" Dense="true">
                             <MudListItem T="string" Icon="@Icons.Material.Filled.Login" IconColor="Color.Primary">
-                                <MudText Typo="Typo.body2">@string.Format(L["ReportsAndAnalytics_Activity_UserLogins"], _reportData.LoginCount)</MudText>
+                                <MudText Typo="Typo.body2">@string.Format(L["ReportsAndAnalytics_Activity_UserLogins"],
+                                _reportData.LoginCount)</MudText>
                             </MudListItem>
                             <MudListItem T="string" Icon="@Icons.Material.Filled.PersonAdd" IconColor="Color.Success">
-                                <MudText Typo="Typo.body2">@string.Format(L["ReportsAndAnalytics_Activity_NewRegistrations"], _reportData.NewStudents)</MudText>
+                                <MudText Typo="Typo.body2">
+                                    @string.Format(L["ReportsAndAnalytics_Activity_NewRegistrations"],
+                                _reportData.NewStudents)</MudText>
                             </MudListItem>
                             <MudListItem T="string" Icon="@Icons.Material.Filled.Payment" IconColor="Color.Warning">
-                                <MudText Typo="Typo.body2">@string.Format(L["ReportsAndAnalytics_Activity_PaymentsProcessed"], _reportData.PaidPayments)</MudText>
+                                <MudText Typo="Typo.body2">
+                                    @string.Format(L["ReportsAndAnalytics_Activity_PaymentsProcessed"],
+                                _reportData.PaidPayments)</MudText>
                             </MudListItem>
                             <MudListItem T="string" Icon="@Icons.Material.Filled.ReportProblem" IconColor="Color.Error">
-                                <MudText Typo="Typo.body2">@string.Format(L["ReportsAndAnalytics_Activity_ComplaintsFiled"], _reportData.TotalComplaints)</MudText>
+                                <MudText Typo="Typo.body2">@string.Format(L["ReportsAndAnalytics_Activity_ComplaintsFiled"],
+                                _reportData.TotalComplaints)</MudText>
                             </MudListItem>
                             <MudListItem T="string" Icon="@Icons.Material.Filled.CheckCircle" IconColor="Color.Info">
-                                <MudText Typo="Typo.body2">@string.Format(L["ReportsAndAnalytics_Activity_ComplaintsResolved"], _reportData.ResolvedComplaints)</MudText>
+                                <MudText Typo="Typo.body2">
+                                    @string.Format(L["ReportsAndAnalytics_Activity_ComplaintsResolved"],
+                                _reportData.ResolvedComplaints)</MudText>
                             </MudListItem>
                         </MudList>
                     </MudCardContent>
@@ -306,9 +338,9 @@
     private List<ChartSeries> _revenueSeries = new();
     private double[] _paymentStatusData = [];
     private string[] _paymentStatusLabels = [];
-	private List<ChartSeries> _complaintSeries = new();
-	private string[] _complaintCategories = [];
-	private List<ComplaintType> _allComplaintTypes = new();
+    private List<ChartSeries> _complaintSeries = new();
+    private string[] _complaintCategories = [];
+    private List<ComplaintType> _allComplaintTypes = new();
 
     private readonly ChartOptions _chartOptions = new()
         {
@@ -326,8 +358,8 @@
 
     private readonly List<BreadcrumbItem> _breadcrumbs =
     [
-        new("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
-        new("Reports", href: null, disabled: true)
+    new("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
+    new("Reports", href: null, disabled: true)
     ];
 
     protected override async Task OnInitializedAsync()
@@ -361,8 +393,8 @@
         {
             var students = await StudentRepo.GetAllAsync();
             var payments = await PaymentRepo.GetAllAsync();
-	            var complaints = await ComplaintRepo.GetAllAsync();
-	            _allComplaintTypes = (await ComplaintTypeRepo.GetAllAsync()).Where(ct => !ct.IsDeleted).ToList();
+            var complaints = await ComplaintRepo.GetAllAsync();
+            _allComplaintTypes = (await ComplaintTypeRepo.GetAllAsync()).Where(ct => !ct.IsDeleted).ToList();
             var residences = await ResidenceRepo.GetAllAsync();
             var auditLogs = await AuditService.GetAllAsync();
 
@@ -406,9 +438,9 @@
                     {
                         Name = r.Name,
                         Revenue = filteredPayments
-	                    .Where(p => p.Reservation.Room.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
+                    .Where(p => p.Reservation.Room.ResidenceId == r.Id && p.Status == PaymentStatus.Paid)
                     .Sum(p => p.Amount.Amount ?? 0),
-	                        Students = iEnumerable.Count(s => s.Reservations.Any(res => res.Room.ResidenceId == r.Id))
+                        Students = iEnumerable.Count(s => s.Reservations.Any(res => res.Room.ResidenceId == r.Id))
                     }).OrderByDescending(r => r.Revenue).Take(5).ToList()
                 };
 
@@ -446,7 +478,7 @@
 
         _revenueSeries =
         [
-            new ChartSeries
+        new ChartSeries
             {
                 Name = "Revenue (LYD)",
                 Data = _revenueChartData.Select(x => x.Value).ToArray()
@@ -464,21 +496,21 @@
         _paymentStatusLabels = ["Paid", "Pending", "Overdue"];
     }
 
-	    private void GenerateComplaintChart(List<Complaint> complaints)
-	    {
-	        var categories = _allComplaintTypes;
-	        var categoryCounts = categories.Select(c => complaints.Count(comp => comp.ComplaintTypeId == c.Id)).ToArray();
-	
-	        _complaintCategories = categories.Select(c => c.Name).ToArray();
-	        _complaintSeries =
-            [
-                new ChartSeries
-                {
-                    Name = "Complaints",
-                    Data = categoryCounts.Select(x => (double)x).ToArray()
-                }
-            ];
-	    }
+    private void GenerateComplaintChart(List<Complaint> complaints)
+    {
+        var categories = _allComplaintTypes;
+        var categoryCounts = categories.Select(c => complaints.Count(comp => comp.ComplaintTypeId == c.Id)).ToArray();
+
+        _complaintCategories = categories.Select(c => c.Name).ToArray();
+        _complaintSeries =
+        [
+        new ChartSeries
+            {
+                Name = "Complaints",
+                Data = categoryCounts.Select(x => (double)x).ToArray()
+            }
+        ];
+    }
 
     private Color GetOccupancyColor(double rate)
     {

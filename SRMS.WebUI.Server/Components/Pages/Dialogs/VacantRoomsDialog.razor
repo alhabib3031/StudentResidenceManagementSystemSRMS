@@ -4,13 +4,15 @@
 @using SRMS.Application.Reservations.Interfaces
 @using SRMS.Application.Identity.Interfaces
 @using System.Security.Claims
+@using Microsoft.Extensions.Localization
+@using SRMS.WebUI.Server.Resources
 @inject HttpClient Http
 @inject ISnackbar Snackbar
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IReservationService ReservationService
 @inject IUserService UserService
-
+@inject IStringLocalizer<Resource> L
 
 
 <MudDialog>
@@ -24,7 +26,7 @@
         else if (_vacantRooms == null || !_vacantRooms.Any())
         {
             <MudAlert Severity="Severity.Info">
-                <MudText>لا توجد غرف شاغرة في هذا السكن حالياً</MudText>
+                <MudText>@L["VacantRooms_NoRooms"]</MudText>
             </MudAlert>
         }
         else
@@ -39,7 +41,7 @@
                         <MudCard Class="glass-card" Elevation="0">
                             <MudCardContent>
                                 <div class="flex justify-between items-center mb-2">
-                                    <MudText Typo="Typo.h6">غرفة @room.RoomNumber</MudText>
+                                    <MudText Class="text-lg font-bold">@L["VacantRooms_Room"] @room.RoomNumber</MudText>
                                     <MudChip T="string" Size="Size.Small"
                                         Color="@(room.Status == RoomStatus.Available ? Color.Success : Color.Warning)">
                                         @GetRoomStatusText(room.Status)
@@ -51,20 +53,20 @@
                                 <div class="flex flex-col gap-2">
                                     <div class="flex items-center gap-2">
                                         <MudIcon Icon="@Icons.Material.Filled.Stairs" Size="Size.Small" Color="Color.Primary" />
-                                        <MudText Typo="Typo.body2">الطابق: <strong>@room.Floor</strong></MudText>
+                                        <MudText Class="text-sm">@L["VacantRooms_Floor"]: <strong>@room.Floor</strong></MudText>
                                     </div>
 
                                     <div class="flex items-center gap-2">
                                         <MudIcon Icon="@Icons.Material.Filled.Category" Size="Size.Small"
                                             Color="Color.Primary" />
-                                        <MudText Typo="Typo.body2">النوع: <strong>@GetRoomTypeText(room.RoomType)</strong>
+                                        <MudText Class="text-sm">@L["VacantRooms_Type"]: <strong>@GetRoomTypeText(room.RoomType)</strong>
                                         </MudText>
                                     </div>
 
                                     <div class="flex items-center gap-2">
                                         <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Small" Color="Color.Primary" />
-                                        <MudText Typo="Typo.body2">
-                                            الأسرة المتاحة: <strong style="color: var(--mud-palette-success);">@availableBeds /
+                                        <MudText Class="text-sm">
+                                            @L["VacantRooms_Beds"]: <strong style="color: var(--mud-palette-success);">@availableBeds /
                                                 @room.TotalBeds</strong>
                                         </MudText>
                                     </div>
@@ -74,8 +76,8 @@
                                         <div class="flex items-center gap-2">
                                             <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Size="Size.Small"
                                                 Color="Color.Success" />
-                                            <MudText Typo="Typo.body2">
-                                                السعر الشهري:
+                                            <MudText Class="text-sm">
+                                                @L["VacantRooms_Monthly"]:
                                                 <strong style="color: var(--mud-palette-success); font-size: 1.1em;">
                                                     @room.MonthlyRent.Amount @room.MonthlyRent.Currency
                                                 </strong>
@@ -85,7 +87,7 @@
                                     else
                                     {
                                         <MudAlert Severity="Severity.Warning" Dense="true" Class="my-2">
-                                            <MudText Typo="Typo.caption">لم يتم تحديد السعر من قبل الإدارة</MudText>
+                                            <MudText Class="text-xs">@L["Reservation_Error_RentNotAvailable"]</MudText>
                                         </MudAlert>
                                     }
                                 </div>
@@ -93,7 +95,7 @@
                             <MudCardActions>
                                 <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
                                     Disabled="@(!hasPrice)" OnClick="@(() => SelectRoomForBooking(room))">
-                                    @(hasPrice ? "احجز الآن" : "غير متاح للحجز")
+                                    @(hasPrice ? L["VacantRooms_Select"] : L["Reservation_Error_RentNotAvailable"])
                                 </MudButton>
                             </MudCardActions>
                         </MudCard>
@@ -103,7 +105,7 @@
         }
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">إغلاق</MudButton>
+        <MudButton OnClick="@Cancel">@L["Common_Close"]</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -173,7 +175,7 @@
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"خطأ في تحميل الغرف: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{L["VacantRooms_Loading"].Value}: {ex.Message}", Severity.Error);
             Console.WriteLine($"Error loading vacant rooms: {ex.Message}");
         }
         finally
@@ -186,7 +188,7 @@
     {
         if (_studentId == Guid.Empty)
         {
-            Snackbar.Add("لم يتم العثور على معرف الطالب", Severity.Error);
+            Snackbar.Add(L["Reservation_Error_StudentIdMissingAction"].Value, Severity.Error);
             return;
         }
 
@@ -205,7 +207,7 @@
                 CloseButton = true
             };
 
-        var dialog = await DialogService.ShowAsync<BookingConfirmationDialog>("تأكيد الحجز", parameters, options);
+        var dialog = await DialogService.ShowAsync<BookingConfirmationDialog>(L["ConfirmWithTextDialog_Title"].Value, parameters, options);
         var result = await dialog.Result;
 
         if (!result.Canceled)
@@ -224,11 +226,11 @@
     {
         return status switch
         {
-            RoomStatus.Available => "متاحة",
-            RoomStatus.Occupied => "مشغولة",
-            RoomStatus.Maintenance => "صيانة",
-            RoomStatus.Reserved => "محجوزة",
-            _ => "غير معروف"
+            RoomStatus.Available => L["Available"].Value,
+            RoomStatus.Occupied => L["Occupied"].Value,
+            RoomStatus.Maintenance => L["Maintenance"].Value,
+            RoomStatus.Reserved => L["Reserved"].Value,
+            _ => L["Unknown"].Value
         };
     }
 
@@ -236,11 +238,11 @@
     {
         return roomType switch
         {
-            RoomType.Single => "فردية",
-            RoomType.Double => "مزدوجة",
-            RoomType.Triple => "ثلاثية",
-            RoomType.Quad => "رباعية",
-            _ => "غير معروف"
+            RoomType.Single => L["Single"].Value,
+            RoomType.Double => L["Double"].Value,
+            RoomType.Triple => L["Triple"].Value,
+            RoomType.Quad => L["Quad"].Value,
+            _ => L["Unknown"].Value
         };
     }
 

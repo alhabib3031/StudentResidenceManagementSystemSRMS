@@ -5,7 +5,7 @@
 
 <MudDialog>
     <TitleContent>
-        <MudText Typo="Typo.h6">
+        <MudText Class="text-xl md:text-2xl font-bold flex items-center">
             <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-2" />
             @L["EditUserDialog_Title"]
         </MudText>
@@ -135,13 +135,13 @@
             }
             else
             {
-                Snackbar.Add(L["EditUserDialog_Snackbar_UserNotFound"], Severity.Error);
+                Snackbar.Add(L["EditUserDialog_Snackbar_UserNotFound"].Value, Severity.Error);
                 MudDialog.Cancel();
             }
         }
         catch (Exception ex)
         {
-            Snackbar.Add(string.Format(L["EditUserDialog_Snackbar_LoadError"], ex.Message), Severity.Error);
+            Snackbar.Add(string.Format(L["EditUserDialog_Snackbar_LoadError"].Value, ex.Message), Severity.Error);
             MudDialog.Cancel();
         }
         finally
@@ -160,12 +160,12 @@
 
             if (success)
             {
-                Snackbar.Add(L["EditUserDialog_Snackbar_UpdateSuccess"], Severity.Success);
+                Snackbar.Add(L["EditUserDialog_Snackbar_UpdateSuccess"].Value, Severity.Success);
                 MudDialog.Close(DialogResult.Ok(true));
             }
             else
             {
-                Snackbar.Add(L["EditUserDialog_Snackbar_UpdateFailed"], Severity.Error);
+                Snackbar.Add(L["EditUserDialog_Snackbar_UpdateFailed"].Value, Severity.Error);
             }
         }
         catch (Exception ex)

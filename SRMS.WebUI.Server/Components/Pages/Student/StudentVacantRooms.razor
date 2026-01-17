@@ -1,55 +1,97 @@
-@page "/student/residences/{ResidenceId:guid}/vacant-rooms"
-@attribute [Authorize(Roles = "Student")]
 @using SRMS.Application.Reservations.DTOs
 @using SRMS.Domain.Rooms.Enums
+@using Microsoft.Extensions.Localization
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
+@inject IStringLocalizer<Resource> L
 
-<h3>Vacant Rooms in Residence</h3>
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-8">
+    <MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-6">
+        <MudIconButton Icon="@Icons.Material.Filled.ArrowBack" Href="/student/residences" Color="Color.Inherit"
+            Edge="Edge.Start" />
+        <MudText Class="text-3xl md:text-4xl font-bold text-gradient">@L["VacantRooms_Title"]</MudText>
+    </MudStack>
 
-@if (vacantRooms == null)
-{
-    <p><em>Loading vacant rooms...</em></p>
-}
-else
-{
-    @if (!vacantRooms.Any())
+    @if (_vacantRooms == null)
     {
-        <p>No vacant rooms currently available in this residence.</p>
+        <MudStack AlignItems="AlignItems.Center" Justify="Justify.Center" Class="py-20">
+            <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+            <MudText Class="mt-4 text-secondary">@L["VacantRooms_Loading"]</MudText>
+        </MudStack>
+    }
+    else if (!_vacantRooms.Any())
+    {
+        <MudAlert Severity="Severity.Info" Variant="Variant.Filled" Class="rounded-xl">
+            @L["VacantRooms_NoRooms"]
+        </MudAlert>
     }
     else
     {
-        <div class="card-columns">
-            @foreach (var room in vacantRooms)
+        <MudGrid>
+            @foreach (var room in _vacantRooms)
             {
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Room @room.RoomNumber</h5>
-                        <p class="card-text">Floor: @room.Floor</p>
-                        <p class="card-text">Type: @room.RoomType</p>
-                        <p class="card-text">Beds: @room.OccupiedBeds / @room.TotalBeds</p>
-                        <p class="card-text">Status: @room.Status</p>
-                        <p class="card-text">Monthly Rent: @room.MonthlyRent?.Amount @room.MonthlyRent?.Currency</p>
-                        <button class="btn btn-success" @onclick="(() => SelectRoomForReservation(room.Id))">Select for Reservation</button>
-                    </div>
-                </div>
+                <MudItem xs="12" sm="6" md="4" lg="3">
+                    <MudPaper Elevation="0"
+                        Class="p-4 md:p-6 rounded-3xl h-full flex flex-col justify-between glass-card hover:shadow-xl transition-shadow duration-300 border border-white/10">
+                        <div>
+                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+                                <MudText Class="text-xl md:text-2xl font-bold text-primary">@L["VacantRooms_Room"]
+                                    @room.RoomNumber
+                                </MudText>
+                                <MudChip T="string" Color="Color.Success" Size="Size.Small" Variant="Variant.Text"
+                                    Class="font-bold">@room.Status</MudChip>
+                            </MudStack>
+
+                            <MudStack Spacing="2">
+                                <MudStack Row="true" AlignItems="AlignItems.Center" Class="text-secondary-400">
+                                    <MudIcon Icon="@Icons.Material.Filled.Layers" Size="Size.Small" Class="mr-2" />
+                                    <MudText Class="text-sm">@L["VacantRooms_Floor"]: @room.Floor</MudText>
+                                </MudStack>
+                                <MudStack Row="true" AlignItems="AlignItems.Center" Class="text-secondary-400">
+                                    <MudIcon Icon="@Icons.Material.Filled.Bed" Size="Size.Small" Class="mr-2" />
+                                    <MudText Class="text-sm">@L["VacantRooms_Type"]: @room.RoomType</MudText>
+                                </MudStack>
+                                <MudStack Row="true" AlignItems="AlignItems.Center" Class="text-secondary-400">
+                                    <MudIcon Icon="@Icons.Material.Filled.Group" Size="Size.Small" Class="mr-2" />
+                                    <MudText Class="text-sm">@L["VacantRooms_Beds"]: @room.OccupiedBeds / @room.TotalBeds
+                                    </MudText>
+                                </MudStack>
+
+                                @if (room.MonthlyRent != null)
+                                {
+                                    <MudDivider Class="my-2" />
+                                    <MudText Class="text-lg font-bold text-success text-right">@room.MonthlyRent.Amount
+                                        @room.MonthlyRent.Currency <span
+                                            class="text-xs font-normal text-secondary">/@L["VacantRooms_Monthly"]</span></MudText>
+                                }
+                            </MudStack>
+                        </div>
+
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true"
+                            Class="mt-6 rounded-xl py-2 font-bold shadow-lg shadow-primary/30"
+                            OnClick="@(() => SelectRoomForReservation(room.Id))">
+                            @L["VacantRooms_Select"]
+                        </MudButton>
+                    </MudPaper>
+                </MudItem>
             }
-        </div>
+        </MudGrid>
     }
-}
+</MudContainer>
 
 @code {
     [Parameter]
     public Guid ResidenceId { get; set; }
 
-    private IEnumerable<RoomAvailabilityDto>? vacantRooms;
+    private IEnumerable<RoomAvailabilityDto>? _vacantRooms;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            vacantRooms = await Http.GetFromJsonAsync<IEnumerable<RoomAvailabilityDto>>($"api/student/StudentReservations/residences/{ResidenceId}/vacant-rooms");
+            _vacantRooms = await
+            Http.GetFromJsonAsync<IEnumerable<RoomAvailabilityDto>>($"api/student/StudentReservations/residences/{ResidenceId}/vacant-rooms");
         }
         catch (HttpRequestException ex)
         {

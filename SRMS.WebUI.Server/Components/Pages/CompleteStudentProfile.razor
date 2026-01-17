@@ -18,9 +18,10 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @rendermode InteractiveServer
 
-<MudContainer MaxWidth="MaxWidth.Medium" Class="my-10">
-    <MudPaper Elevation="4" Class="pa-8 pb-12 rounded-3xl">
-        <MudText Typo="Typo.h4" Class="mb-6 font-bold text-gradient">@L["ProfileCompletion_Student_Title"]</MudText>
+<MudContainer MaxWidth="MaxWidth.Medium" Class="my-6 md:my-10">
+    <MudPaper Elevation="4" Class="p-4 md:p-8 pb-8 md:pb-12 rounded-3xl">
+        <MudText Class="text-2xl md:text-3xl mb-6 font-bold text-gradient text-center md:text-left">
+            @L["ProfileCompletion_Student_Title"]</MudText>
 
         <MudStepper NonLinear="false" CenterLabels="true" Class="mud-width-full">
             <!-- Step 1: Personal Info -->
@@ -32,8 +33,9 @@
                                 Variant="Variant.Outlined" Required="true" />
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <MudSelect T="Guid" @bind-Value="_model.NationalityId" Label='@L["ProfileCompletion_Nationality"]'
-                                Variant="Variant.Outlined" Required="true" AnchorOrigin="Origin.BottomCenter">
+                            <MudSelect T="Guid" @bind-Value="_model.NationalityId"
+                                Label='@L["ProfileCompletion_Nationality"]' Variant="Variant.Outlined" Required="true"
+                                AnchorOrigin="Origin.BottomCenter">
                                 @foreach (var nat in _nationalities)
                                 {
                                     <MudSelectItem Value="@nat.Id">@nat.Name</MudSelectItem>
@@ -181,7 +183,7 @@
 
                     <MudItem xs="12" sm="6">
                         <MudButton Variant="Variant.Filled" Color="Color.Success" Class="w-full py-4 mt-8"
-                            OnClick="SubmitProfile" Disabled="_isSubmitting">
+                            OnClick="@SubmitProfile" Disabled="_isSubmitting">
                             @if (_isSubmitting)
                             {
                                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
@@ -196,10 +198,10 @@
 </MudContainer>
 
 @code {
-    private CompleteStudentProfileDto _model = new();
+    private readonly CompleteStudentProfileDto _model = new();
     private List<College> _colleges = new();
     private List<Major> _majors = new();
-    private List<SRMS.Domain.Common.Nationality> _nationalities = new();
+    private List<Nationality> _nationalities = new();
     private bool _isSubmitting;
     private Guid _userId;
 
@@ -233,13 +235,13 @@
         }
     }
 
-    private async Task UploadDoc(IBrowserFile file, string type)
+    private async Task UploadDoc(IBrowserFile? file, string type)
     {
         try
         {
             if (file != null)
             {
-                using var stream = file.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024); // 5MB
+                await using var stream = file.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024); // 5MB
                 var path = await FileStorageService.SaveFileAsync(stream, file.Name, "certificates");
 
                 switch (type)
@@ -267,12 +269,12 @@
             var success = await UserService.CompleteStudentProfileAsync(_userId, _model);
             if (success)
             {
-                Snackbar.Add(L["ProfileCompletion_Success"], Severity.Success);
-                Navigation.NavigateTo("/"); 
+                Snackbar.Add(L["ProfileCompletion_Success"].Value, Severity.Success);
+                Navigation.NavigateTo("/");
             }
             else
             {
-                Snackbar.Add(L["ProfileCompletion_Error"], Severity.Error);
+                Snackbar.Add(L["ProfileCompletion_Error"].Value, Severity.Error);
             }
         }
         catch (Exception ex)

@@ -13,10 +13,11 @@
 @inject AuthenticationStateProvider AuthStateProvider
 @rendermode InteractiveServer
 
-<MudContainer MaxWidth="MaxWidth.Small" Class="my-20">
-    <MudPaper Elevation="4" Class="pa-10 rounded-3xl glass-card">
+<MudContainer MaxWidth="MaxWidth.Small" Class="my-10 md:my-20">
+    <MudPaper Elevation="4" Class="p-6 md:p-10 rounded-3xl glass-card">
         <MudStack Spacing="6">
-            <MudText Typo="Typo.h4" Class="font-bold text-gradient text-center">@L["ProfileCompletion_Registrar_Title"]
+            <MudText Class="text-2xl md:text-3xl font-bold text-gradient text-center">
+                @L["ProfileCompletion_Registrar_Title"]
             </MudText>
 
             <EditForm Model="@_model" OnValidSubmit="SubmitProfile">
@@ -37,11 +38,12 @@
                         }
                     </MudSelect>
 
-                    <MudTextField @bind-Value="_model.PhoneNumber" Label='@L["PhoneNumber"]'
-                        Variant="Variant.Outlined" Required="true" />
+                    <MudTextField @bind-Value="_model.PhoneNumber" Label='@L["PhoneNumber"]' Variant="Variant.Outlined"
+                        Required="true" />
 
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Info"
-                        Class="py-3 font-bold rounded-xl mt-4" Disabled='_isSubmitting || _model.CollegeId == Guid.Empty'>
+                        Class="py-3 font-bold rounded-xl mt-4"
+                        Disabled='_isSubmitting || _model.CollegeId == Guid.Empty'>
                         @if (_isSubmitting)
                         {
                             <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
@@ -55,7 +57,7 @@
 </MudContainer>
 
 @code {
-    private CompleteRegistrarProfileDto _model = new();
+    private readonly CompleteRegistrarProfileDto _model = new();
     private List<College> _colleges = new();
     private bool _isSubmitting;
     private Guid _userId;
@@ -94,12 +96,12 @@
             var success = await UserService.CompleteRegistrarProfileAsync(_userId, _model);
             if (success)
             {
-                Snackbar.Add(L["ProfileCompletion_Success"], Severity.Success);
+                Snackbar.Add(L["ProfileCompletion_Success"].Value, Severity.Success);
                 Navigation.NavigateTo("/");
             }
             else
             {
-                Snackbar.Add(L["ProfileCompletion_Error"], Severity.Error);
+                Snackbar.Add(L["ProfileCompletion_Error"].Value, Severity.Error);
             }
         }
         catch (Exception ex)

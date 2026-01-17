@@ -15,26 +15,28 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="p-6 md:p-8 mb-4 rounded-3xl glass-card">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4" Color="Color.Primary">
-                    <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" />
+                <MudText Class="text-3xl md:text-5xl font-bold mb-2 text-gradient">
+                    <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-3 text-4xl md:text-5xl" />
                     @Localizer["AuditLogs"]
                 </MudText>
-                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                <MudText Class="text-base md:text-lg text-secondary pl-1">
                     @Localizer["TrackAllSystemActivitiesAndChanges"]
                 </MudText>
             </div>
             <MudStack Row="true" Spacing="2">
-                <MudButton Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Refresh"
-                           OnClick="@LoadLogs" Disabled="@_isLoading">
-                    @Localizer["Refresh"]
-                </MudButton>
+                <MudIconButton Icon="@Icons.Material.Filled.Refresh" Variant="Variant.Filled" Color="Color.Info"
+                    OnClick="@LoadLogs" Disabled="@_isLoading" Class="rounded-xl shadow-md" />
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Download"
-                           OnClick="@ExportLogs" Disabled="@(_auditLog == null || !_auditLog.Any())">
+                    OnClick="@ExportLogs" Disabled="@(_auditLog == null || !_auditLog.Any())"
+                    Class="rounded-xl shadow-lg hidden md:flex">
                     @Localizer["ExportLogs"]
                 </MudButton>
+                <MudIconButton Icon="@Icons.Material.Filled.Download" Variant="Variant.Filled" Color="Color.Primary"
+                    OnClick="@ExportLogs" Disabled="@(_auditLog == null || !_auditLog.Any())"
+                    Class="flex md:hidden rounded-lg shadow-lg" />
             </MudStack>
         </MudStack>
     </MudPaper>
@@ -46,65 +48,61 @@
 
     <!-- Statistics -->
     <MudGrid Class="mb-4">
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="h-full glass-card rounded-2xl">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["TotalActions"]</MudText>
-                            <MudText Typo="Typo.h4">@_stats.TotalActions</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @Localizer["TotalActions"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.TouchApp" Color="Color.Primary" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Primary" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.TouchApp" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-primary">@_stats.TotalActions</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="h-full glass-card rounded-2xl">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["Today"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Success">@_stats.TodayActions</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @Localizer["Today"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.Today" Color="Color.Success" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Success" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.Today" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-success">@_stats.TodayActions</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="h-full glass-card rounded-2xl">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["FailedActions"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Error">@_stats.FailedActions</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @Localizer["FailedActions"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.Error" Color="Color.Error" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Error" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.Error" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-error">@_stats.FailedActions</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="h-full glass-card rounded-2xl">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@Localizer["ActiveUsers"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Info">@_stats.activeUsers</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @Localizer["ActiveUsers"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.People" Color="Color.Info" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Info" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-info">@_stats.activeUsers</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
@@ -112,16 +110,16 @@
     </MudGrid>
 
     <!-- Filters -->
-    <MudPaper Elevation="2" Class="pa-4 mb-4">
+    <MudPaper Elevation="2" Class="p-4 md:p-6 mb-4 rounded-3xl glass-card">
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
                 <MudTextField @bind-Value="_searchString" Label="@Localizer["Search"]" Variant="Variant.Outlined"
-                              Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Margin="Margin.Dense" />
+                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Margin="Margin.Dense" />
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_actionFilter" Label="@Localizer["ActionType"]" Variant="Variant.Outlined"
-                           Margin="Margin.Dense" Clearable="true">
+                <MudSelect T="string" @bind-Value="_actionFilter" Label="@Localizer["ActionType"]"
+                    Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true">
                     <MudSelectItem Value="@("Create")">@Localizer["Create"]</MudSelectItem>
                     <MudSelectItem Value="@("Update")">@Localizer["Update"]</MudSelectItem>
                     <MudSelectItem Value="@("Delete")">@Localizer["Delete"]</MudSelectItem>
@@ -132,8 +130,8 @@
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string" @bind-Value="_entityFilter" Label="@Localizer["Entity"]" Variant="Variant.Outlined"
-                           Margin="Margin.Dense" Clearable="true">
+                <MudSelect T="string" @bind-Value="_entityFilter" Label="@Localizer["Entity"]"
+                    Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true">
                     <MudSelectItem Value="@("User")">@Localizer["User"]</MudSelectItem>
                     <MudSelectItem Value="@("Student")">@Localizer["Student"]</MudSelectItem>
                     <MudSelectItem Value="@("Manager")">@Localizer["Manager"]</MudSelectItem>
@@ -144,15 +142,16 @@
             </MudItem>
 
             <MudItem xs="12" sm="6" md="3">
-                <MudDateRangePicker @bind-DateRange="_dateRange" Label="@Localizer["DateRange"]" Variant="Variant.Outlined"
-                                    Margin="Margin.Dense" />
+                <MudDateRangePicker @bind-DateRange="_dateRange" Label="@Localizer["DateRange"]"
+                    Variant="Variant.Outlined" Margin="Margin.Dense" />
             </MudItem>
         </MudGrid>
     </MudPaper>
 
     <!-- Logs Table -->
-    <MudPaper Elevation="4">
-        <MudTable Items="@_auditLog" Hover="true" Striped="true" Dense="true" Loading="@_isLoading">
+    <MudPaper Elevation="4" Class="rounded-3xl overflow-hidden glass-card">
+        <MudTable Items="@_auditLog" Hover="true" Striped="true" Dense="true" Loading="@_isLoading"
+            Breakpoint="Breakpoint.Sm" Class="glass-table">
             <HeaderContent>
                 <MudTh>@Localizer["Timestamp"]</MudTh>
                 <MudTh>@Localizer["User"]</MudTh>
@@ -194,7 +193,7 @@
                 </MudTd>
                 <MudTd DataLabel="@Localizer["Actions"]" Class="text-right">
                     <MudIconButton Icon="@Icons.Material.Filled.Visibility" Color="Color.Info" Size="Size.Small"
-                                 OnClick="@(() => ViewDetails(context))" />
+                        OnClick="@(() => ViewDetails(context))" />
                 </MudTd>
             </RowTemplate>
             <PagerContent>

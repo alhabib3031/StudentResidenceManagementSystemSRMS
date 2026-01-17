@@ -6,27 +6,42 @@
 
 <PageTitle>@L["Error_PageTitle"]</PageTitle>
 
-<h1 class="text-danger">@L["Error_Header"]</h1>
-<h2 class="text-danger">@L["Error_ProcessingMessage"]</h2>
+<MudContainer MaxWidth="MaxWidth.Medium" Class="flex flex-col items-center justify-center min-h-screen text-center p-6">
+    <MudIcon Icon="@Icons.Material.Filled.ErrorOutline" Color="Color.Error" Size="Size.Large"
+        Class="text-6xl md:text-8xl mb-6" />
 
-@if (ShowRequestId)
-{
-    <p>
-        <strong>@L["Error_RequestId"]</strong> <code>@RequestId</code>
-    </p>
-}
+    <MudText Class="text-3xl md:text-4xl font-bold text-red-600 mb-2">@L["Error_Header"]</MudText>
+    <MudText Class="text-xl md:text-2xl font-semibold text-red-500 mb-6">@L["Error_ProcessingMessage"]</MudText>
 
-<h3>@L["Error_DevelopmentMode_Title"]</h3>
-<p>@((MarkupString)L["Error_DevelopmentMode_Desc1"].Value)</p>
-<p>@((MarkupString)L["Error_DevelopmentMode_Desc2"].Value)</p>
+    @if (ShowRequestId)
+    {
+        <MudPaper Class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg mb-6">
+            <MudText Class="font-mono text-sm">
+                <strong>@L["Error_RequestId"]</strong> <code>@RequestId</code>
+            </MudText>
+        </MudPaper>
+    }
 
-@code{
+    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Class="max-w-xl">
+        <MudText Class="font-bold mb-2">@L["Error_DevelopmentMode_Title"]</MudText>
+        <MudText Class="text-sm mb-2">@((MarkupString)L["Error_DevelopmentMode_Desc1"].Value)</MudText>
+            <MudText Class="text-sm">@((MarkupString)L["Error_DevelopmentMode_Desc2"].Value)</MudText>
+        </MudAlert>
+
+        <MudButton Href="/" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Home"
+            Class="mt-8 rounded-xl px-6 py-2">
+            @L["Common_BackToHome"]
+        </MudButton>
+    </MudContainer>
+
+
+    @code {
     [CascadingParameter] private HttpContext? HttpContext { get; set; }
 
     private string? RequestId { get; set; }
     private bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
     protected override void OnInitialized() =>
-        RequestId = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+    RequestId = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
 
 }

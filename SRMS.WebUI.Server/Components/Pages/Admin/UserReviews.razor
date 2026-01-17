@@ -8,7 +8,7 @@
 @rendermode InteractiveServer
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-8">
-    <MudText Typo="Typo.h4" Class="mb-6 font-bold text-gradient">@L["Admin_UserReviews_Title"]</MudText>
+    <MudText Class="text-3xl md:text-4xl font-bold mb-6 text-gradient">@L["Admin_UserReviews_Title"]</MudText>
 
     <MudTable Items="@_pendingUsers" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" Elevation="4"
         Class="rounded-3xl overflow-hidden">
@@ -31,15 +31,15 @@
             <MudTd DataLabel='@L["User_AccountType"]'>
                 @if (context.StudentId.HasValue)
                 {
-                    <MudChip T="string" Color="Color.Secondary" Size="Size.Small">@L["AccountType_Student"]</MudChip>
+                        <MudChip T="string" Color="Color.Secondary" Size="Size.Small">@L["AccountType_Student"]</MudChip>
                 }
                 else if (context.RegistrarId.HasValue)
                 {
-                    <MudChip T="string" Color="Color.Info" Size="Size.Small">@L["AccountType_CollegeRegistrar"]</MudChip>
+                        <MudChip T="string" Color="Color.Info" Size="Size.Small">@L["AccountType_CollegeRegistrar"]</MudChip>
                 }
                 else
                 {
-                    <MudChip T="string" Color="Color.Default" Size="Size.Small">@L["Unknown"]</MudChip>
+                        <MudChip T="string" Color="Color.Default" Size="Size.Small">@L["Unknown"]</MudChip>
                 }
             </MudTd>
             <MudTd>

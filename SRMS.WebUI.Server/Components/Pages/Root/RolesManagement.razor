@@ -11,21 +11,23 @@
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4 glass-card">
+    <MudPaper Elevation="0" Class="p-6 md:p-8 mb-4 glass-card rounded-3xl">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4" Color="Color.Primary">
-                    <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" />
+                <MudText Class="text-3xl md:text-5xl font-bold mb-2 text-gradient">
+                    <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-3 text-4xl md:text-5xl" />
                     @L["RolesManagement.Title"]
                 </MudText>
-                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                <MudText Class="text-base md:text-lg text-secondary pl-1">
                     @L["RolesManagement.Subtitle"]
                 </MudText>
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-                OnClick="@CreateNewRole" Class="btn-modern h-12 rounded-xl font-semibold">
+                OnClick="@CreateNewRole" Class="btn-modern h-12 rounded-xl font-bold px-6 shadow-lg hidden md:flex">
                 @L["RolesManagement.CreateNewRole"]
             </MudButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary"
+                OnClick="@CreateNewRole" Class="flex md:hidden rounded-lg shadow-lg" />
         </MudStack>
     </MudPaper>
 
@@ -43,11 +45,12 @@
     <MudGrid Class="mb-6">
         @foreach (var role in _systemRoles)
         {
-            <MudItem xs="12" sm="6" md="3">
-                <MudCard Elevation="4" Class="glass-card">
+            <MudItem xs="6" sm="6" md="3">
+                <MudCard Elevation="4"
+                    Class="glass-card h-full rounded-2xl hover:scale-105 transition-transform duration-300">
                     <MudCardHeader>
                         <CardHeaderContent>
-                            <MudText Typo="Typo.h6">
+                            <MudText Class="text-lg md:text-xl font-bold flex items-center">
                                 <MudIcon Icon="@GetRoleIcon(role)" Size="Size.Small" Class="mr-2" />
                                 @role
                             </MudText>
@@ -59,7 +62,7 @@
                         </CardHeaderActions>
                     </MudCardHeader>
                     <MudCardContent>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        <MudText Class="text-sm text-secondary">
                             @GetRoleDescription(role)
                         </MudText>
                     </MudCardContent>
@@ -69,7 +72,7 @@
     </MudGrid>
 
     <!-- Custom Roles -->
-    @if (_customRoles.Any())
+    @if (CustomRoles.Any())
     {
         <MudDivider Class="my-6" />
 
@@ -79,13 +82,13 @@
         </MudText>
 
         <MudGrid>
-            @foreach (var role in _customRoles)
+            @foreach (var role in CustomRoles)
             {
                 <MudItem xs="12" sm="6" md="4">
-                    <MudCard Elevation="4" Class="glass-card">
+                    <MudCard Elevation="4" Class="glass-card h-full rounded-2xl hover:shadow-xl transition-shadow duration-300">
                         <MudCardHeader>
                             <CardHeaderContent>
-                                <MudText Typo="Typo.h6">
+                                <MudText Class="text-xl font-bold flex items-center">
                                     <MudIcon Icon="@Icons.Material.Filled.Badge" Size="Size.Small" Class="mr-2" />
                                     @role
                                 </MudText>
@@ -93,12 +96,14 @@
                             <CardHeaderActions>
                                 <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
                                     <MudPaper Class="glass-card w-full h-full">
-                                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRole(role))" Class="btn-modern h-12 rounded-xl font-semibold">
+                                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRole(role))"
+                                            Class="btn-modern h-12 rounded-xl font-semibold">
                                             @L["RolesManagement.EditRole"]
                                         </MudMenuItem>
-                                        <MudDivider/>
+                                        <MudDivider />
                                         <MudMenuItem Icon="@Icons.Material.Filled.Delete" IconColor="Color.Error"
-                                                     OnClick="@(() => DeleteRole(role))" Class="btn-modern h-12 rounded-xl font-semibold">
+                                            OnClick="@(() => DeleteRole(role))"
+                                            Class="btn-modern h-12 rounded-xl font-semibold">
                                             @L["RolesManagement.DeleteRole"]
                                         </MudMenuItem>
                                     </MudPaper>
@@ -106,13 +111,14 @@
                             </CardHeaderActions>
                         </MudCardHeader>
                         <MudCardContent>
-                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                            <MudText Class="text-sm text-secondary">
                                 @L["RolesManagement.CustomRoleDesc"]
                             </MudText>
                         </MudCardContent>
                         <MudCardActions>
                             <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary"
-                                StartIcon="@Icons.Material.Filled.Security" OnClick="@(() => ManagePermissions(role))" Class="btn-modern h-12 rounded-xl font-semibold">
+                                StartIcon="@Icons.Material.Filled.Security" OnClick="@(() => ManagePermissions(role))"
+                                Class="btn-modern h-12 rounded-xl font-semibold w-full">
                                 @L["RolesManagement.ManagePermissions"]
                             </MudButton>
                         </MudCardActions>
@@ -131,8 +137,8 @@
 
 @code {
     private List<string> _roles = new();
-    private List<string> _systemRoles = new() { "SuperRoot", "Admin", "Manager", "Student" };
-    private List<string> _customRoles => _roles.Except(_systemRoles).ToList();
+    private readonly List<string> _systemRoles = new() { "SuperRoot", "Admin", "Manager", "Student" };
+    private List<string> CustomRoles => _roles.Except(_systemRoles).ToList();
     private bool _isLoading = true;
 
     protected override async Task OnInitializedAsync()

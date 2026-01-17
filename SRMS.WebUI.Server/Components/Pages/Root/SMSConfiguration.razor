@@ -350,17 +350,34 @@
 
     private void LoadLogs()
     {
-        _recentSms = new List<SmsLog>
-{
-new() { Timestamp = DateTime.Now.AddMinutes(-3), To = "+218911234567", Message = "Your OTP code is: 123456", Status =
-"Delivered", Cost = "$0.04" },
-new() { Timestamp = DateTime.Now.AddMinutes(-8), To = "+218919876543", Message = "Payment reminder: Your rent is due",
-Status = "Delivered", Cost = "$0.04" },
-new() { Timestamp = DateTime.Now.AddMinutes(-15), To = "+218915555555", Message = "System alert: Maintenance scheduled",
-Status = "Failed", Cost = "$0.00" },
-new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message = "Welcome to SRMS!", Status =
-"Delivered", Cost = "$0.03" }
-};
+        _recentSms =
+        [
+            new()
+            {
+                Timestamp = DateTime.Now.AddMinutes(-3), To = "+218911234567", Message = "Your OTP code is: 123456", Status =
+                    "Delivered",
+                Cost = "$0.04"
+            },
+
+            new()
+            {
+                Timestamp = DateTime.Now.AddMinutes(-8), To = "+218919876543", Message = "Payment reminder: Your rent is due",
+                Status = "Delivered", Cost = "$0.04"
+            },
+
+            new()
+            {
+                Timestamp = DateTime.Now.AddMinutes(-15), To = "+218915555555", Message = "System alert: Maintenance scheduled",
+                Status = "Failed", Cost = "$0.00"
+            },
+
+            new()
+            {
+                Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message = "Welcome to SRMS!", Status =
+                    "Delivered",
+                Cost = "$0.03"
+            }
+        ];
     }
 
     private async Task SaveConfiguration()
@@ -369,12 +386,12 @@ new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message 
         try
         {
             await Task.Delay(1000);
-            Snackbar.Add(Localizer["SmsConfigurationSaved"], Severity.Success);
+            Snackbar.Add(Localizer["SmsConfigurationSaved"].Value, Severity.Success);
             _isActive = _config.EnableSms;
         }
         catch (Exception ex)
         {
-            Snackbar.Add($"{Localizer["Error"]}: {ex.Message}", Severity.Error);
+            Snackbar.Add($"{Localizer["Error"].Value}: {ex.Message}", Severity.Error);
         }
         finally
         {
@@ -386,12 +403,12 @@ new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message 
     {
         var parameters = new DialogParameters
             {
-                ["ContentText"] = Localizer["EnterPhoneNumberForTestSms"],
-                ["ButtonText"] = Localizer["Send"],
+                ["ContentText"] = Localizer["EnterPhoneNumberForTestSms"].Value,
+                ["ButtonText"] = Localizer["Send"].Value,
                 ["Color"] = Color.Primary
             };
 
-        var dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["SendTestSms"], parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>(Localizer["SendTestSms"].Value, parameters);
         var result = await dialog.Result;
 
         if (result is { Canceled: false })
@@ -400,11 +417,11 @@ new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message 
             try
             {
                 await Task.Delay(2000);
-                Snackbar.Add(Localizer["TestSmsSentSuccessfully"], Severity.Success);
+                Snackbar.Add(Localizer["TestSmsSentSuccessfully"].Value, Severity.Success);
             }
             catch (Exception ex)
             {
-                Snackbar.Add($"{Localizer["FailedToSend"]}: {ex.Message}", Severity.Error);
+                Snackbar.Add($"{Localizer["FailedToSend"].Value}: {ex.Message}", Severity.Error);
             }
             finally
             {
@@ -415,7 +432,7 @@ new() { Timestamp = DateTime.Now.AddMinutes(-22), To = "+218912223333", Message 
 
     private void EditTemplate(string templateName)
     {
-        Snackbar.Add(string.Format(Localizer["EditTemplateComingSoon"], templateName), Severity.Info);
+        Snackbar.Add(string.Format(Localizer["EditTemplateComingSoon"].Value, templateName), Severity.Info);
     }
 
     private Color GetStatusColor(string status) => status switch

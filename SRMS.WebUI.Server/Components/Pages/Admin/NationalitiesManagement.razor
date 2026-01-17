@@ -9,14 +9,14 @@
 @attribute [Authorize(Roles = "SuperRoot,Admin")]
 @rendermode InteractiveServer
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
-    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-6">
-        <MudText Typo="Typo.h4" Class="font-bold text-gradient">Nationalities Management</MudText>
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8 mb-16">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <MudText Class="text-3xl md:text-4xl font-bold text-gradient">Nationalities Management</MudText>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-            OnClick="@(() => OpenNationalityDialog())" Class="rounded-xl px-6 py-2">
+            OnClick="@(() => OpenNationalityDialog())" Class="w-full md:w-auto rounded-xl px-6 py-2">
             Add Nationality
         </MudButton>
-    </MudStack>
+    </div>
 
     <MudTable Items="@_nationalities" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" Elevation="4"
         Class="rounded-3xl overflow-hidden">

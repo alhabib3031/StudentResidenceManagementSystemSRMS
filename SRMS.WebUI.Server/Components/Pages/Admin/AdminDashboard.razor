@@ -21,19 +21,19 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Welcome Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4"
+    <MudPaper Elevation="0" Class="p-4 md:p-6 mb-4"
         Style="background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-info) 100%);">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <MudStack Spacing="0">
-                <MudText Typo="Typo.h4" Style="color: white;">
-                    <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2" />
+                <MudText Class="text-2xl md:text-4xl font-bold text-white flex items-center">
+                    <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Class="mr-2 text-3xl md:text-4xl" />
                     @L["AdminDashboard"]
                 </MudText>
-                <MudText Typo="Typo.body2" Style="color: rgba(255,255,255,0.8);">
+                <MudText Class="text-sm md:text-base text-white/80 mt-1">
                     @string.Format(L["AdminDashboard_Welcome"], _adminName) • @DateTime.Now.ToString("dddd, dd MMMM yyyy")
                 </MudText>
             </MudStack>
-            <MudChip T="string" Icon="@Icons.Material.Filled.Shield" Color="Color.Surface" Size="Size.Large">
+            <MudChip T="string" Icon="@Icons.Material.Filled.Shield" Color="Color.Surface" Size="Size.Large" Class="hidden md:flex">
                 @L["AdminDashboard_Role"]
             </MudChip>
         </MudStack>
@@ -54,7 +54,7 @@
                         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                             <MudStack Spacing="0">
                                 <MudText Typo="Typo.caption" Color="Color.Secondary">@L["AdminDashboard_TotalResidences"]</MudText>
-                                <MudText Typo="Typo.h4">@_stats.TotalResidences</MudText>
+                                <MudText Class="text-3xl md:text-4xl font-bold">@_stats.TotalResidences</MudText>
                                 <MudText Typo="Typo.caption"
                                     Color="@(_stats.ResidencesGrowth >= 0 ? Color.Success : Color.Error)">
                                     @(_stats.ResidencesGrowth >= 0 ? "+" : "")@string.Format(L["AdminDashboard_ResidencesGrowth"], _stats.ResidencesGrowth)
@@ -75,7 +75,7 @@
                         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                             <MudStack Spacing="0">
                                 <MudText Typo="Typo.caption" Color="Color.Secondary">@L["AdminDashboard_ActiveManagers"]</MudText>
-                                <MudText Typo="Typo.h4" Color="Color.Success">@_stats.ActiveManagers</MudText>
+                                <MudText Class="text-3xl md:text-4xl font-bold text-success">@_stats.ActiveManagers</MudText>
                                 <MudText Typo="Typo.caption" Color="Color.Success">
                                     @string.Format(L["AdminDashboard_ManagerAvailability"], _stats.ManagerAvailability.ToString("F0"))
                                 </MudText>
@@ -95,7 +95,7 @@
                         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                             <MudStack Spacing="0">
                                 <MudText Typo="Typo.caption" Color="Color.Secondary">@L["AdminDashboard_TotalStudents"]</MudText>
-                                <MudText Typo="Typo.h4" Color="Color.Info">@_stats.TotalStudents</MudText>
+                                <MudText Class="text-3xl md:text-4xl font-bold text-info">@_stats.TotalStudents</MudText>
                                 <MudText Typo="Typo.caption" Color="Color.Info">
                                     @string.Format(L["AdminDashboard_OccupancyRate"], _stats.OccupancyRate.ToString("F0"))
                                 </MudText>
@@ -114,7 +114,7 @@
                         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                             <MudStack Spacing="0">
                                 <MudText Typo="Typo.caption" Color="Color.Secondary">@L["AdminDashboard_MonthlyRevenue"]</MudText>
-                                <MudText Typo="Typo.h5" Color="Color.Warning">@_stats.MonthlyRevenue.ToString("N0") LYD
+                                <MudText Class="text-2xl md:text-3xl font-bold text-warning">@_stats.MonthlyRevenue.ToString("N0") LYD
                                 </MudText>
                                 <MudText Typo="Typo.caption"
                                     Color="@(_stats.RevenueGrowth >= 0 ? Color.Success : Color.Error)">
@@ -231,13 +231,13 @@
                         <MudGrid>
                             <MudItem xs="6">
                                 <MudPaper Elevation="0" Class="pa-3 text-center" Style="background-color: #fff3e0;">
-                                    <MudText Typo="Typo.h4" Color="Color.Warning">@_stats.PendingComplaints</MudText>
+                                    <MudText Class="text-4xl md:text-5xl font-bold text-warning">@_stats.PendingComplaints</MudText>
                                     <MudText Typo="Typo.caption">@L["AdminDashboard_Complaints_Pending"]</MudText>
                                 </MudPaper>
                             </MudItem>
                             <MudItem xs="6">
                                 <MudPaper Elevation="0" Class="pa-3 text-center" Style="background-color: #e8f5e9;">
-                                    <MudText Typo="Typo.h4" Color="Color.Success">@_stats.ResolvedComplaints</MudText>
+                                    <MudText Class="text-4xl md:text-5xl font-bold text-success">@_stats.ResolvedComplaints</MudText>
                                     <MudText Typo="Typo.caption">@L["AdminDashboard_Complaints_Resolved"]</MudText>
                                 </MudPaper>
                             </MudItem>

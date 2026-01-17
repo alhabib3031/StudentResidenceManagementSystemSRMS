@@ -11,11 +11,11 @@
         style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; box-shadow: var(--shadow-glow); animation: float 3s ease-in-out infinite;">
         <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Surface" Size="Size.Large" />
     </MudPaper>
-    <MudText Typo="Typo.h6" Align="Align.Center"
-        Style="font-weight: 700; background: linear-gradient(135deg, var(--primary-400) 0%, var(--secondary-500) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+    <MudText Align="Align.Center"
+        Class="text-lg md:text-xl font-bold bg-gradient-to-br from-primary-400 to-secondary-500 bg-clip-text text-transparent">
         @L["Brand_Title"]
     </MudText>
-    <MudText Typo="Typo.caption" Align="Align.Center" Color="Color.Secondary">
+    <MudText Class="text-xs md:text-sm text-center text-secondary">
         @L["Brand_Subtitle"]
     </MudText>
 </MudPaper>
@@ -34,8 +34,8 @@
                         @L["ManageUsers"]
                     </MudNavLink>
                     @* <MudNavLink Href="/admin/user-reviews" Icon="@Icons.Material.Filled.RateReview" *@
-                    @*     Class="modern-nav-link"> *@
-                    @*     @L["Admin_UserReviews_Title"] *@
+                    @* Class="modern-nav-link"> *@
+                    @* @L["Admin_UserReviews_Title"] *@
                     @* </MudNavLink> *@
                     <MudNavLink Href="/superroot/roles" Icon="@Icons.Material.Filled.AdminPanelSettings"
                         Class="modern-nav-link">
@@ -202,35 +202,44 @@
 
 <style>
     .modern-nav-group {
-        margin-bottom: 8px;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-    }
-
-    .modern-nav-group:hover {
-        background: var(--bg-hover);
+        margin-bottom: 4px;
+        border-radius: 8px;
     }
 
     .modern-nav-link {
-        border-radius: 10px;
-        margin: 4px 0;
-        padding: 10px 16px;
+        border-radius: 8px;
+        margin: 2px 0;
+        padding: 8px 12px;
         transition: all 0.2s ease;
     }
 
     .modern-nav-link:hover {
         background: var(--bg-hover);
-        transform: translateX(4px);
+        padding-left: 16px;
+        /* Subtle movement effect */
     }
 
     .modern-nav-link.active {
         background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
-        box-shadow: var(--shadow-glow);
+        box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
         font-weight: 600;
+        color: white !important;
+    }
+
+    /* Ensure icon colors update correctly in active state if needed */
+    .modern-nav-link.active .mud-icon-root {
+        color: white !important;
     }
 
     .mud-nav-link-text {
-        font-size: 0.875rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    @@media(min-width: 768px) {
+        .mud-nav-link-text {
+            font-size: 0.9rem;
+        }
     }
 </style>
 

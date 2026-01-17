@@ -14,30 +14,32 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="p-4 md:p-6 mb-4">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4">
-                    <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Class="mr-2" />
+                <MudText Class="text-2xl md:text-4xl font-bold flex items-center">
+                    <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Class="mr-2 text-3xl md:text-4xl" />
                     @L["RoomManagement_Header"] - @ResidenceName
                 </MudText>
                 <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-                OnClick="@OpenCreateRoomDialog">
+                OnClick="@OpenCreateRoomDialog" Class="hidden md:flex">
                 @L["RoomManagement_Button_Add"]
             </MudButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" Variant="Variant.Filled"
+                OnClick="@OpenCreateRoomDialog" Class="flex md:hidden" />
         </MudStack>
     </MudPaper>
 
     <!-- Room Table -->
-    <MudPaper Elevation="2">
-        <MudTable Items="@_rooms" Hover="true" Striped="true" Loading="@_isLoading"
+    <MudPaper Elevation="2" Class="mt-4">
+        <MudTable Items="@_rooms" Hover="true" Striped="true" Loading="@_isLoading" Breakpoint="Breakpoint.Sm"
             LoadingProgressColor="Color.Primary" Filter="new Func<RoomDto, bool>(FilterRooms)">
             <ToolBarContent>
                 <MudTextField @bind-Value="_searchString" Placeholder='@L["RoomManagement_SearchPlaceholder"]'
-                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
-                    Variant="Variant.Text" Clearable="true" Immediate="true"></MudTextField>
+                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Text"
+                    Clearable="true" Immediate="true"></MudTextField>
                 <MudSpacer />
                 <MudSelect T="RoomType?" @bind-Value="_filterRoomType" Label="@L["RoomManagement_Filter_RoomType"]"
                     Variant="Variant.Text" Clearable="true">
@@ -46,8 +48,8 @@
                         <MudSelectItem T="RoomType?" Value="@((RoomType?)type)">@L[type.ToString()]</MudSelectItem>
                     }
                 </MudSelect>
-                <MudSelect T="RoomStatus?" @bind-Value="_filterRoomStatus" Label="@L["RoomManagement_Filter_RoomStatus"]"
-                    Variant="Variant.Text" Clearable="true">
+                <MudSelect T="RoomStatus?" @bind-Value="_filterRoomStatus"
+                    Label="@L["RoomManagement_Filter_RoomStatus"]" Variant="Variant.Text" Clearable="true">
                     @foreach (RoomStatus status in Enum.GetValues(typeof(RoomStatus)))
                     {
                         <MudSelectItem T="RoomStatus?" Value="@((RoomStatus?)status)">@L[status.ToString()]</MudSelectItem>
@@ -78,11 +80,13 @@
                 <MudTd DataLabel="@L["Room_TotalBeds"]">@context.TotalBeds</MudTd>
                 <MudTd DataLabel="@L["Room_OccupiedBeds"]">@context.OccupiedBeds</MudTd>
                 <MudTd DataLabel="@L["Room_Status"]">
-                    <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)">@L[context.Status.ToString()]</MudChip>
+                    <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)">
+                        @L[context.Status.ToString()]</MudChip>
                 </MudTd>
                 <MudTd DataLabel="@L["Common_Actions"]">
                     <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
-                        <MudMenuItem Icon="@Icons.Material.Filled.Visibility" OnClick="@(() => ViewRoomDetails(context))">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Visibility"
+                            OnClick="@(() => ViewRoomDetails(context))">
                             @L["Common_ViewDetails"]
                         </MudMenuItem>
                         <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => OpenEditRoomDialog(context))">
@@ -136,9 +140,9 @@
 
         _breadcrumbs =
         [
-            new BreadcrumbItem("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
-            new BreadcrumbItem("Residences", href: "/admin/residences", icon: Icons.Material.Filled.Apartment),
-            new BreadcrumbItem(ResidenceName, href: null, disabled: true)
+        new BreadcrumbItem("Admin", href: "/admin", icon: Icons.Material.Filled.Home),
+        new BreadcrumbItem("Residences", href: "/admin/residences", icon: Icons.Material.Filled.Apartment),
+        new BreadcrumbItem(ResidenceName, href: null, disabled: true)
         ];
     }
 
@@ -165,7 +169,7 @@
         if (!string.IsNullOrWhiteSpace(_searchString))
         {
             if (!room.RoomNumber.Contains(_searchString, StringComparison.OrdinalIgnoreCase) &&
-                !room.Floor.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            !room.Floor.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             {
                 isMatch = false;
             }
@@ -205,20 +209,20 @@
 
     private async Task OpenEditRoomDialog(RoomDto room)
     {
-        if (room.MonthlyRentCurrency != null) // اختبرها لاني ضفتها متأخر 
+        if (room.MonthlyRentCurrency != null) // اختبرها لاني ضفتها متأخر
         {
             var updateRoomDto = new UpdateRoomDto
-            {
-                Id = room.Id,
-                ResidenceId = room.ResidenceId,
-                RoomNumber = room.RoomNumber,
-                Floor = room.Floor,
-                RoomType = room.RoomType,
-                TotalBeds = room.TotalBeds,
-                MonthlyRentAmount = room.MonthlyRentAmount.GetValueOrDefault(),
-                MonthlyRentCurrency = room.MonthlyRentCurrency,
-                IsAvailable = room.Status == RoomStatus.Available
-            };
+                {
+                    Id = room.Id,
+                    ResidenceId = room.ResidenceId,
+                    RoomNumber = room.RoomNumber,
+                    Floor = room.Floor,
+                    RoomType = room.RoomType,
+                    TotalBeds = room.TotalBeds,
+                    MonthlyRentAmount = room.MonthlyRentAmount.GetValueOrDefault(),
+                    MonthlyRentCurrency = room.MonthlyRentCurrency,
+                    IsAvailable = room.Status == RoomStatus.Available
+                };
 
             var parameters = new DialogParameters { ["RoomToEdit"] = updateRoomDto };
             var dialog = await DialogService.ShowAsync<EditRoomDialog>(L["EditRoomDialog_Title"], parameters);
@@ -234,11 +238,11 @@
     private async Task DeleteRoom(RoomDto room)
     {
         var parameters = new DialogParameters
-        {
-            ["ContentText"] = string.Format(L["RoomManagement_Dialog_ConfirmDelete_Content"], room.RoomNumber),
-            ["ButtonText"] = L["Common_Delete"],
-            ["Color"] = Color.Error
-        };
+            {
+                ["ContentText"] = string.Format(L["RoomManagement_Dialog_ConfirmDelete_Content"], room.RoomNumber),
+                ["ButtonText"] = L["Common_Delete"],
+                ["Color"] = Color.Error
+            };
 
         var dialog = await DialogService.ShowAsync<ConfirmDialog>(L["Common_ConfirmDeletion"], parameters);
         var result = await dialog.Result;

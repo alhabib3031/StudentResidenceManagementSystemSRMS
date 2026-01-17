@@ -13,21 +13,23 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4 glass-card">
+    <MudPaper Elevation="0" Class="p-6 md:p-8 mb-4 glass-card rounded-3xl">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4" Color="Color.Primary">
-                    <MudIcon Icon="@Icons.Material.Filled.People" Class="mr-2" />
+                <MudText Class="text-3xl md:text-5xl font-bold mb-2 text-gradient">
+                    <MudIcon Icon="@Icons.Material.Filled.People" Class="mr-3 text-4xl md:text-5xl" />
                     @L["UserManagement.Title"]
                 </MudText>
-                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                <MudText Class="text-base md:text-lg text-secondary pl-1">
                     @L["UserManagement.Subtitle"]
                 </MudText>
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.PersonAdd"
-                OnClick="@CreateUser" Class="btn-modern h-12 rounded-xl font-semibold">
+                OnClick="@CreateUser" Class="btn-modern h-12 rounded-xl font-bold px-6 shadow-lg hidden md:flex">
                 @L["UserManagement.CreateNewUser"]
             </MudButton>
+            <MudIconButton Icon="@Icons.Material.Filled.PersonAdd" Variant="Variant.Filled" Color="Color.Primary"
+                           OnClick="@CreateUser" Class="flex md:hidden rounded-lg shadow-lg" />
         </MudStack>
     </MudPaper>
 
@@ -37,7 +39,7 @@
     }
 
     <!-- Filters -->
-    <MudPaper Elevation="2" Class="pa-4 mb-4 glass-card">
+    <MudPaper Elevation="2" Class="p-4 md:p-6 mb-4 glass-card rounded-3xl">
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
                 <MudTextField @bind-Value="_searchString" Label="@L["UserManagement.SearchPlaceholder"]" Variant="Variant.Outlined"
@@ -73,9 +75,9 @@
     </MudPaper>
 
     <!-- Users Table -->
-    <MudPaper Elevation="4">
-        <MudTable Items="@_filteredUsers" Hover="true" Striped="true" Dense="@_dense" Loading="@_isLoading"
-            LoadingProgressColor="Color.Primary" Class="glass-card">
+    <MudPaper Elevation="4" Class="rounded-3xl overflow-hidden glass-card">
+        <MudTable Items="@FilteredUsers" Hover="true" Striped="true" Dense="@_dense" Loading="@_isLoading"
+            LoadingProgressColor="Color.Primary" Class="glass-table" Breakpoint="Breakpoint.Sm">
 
             <HeaderContent>
                 <MudTh>@L["UserManagement.Table.Header.Avatar"]</MudTh>
@@ -199,7 +201,7 @@
 
 @code {
     private List<UserDto> _users = new();
-    private IEnumerable<UserDto> _filteredUsers => FilterUsers();
+    private IEnumerable<UserDto> FilteredUsers => FilterUsers();
     private bool _isLoading = true;
     private bool _dense = false;
 

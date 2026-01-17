@@ -9,22 +9,21 @@
 <MudCard Elevation="4" Class="glass-card">
     <MudCardHeader>
         <CardHeaderContent>
-            <MudText Typo="Typo.h6">
-                <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2" Size="Size.Small" />
+            <MudText Class="text-lg font-bold flex items-center">
+                <MudIcon Icon="@Icons.Material.Filled.History" Class="mr-2 text-xl" />
                 @Localizer["RecentSystemActivity"]
             </MudText>
         </CardHeaderContent>
         <CardHeaderActions>
-            <MudIconButton Icon="@Icons.Material.Filled.Refresh" Size="Size.Small"
-                           OnClick="@OnInitializedAsync" />
-            
-                 @* @if () // filtering superroot or not  *@
-                 @* {  *@
-                 @*     <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Href="/superroot/audit">  *@
-                 @*         @Localizer["ViewAll"]  *@
-                 @*     </MudButton>  *@
-                 @* *@
-                 @* }  *@
+            <MudIconButton Icon="@Icons.Material.Filled.Refresh" Size="Size.Small" OnClick="@OnInitializedAsync" />
+
+            @* @if () // filtering superroot or not *@
+            @* { *@
+            @* <MudButton Size="Size.Small" Variant="Variant.Text" Color="Color.Primary" Href="/superroot/audit"> *@
+            @* @Localizer["ViewAll"] *@
+            @* </MudButton> *@
+            @* *@
+            @* } *@
         </CardHeaderActions>
     </MudCardHeader>
     <MudCardContent Class="max-h-[300px] overflow-y-auto">
@@ -35,8 +34,8 @@
                 {
                     <MudTimelineItem Color="@GetActivityColor(activity.AuditAction)" Size="Size.Small">
                         <ItemContent>
-                            <MudText Typo="Typo.body2">@activity.Action</MudText>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                            <MudText Class="text-sm font-semibold">@activity.Action</MudText>
+                            <MudText Class="text-xs text-secondary">
                                 @GetTimeAgo(activity.Timestamp) • @activity.UserName
                             </MudText>
                         </ItemContent>
@@ -46,7 +45,7 @@
         }
         else
         {
-            <MudText Typo="Typo.body2" Color="Color.Secondary" Align="Align.Center" Class="mt-4">
+            <MudText Class="text-sm text-center text-secondary mt-4">
                 @Localizer["NoRecentActivity"]
             </MudText>
         }
@@ -74,8 +73,8 @@
             RecentActivities = new List<AuditLog>();
         }
     }
-    
-    
+
+
     private Color GetActivityColor(AuditAction action)
     {
         return action switch
@@ -88,7 +87,7 @@
             _ => Color.Default
         };
     }
-    
+
     private string GetTimeAgo(DateTime timestamp)
     {
         var span = DateTime.UtcNow - timestamp;

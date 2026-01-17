@@ -22,18 +22,18 @@
 }
 else
 {
-    <MudContainer MaxWidth="MaxWidth.Large" Class="min-h-screen flex items-center justify-center py-8">
-        <MudPaper Elevation="0" Class="glass-card w-full max-w-4xl p-8 rounded-2xl animate-fade-in">
+    <MudContainer MaxWidth="MaxWidth.Large" Class="min-h-screen flex items-center justify-center py-4 md:py-8">
+        <MudPaper Elevation="0" Class="glass-card w-full max-w-4xl p-4 md:p-8 rounded-2xl animate-fade-in">
             
             <!-- Header -->
             <MudStack AlignItems="AlignItems.Center" Spacing="3" Class="mb-8">
                 <MudPaper Elevation="0"
-                    Class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)]">
+                    Class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)]">
                     <MudIcon Icon="@Icons.Material.Filled.PersonAdd" Color="Color.Surface" Size="Size.Large" />
                 </MudPaper>
                 
                 <MudStack Spacing="1" AlignItems="AlignItems.Center">
-                    <MudText Typo="Typo.h4" Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                    <MudText Class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
                         @L["Register_Header_CreateAccount"]
                     </MudText>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
@@ -180,7 +180,7 @@ else
                             HelperText='@L["Register_Helper_PasswordRules"]'
                             Required="true" 
                             Disabled="_isLoading" 
-                            @onkeyup="@(() => CalculatePasswordStrength())"
+                            @onkeyup="@(CalculatePasswordStrength)"
                             Class="rounded-xl" />
                     </MudItem>
 
@@ -290,7 +290,7 @@ else
 }
 
 @code {
-    private RegisterDto _registerModel = new();
+    private readonly RegisterDto _registerModel = new();
     private bool _showPassword;
     private bool _isLoading;
     private bool _acceptTerms;
@@ -366,12 +366,12 @@ else
     {
         return _passwordStrength switch
         {
-            0 => L["Register_PasswordStrength_NotSet"],
-            <= 20 => L["Register_PasswordStrength_VeryWeak"],
-            <= 40 => L["Register_PasswordStrength_Weak"],
-            <= 60 => L["Register_PasswordStrength_Fair"],
-            <= 80 => L["Register_PasswordStrength_Good"],
-            _ => L["Register_PasswordStrength_Strong"]
+            0 => L["Register_PasswordStrength_NotSet"].Value,
+            <= 20 => L["Register_PasswordStrength_VeryWeak"].Value,
+            <= 40 => L["Register_PasswordStrength_Weak"].Value,
+            <= 60 => L["Register_PasswordStrength_Fair"].Value,
+            <= 80 => L["Register_PasswordStrength_Good"].Value,
+            _ => L["Register_PasswordStrength_Strong"].Value
         };
     }
 
@@ -386,7 +386,7 @@ else
             if (result.Success)
             {
                 Snackbar.Add(
-                    L["Register_Snackbar_Success"],
+                    L["Register_Snackbar_Success"].Value,
                     Severity.Success,
                     config =>
                     {
@@ -401,7 +401,7 @@ else
             else
             {
                 Snackbar.Add(
-                    result.Message ?? L["Register_Snackbar_Failure"],
+                    result.Message ?? L["Register_Snackbar_Failure"].Value,
                     Severity.Error,
                     config => { config.ShowCloseIcon = true; }
                 );
@@ -411,7 +411,7 @@ else
         {
             Console.WriteLine($"[REGISTER_ERROR] {ex}");
             Snackbar.Add(
-                string.Format(L["Register_Snackbar_Error"], ex.Message),
+                string.Format(L["Register_Snackbar_Error"].Value, ex.Message),
                 Severity.Error,
                 config => { config.ShowCloseIcon = true; }
             );

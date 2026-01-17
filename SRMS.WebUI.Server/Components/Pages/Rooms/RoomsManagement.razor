@@ -11,21 +11,23 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="p-4 md:p-6 mb-4">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4" Color="Color.Primary">
-                    <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Class="mr-2" />
+                <MudText Class="text-2xl md:text-4xl font-bold flex items-center text-primary">
+                    <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Class="mr-2 text-3xl md:text-4xl" />
                     @L["RoomsManagement_Header"]
                 </MudText>
-                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                <MudText Class="text-sm md:text-base text-secondary mt-1">
                     @L["RoomsManagement_Subheader"]
                 </MudText>
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-                OnClick="@CreateRoom">
+                OnClick="@CreateRoom" Class="hidden md:flex rounded-xl shadow-lg">
                 @L["RoomsManagement_Button_Add"]
             </MudButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" Variant="Variant.Filled"
+                OnClick="@CreateRoom" Class="flex md:hidden rounded-lg shadow-lg" />
         </MudStack>
     </MudPaper>
 
@@ -36,73 +38,64 @@
 
     <!-- Statistics Cards -->
     <MudGrid Class="mb-4">
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="h-full">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_Total"]
-                            </MudText>
-                            <MudText Typo="Typo.h4">@_rooms.Count</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @L["RoomsManagement_Stats_Total"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Color="Color.Primary"
+                                Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Primary" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-primary">@_rooms.Count</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="h-full">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_Available"]
-                            </MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Success">
-                                @_rooms.Count(r => !r.IsFull)
-                            </MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @L["RoomsManagement_Stats_Available"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success"
+                                Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Success" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-success">@_rooms.Count(r => !r.IsFull)
+                        </MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="h-full">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["RoomsManagement_Stats_TotalBeds"]
-                            </MudText>
-                            <MudText Typo="Typo.h4">@_rooms.Sum(r => r.TotalBeds)</MudText>
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
+                                @L["RoomsManagement_Stats_TotalBeds"]</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.Hotel" Color="Color.Info" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Info" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.Hotel" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-info">@_rooms.Sum(r => r.TotalBeds)</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
         </MudItem>
 
-        <MudItem xs="12" sm="6" md="3">
-            <MudCard Elevation="4">
+        <MudItem xs="6" sm="6" md="3">
+            <MudCard Elevation="4" Class="h-full">
                 <MudCardContent>
-                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                        <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                    <MudStack Spacing="1">
+                        <div class="flex justify-between items-start">
+                            <MudText Class="text-xs md:text-caption font-bold text-secondary uppercase">
                                 @L["RoomsManagement_Stats_OccupancyRate"]</MudText>
-                            <MudText Typo="Typo.h4" Color="Color.Warning">
-                                @GetOccupancyRate()%
-                            </MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Warning" Size="Size.Small" />
                         </div>
-                        <MudAvatar Color="Color.Warning" Size="Size.Large">
-                            <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Size="Size.Large" />
-                        </MudAvatar>
+                        <MudText Class="text-xl md:text-3xl font-bold text-warning">@GetOccupancyRate()%</MudText>
                     </MudStack>
                 </MudCardContent>
             </MudCard>
@@ -197,8 +190,9 @@
     else
     {
         <!-- List View -->
-        <MudPaper Elevation="4">
-            <MudTable Items="@FilteredRooms" Hover="true" Striped="true" Dense="true">
+        <MudPaper Elevation="4" Class="rounded-3xl overflow-hidden glass-card">
+            <MudTable Items="@FilteredRooms" Hover="true" Striped="true" Dense="true" Breakpoint="Breakpoint.Sm"
+                Class="glass-table">
                 <HeaderContent>
                     <MudTh>@L["RoomsManagement_Table_Header_Room"]</MudTh>
                     <MudTh>@L["RoomsManagement_Table_Header_Residence"]</MudTh>

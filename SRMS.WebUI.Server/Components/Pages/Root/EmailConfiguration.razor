@@ -10,12 +10,12 @@
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
-        <MudText Typo="Typo.h4" Color="Color.Primary">
-            <MudIcon Icon="@Icons.Material.Filled.Email" Class="mr-2" />
+    <MudPaper Elevation="0" Class="p-6 md:p-8 mb-4 rounded-3xl glass-card">
+        <MudText Class="text-3xl md:text-5xl font-bold mb-2 text-gradient">
+            <MudIcon Icon="@Icons.Material.Filled.Email" Class="mr-3 text-4xl md:text-5xl" />
             @Localizer["EmailConfiguration"]
         </MudText>
-        <MudText Typo="Typo.body2" Color="Color.Secondary">
+        <MudText Class="text-base md:text-lg text-secondary pl-1">
             @Localizer["ConfigureSmtpSettings"]
         </MudText>
     </MudPaper>
@@ -23,10 +23,10 @@
     <MudGrid>
         <!-- SMTP Settings Card -->
         <MudItem xs="12" md="8">
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="glass-card rounded-2xl">
                 <MudCardHeader>
                     <CardHeaderContent>
-                        <MudText Typo="Typo.h6">
+                        <MudText Class="text-xl font-bold flex items-center">
                             <MudIcon Icon="@Icons.Material.Filled.Settings" Class="mr-2" Size="Size.Small" />
                             @Localizer["SmtpServerSettings"]
                         </MudText>
@@ -96,24 +96,24 @@
                                OnClick="@SaveConfiguration" Disabled="_isSaving">
                         @if (_isSaving)
                         {
-                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                            <span>@Localizer["Saving"]</span>
+                                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                                <span>@Localizer["Saving"]</span>
                         }
                         else
                         {
-                            <span>@Localizer["SaveConfiguration"]</span>
+                                <span>@Localizer["SaveConfiguration"]</span>
                         }
                     </MudButton>
                     <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Send"
                                OnClick="@TestConnection" Disabled="_isTesting">
                         @if (_isTesting)
                         {
-                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
-                            <span>@Localizer["Testing"]</span>
+                                <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
+                                <span>@Localizer["Testing"]</span>
                         }
                         else
                         {
-                            <span>@Localizer["TestConnection"]</span>
+                                <span>@Localizer["TestConnection"]</span>
                         }
                     </MudButton>
                 </MudCardActions>
@@ -123,10 +123,10 @@
         <!-- Sidebar -->
         <MudItem xs="12" md="4">
             <!-- Email Templates -->
-            <MudCard Elevation="4">
+            <MudCard Elevation="4" Class="glass-card rounded-2xl mb-4">
                 <MudCardHeader>
                     <CardHeaderContent>
-                        <MudText Typo="Typo.h6">
+                        <MudText Class="text-xl font-bold flex items-center">
                             <MudIcon Icon="@Icons.Material.Filled.Description" Class="mr-2" Size="Size.Small" />
                             @Localizer["EmailTemplates"]
                         </MudText>
@@ -157,10 +157,10 @@
             </MudCard>
 
             <!-- Statistics -->
-            <MudCard Elevation="4" Class="mt-4">
+            <MudCard Elevation="4" Class="glass-card rounded-2xl">
                 <MudCardHeader>
                     <CardHeaderContent>
-                        <MudText Typo="Typo.h6">
+                        <MudText Class="text-xl font-bold flex items-center">
                             <MudIcon Icon="@Icons.Material.Filled.BarChart" Class="mr-2" Size="Size.Small" />
                             @Localizer["EmailStatistics"]
                         </MudText>
@@ -266,16 +266,28 @@
     private void LoadLogs()
     {
         // TODO: Load real logs from database
-        _recentEmails = new List<EmailLog>
-{
-new() { Timestamp = DateTime.Now.AddMinutes(-5), To = "student@example.com", Subject = "Welcome to SRMS", Success =
-true},
-new() { Timestamp = DateTime.Now.AddMinutes(-12), To = "manager@example.com", Subject = "Password Reset Request",
-Success = true },
-new() { Timestamp = DateTime.Now.AddMinutes(-25), To = "admin@example.com", Subject = "Monthly Report", Success =
-false},
-new() { Timestamp = DateTime.Now.AddHours(-1), To = "user@example.com", Subject = "Payment Receipt", Success = true }
-};
+        _recentEmails =
+        [
+            new()
+            {
+                Timestamp = DateTime.Now.AddMinutes(-5), To = "student@example.com", Subject = "Welcome to SRMS", Success =
+                    true
+            },
+
+            new()
+            {
+                Timestamp = DateTime.Now.AddMinutes(-12), To = "manager@example.com", Subject = "Password Reset Request",
+                Success = true
+            },
+
+            new()
+            {
+                Timestamp = DateTime.Now.AddMinutes(-25), To = "admin@example.com", Subject = "Monthly Report", Success =
+                    false
+            },
+
+            new() { Timestamp = DateTime.Now.AddHours(-1), To = "user@example.com", Subject = "Payment Receipt", Success = true }
+        ];
     }
 
     private async Task SaveConfiguration()
@@ -336,9 +348,9 @@ new() { Timestamp = DateTime.Now.AddHours(-1), To = "user@example.com", Subject 
 
     public class EmailLog
     {
-        public DateTime Timestamp { get; set; }
-        public string To { get; set; } = "";
-        public string Subject { get; set; } = "";
-        public bool Success { get; set; }
+        public DateTime Timestamp { get; init; }
+        public string To { get; init; } = "";
+        public string Subject { get; init; } = "";
+        public bool Success { get; init; }
     }
 }

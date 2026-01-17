@@ -5,7 +5,7 @@
 
 <MudDialog>
     <TitleContent>
-        <MudText Typo="Typo.h6">
+        <MudText Class="text-xl md:text-2xl font-bold flex items-center">
             <MudIcon Icon="@Icons.Material.Filled.PersonAdd" Class="mr-2" />
             @L["CreateUserDialog_Title"]
         </MudText>
@@ -13,16 +13,12 @@
     <DialogContent>
         <EditForm Model="@_model" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
-            
+
             <MudGrid>
                 <!-- Role Selection -->
                 <MudItem xs="12">
-                    <MudSelect 
-                        @bind-Value="_selectedRole"
-                        Label='@L["CreateUserDialog_SelectRole"]'
-                        Variant="Variant.Outlined"
-                        AnchorOrigin="Origin.BottomCenter"
-                        Required="true">
+                    <MudSelect @bind-Value="_selectedRole" Label='@L["CreateUserDialog_SelectRole"]'
+                        Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" Required="true">
                         <MudSelectItem Value="@("Admin")">
                             <MudIcon Icon="@Icons.Material.Filled.AdminPanelSettings" Size="Size.Small" Class="mr-2" />
                             @L["CreateUserDialog_Role_Admin"]
@@ -40,89 +36,55 @@
 
                 <!-- Personal Info -->
                 <MudItem xs="12" sm="6">
-                    <MudTextField 
-                        @bind-Value="_model.FirstName"
-                        Label='@L["CreateUserDialog_FirstName"]'
-                        Variant="Variant.Outlined"
-                        For="@(() => _model.FirstName)"
-                        Required="true" />
+                    <MudTextField @bind-Value="_model.FirstName" Label='@L["CreateUserDialog_FirstName"]'
+                        Variant="Variant.Outlined" For="@(() => _model.FirstName)" Required="true" />
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudTextField 
-                        @bind-Value="_model.LastName"
-                        Label='@L["CreateUserDialog_LastName"]'
-                        Variant="Variant.Outlined"
-                        For="@(() => _model.LastName)"
-                        Required="true" />
+                    <MudTextField @bind-Value="_model.LastName" Label='@L["CreateUserDialog_LastName"]'
+                        Variant="Variant.Outlined" For="@(() => _model.LastName)" Required="true" />
                 </MudItem>
 
                 <!-- Contact Info -->
                 <MudItem xs="12">
-                    <MudTextField 
-                        @bind-Value="_model.Email"
-                        Label='@L["CreateUserDialog_Email"]'
-                        Variant="Variant.Outlined"
-                        InputType="InputType.Email"
-                        Adornment="Adornment.Start"
-                        AdornmentIcon="@Icons.Material.Filled.Email"
-                        For="@(() => _model.Email)"
-                        Required="true" />
+                    <MudTextField @bind-Value="_model.Email" Label='@L["CreateUserDialog_Email"]'
+                        Variant="Variant.Outlined" InputType="InputType.Email" Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Email" For="@(() => _model.Email)" Required="true" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudTextField 
-                        @bind-Value="_model.PhoneNumber"
-                        Label='@L["CreateUserDialog_PhoneNumber"]'
-                        Variant="Variant.Outlined"
-                        Adornment="Adornment.Start"
-                        AdornmentIcon="@Icons.Material.Filled.Phone"
-                        For="@(() => _model.PhoneNumber)"
-                        Required="true"
+                    <MudTextField @bind-Value="_model.PhoneNumber" Label='@L["CreateUserDialog_PhoneNumber"]'
+                        Variant="Variant.Outlined" Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Phone" For="@(() => _model.PhoneNumber)" Required="true"
                         Placeholder="+218 91 234 5678" />
                 </MudItem>
 
                 <!-- Password -->
                 <MudItem xs="12">
-                    <MudTextField 
-                        @bind-Value="_model.Password"
-                        Label='@L["CreateUserDialog_TempPassword"]'
-                        Variant="Variant.Outlined"
-                        InputType="InputType.Password"
-                        For="@(() => _model.Password)"
-                        HelperText='@L["CreateUserDialog_TempPassword_Helper"]'
-                        Required="true" />
+                    <MudTextField @bind-Value="_model.Password" Label='@L["CreateUserDialog_TempPassword"]'
+                        Variant="Variant.Outlined" InputType="InputType.Password" For="@(() => _model.Password)"
+                        HelperText='@L["CreateUserDialog_TempPassword_Helper"]' Required="true" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudTextField 
-                        @bind-Value="_model.ConfirmPassword"
-                        Label='@L["CreateUserDialog_ConfirmPassword"]'
-                        Variant="Variant.Outlined"
-                        InputType="InputType.Password"
-                        For="@(() => _model.ConfirmPassword)"
+                    <MudTextField @bind-Value="_model.ConfirmPassword" Label='@L["CreateUserDialog_ConfirmPassword"]'
+                        Variant="Variant.Outlined" InputType="InputType.Password" For="@(() => _model.ConfirmPassword)"
                         Required="true" />
                 </MudItem>
 
                 <!-- Additional Options -->
                 <MudItem xs="12">
-                    <MudCheckBox 
-                        @bind-Value="_sendWelcomeEmail"
-                        Color="Color.Primary">
+                    <MudCheckBox @bind-Value="_sendWelcomeEmail" Color="Color.Primary">
                         @L["CreateUserDialog_SendWelcomeEmail"]
                     </MudCheckBox>
                 </MudItem>
             </MudGrid>
         </EditForm>
     </DialogContent>
-    
+
     <DialogActions>
         <MudButton OnClick="@Cancel">@L["CreateUserDialog_Button_Cancel"]</MudButton>
-        <MudButton 
-            Color="Color.Primary" 
-            Variant="Variant.Filled"
-            OnClick="@HandleSubmit"
-            Disabled="_isSubmitting">
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="@HandleSubmit" Disabled="_isSubmitting">
             @if (_isSubmitting)
             {
                 <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" />
@@ -161,12 +123,12 @@
                     // await EmailService.SendWelcomeEmailAsync(_model.Email, _model.FirstName);
                 }
 
-                Snackbar.Add(string.Format(L["CreateUserDialog_Snackbar_Success"], _selectedRole), Severity.Success);
+                Snackbar.Add(string.Format(L["CreateUserDialog_Snackbar_Success"].Value, _selectedRole), Severity.Success);
                 MudDialog.Close(DialogResult.Ok(true));
             }
             else
             {
-                Snackbar.Add(result.Message ?? L["CreateUserDialog_Snackbar_Failure"], Severity.Error);
+                Snackbar.Add(result.Message ?? L["CreateUserDialog_Snackbar_Failure"].Value, Severity.Error);
             }
         }
         catch (Exception ex)

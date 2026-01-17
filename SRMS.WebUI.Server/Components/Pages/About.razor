@@ -10,10 +10,11 @@
 <MudPaper class="animate-fade-in pa-6">
     <!-- Hero Section -->
     <MudStack Class="text-center mb-8 animate-float glass-card">
-        <MudText Typo="Typo.h2" Class="text-gradient mb-3" Style="font-weight: 800;">
+        <MudText
+            Class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-3">
             @L["About_Header"]
         </MudText>
-        <MudText Typo="Typo.h6" Color="Color.Secondary" Style="max-width: 800px; margin: 0 auto;">
+        <MudText Class="text-base md:text-xl text-secondary max-w-[800px] mx-auto">
             @L["About_Subtitle"]
         </MudText>
     </MudStack>
@@ -26,7 +27,8 @@
                     <MudIcon Icon="@Icons.Material.Filled.Visibility" Color="Color.Primary" Size="Size.Large"
                         Style="font-size: 60px;" />
                 </div>
-                <MudText Typo="Typo.h5" Class="text-center mb-3" Style="font-weight: 700;">@L["About_Vision_Title"]</MudText>
+                <MudText Typo="Typo.h5" Class="text-center mb-3" Style="font-weight: 700;">@L["About_Vision_Title"]
+                </MudText>
                 <MudText Typo="Typo.body1" Color="Color.Secondary" Align="Align.Center">
                     @L["About_Vision_Description"]
                 </MudText>
@@ -38,7 +40,8 @@
                     <MudIcon Icon="@Icons.Material.Filled.Flag" Color="Color.Success" Size="Size.Large"
                         Style="font-size: 60px;" />
                 </div>
-                <MudText Typo="Typo.h5" Class="text-center mb-3" Style="font-weight: 700;">@L["About_Mission_Title"]</MudText>
+                <MudText Typo="Typo.h5" Class="text-center mb-3" Style="font-weight: 700;">@L["About_Mission_Title"]
+                </MudText>
                 <MudText Typo="Typo.body1" Color="Color.Secondary" Align="Align.Center">
                     @L["About_Mission_Description"]
                 </MudText>
@@ -47,7 +50,7 @@
     </MudGrid>
 
     <!-- Features -->
-    <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">@L["About_WhyChooseSRMS_Title"]</MudText>
+    <MudText Class="text-2xl md:text-4xl font-bold text-center mb-6">@L["About_WhyChooseSRMS_Title"]</MudText>
     <MudGrid Class="mb-6">
         <MudItem xs="12" sm="6" md="4">
             <MudPaper Class="modern-card hover-lift pa-5 text-center h-100">
@@ -107,8 +110,8 @@
     </MudGrid>
 
     <!-- Statistics -->
-    <MudPaper Class="glass-card pa-6 mb-6">
-        <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">@L["About_Impact_Title"]</MudText>
+    <MudPaper Class="glass-card p-4 md:p-6 mb-6">
+        <MudText Class="text-2xl md:text-4xl font-bold text-center mb-6">@L["About_Impact_Title"]</MudText>
         <MudGrid>
             <MudItem xs="6" md="3" Class="text-center">
                 <MudText Typo="Typo.h3" Class="text-gradient" Style="font-weight: 800;">10K+</MudText>
@@ -130,7 +133,7 @@
     </MudPaper>
 
     <!-- Team Section -->
-    <MudText Typo="Typo.h4" Class="text-center mb-6" Style="font-weight: 700;">@L["About_Team_Title"]</MudText>
+    <MudText Class="text-2xl md:text-4xl font-bold text-center mb-6">@L["About_Team_Title"]</MudText>
     <MudGrid Class="mb-6">
         @foreach (var member in _teamMembers)
         {
@@ -148,8 +151,8 @@
     </MudGrid>
 
     <!-- Call to Action -->
-    <MudPaper Class="glass-card pa-8 text-center">
-        <MudText Typo="Typo.h4" Class="mb-3" Style="font-weight: 700;">@L["CTA_Header"]</MudText>
+    <MudPaper Class="glass-card p-6 md:p-8 text-center">
+        <MudText Class="text-2xl md:text-4xl font-bold mb-3">@L["CTA_Header"]</MudText>
         <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-4">
             @L["CTA_Body"]
         </MudText>
@@ -171,39 +174,42 @@
 
     protected override void OnInitialized()
     {
-        _teamMembers = new List<TeamMember>
-        {
+        _teamMembers =
+        [
             new TeamMember
             {
-                Name = L["About_Team_Member1_Name"],
-                Role = L["About_Team_Member1_Role"],
-                Description = L["About_Team_Member1_Description"]
+                Name = L["About_Team_Member1_Name"].Value,
+                Role = L["About_Team_Member1_Role"].Value,
+                Description = L["About_Team_Member1_Description"].Value
             },
+
             new TeamMember
             {
-                Name = L["About_Team_Member2_Name"],
-                Role = L["About_Team_Member2_Role"],
-                Description = L["About_Team_Member2_Description"]
+                Name = L["About_Team_Member2_Name"].Value,
+                Role = L["About_Team_Member2_Role"].Value,
+                Description = L["About_Team_Member2_Description"].Value
             },
+
             new TeamMember
             {
-                Name = L["About_Team_Member3_Name"],
-                Role = L["About_Team_Member3_Role"],
-                Description = L["About_Team_Member3_Description"]
+                Name = L["About_Team_Member3_Name"].Value,
+                Role = L["About_Team_Member3_Role"].Value,
+                Description = L["About_Team_Member3_Description"].Value
             },
+
             new TeamMember
             {
-                Name = L["About_Team_Member4_Name"],
-                Role = L["About_Team_Member4_Role"],
-                Description = L["About_Team_Member4_Description"]
+                Name = L["About_Team_Member4_Name"].Value,
+                Role = L["About_Team_Member4_Role"].Value,
+                Description = L["About_Team_Member4_Description"].Value
             }
-        };
+        ];
     }
 
     private class TeamMember
     {
-        public string Name { get; set; } = string.Empty;
-        public string Role { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
+        public string Name { get; init; } = string.Empty;
+        public string Role { get; init; } = string.Empty;
+        public string Description { get; init; } = string.Empty;
     }
 }

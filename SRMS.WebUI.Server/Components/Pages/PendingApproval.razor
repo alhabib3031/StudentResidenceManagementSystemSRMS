@@ -21,8 +21,8 @@
             </MudPaper>
 
             <MudStack Spacing="1">
-                <MudText Typo="Typo.h4" Class="font-bold">@L["ReviewDetails_Title"]</MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                <MudText Class="text-2xl md:text-4xl font-bold text-primary">@L["ReviewDetails_Title"]</MudText>
+                <MudText Class="text-base md:text-lg text-secondary">
                     Your account is currently being reviewed by our administration team.
                 </MudText>
             </MudStack>
@@ -31,7 +31,7 @@
                 This process usually takes 24-48 business hours. You will be notified once your account is activated.
             </MudAlert>
 
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="CheckStatus"
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@CheckStatus"
                 Class="rounded-xl px-8 py-3">
                 Check Status Again
             </MudButton>

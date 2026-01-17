@@ -31,8 +31,8 @@
                 <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Class="mr-2" /> @L["Back"]
             </MudLink>
 
-            <MudPaper Elevation="4" Class="pa-8 rounded-3xl glass-card">
-                <MudText Typo="Typo.h4" Class="font-bold mb-6 text-gradient">@L["ReviewDetails_Title"]</MudText>
+            <MudPaper Elevation="4" Class="p-6 md:p-8 rounded-3xl glass-card">
+                <MudText Class="text-2xl md:text-3xl font-bold mb-6 text-gradient">@L["ReviewDetails_Title"]</MudText>
 
                 <MudGrid>
                     <!-- User Basic Info -->
@@ -114,8 +114,8 @@
             <!-- Documents -->
             @if (_details.StudentDetails != null)
             {
-                <MudPaper Elevation="4" Class="pa-8 rounded-3xl glass-card">
-                    <MudText Typo="Typo.h5" Class="font-bold mb-6 text-primary">@L["Documents"]</MudText>
+                <MudPaper Elevation="4" Class="p-6 md:p-8 rounded-3xl glass-card">
+                    <MudText Class="text-xl md:text-2xl font-bold mb-6 text-primary">@L["Documents"]</MudText>
                     <MudGrid>
                         <MudItem xs="12" sm="4">
                             <MudCard Class="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all">

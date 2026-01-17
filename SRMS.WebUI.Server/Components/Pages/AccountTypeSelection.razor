@@ -13,11 +13,11 @@
 
 <PageTitle>@L["AccountType_PageTitle"]</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="min-h-screen flex items-center justify-center py-12">
+<MudContainer MaxWidth="MaxWidth.Large" Class="min-h-screen flex items-center justify-center py-6 md:py-12">
     <MudStack Spacing="8" AlignItems="AlignItems.Center" Class="w-full">
         <MudStack AlignItems="AlignItems.Center" Spacing="2">
-            <MudText Typo="Typo.h3"
-                Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent text-center">
+            <MudText
+                Class="text-3xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent text-center">
                 @L["AccountType_Selection"]
             </MudText>
             <MudText Typo="Typo.h6" Color="Color.Secondary" Class="text-center max-w-lg">
@@ -29,7 +29,7 @@
             <!-- Student Option -->
             <MudItem xs="12" sm="6">
                 <MudPaper Elevation="0"
-                    Class="glass-card p-10 rounded-[32px] cursor-pointer hover-lift border-2 border-white/5 hover:border-purple-500/50 transition-all duration-500 group relative overflow-hidden h-full"
+                    Class="glass-card p-6 md:p-10 rounded-[24px] md:rounded-[32px] cursor-pointer hover-lift border-2 border-white/5 hover:border-purple-500/50 transition-all duration-500 group relative overflow-hidden h-full"
                 @onclick='() => SelectAccountType("Student")'>
 
                     <div
@@ -38,14 +38,13 @@
 
                     <MudStack AlignItems="AlignItems.Center" Spacing="5" Class="relative z-10">
                         <MudPaper Elevation="0"
-                            Class="w-28 h-28 bg-purple-500/10 rounded-3xl flex items-center justify-center group-hover:bg-purple-500 group-hover:shadow-[0_20px_40px_rgba(139,92,246,0.3)] transition-all duration-500 transform group-hover:rotate-6">
+                            Class="w-20 h-20 md:w-28 md:h-28 bg-purple-500/10 rounded-3xl flex items-center justify-center group-hover:bg-purple-500 group-hover:shadow-[0_20px_40px_rgba(139,92,246,0.3)] transition-all duration-500 transform group-hover:rotate-6">
                             <MudIcon Icon="@Icons.Material.Filled.School"
-                                Class="text-purple-500 group-hover:text-white transition-colors" Size="Size.Large"
-                                Style="font-size: 3.5rem;" />
+                                Class="text-purple-500 group-hover:text-white transition-colors text-5xl md:text-6xl" />
                         </MudPaper>
 
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
-                            <MudText Typo="Typo.h4" Class="font-bold text-slate-800 dark:text-white">
+                            <MudText Class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white">
                                 @L["AccountType_Student"]</MudText>
                             <MudText Typo="Typo.body1" Color="Color.Secondary" Class="text-center leading-relaxed">
                                 @L["AccountType_Student_Description"]
@@ -64,7 +63,7 @@
             <!-- College Registrar Option -->
             <MudItem xs="12" sm="6">
                 <MudPaper Elevation="0"
-                    Class="glass-card p-10 rounded-[32px] cursor-pointer hover-lift border-2 border-white/5 hover:border-blue-500/50 transition-all duration-500 group relative overflow-hidden h-full"
+                    Class="glass-card p-6 md:p-10 rounded-[24px] md:rounded-[32px] cursor-pointer hover-lift border-2 border-white/5 hover:border-blue-500/50 transition-all duration-500 group relative overflow-hidden h-full"
                 @onclick='() => SelectAccountType("Registrar")'>
 
                     <div
@@ -73,14 +72,13 @@
 
                     <MudStack AlignItems="AlignItems.Center" Spacing="5" Class="relative z-10">
                         <MudPaper Elevation="0"
-                            Class="w-28 h-28 bg-blue-500/10 rounded-3xl flex items-center justify-center group-hover:bg-blue-500 group-hover:shadow-[0_20px_40px_rgba(59,130,246,0.3)] transition-all duration-500 transform group-hover:-rotate-6">
+                            Class="w-20 h-20 md:w-28 md:h-28 bg-blue-500/10 rounded-3xl flex items-center justify-center group-hover:bg-blue-500 group-hover:shadow-[0_20px_40px_rgba(59,130,246,0.3)] transition-all duration-500 transform group-hover:-rotate-6">
                             <MudIcon Icon="@Icons.Material.Filled.AccountBalance"
-                                Class="text-blue-500 group-hover:text-white transition-colors" Size="Size.Large"
-                                Style="font-size: 3.5rem;" />
+                                Class="text-blue-500 group-hover:text-white transition-colors text-5xl md:text-6xl" />
                         </MudPaper>
 
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
-                            <MudText Typo="Typo.h4" Class="font-bold text-slate-800 dark:text-white">
+                            <MudText Class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white">
                                 @L["AccountType_CollegeRegistrar"]</MudText>
                             <MudText Typo="Typo.body1" Color="Color.Secondary" Class="text-center leading-relaxed">
                                 @L["AccountType_Registrar_Description"]
@@ -133,7 +131,7 @@
         }
 
         var profileStatus = user.Claims.FirstOrDefault(c => c.Type == "ProfileStatus")?.Value;
-        if (profileStatus != UserProfileStatus.PendingAccountTypeSelection.ToString())
+        if (profileStatus != nameof(UserProfileStatus.PendingAccountTypeSelection))
         {
             RedirectToAppropriatePage(user);
         }
@@ -154,8 +152,7 @@
             {
                 // Force a reload to refresh the auth state.
                 // The app's main router will then redirect the user appropriately.
-                if (type == "Student") Navigation.NavigateTo("/complete-student-profile");
-                else Navigation.NavigateTo("/complete-registrar-profile");
+                Navigation.NavigateTo(type == "Student" ? "/complete-student-profile" : "/complete-registrar-profile");
             }
             else
             {
@@ -170,7 +167,7 @@
         var profileStatusStr = user.Claims.FirstOrDefault(c => c.Type == "ProfileStatus")?.Value;
 
         // First, handle users who need to complete their profile.
-        if (profileStatusStr == UserProfileStatus.PendingProfileCompletion.ToString())
+        if (profileStatusStr == nameof(UserProfileStatus.PendingProfileCompletion))
         {
             var accountType = user.Claims.FirstOrDefault(c => c.Type == "AccountType")?.Value;
             if (accountType == "Student")

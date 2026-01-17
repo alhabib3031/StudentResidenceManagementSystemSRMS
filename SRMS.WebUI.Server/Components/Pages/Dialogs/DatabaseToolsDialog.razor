@@ -34,7 +34,7 @@
                     <MudButton Variant="Variant.Filled"
                                Color="Color.Info"
                                StartIcon="@Icons.Material.Filled.CloudDownload"
-                               OnClick="BackupDatabase"
+                               OnClick="@BackupDatabase"
                                Disabled="_isProcessing">
                         @L["DatabaseToolsDialog_Backup_Button"]
                     </MudButton>
@@ -69,14 +69,14 @@
                         <MudChip T="string"
                                  Color="Color.Success"
                                  Icon="@Icons.Material.Filled.AttachFile"
-                                 OnClose="ClearFile">
+                                 OnClose="@ClearFile">
                             @_selectedFile.Name
                         </MudChip>
 
                         <MudButton Variant="Variant.Filled"
                                    Color="Color.Primary"
                                    StartIcon="@Icons.Material.Filled.Restore"
-                                   OnClick="RestoreDatabase"
+                                   OnClick="@RestoreDatabase"
                                    Disabled="_isProcessing">
                             @L["DatabaseToolsDialog_Restore_Button_Restore"]
                         </MudButton>
@@ -99,7 +99,7 @@
                     <MudButton Variant="Variant.Filled"
                                Color="Color.Error"
                                StartIcon="@Icons.Material.Filled.DeleteForever"
-                               OnClick="ResetDatabase"
+                               OnClick="@ResetDatabase"
                                Disabled="_isProcessing">
                         @L["DatabaseToolsDialog_DangerZone_Button_Reset"]
                     </MudButton>
@@ -118,7 +118,7 @@
     </DialogContent>
 
     <DialogActions>
-        <MudButton OnClick="Close" Variant="Variant.Text">
+        <MudButton OnClick="@Close" Variant="Variant.Text">
             @L["DatabaseToolsDialog_Button_Close"]
         </MudButton>
     </DialogActions>

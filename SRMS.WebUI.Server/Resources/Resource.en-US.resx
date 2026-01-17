@@ -3908,4 +3908,411 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="Help_PageTitle" xml:space="preserve">
+    <value>Help &amp; Support - SRMS</value>
+  </data>
+  <data name="Help_Header" xml:space="preserve">
+    <value>Help Center</value>
+  </data>
+  <data name="Help_Subtitle" xml:space="preserve">
+    <value>Find answers, tutorials, and support for all your needs</value>
+  </data>
+  <data name="Help_SearchPlaceholder" xml:space="preserve">
+    <value>Search for articles, guides, and more...</value>
+  </data>
+  <data name="Help_QuickActions" xml:space="preserve">
+    <value>Quick Actions</value>
+  </data>
+  <data name="Help_ContactSupport_Title" xml:space="preserve">
+    <value>Contact Support</value>
+  </data>
+  <data name="Help_ContactSupport_Desc" xml:space="preserve">
+    <value>Get help from our support team</value>
+  </data>
+  <data name="Help_LiveChat_Title" xml:space="preserve">
+    <value>Live Chat</value>
+  </data>
+  <data name="Help_LiveChat_Desc" xml:space="preserve">
+    <value>Chat with a support agent now</value>
+  </data>
+  <data name="Help_Documentation_Title" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="Help_Documentation_Desc" xml:space="preserve">
+    <value>Read comprehensive guides</value>
+  </data>
+  <data name="Help_VideoTutorials_Title" xml:space="preserve">
+    <value>Video Tutorials</value>
+  </data>
+  <data name="Help_VideoTutorials_Desc" xml:space="preserve">
+    <value>Watch step-by-step videos</value>
+  </data>
+  <data name="Help_FAQ_Title" xml:space="preserve">
+    <value>Frequently Asked Questions</value>
+  </data>
+  <data name="Help_ContactInformation" xml:space="preserve">
+    <value>Contact Information</value>
+  </data>
+  <data name="Help_Email_Label" xml:space="preserve">
+    <value>Email Support</value>
+  </data>
+  <data name="Help_Phone_Label" xml:space="preserve">
+    <value>Phone Support</value>
+  </data>
+  <data name="Help_Address_Label" xml:space="preserve">
+    <value>Office Address</value>
+  </data>
+  <data name="Help_SupportHours_Label" xml:space="preserve">
+    <value>Support Hours</value>
+  </data>
+  <data name="Help_SystemStatus_Title" xml:space="preserve">
+    <value>System Status</value>
+  </data>
+  <data name="Help_Status_Online" xml:space="preserve">
+    <value>Operational</value>
+  </data>
+  <data name="Help_PopularTopics" xml:space="preserve">
+    <value>Popular Topics</value>
+  </data>
+  <data name="Help_Articles_Count" xml:space="preserve">
+    <value>{0} Articles</value>
+  </data>
+  <data name="Faq1_Q" xml:space="preserve">
+    <value>How do I book a room?</value>
+  </data>
+  <data name="Faq1_A" xml:space="preserve">
+    <value>You can book a room by navigating to the 'Student Residences' page, selecting a residence, and choosing an available room.</value>
+  </data>
+  <data name="Faq2_Q" xml:space="preserve">
+    <value>How can I pay my dues?</value>
+  </data>
+  <data name="Faq2_A" xml:space="preserve">
+    <value>Go to 'My Payments' to view your pending dues and make secure payments online using credit card or bank transfer.</value>
+  </data>
+  <data name="Faq3_Q" xml:space="preserve">
+    <value>How do I report a maintenance issue?</value>
+  </data>
+  <data name="Faq3_A" xml:space="preserve">
+    <value>Visit 'My Complaints', click 'New Complaint', and fill in the details of the issue. You can track the status of your request there.</value>
+  </data>
+  <data name="Faq4_Q" xml:space="preserve">
+    <value>Can I change my password?</value>
+  </data>
+  <data name="Faq4_A" xml:space="preserve">
+    <value>Yes, go to 'Profile' settings and look for the 'Security' section to update your password.</value>
+  </data>
+  <data name="Faq5_Q" xml:space="preserve">
+    <value>Can I change my room?</value>
+  </data>
+  
+  <data name="Error_LoadingStudentData" xml:space="preserve">
+    <value>Error loading student data: {0}</value>
+  </data>
+  <data name="Error_LoadingComplaints" xml:space="preserve">
+    <value>Error loading complaints: {0}</value>
+  </data>
+  <data name="MyComplaints_PageTitle" xml:space="preserve">
+    <value>My Complaints - SRMS</value>
+  </data>
+  <data name="MyComplaints_Header" xml:space="preserve">
+    <value>My Complaints</value>
+  </data>
+  <data name="MyComplaints_Subtitle" xml:space="preserve">
+    <value>Submit and track your maintenance requests</value>
+  </data>
+  <data name="MyComplaints_NewComplaint" xml:space="preserve">
+    <value>NEW COMPLAINT</value>
+  </data>
+  <data name="MyComplaints_Stat_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="MyComplaints_Stat_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="MyComplaints_Stat_InProgress" xml:space="preserve">
+    <value>In Progress</value>
+  </data>
+  <data name="MyComplaints_Stat_Resolved" xml:space="preserve">
+    <value>Resolved</value>
+  </data>
+  <data name="MyComplaints_NoComplaints" xml:space="preserve">
+    <value>No complaints yet</value>
+  </data>
+  <data name="MyComplaints_NoComplaintsSub" xml:space="preserve">
+    <value>Click 'New Complaint' to submit your first complaint</value>
+  </data>
+  <data name="MyComplaints_Table_ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="MyComplaints_Table_Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="MyComplaints_Table_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="MyComplaints_Table_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="MyComplaints_Table_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="MyComplaints_Table_Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="MyComplaints_LoginRequired" xml:space="preserve">
+    <value>Please login to view your complaints.</value>
+  </data>
+  <data name="Error_EmailNotFound" xml:space="preserve">
+    <value>Could not get your email. Please contact support.</value>
+  </data>
+  <data name="MyComplaints_ProfileCreated" xml:space="preserve">
+    <value>Your student profile has been created successfully!</value>
+  </data>
+  <data name="MyComplaints_UserAccountNotFound" xml:space="preserve">
+    <value>Could not find your user account. Please contact support.</value>
+  </data>
+  <data name="MyComplaints_UnableToIdentifyStudent" xml:space="preserve">
+    <value>Unable to identify your student account. Please refresh the page.</value>
+  </data>
+  <data name="MyComplaints_NoActiveReservation" xml:space="preserve">
+    <value>You do not have an active reservation to submit a complaint.</value>
+  </data>
+  <data name="MyComplaints_CheckReservationError" xml:space="preserve">
+    <value>Error checking reservation status: {0}</value>
+  </data>
+  <data name="MyComplaints_SubmitSuccess" xml:space="preserve">
+    <value>Complaint submitted successfully! Managers have been notified.</value>
+  </data>
+  <data name="MyComplaints_SubmitError" xml:space="preserve">
+    <value>Error submitting complaint: {0}</value>
+  </data>
+
+  <data name="MyPayments_PageTitle" xml:space="preserve">
+    <value>My Payments - SRMS</value>
+  </data>
+  <data name="MyPayments_Header" xml:space="preserve">
+    <value>My Payments</value>
+  </data>
+  <data name="MyPayments_Subtitle" xml:space="preserve">
+    <value>Track your payment history and pending dues</value>
+  </data>
+  <data name="MyPayments_MakePayment" xml:space="preserve">
+    <value>Make Payment</value>
+  </data>
+  <data name="MyPayments_PendingDues" xml:space="preserve">
+    <value>Pending Dues</value>
+  </data>
+  <data name="MyPayments_TotalPaid" xml:space="preserve">
+    <value>Total Paid</value>
+  </data>
+  <data name="MyPayments_Transactions" xml:space="preserve">
+    <value>Transactions</value>
+  </data>
+  <data name="MyPayments_Table_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="MyPayments_Table_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MyPayments_Table_Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="MyPayments_Table_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="MyPayments_Table_Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Reservation_LoadingRoom" xml:space="preserve">
+    <value>Loading room details...</value>
+  </data>
+  <data name="Reservation_Error_StudentIdMissing" xml:space="preserve">
+    <value>Could not retrieve student ID from authentication. Cannot proceed with reservation.</value>
+  </data>
+  <data name="Reservation_Error_NotAuthenticated" xml:space="preserve">
+    <value>User not authenticated. Cannot proceed with reservation.</value>
+  </data>
+  <data name="Reservation_Error_RoomMismatch" xml:space="preserve">
+    <value>Room does not belong to the specified residence.</value>
+  </data>
+  <data name="Reservation_Error_FetchRoom" xml:space="preserve">
+    <value>Error fetching room details: {0}</value>
+  </data>
+  <data name="Reservation_Error_SelectDates" xml:space="preserve">
+    <value>Please select both start and end dates.</value>
+  </data>
+  <data name="Reservation_Error_EndDateBeforeStartDate" xml:space="preserve">
+    <value>End Date must be after Start Date.</value>
+  </data>
+  <data name="Reservation_Error_RentNotAvailable" xml:space="preserve">
+    <value>Room monthly rent not available to calculate fee.</value>
+  </data>
+  <data name="Reservation_Error_StudentIdMissingAction" xml:space="preserve">
+    <value>Student ID is missing. Cannot make reservation.</value>
+  </data>
+  <data name="Reservation_Error_RoomDetailsMissing" xml:space="preserve">
+    <value>Room details are missing. Cannot make reservation.</value>
+  </data>
+  <data name="Reservation_Error_InvalidDates" xml:space="preserve">
+    <value>Please select valid dates.</value>
+  </data>
+  <data name="Reservation_Error_Unknown" xml:space="preserve">
+    <value>An unknown error occurred during reservation.</value>
+  </data>
+  <data name="Reservation_Error_Unexpected" xml:space="preserve">
+    <value>An unexpected error occurred: {0}</value>
+  </data>
+  <data name="VacantRooms_Title" xml:space="preserve">
+    <value>Available Rooms</value>
+  </data>
+  <data name="VacantRooms_Loading" xml:space="preserve">
+    <value>Loading available rooms...</value>
+  </data>
+  <data name="VacantRooms_NoRooms" xml:space="preserve">
+    <value>No vacant rooms currently available in this residence.</value>
+  </data>
+  <data name="VacantRooms_Room" xml:space="preserve">
+    <value>Room</value>
+  </data>
+  <data name="VacantRooms_Floor" xml:space="preserve">
+    <value>Floor</value>
+  </data>
+  <data name="VacantRooms_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="VacantRooms_Beds" xml:space="preserve">
+    <value>Beds</value>
+  </data>
+  <data name="VacantRooms_Monthly" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
+  <data name="VacantRooms_Select" xml:space="preserve">
+    <value>Select for Reservation</value>
+  </data>
+  <data name="CreateStudent_PageTitle" xml:space="preserve">
+    <value>Create Student</value>
+  </data>
+  <data name="CreateStudent_Header" xml:space="preserve">
+    <value>Create New Student</value>
+  </data>
+  <data name="CreateStudent_FirstName" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="CreateStudent_LastName" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="CreateStudent_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="CreateStudent_Phone" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="Common_Creating" xml:space="preserve">
+    <value>Creating...</value>
+  </data>
+  <data name="Common_Create" xml:space="preserve">
+    <value>Create Student</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CreateStudent_Error" xml:space="preserve">
+    <value>Error creating student: {0}</value>
+  </data>
+  <data name="Help_PopularTopic_GettingStarted_Title" xml:space="preserve">
+    <value>Getting Started</value>
+  </data>
+  <data name="Help_PopularTopic_GettingStarted_Desc" xml:space="preserve">
+    <value>Learn the basics of using SRMS</value>
+  </data>
+  <data name="Help_PopularTopic_RoomManagement_Title" xml:space="preserve">
+    <value>Room Management</value>
+  </data>
+  <data name="Help_PopularTopic_RoomManagement_Desc" xml:space="preserve">
+    <value>Everything about rooms and bookings</value>
+  </data>
+  <data name="Help_PopularTopic_Payments_Title" xml:space="preserve">
+    <value>Payments &amp; Billing</value>
+  </data>
+  <data name="Help_PopularTopic_Payments_Desc" xml:space="preserve">
+    <value>Payment methods and billing info</value>
+  </data>
+  <data name="Help_PopularTopic_Account_Title" xml:space="preserve">
+    <value>Account Settings</value>
+  </data>
+  <data name="Help_PopularTopic_Account_Desc" xml:space="preserve">
+    <value>Manage your account preferences</value>
+  </data>
+  <data name="Help_PopularTopic_Complaints_Title" xml:space="preserve">
+    <value>Complaints &amp; Support</value>
+  </data>
+  <data name="Help_PopularTopic_Complaints_Desc" xml:space="preserve">
+    <value>How to get help when you need it</value>
+  </data>
+  <data name="Help_PopularTopic_Security_Title" xml:space="preserve">
+    <value>Security &amp; Privacy</value>
+  </data>
+  <data name="Help_PopularTopic_Security_Desc" xml:space="preserve">
+    <value>Keep your account safe and secure</value>
+  </data>
+  <data name="DueAmount" xml:space="preserve"><value>Due Amount</value></data>
+  <data name="ActiveComplaints" xml:space="preserve"><value>Active Complaints</value></data>
+  <data name="StudentStatus" xml:space="preserve"><value>Student Status</value></data>
+  <data name="QuickActions" xml:space="preserve"><value>Quick Actions</value></data>
+  <data name="SubmitComplaint" xml:space="preserve"><value>Submit Complaint</value></data>
+  <data name="MakePayment" xml:space="preserve"><value>Make Payment</value></data>
+  <data name="ViewRoom" xml:space="preserve"><value>View Room</value></data>
+  <data name="ImportantAnnouncements" xml:space="preserve"><value>Important Announcements</value></data>
+  <data name="PaymentReminder" xml:space="preserve"><value>Payment Reminder: Please check your due payments.</value></data>
+  <data name="BuildingAMaintenance" xml:space="preserve"><value>Building A Maintenance scheduled for next week.</value></data>
+  <data name="RecentActivity" xml:space="preserve"><value>Recent Activity</value></data>
+  <data name="NotAssigned" xml:space="preserve"><value>Not Assigned</value></data>
+  <data name="NoRecentActivity" xml:space="preserve"><value>No recent activity</value></data>
+  <data name="Profile_Tab_AcademicInfo" xml:space="preserve"><value>Academic Info</value></data>
+  <data name="Profile_AcademicStatus" xml:space="preserve"><value>Academic Status</value></data>
+  <data name="Profile_Tab_Documents" xml:space="preserve"><value>Documents</value></data>
+  <data name="View" xml:space="preserve"><value>View</value></data>
+  <data name="Profile_Tab_WorkInfo" xml:space="preserve"><value>Work Info</value></data>
+  <data name="NoActiveReservation" xml:space="preserve"><value>You do not have an active room reservation at this time.</value></data>
+  <data name="FeaturesAndAmenities" xml:space="preserve"><value>Features &amp; Amenities</value></data>
+  <data name="MyRoommates" xml:space="preserve"><value>My Roommates</value></data>
+  <data name="NoRoommatesYet" xml:space="preserve"><value>You have no roommates yet.</value></data>
+  <data name="ErrorLoadingRoomDetails" xml:space="preserve"><value>Error loading room details</value></data>
+  <data name="AvailableResidences" xml:space="preserve"><value>Available Residences</value></data>
+  <data name="BrowseAndBook" xml:space="preserve"><value>Browse and book your accommodation</value></data>
+  <data name="NoResidencesAvailable" xml:space="preserve"><value>No residences currently available.</value></data>
+  <data name="ViewVacantRooms" xml:space="preserve"><value>View Vacant Rooms</value></data>
+  <data name="ErrorLoadingResidences" xml:space="preserve"><value>Error loading residences</value></data>
+  <data name="VacantRoomsIn" xml:space="preserve"><value>Vacant Rooms in</value></data>
+  <data name="WelcomeBack" xml:space="preserve"><value>Welcome Back</value></data>
+  <data name="ProfileCompletion_Step_AcademicTerm" xml:space="preserve"><value>Academic Term</value></data>
+  <data name="ProfileCompletion_UniversityName" xml:space="preserve"><value>University Name</value></data>
+  <data name="ProfileCompletion_BirthCertificate" xml:space="preserve"><value>Birth Certificate</value></data>
+  <data name="ProfileCompletion_HighSchoolCertificate" xml:space="preserve"><value>High School Certificate</value></data>
+  <data name="ProfileCompletion_HealthCertificate" xml:space="preserve"><value>Health Certificate</value></data>
+  <data name="My Room" xml:space="preserve"><value>My Room</value></data>
+  <data name="You do not have an active room reservation at this time." xml:space="preserve"><value>You do not have an active room reservation at this time.</value></data>
+  <data name="Floor" xml:space="preserve"><value>Floor</value></data>
+  <data name="Room Type" xml:space="preserve"><value>Room Type</value></data>
+  <data name="Monthly Rent" xml:space="preserve"><value>Monthly Rent</value></data>
+  <data name="Features &amp; Amenities" xml:space="preserve"><value>Features &amp; Amenities</value></data>
+  <data name="Wi-Fi" xml:space="preserve"><value>Wi-Fi</value></data>
+  <data name="Private Bathroom" xml:space="preserve"><value>Private Bathroom</value></data>
+  <data name="Air Conditioning" xml:space="preserve"><value>Air Conditioning</value></data>
+  <data name="Heating" xml:space="preserve"><value>Heating</value></data>
+  <data name="Desk" xml:space="preserve"><value>Desk</value></data>
+  <data name="Wardrobe" xml:space="preserve"><value>Wardrobe</value></data>
+  <data name="Balcony" xml:space="preserve"><value>Balcony</value></data>
+  <data name="You have no roommates yet." xml:space="preserve"><value>You have no roommates yet.</value></data>
+  <data name="Error loading room details" xml:space="preserve"><value>Error loading room details</value></data>
+  <data name="Browse and book your accommodation" xml:space="preserve"><value>Browse and book your accommodation</value></data>
+  <data name="No residences currently available." xml:space="preserve"><value>No residences currently available.</value></data>
+  <data name="Total Capacity" xml:space="preserve"><value>Total Capacity</value></data>
+  <data name="Rooms" xml:space="preserve"><value>Rooms</value></data>
+  <data name="Error loading residences" xml:space="preserve"><value>Error loading residences</value></data>
+  <data name="Vacant Rooms in" xml:space="preserve"><value>Vacant Rooms in</value></data>
+  <data name="Reserved" xml:space="preserve"><value>Reserved</value></data>
+  <data name="Triple" xml:space="preserve"><value>Triple</value></data>
+  <data name="Quad" xml:space="preserve"><value>Quad</value></data>
+  <data name="BookingConfirmation_Title" xml:space="preserve"><value>Booking Confirmation</value></data>
 </root>

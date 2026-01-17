@@ -1,35 +1,38 @@
 @page "/students/create"
+@using SRMS.WebUI.Server.Resources
+@using Microsoft.Extensions.Localization
 @inject ISender Sender
 @inject NavigationManager Navigation
+@inject IStringLocalizer<Resource> L
 @rendermode InteractiveServer
 
-<PageTitle>Create Student</PageTitle>
+<PageTitle>@L["CreateStudent_PageTitle"]</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Medium" Class="mt-8">
     <MudPaper Elevation="3" Class="p-6">
-        <MudText Typo="Typo.h4" GutterBottom="true">Create New Student</MudText>
+        <MudText Typo="Typo.h4" GutterBottom="true">@L["CreateStudent_Header"]</MudText>
 
         <EditForm Model="@_createStudentDto" OnValidSubmit="HandleSubmit">
             <DataAnnotationsValidator />
 
             <MudGrid>
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="First Name" @bind-Value="_createStudentDto.FirstName"
+                    <MudTextField Label="@L["CreateStudent_FirstName"]" @bind-Value="_createStudentDto.FirstName"
                         For="@(() => _createStudentDto.FirstName)" Variant="Variant.Outlined" />
                 </MudItem>
 
                 <MudItem xs="12" sm="6">
-                    <MudTextField Label="Last Name" @bind-Value="_createStudentDto.LastName"
+                    <MudTextField Label="@L["CreateStudent_LastName"]" @bind-Value="_createStudentDto.LastName"
                         For="@(() => _createStudentDto.LastName)" Variant="Variant.Outlined" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudTextField Label="Email" @bind-Value="_createStudentDto.Email"
+                    <MudTextField Label="@L["CreateStudent_Email"]" @bind-Value="_createStudentDto.Email"
                         For="@(() => _createStudentDto.Email)" Variant="Variant.Outlined" InputType="InputType.Email" />
                 </MudItem>
 
                 <MudItem xs="12">
-                    <MudTextField Label="Phone Number" @bind-Value="_createStudentDto.PhoneNumber"
+                    <MudTextField Label="@L["CreateStudent_Phone"]" @bind-Value="_createStudentDto.PhoneNumber"
                         For="@(() => _createStudentDto.PhoneNumber)" Variant="Variant.Outlined" />
                 </MudItem>
 
@@ -48,16 +51,16 @@
                         @if (_isSubmitting)
                         {
                             <MudProgressCircular Size="Size.Small" Indeterminate="true" />
-                            <MudText Class="ml-2">Creating...</MudText>
+                            <MudText Class="ml-2">@L["Common_Creating"]</MudText>
                         }
                         else
                         {
-                            <MudText>Create Student</MudText>
+                            <MudText>@L["Common_Create"]</MudText>
                         }
                     </MudButton>
 
                     <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Href="/students">
-                        Cancel
+                        @L["Common_Cancel"]
                     </MudButton>
                 </MudItem>
             </MudGrid>
@@ -69,9 +72,8 @@
         }
     </MudPaper>
 </MudContainer>
-
 @code {
-    private CreateStudentDto _createStudentDto = new();
+    private readonly CreateStudentDto _createStudentDto = new();
     private bool _isSubmitting = false;
     private string? _errorMessage;
 
@@ -90,7 +92,7 @@
         }
         catch (Exception ex)
         {
-            _errorMessage = $"Error creating student: {ex.Message}";
+            _errorMessage = string.Format(L["CreateStudent_Error"].Value, ex.Message);
         }
         finally
         {

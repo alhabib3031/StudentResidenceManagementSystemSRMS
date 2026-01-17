@@ -7,7 +7,7 @@
 
 <MudDialog>
     <DialogContent>
-        <MudText Typo="Typo.h6" Class="mb-4">@L["BulkUpdateStatus_Title"]</MudText>
+        <MudText Class="text-xl md:text-2xl font-bold mb-4">@L["BulkUpdateStatus_Title"]</MudText>
         <MudAlert Severity="Severity.Warning" Class="mb-4">
             @L["BulkUpdateStatus_Warning"]
         </MudAlert>
@@ -34,8 +34,8 @@
         </MudGrid>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">@L["Cancel"]</MudButton>
-        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="Submit"
+        <MudButton OnClick="@Cancel">@L["Cancel"]</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="@Submit"
             Disabled="@(_selectedCollegeId == Guid.Empty)">@L["Update"]</MudButton>
     </DialogActions>
 </MudDialog>

@@ -14,19 +14,21 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
     <!-- Header -->
-    <MudPaper Elevation="0" Class="pa-4 mb-4">
+    <MudPaper Elevation="0" Class="p-4 md:p-6 mb-4">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
             <div>
-                <MudText Typo="Typo.h4">
-                    <MudIcon Icon="@Icons.Material.Filled.SupervisedUserCircle" Class="mr-2" />
+                <MudText Class="text-2xl md:text-4xl font-bold flex items-center">
+                    <MudIcon Icon="@Icons.Material.Filled.SupervisedUserCircle" Class="mr-2 text-3xl md:text-4xl" />
                     @L["ManagersManagement_Header"]
                 </MudText>
                 <MudBreadcrumbs Items="_breadcrumbs" Class="mt-2" />
             </div>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.PersonAdd"
-                Href="/admin/managers/create">
+                Href="/admin/managers/create" Class="hidden md:flex">
                 @L["ManagersManagement_Button_Add"]
             </MudButton>
+            <MudIconButton Icon="@Icons.Material.Filled.PersonAdd" Color="Color.Primary" Variant="Variant.Filled"
+                Href="/admin/managers/create" Class="flex md:hidden" />
         </MudStack>
     </MudPaper>
 
@@ -37,8 +39,9 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagersManagement_Stats_Total"]</MudText>
-                            <MudText Typo="Typo.h4">@_managers.Count</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagersManagement_Stats_Total"]
+                            </MudText>
+                            <MudText Class="text-xl md:text-3xl font-bold">@_managers.Count</MudText>
                         </div>
                         <MudAvatar Color="Color.Primary">
                             <MudIcon Icon="@Icons.Material.Filled.Group" />
@@ -53,7 +56,8 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagersManagement_Stats_Active"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagersManagement_Stats_Active"]
+                            </MudText>
                             <MudText Typo="Typo.h4" Color="Color.Success">
                                 @_managers.Count(m => m.Status == ManagerStatus.Active)
                             </MudText>
@@ -71,7 +75,8 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagersManagement_Stats_OnLeave"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagersManagement_Stats_OnLeave"]
+                            </MudText>
                             <MudText Typo="Typo.h4" Color="Color.Warning">
                                 @_managers.Count(m => m.Status == ManagerStatus.OnLeave)
                             </MudText>
@@ -89,7 +94,8 @@
                 <MudCardContent>
                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                         <div>
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">@L["ManagersManagement_Stats_AvgWorkload"]</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                @L["ManagersManagement_Stats_AvgWorkload"]</MudText>
                             <MudText Typo="Typo.h4" Color="Color.Info">
                                 @GetAverageWorkload().ToString("F1")
                             </MudText>
@@ -107,13 +113,13 @@
     <MudPaper Elevation="2" Class="pa-4 mb-4">
         <MudGrid>
             <MudItem xs="12" md="6">
-                <MudTextField @bind-Value="_searchString"
-                    Placeholder='@L["ManagersManagement_SearchPlaceholder"]' Adornment="Adornment.Start"
-                    AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Outlined" Immediate="true" />
+                <MudTextField @bind-Value="_searchString" Placeholder='@L["ManagersManagement_SearchPlaceholder"]'
+                    Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Outlined"
+                    Immediate="true" />
             </MudItem>
             <MudItem xs="12" md="3">
-                <MudSelect @bind-Value="_filterStatus" Label='@L["ManagersManagement_Filter_Status"]' Variant="Variant.Outlined"
-                    AnchorOrigin="Origin.BottomCenter">
+                <MudSelect @bind-Value="_filterStatus" Label='@L["ManagersManagement_Filter_Status"]'
+                    Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
                     <MudSelectItem Value="@("all")">@L["ManagersManagement_Filter_AllStatuses"]</MudSelectItem>
                     <MudSelectItem Value="@("active")">@L["ManagersManagement_Filter_Active"]</MudSelectItem>
                     <MudSelectItem Value="@("onleave")">@L["ManagersManagement_Filter_OnLeave"]</MudSelectItem>
@@ -131,9 +137,9 @@
     </MudPaper>
 
     <!-- Managers Table -->
-    <MudPaper Elevation="2">
+    <MudPaper Elevation="2" Class="mt-4">
         <MudTable Items="@GetFilteredManagers()" Hover="true" Striped="true" Loading="@_isLoading"
-            LoadingProgressColor="Color.Primary">
+            LoadingProgressColor="Color.Primary" Breakpoint="Breakpoint.Sm">
             <HeaderContent>
                 <MudTh>@L["ManagersManagement_Table_Header_Manager"]</MudTh>
                 <MudTh>@L["ManagersManagement_Table_Header_Contact"]</MudTh>
@@ -212,8 +218,8 @@
                     </MudChip>
                 </MudTd>
                 <MudTd DataLabel="Actions">
-	                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
-	                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditManager(context))">
+                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditManager(context))">
                             @L["ManagersManagement_Actions_Edit"]
                         </MudMenuItem>
 

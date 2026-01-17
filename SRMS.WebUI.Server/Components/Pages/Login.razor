@@ -22,19 +22,19 @@
 }
 else
 {
-    <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center py-8">
-        <MudPaper Elevation="0" Class="glass-card w-full max-w-md p-8 rounded-2xl animate-fade-in">
+    <MudContainer MaxWidth="MaxWidth.Small" Class="min-h-screen flex items-center justify-center py-4 md:py-8">
+        <MudPaper Elevation="0" Class="glass-card w-full max-w-md p-6 md:p-8 rounded-2xl animate-fade-in">
 
             <!-- Header Section -->
             <MudStack AlignItems="AlignItems.Center" Spacing="3" Class="mb-6">
                 <MudPaper Elevation="0"
-                    Class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)]">
+                    Class="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)]">
                     <MudIcon Icon="@Icons.Material.Filled.Lock" Color="Color.Surface" Size="Size.Large" />
                 </MudPaper>
 
                 <MudStack Spacing="1" AlignItems="AlignItems.Center">
-                    <MudText Typo="Typo.h4"
-                        Class="font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                    <MudText
+                        Class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
                         @L["Login_WelcomeBack"]
                     </MudText>
                     <MudText Typo="Typo.body2" Color="Color.Secondary">
@@ -120,7 +120,7 @@ else
 }
 
 @code {
-    private LoginDto _loginModel = new();
+    private readonly LoginDto _loginModel = new();
     private bool _showPassword;
     private bool _isCheckingAuth = true;
 

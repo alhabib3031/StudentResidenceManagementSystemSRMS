@@ -5,77 +5,165 @@
 @using SRMS.Application.Rooms.DTOs
 @inject HttpClient Http
 @inject AuthenticationStateProvider AuthStateProvider
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Resource> L
 
-<h3>Room Reservation</h3>
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
+    @if (room == null || studentId == Guid.Empty)
+    {
+        <MudStack AlignItems="AlignItems.Center" Justify="Justify.Center" Class="py-20">
+            <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+            <MudText Class="mt-4 text-secondary">@L["Reservation_LoadingRoom"]</MudText>
+        </MudStack>
+    }
+    else
+    {
+        <MudGrid>
+            <!-- Room Details Card -->
+            <MudItem xs="12" md="8">
+                <MudPaper Elevation="0" Class="p-6 md:p-8 rounded-3xl glass-card h-full">
+                    <MudText Class="text-2xl md:text-3xl font-bold text-gradient mb-6">
+                        @L["ReservationDetails"]
+                    </MudText>
 
-@if (room == null || studentId == Guid.Empty)
-{
-    <p><em>Loading room details or student information...</em></p>
-}
-else
-{
-    <div class="card mb-3">
-        <div class="card-header">
-            <h4>Selected Room: @room.RoomNumber</h4>
-        </div>
-        <div class="card-body">
-            <p><strong>Residence:</strong> @room.ResidenceName</p>
-            <p><strong>Floor:</strong> @room.Floor</p>
-            <p><strong>Room Type:</strong> @room.RoomType</p>
-            <p><strong>Total Beds:</strong> @room.TotalBeds</p>
-            <p><strong>Occupied Beds:</strong> @room.OccupiedBeds</p>
-            <p><strong>Current Status:</strong> @room.Status</p>
-            <p><strong>Amenities:</strong>
-                @(room.HasPrivateBathroom ? "Private Bathroom, " : "")
-                @(room.HasAirConditioning ? "Air Conditioning, " : "")
-                @(room.HasHeating ? "Heating, " : "")
-                @(room.HasWifi ? "Wi-Fi, " : "")
-                @(room.HasDesk ? "Desk, " : "")
-                @(room.HasWardrobe ? "Wardrobe, " : "")
-                @(room.HasBalcony ? "Balcony" : "")
-            </p>
+                    <MudGrid>
+                        <MudItem xs="12" sm="6">
+                            <MudText Class="text-sm text-secondary font-bold uppercase mb-1">@L["Residence"]</MudText>
+                            <MudText Class="text-lg font-semibold flex items-center">
+                                <MudIcon Icon="@Icons.Material.Filled.Apartment" Size="Size.Small"
+                                    Class="mr-2 text-primary" />
+                                @room.ResidenceName
+                            </MudText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudText Class="text-sm text-secondary font-bold uppercase mb-1">@L["RoomNumber"]</MudText>
+                            <MudText Class="text-lg font-semibold flex items-center">
+                                <MudIcon Icon="@Icons.Material.Filled.MeetingRoom" Size="Size.Small"
+                                    Class="mr-2 text-primary" />
+                                @room.RoomNumber
+                            </MudText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudText Class="text-sm text-secondary font-bold uppercase mb-1">@L["Floor"]</MudText>
+                            <MudText Class="text-lg font-semibold">@room.Floor</MudText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudText Class="text-sm text-secondary font-bold uppercase mb-1">@L["Type"]</MudText>
+                            <MudText Class="text-lg font-semibold">@room.RoomType</MudText>
+                        </MudItem>
+                    </MudGrid>
 
-            <hr />
-            <h5>Reservation Details</h5>
-            <div class="form-group">
-                <label for="startDate">Start Date:</label>
-                <InputDate id="startDate" class="form-control" @bind-Value="startDate" />
-            </div>
-            <div class="form-group">
-                <label for="endDate">End Date:</label>
-                <InputDate id="endDate" class="form-control" @bind-Value="endDate" />
-            </div>
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger mt-2">@errorMessage</div>
-            }
-            <button class="btn btn-primary mt-3" @onclick="CalculateFeeAndShowPayment">Confirm & Pay</button>
+                    <MudDivider Class="my-6" />
 
-            @if (showPaymentConfirmation)
-            {
-                <div class="mt-4 p-3 border rounded">
-                    <h5>Payment Confirmation</h5>
-                    <p>Calculated Fee: <strong>@calculatedFeeAmount @calculatedFeeCurrency</strong></p>
-                    <p>Please confirm to proceed with payment.</p>
-                    <button class="btn btn-success" @onclick="ProcessReservation">Pay Now</button>
-                    <button class="btn btn-secondary" @onclick="(() => showPaymentConfirmation = false)">Cancel</button>
-                </div>
-            }
+                    <MudText Class="text-lg font-bold mb-4">@L["Amenities"]</MudText>
+                    <div class="flex flex-wrap gap-2">
+                        @if (room.HasPrivateBathroom)
+                        {
+                            <MudChip T="string" Color="Color.Primary" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.Bathtub">Private Bathroom</MudChip>
+                        }
+                        @if (room.HasAirConditioning)
+                        {
+                            <MudChip T="string" Color="Color.Primary" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.AcUnit">AC</MudChip>
+                        }
+                        @if (room.HasHeating)
+                        {
+                            <MudChip T="string" Color="Color.Primary" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.Thermostat">Heating</MudChip>
+                        }
+                        @if (room.HasWifi)
+                        {
+                            <MudChip T="string" Color="Color.Primary" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.Wifi">Wi-Fi</MudChip>
+                        }
+                        @if (room.HasDesk)
+                        {
+                            <MudChip T="string" Color="Color.Primary" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.Desk">Desk</MudChip>
+                        }
+                        @if (room.HasWardrobe)
+                        {
+                            <MudChip T="string" Color="Color.Primary" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.Checkroom">Wardrobe</MudChip>
+                        }
+                        @if (room.HasBalcony)
+                        {
+                            <MudChip T="string" Color="Color.Primary" Variant="Variant.Outlined"
+                                Icon="@Icons.Material.Filled.Balcony">Balcony</MudChip>
+                        }
+                    </div>
+                </MudPaper>
+            </MudItem>
+
+            <!-- Booking Form -->
+            <MudItem xs="12" md="4">
+                <MudPaper Elevation="4" Class="p-6 rounded-3xl bg-surface relative">
+                    <MudText Class="text-xl font-bold mb-4">@L["BookThisRoom"]</MudText>
+
+                    <MudStack Spacing="4">
+                        <MudDatePicker Label="@L["StartDate"]" @bind-Date="startDate" MinDate="DateTime.Today"
+                            Variant="Variant.Outlined" Color="Color.Primary" />
+                        <MudDatePicker Label="@L["EndDate"]" @bind-Date="endDate" MinDate="startDate"
+                            Variant="Variant.Outlined" Color="Color.Primary" />
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Class="rounded-lg">@errorMessage
+                            </MudAlert>
+                        }
+
+                        @if (showPaymentConfirmation)
+                        {
+                            <MudPaper Class="p-4 bg-primary-50 rounded-xl" Elevation="0">
+                                <MudText Typo="Typo.subtitle2" Class="mb-2 font-bold text-primary">@L["PaymentConfirmation"]
+                                </MudText>
+                                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                    <MudText>Total Fee:</MudText>
+                                    <MudText Class="font-bold">@calculatedFeeAmount @calculatedFeeCurrency</MudText>
+                                </MudStack>
+                                <MudDivider Class="my-2" />
+                                <MudStack Row="true" Spacing="2">
+                                    <MudButton Variant="Variant.Filled" Color="Color.Success" FullWidth="true"
+                                        OnClick="@ProcessReservation" DisableElevation="true">
+                                        @L["PayNow"]
+                                    </MudButton>
+                                    <MudButton Variant="Variant.Text" Color="Color.Secondary"
+                                        OnClick="@(() => showPaymentConfirmation = false)">
+                                        @L["Cancel"]
+                                    </MudButton>
+                                </MudStack>
+                            </MudPaper>
+                        }
+                        else
+                        {
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" FullWidth="true"
+                                OnClick="@CalculateFeeAndShowPayment"
+                                Class="rounded-xl py-3 font-bold shadow-lg shadow-primary/30">
+                                @L["ConfirmAndPay"]
+                            </MudButton>
+                        }
+                    </MudStack>
+                </MudPaper>
+            </MudItem>
 
             @if (reservationResponse != null)
             {
-                <div class="alert alert-success mt-4">
-                    Reservation Successful!
-                    <p>Reservation ID: @reservationResponse.ReservationId</p>
-                    <p>Payment ID: @reservationResponse.PaymentId</p>
-                    <p>Amount Paid: @reservationResponse.AmountPaid.Amount @reservationResponse.AmountPaid.Currency</p>
-                    <p>Status: @reservationResponse.Status</p>
-                    <p><a href="/student/residences">Go back to Residences</a></p>
-                </div>
+                <MudItem xs="12">
+                    <MudAlert Severity="Severity.Success" Variant="Variant.Filled" Class="rounded-2xl"
+                        Icon="@Icons.Material.Filled.CheckCircle">
+                        <MudText Typo="Typo.h6" Class="font-bold">@L["ReservationSuccess"]</MudText>
+                        <MudText>@L["ReservationId"]: @reservationResponse.ReservationId</MudText>
+                        <MudText>@L["AmountPaid"]: @reservationResponse.AmountPaid.Amount
+                            @reservationResponse.AmountPaid.Currency</MudText>
+                        <MudButton Variant="Variant.Text" Color="Color.Inherit" Href="/student/residences"
+                            Class="mt-2 font-bold underline">@L["BackToResidences"]</MudButton>
+                    </MudAlert>
+                </MudItem>
             }
-        </div>
-    </div>
-}
+        </MudGrid>
+    }
+</MudContainer>
 
 @code {
     [Parameter]
@@ -86,8 +174,8 @@ else
 
     private RoomDto? room; // Using RoomDto to display details
     private Guid studentId = Guid.Empty; // Placeholder for authenticated student ID
-    private DateTime startDate = DateTime.Today;
-    private DateTime endDate = DateTime.Today.AddMonths(1);
+    private DateTime? startDate = DateTime.Today;
+    private DateTime? endDate = DateTime.Today.AddMonths(1);
     private bool showPaymentConfirmation = false;
     private decimal calculatedFeeAmount;
     private string calculatedFeeCurrency = "LYD";
@@ -111,13 +199,13 @@ else
             }
             else
             {
-                errorMessage = "Could not retrieve student ID from authentication. Cannot proceed with reservation.";
+                errorMessage = L["Reservation_Error_StudentIdMissing"].Value;
                 return;
             }
         }
         else
         {
-            errorMessage = "User not authenticated. Cannot proceed with reservation.";
+            errorMessage = L["Reservation_Error_NotAuthenticated"].Value;
             return;
         }
 
@@ -127,25 +215,31 @@ else
             room = await Http.GetFromJsonAsync<RoomDto>($"api/admin/AdminRooms/{RoomId}");
             if (room != null && room.ResidenceId != ResidenceId)
             {
-                errorMessage = "Room does not belong to the specified residence.";
+                errorMessage = L["Reservation_Error_RoomMismatch"].Value;
                 room = null; // Invalidate room if mismatch
             }
         }
         catch (HttpRequestException ex)
         {
-            errorMessage = $"Error fetching room details: {ex.Message}";
+            errorMessage = string.Format(L["Reservation_Error_FetchRoom"].Value, ex.Message);
             Console.WriteLine(errorMessage);
         }
     }
 
-    private async Task CalculateFeeAndShowPayment()
+    private Task CalculateFeeAndShowPayment()
     {
         errorMessage = string.Empty; // Clear previous errors
 
+        if (startDate == null || endDate == null)
+        {
+            errorMessage = L["Reservation_Error_SelectDates"].Value;
+            return Task.CompletedTask;
+        }
+
         if (startDate >= endDate)
         {
-            errorMessage = "End Date must be after Start Date.";
-            return;
+            errorMessage = L["Reservation_Error_EndDateBeforeStartDate"].Value;
+            return Task.CompletedTask;
         }
 
         // To get the calculated fee without making a full reservation,
@@ -164,7 +258,7 @@ else
         // Since our backend ReserveRoomAsync integrates calculation AND payment,
         // I will first call the backend to get the RoomDetailsDto for the student to get the adjusted price.
         // This requires a new endpoint or modifying an existing one to just get the details.
-        
+
         // For now, I will simulate getting a calculated fee by just showing a dummy amount
         // or by making an early call to the full reservation endpoint and catching errors.
         // A dedicated API endpoint to calculate *just* the fee would be ideal.
@@ -186,8 +280,10 @@ else
         }
         else
         {
-            errorMessage = "Room monthly rent not available to calculate fee.";
+            errorMessage = L["Reservation_Error_RentNotAvailable"].Value;
         }
+
+        return Task.CompletedTask;
     }
 
 
@@ -198,22 +294,27 @@ else
 
         if (studentId == Guid.Empty)
         {
-            errorMessage = "Student ID is missing. Cannot make reservation.";
+            errorMessage = L["Reservation_Error_StudentIdMissingAction"].Value;
             return;
         }
         if (room == null)
         {
-            errorMessage = "Room details are missing. Cannot make reservation.";
+            errorMessage = L["Reservation_Error_RoomDetailsMissing"].Value;
+            return;
+        }
+        if (startDate == null || endDate == null)
+        {
+            errorMessage = L["Reservation_Error_InvalidDates"].Value;
             return;
         }
 
         var request = new ReservationRequestDto
-        {
-            StudentId = studentId,
-            RoomId = RoomId,
-            StartDate = DateOnly.FromDateTime(startDate),
-            EndDate = DateOnly.FromDateTime(endDate)
-        };
+            {
+                StudentId = studentId,
+                RoomId = RoomId,
+                StartDate = DateOnly.FromDateTime(startDate.Value),
+                EndDate = DateOnly.FromDateTime(endDate.Value)
+            };
 
         try
         {
@@ -230,13 +331,13 @@ else
         }
         catch (HttpRequestException ex)
         {
-            var errorContent = await SRMS.WebUI.Server.Extensions.HttpRequestExceptionExtensions.GetContentAs<dynamic>(ex);
-            errorMessage = errorContent?.message ?? "An unknown error occurred during reservation.";
+            var errorContent = await Extensions.HttpRequestExceptionExtensions.GetContentAs<dynamic>(ex);
+            errorMessage = errorContent?.message ?? L["Reservation_Error_Unknown"].Value;
             Console.WriteLine($"Error during reservation: {ex.Message}. Details: {errorContent?.message}");
         }
         catch (Exception ex)
         {
-            errorMessage = $"An unexpected error occurred: {ex.Message}";
+            errorMessage = string.Format(L["Reservation_Error_Unexpected"].Value, ex.Message);
             Console.WriteLine(errorMessage);
         }
     }

@@ -7,24 +7,24 @@
 <PageTitle>@L["Home_Title"] - SRMS</PageTitle>
 
 <!-- Hero Section -->
-<MudPaper class="pa-6 modern-card">
+<MudPaper class="pa-6">
     <MudContainer MaxWidth="MaxWidth.ExtraLarge">
         <MudStack Spacing="8" AlignItems="AlignItems.Center" Class="text-center animate-float glass-card">
 
             <!-- Logo Icon -->
             <MudPaper Elevation="0"
-                Style="width: 120px; height: 120px; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, #7c3aed 100%); border-radius: 30px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-glow); animation: float 3s ease-in-out infinite;">
-                <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Surface" Style="font-size: 70px;" />
+                Class="w-20 h-20 md:w-[120px] md:h-[120px] rounded-[20px] md:rounded-[30px] flex items-center justify-center shadow-lg animate-float"
+                Style="background: linear-gradient(135deg, var(--mud-palette-primary) 0%, #7c3aed 100%);">
+                <MudIcon Icon="@Icons.Material.Filled.School" Color="Color.Surface" Class="text-4xl md:text-[70px]" />
             </MudPaper>
 
-            <!-- Title -->
             <MudStack Spacing="4" AlignItems="AlignItems.Center">
                 <MudText Typo="Typo.h2"
-                    Style="font-weight: 800; font-size: 3.5rem; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Class="font-extrabold text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary">
                     @L["Home_Title"]
                 </MudText>
 
-                <MudText Typo="Typo.h5" Color="Color.Secondary" Style="max-width: 700px;">
+                <MudText Class="text-lg md:text-2xl font-medium text-secondary max-w-[700px]">
                     @L["Home_Subtitle"]
                 </MudText>
 
@@ -75,22 +75,22 @@
                     </MudPaper>
                 </MudItem>
 
-                <!-- Feature Card 2 -->
-                <MudItem xs="12" sm="6" md="4">
-                    <MudPaper Elevation="2" Class="pa-6 h-100 animate-float glass-card"
-                        Style="border-radius: 16px; transition: all 0.3s ease;">
-                        <MudStack Spacing="3" AlignItems="AlignItems.Center" Class="text-center">
-                            <MudAvatar Size="Size.Large" Color="Color.Success"
-                                Style="width: 80px; height: 80px; border-radius: 20px; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);">
-                                <MudIcon Icon="@Icons.Material.Filled.People" Color="Color.Surface" Size="Size.Large" />
-                            </MudAvatar>
-                            <MudText Typo="Typo.h6" Class="font-bold">@L["Feature_StudentPortal_Title"]</MudText>
-                            <MudText Typo="Typo.body2" Color="Color.Secondary">
-                                @L["Feature_StudentPortal_Desc"]
-                            </MudText>
-                        </MudStack>
-                    </MudPaper>
-                </MudItem>
+                @* <!-- Feature Card 2 --> *@
+                @* <MudItem xs="12" sm="6" md="4"> *@
+                @*     <MudPaper Elevation="2" Class="pa-6 h-100 animate-float glass-card" *@
+                @*         Style="border-radius: 16px; transition: all 0.3s ease;"> *@
+                @*         <MudStack Spacing="3" AlignItems="AlignItems.Center" Class="text-center"> *@
+                @*             <MudAvatar Size="Size.Large" Color="Color.Success" *@
+                @*                 Style="width: 80px; height: 80px; border-radius: 20px; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);"> *@
+                @*                 <MudIcon Icon="@Icons.Material.Filled.People" Color="Color.Surface" Size="Size.Large" /> *@
+                @*             </MudAvatar> *@
+                @*             <MudText Typo="Typo.h6" Class="font-bold">@L["Feature_StudentPortal_Title"]</MudText> *@
+                @*             <MudText Typo="Typo.body2" Color="Color.Secondary"> *@
+                @*                 @L["Feature_StudentPortal_Desc"] *@
+                @*             </MudText> *@
+                @*         </MudStack> *@
+                @*     </MudPaper> *@
+                @* </MudItem> *@
 
                 <!-- Feature Card 2 -->
                 <MudItem xs="12" sm="6" md="4">
@@ -192,8 +192,7 @@
                 <MudGrid Spacing="4">
                     <MudItem xs="6" md="3">
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
-                            <MudText Typo="Typo.h2" Class="text-gradient"
-                                     Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                            <MudText Class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary">
                                 10K+
                             </MudText>
                             <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_ActiveStudents"]</MudText>
@@ -202,8 +201,7 @@
 
                     <MudItem xs="6" md="3">
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
-                            <MudText Typo="Typo.h2" Class="text-gradient"
-                                     Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                            <MudText Class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary">
                                 50+
                             </MudText>
                             <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_Residences"]</MudText>
@@ -212,8 +210,7 @@
 
                     <MudItem xs="6" md="3">
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
-                            <MudText Typo="Typo.h2" Class="text-gradient"
-                                     Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                            <MudText Class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary">
                                 99.9%
                             </MudText>
                             <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_Uptime"]</MudText>
@@ -222,8 +219,7 @@
 
                     <MudItem xs="6" md="3">
                         <MudStack Spacing="2" AlignItems="AlignItems.Center">
-                            <MudText Typo="Typo.h2" Class="text-gradient"
-                                     Style="font-weight: 800; background: linear-gradient(135deg, var(--mud-palette-primary) 0%, var(--mud-palette-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                            <MudText Class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary">
                                 24/7
                             </MudText>
                             <MudText Typo="Typo.body1" Color="Color.Secondary">@L["Stats_Support"]</MudText>
